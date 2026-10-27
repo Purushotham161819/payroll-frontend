@@ -1,0 +1,137 @@
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: #648271;
+  margin-bottom: 10px;
+}
+.page-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+h1 {
+  font-size: 36px;
+  letter-spacing: -1.5px;
+  margin: 0 0 9px;
+  font-weight: 650;
+}
+p {
+  color: #748078;
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.6;
+}
+.directory {
+  background: #fff;
+  border: 1px solid #dce4de;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.directory-heading {
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+h2 {
+  font-size: 16px;
+  margin: 0 0 5px;
+}
+.table-scroll {
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  white-space: nowrap;
+  font-size: 12px;
+}
+th {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  background: #f6f8f5;
+  color: #718075;
+  font-weight: 600;
+  padding: 15px 20px;
+  border-block: 1px solid #e6ebe6;
+}
+td {
+  padding: 21px 20px;
+  border-bottom: 1px solid #edf0ec;
+  color: #536159;
+}
+.name {
+  font-weight: 650;
+  color: #213c30;
+}
+.employee-id {
+  font-family: monospace;
+  font-size: 11px;
+}
+.number {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.table-footer {
+  padding: 17px 24px;
+  font-size: 11px;
+  color: #78867a;
+}
+.state {
+  padding: 65px 24px;
+  text-align: center;
+  color: #5c6d60;
+}
+.state h3 {
+  font-size: 17px;
+  margin: 16px 0 6px;
+}
+.state button {
+  margin-top: 22px;
+}
+.empty-icon {
+  font-size: 30px;
+  color: #679073;
+  display: block;
+}
+.footnote {
+  margin-top: 18px;
+  font-size: 11px;
+}
+@media (max-width: 600px) {
+  h1 {
+    font-size: 30px;
+  }
+  .page-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .directory-heading {
+    padding: 20px;
+  }
+}
+.table-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.selection-cell {
+  width: 52px;
+  padding-inline: 18px;
+}
+input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  accent-color: #214d36;
+  cursor: pointer;
+  vertical-align: middle;
+}
+.selected-row td {
+  background: #f0f6eb;
+}
