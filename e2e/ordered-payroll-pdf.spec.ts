@@ -1,0 +1,47 @@
+import {test,expect} from '@playwright/test';
+import {readFile} from 'node:fs/promises';
+for(const period of ['Annual','Monthly']) test(`${period}: drag and keyboard ordering, required Core Wages and net pay PDF`,async({page})=>{
+ const annual={annualCtc:107500,employerEpsContribution:4000,employerEpfContribution:2000,employerEsiContribution:1500,annualGrossWages:100000,annualBasicSalary:40000,annualDearnessAllowance:4000,annualRetainingAllowance:6000,annualCoreWages:50000,annualTotalAllowances:0,annualExcessAllowance:0,annualComplianceWageBase:50000,annualNetPay:93250};
+ const config=[...['BASIC','DA','RA'].map((code,i)=>({_id:code,code,name:['Basic Salary','Dearness Allowance','Retaining Allowance'][i],category:'earning',status:'active',isSystemDefined:true})),{_id:'hra',code:'HRA',name:'HRA',category:'allowance',status:'active',isSystemDefined:false}];
+ await page.route('**/employees',r=>r.fulfill({json:[]}));
+ await page.route('**/salary-components',r=>r.fulfill({json:config}));
+ await page.route('**/payroll/annual',r=>{
+  expect(r.request().postDataJSON().selectedComponentIds).toEqual(['hra']);
+  return r.fulfill({json:{reportComponents:[{componentId:'hra',code:'HRA',name:'HRA',category:'allowance',mandatory:false}],employees:[0,1].map(()=>({employee:{firstName:'Order',lastName:'Employee'},calculation:{annual,components:[{componentId:'hra',annual:1200,monthly:100}]}}))}});
+ });
+ await page.goto('/'); await page.getByRole('button',{name:'Generate Payroll',exact:true}).click();
+ await expect(page.getByRole('checkbox',{name:/Core Wages/})).toHaveCount(0);
+ for(const name of ['Basic Salary','Dearness Allowance','Retaining Allowance']) await expect(page.getByRole('checkbox',{name:name+' (required)',exact:true})).toBeDisabled();
+ await page.getByRole('button',{name:'Deselect All',exact:true}).click();
+ await page.getByRole('checkbox',{name:'HRA',exact:true}).check();
+ await page.getByRole('checkbox',{name:'Net Pay',exact:true}).check();
+ // Real CDK drag: move a required salary column below the next required column.
+ const source=page.getByRole('button',{name:'Drag Basic Salary',exact:true});
+ const target=page.getByRole('button',{name:'Drag Dearness Allowance',exact:true});
+ await source.scrollIntoViewIfNeeded(); const a=await source.boundingBox(), b=await target.boundingBox();
+ await page.mouse.move(a!.x+a!.width/2,a!.y+a!.height/2);await page.mouse.down();
+ await page.mouse.move(b!.x+b!.width/2,b!.y+b!.height-2,{steps:15}); await page.mouse.up();
+ const labels=page.locator('.column-item .component-option');
+ await expect.poll(async()=>{const texts=await labels.allTextContents();return texts.findIndex(s=>s.includes('Dearness Allowance'))<texts.findIndex(s=>s.includes('Basic Salary'));}).toBe(true);
+ await expect(page.getByRole('checkbox',{name:'Net Pay',exact:true})).toBeChecked();
+ const move=page.getByRole('button',{name:'Move Net Pay up',exact:true});
+ await move.focus(); await page.keyboard.press('Enter');
+ await expect(page.locator('.order-status')).toContainText('Net Pay moved to position');
+ const textLabels=await labels.allTextContents();
+ const expected=textLabels.map(text=>text.trim().replace(' (required)','')).filter(text=>['Basic Salary','Dearness Allowance','Retaining Allowance','Core Wages','HRA','Net Pay'].includes(text)).map(text=>({'Basic Salary':'Basic','Dearness Allowance':'DA','Retaining Allowance':'RA'}[text]??text));
+ await page.getByLabel('Report Type',{exact:true}).selectOption(period);
+ await page.getByLabel('Payroll Month',{exact:true}).selectOption({index:1});
+ await page.setViewportSize({width:390,height:844});
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ const pending=page.waitForEvent('download');await page.getByRole('button',{name:'Generate PDF',exact:true}).click();
+ const download=await pending, bytes=await readFile((await download.path())!);
+ const {getDocument}=await import('pdfjs-dist/legacy/build/pdf.mjs');const pdf=await getDocument({data:new Uint8Array(bytes),useSystemFonts:true}).promise;
+ const items=(await(await pdf.getPage(1)).getTextContent()).items as any[];
+ const bodyStart=items.findIndex(item=>item.str==='Order Employee');
+ const headings=items.slice(0,bodyStart).map(item=>item.str).filter(s=>s.trim());
+ expect(headings).toEqual(['Employee Name',...expected]);
+ const text=items.map(item=>item.str).join(' ');
+ expect(text).toContain(period==='Annual'?'93,250.00':'7,770.83');
+ expect(text).toContain(period==='Annual'?'1,86,500.00':'15,541.66');
+ await pdf.cleanup();
+});

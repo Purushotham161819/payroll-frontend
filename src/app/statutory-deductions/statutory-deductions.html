@@ -9,7 +9,7 @@
   <form #form="ngForm" (ngSubmit)="save(form)" novalidate>
     <fieldset [disabled]="saving()">
     @for (group of groups; track group.title) {
-      <section><h3>{{ group.title }}</h3><div class="field-grid">
+      <section [attr.aria-label]="group.title"><h3>{{ group.title }}</h3><div class="field-grid" [class.two-columns]="group.fields.length === 2">
       @for (field of group.fields; track field.key) {
         <div><label [for]="field.key">{{ field.label }}</label><div class="input-wrap">@if (field.currency) { <span aria-hidden="true">&#8377;</span> }<input [id]="field.key" [name]="field.key" type="number" [(ngModel)]="draft[field.key]" [required]="field.key !== 'annualEsiCeilingLimit'" min="0" [max]="field.currency ? null : 100" [step]="field.currency ? '0.01' : 'any'" [pattern]="field.currency ? '[0-9]+([.][0-9]{1,2})?' : '[0-9]+([.][0-9]+)?'" #control="ngModel" [attr.aria-invalid]="control.touched && control.invalid" [attr.aria-describedby]="field.key + '-help'">@if (!field.currency) { <span aria-hidden="true">%</span> }</div>
         @if (field.currency && draft[field.key] != null) { <small>{{ currency(draft[field.key]) }}</small> }

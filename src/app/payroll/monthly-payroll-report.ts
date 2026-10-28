@@ -1,4 +1,5 @@
 import {
+  appendComponents,
   annualColumns,
   annualReport,
   AnnualPayrollResponse,
@@ -20,6 +21,7 @@ export const monthlyColumns = [
   ['monthlyTotalAllowances', 'Total Allowances'],
   ['monthlyExcessAllowance', 'Excess Allowance'],
   ['monthlyComplianceWageBase', 'Compliance Wage Base'],
+  ['monthlyNetPay', 'Net Pay'],
 ] as const;
 export type MonthlyAmountKey = (typeof monthlyColumns)[number][0];
 
@@ -33,8 +35,8 @@ export function monthlyPayroll(row: AnnualPayrollRow): Record<MonthlyAmountKey, 
     if (
       typeof annual !== 'number' ||
       !Number.isFinite(annual) ||
-      annual < 0 ||
-      annual * 100 > Number.MAX_SAFE_INTEGER
+      (annual < 0 && annualKey !== 'annualNetPay') ||
+      Math.abs(annual) * 100 > Number.MAX_SAFE_INTEGER
     )
       throw new Error('Missing or invalid annual payroll result: ' + annualKey + '.');
     monthly[monthlyColumns[index][0]] = Number((annual / 12).toFixed(2));
@@ -42,12 +44,12 @@ export function monthlyPayroll(row: AnnualPayrollRow): Record<MonthlyAmountKey, 
   return monthly;
 }
 
-export function monthlyReport(data: AnnualPayrollResponse) {
+export function monthlyReport(data: AnnualPayrollResponse, selectedKeys?: string[], columnOrder?: string[]) {
   // Reuse the annual report's employee and monetary validation.
-  annualReport(data);
+  annualReport({...data, reportComponents: []});
   const totals = monthlyColumns.map(() => 0n);
   const format = (cents: bigint) => {
-    if (cents > BigInt(Number.MAX_SAFE_INTEGER))
+    if (cents > BigInt(Number.MAX_SAFE_INTEGER) || cents < -BigInt(Number.MAX_SAFE_INTEGER))
       throw new Error('Payroll report total exceeds the supported currency range.');
     return payrollCurrency(Number(cents));
   };
@@ -62,10 +64,10 @@ export function monthlyReport(data: AnnualPayrollResponse) {
       }),
     ];
   });
-  return {
+  return appendComponents(data, {
     headings: ['Employee Name', ...monthlyColumns.map(([, label]) => label)],
     body,
     foot: ['Total', ...totals.map(format)],
     totalEmployees: body.length,
-  };
+  }, 'monthly', selectedKeys, columnOrder);
 }

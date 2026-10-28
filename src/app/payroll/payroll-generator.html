@@ -7,9 +7,26 @@
     <p>Generate an annual or monthly payroll report through Compliance Wage Base using saved employee data and settings. Monthly amounts are derived from annual results.</p>
     <label for="report-type">Report Type</label><select id="report-type" name="reportType" [(ngModel)]="reportType" [disabled]="busy()"><option value="Annual">Annual Payroll</option><option value="Monthly">Monthly Payroll</option></select>
     <label for="payroll-month">Payroll Month</label><select id="payroll-month" name="payrollMonth" [(ngModel)]="selected" required [disabled]="busy()"><option value="" disabled>Select a month</option>@for (month of months; track month.value) { <option [value]="month.value">{{ month.label }}</option> }</select>
+    <fieldset [disabled]="busy() || loading()"><legend>Report columns</legend>
+      <p>Required components stay included. Selection changes report columns only.</p>
+      @if (loading()) { <p role="status">Loading report columnsï¿½</p> }
+      <button type="button" class="secondary" (click)="selectAll()">Select All</button>
+      <button type="button" class="secondary" (click)="deselectAll()">Deselect All</button>
+      <p>Drag the handle or use Move up and Move down to arrange columns. Employee Name stays first.</p>
+      <div cdkDropList [cdkDropListData]="components()" (cdkDropListDropped)="drop($event)" [cdkDropListDisabled]="busy() || loading()">
+      @for (component of components(); track component.componentId; let index = $index) {
+        <div class="column-item" cdkDrag [cdkDragDisabled]="busy() || loading()">
+        <button type="button" class="drag-handle secondary" cdkDragHandle [attr.aria-label]="'Drag ' + component.name" title="Drag to reorder">&#8942;&#8942;</button>
+        @if (component.hideCheckbox) { <span class="component-option">{{ component.name }} (required)</span> } @else {
+        <label class="component-option"><input type="checkbox" [checked]="component.mandatory || selection().includes(component.componentId)" [disabled]="component.mandatory" (change)="toggle(component.componentId, $any($event.target).checked)"> {{ component.name }} {{ component.mandatory ? '(required)' : '' }}</label> }
+        <div class="order-actions"><button type="button" class="secondary" [attr.aria-label]="'Move ' + component.name + ' up'" [disabled]="index === 0" (click)="move(index,index-1)">&#8593;</button><button type="button" class="secondary" [attr.aria-label]="'Move ' + component.name + ' down'" [disabled]="index === components().length-1" (click)="move(index,index+1)">&#8595;</button></div>
+        </div>
+      }
+      </div><span class="order-status" role="status" aria-live="polite">{{ orderMessage() }}</span>
+    </fieldset>
     @if (error()) { <div class="notice error" role="alert">{{ error() }}</div> }
-    @if (busy()) { <p role="status">Retrieving employees and generating PDF…</p> }
-    <footer><button type="button" class="secondary" (click)="close()" [disabled]="busy()">Cancel</button><button type="submit" class="primary" [disabled]="busy() || !selected">{{ busy() ? 'Generating…' : 'Generate PDF' }}</button></footer>
+    @if (busy()) { <p role="status">Retrieving employees and generating PDFï¿½</p> }
+    <footer><button type="button" class="secondary" (click)="close()" [disabled]="busy()">Cancel</button><button type="submit" class="primary" [disabled]="busy() || loading() || !components().length || !selected">{{ busy() ? 'Generatingï¿½' : 'Generate PDF' }}</button></footer>
   </form>
 </dialog>
 }

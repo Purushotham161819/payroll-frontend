@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { payrollPeriod } from './payroll-calculation';
 import { monthlyReport } from './monthly-payroll-report';
-import { annualReport, AnnualPayrollResponse } from './annual-payroll-report';
+import { annualReport, AnnualPayrollResponse, ReportComponent, resultColumnOptions, selectedResultKeys, annualColumns, mandatoryResultByCode, requiredResultKeys } from './annual-payroll-report';
 
 @Injectable({providedIn:'root'})
 export class PayrollReportService {
@@ -19,10 +19,22 @@ export class PayrollReportService {
       return btoa(binary);
     }).catch(error => { this.font = undefined; throw error; });
   }
-  async create(periodValue: string, generatedOn = new Date(), reportType: 'Annual' | 'Monthly' = 'Annual') {
+  async components(): Promise<ReportComponent[]> {
+    const components = await firstValueFrom(this.http.get<{_id: string; code: string; name: string; category: string; status: string; isSystemDefined: boolean}[]>(environment.apiUrl + '/salary-components'));
+    const active = components.filter(c=>c.status==='active');
+    const optional = active.filter(c=>!mandatoryResultByCode[c.code]).map(c=>({componentId:c._id,code:c.code,name:c.name,category:c.category,mandatory:false}));
+    const options: ReportComponent[] = annualColumns.map(([key,label])=>{
+      const configured=active.find(c=>mandatoryResultByCode[c.code]===key);
+      return {componentId:'result:'+key,code:configured?.code??key,name:configured?.name??label,category:'result',mandatory:requiredResultKeys.has(key),hideCheckbox:key==='annualCoreWages'};
+    });
+    options.splice(8,0,...optional);
+    return options;
+  }
+  async create(periodValue: string, generatedOn = new Date(), reportType: 'Annual' | 'Monthly' = 'Annual', selectedComponentIds?: string[], columnOrder?: string[]) {
     const period = payrollPeriod(periodValue,generatedOn);
-    const data = await firstValueFrom(this.http.get<AnnualPayrollResponse>(environment.apiUrl + '/payroll/annual'));
-    const report = reportType === 'Monthly' ? monthlyReport(data) : annualReport(data);
+    const data = await firstValueFrom(selectedComponentIds === undefined ? this.http.get<AnnualPayrollResponse>(environment.apiUrl + '/payroll/annual') : this.http.post<AnnualPayrollResponse>(environment.apiUrl + '/payroll/annual', {selectedComponentIds:selectedComponentIds.filter(id=>!id.startsWith('result:'))}));
+    const selectedKeys = selectedComponentIds === undefined ? undefined : selectedResultKeys(selectedComponentIds);
+    const report = reportType === 'Monthly' ? monthlyReport(data, selectedKeys, columnOrder) : annualReport(data, selectedKeys, columnOrder);
     const [{jsPDF},{autoTable},font] = await Promise.all([import('jspdf'),import('jspdf-autotable'),this.loadFont()]);
     const doc = new jsPDF({unit:'mm',format:'a4',orientation:'landscape',compress:true});
     doc.addFileToVFS('NotoSans-Regular.ttf',font);
@@ -36,7 +48,7 @@ export class PayrollReportService {
     const height = doc.internal.pageSize.getHeight();
     const margin = 7;
     const nameWidth = 31;
-    const moneyWidth = (width - margin * 2 - nameWidth) / 12;
+    const moneyWidth = (width - margin * 2 - nameWidth) / (report.headings.length - 1);
     // Fit the widest formatted monetary value, including totals, on one line.
     // Larger datasets flow vertically; font size never shrinks with row count.
     const allAmounts = [...report.body.flatMap(row=>row.slice(1)),...report.foot.slice(1)];
@@ -45,7 +57,7 @@ export class PayrollReportService {
     const widest = Math.max(...allAmounts.map(value=>doc.getTextWidth(value)));
     fontSize = Math.max(6.5, Math.min(fontSize, fontSize * (moneyWidth - 2) / widest));
     const columnStyles: Record<number,{cellWidth:number;halign:'left'|'right'}> = {0:{cellWidth:nameWidth,halign:'left'}};
-    for (let i=1;i<13;i++) columnStyles[i]={cellWidth:moneyWidth,halign:'right'};
+    for (let i=1;i<report.headings.length;i++) columnStyles[i]={cellWidth:moneyWidth,halign:'right'};
     autoTable(doc,{
       startY:31, margin:{top:31,bottom:10,left:margin,right:margin},
       tableWidth:width-margin*2,head:[report.headings],body:report.body,foot:[report.foot],
@@ -70,8 +82,8 @@ export class PayrollReportService {
     }
     return {doc,filename:reportType === 'Annual' ? `Payroll_Report_${monthName}_${period.year}.pdf` : `Monthly_Payroll_Report_${monthName}_${period.year}.pdf`,report};
   }
-  async download(periodValue: string, reportType: 'Annual' | 'Monthly' = 'Annual') {
-    const result = await this.create(periodValue, new Date(), reportType);
+  async download(periodValue: string, reportType: 'Annual' | 'Monthly' = 'Annual', selectedComponentIds?: string[], columnOrder?: string[]) {
+    const result = await this.create(periodValue, new Date(), reportType, selectedComponentIds, columnOrder);
     await result.doc.save(result.filename,{returnPromise:true});
     return result.filename;
   }

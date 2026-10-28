@@ -5,9 +5,9 @@ describe('Annual PDF data mapping',()=>{
     const data={employees:[row(1.01),row(2.02)]};
     const before=JSON.stringify(data);
     const report=annualReport(data);
-    expect(report.headings).toEqual(['Employee Name','Annual CTC','ER EPS','ER EPF','ER ESI','Gross Wages','Basic','DA','RA','Core Wages','Total Allowances','Excess Allowance','Compliance Wage Base']);
+    expect(report.headings).toEqual(['Employee Name','Annual CTC','ER EPS','ER EPF','ER ESI','Gross Wages','Basic','DA','RA','Core Wages','Total Allowances','Excess Allowance','Compliance Wage Base','Net Pay']);
     expect(report.body[0][0]).toBe('A B');
-    for(let i=0;i<12;i++) {
+    for(let i=0;i<annualColumns.length;i++) {
       expect(report.body[0][i+1]).toBe(new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR'}).format(1.01+i));
       expect(report.foot[i+1]).toBe(new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR'}).format(3.03+2*i));
     }

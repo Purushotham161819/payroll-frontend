@@ -9,12 +9,10 @@ export interface StatutoryValues {
   annualEsiCeilingLimit?: number | null;
   epfEmployerContributionPercentage: number | null;
   epsEmployerContributionPercentage: number | null;
-  epfEmployeeContributionPercentage: number | null;
   esiEmployerContributionPercentage: number | null;
-  esiEmployeeContributionPercentage: number | null;
 }
-const empty = (): StatutoryValues => ({ annualEsiCeilingLimit: null, wageCap: null, epfEmployerContributionPercentage: null, epsEmployerContributionPercentage: null, epfEmployeeContributionPercentage: null, esiEmployerContributionPercentage: null, esiEmployeeContributionPercentage: null });
-const editable = (value: StatutoryValues): StatutoryValues => ({ annualEsiCeilingLimit: value.annualEsiCeilingLimit ?? null, wageCap: value.wageCap, epfEmployerContributionPercentage: value.epfEmployerContributionPercentage, epsEmployerContributionPercentage: value.epsEmployerContributionPercentage, epfEmployeeContributionPercentage: value.epfEmployeeContributionPercentage, esiEmployerContributionPercentage: value.esiEmployerContributionPercentage, esiEmployeeContributionPercentage: value.esiEmployeeContributionPercentage });
+const empty = (): StatutoryValues => ({ annualEsiCeilingLimit: null, wageCap: null, epfEmployerContributionPercentage: null, epsEmployerContributionPercentage: null, esiEmployerContributionPercentage: null });
+const editable = (value: StatutoryValues): StatutoryValues => ({ annualEsiCeilingLimit: value.annualEsiCeilingLimit ?? null, wageCap: value.wageCap, epfEmployerContributionPercentage: value.epfEmployerContributionPercentage, epsEmployerContributionPercentage: value.epsEmployerContributionPercentage, esiEmployerContributionPercentage: value.esiEmployerContributionPercentage });
 
 @Injectable({providedIn: 'root'})
 export class StatutoryDeductionsApi {
@@ -34,9 +32,8 @@ export class StatutoryDeductionsPage implements OnInit {
   loading = signal(true); saving = signal(false); error = signal(''); success = signal(''); loaded = signal(false); configured = signal(false);
   draft = empty(); private saved = empty();
   groups: { title: string; fields: { key: keyof StatutoryValues; label: string; currency?: boolean }[] }[] = [
-    {title: 'Annual Wage Ceiling Limits', fields: [{key: 'wageCap', label: 'Annual EPF Ceiling Limit', currency: true}, {key: 'annualEsiCeilingLimit', label: 'Annual ESI Wage Ceiling Limit', currency: true}]},
-    {title: 'EPF Contributions', fields: [{key: 'epfEmployerContributionPercentage', label: 'EPF Employer Contribution'}, {key: 'epsEmployerContributionPercentage', label: 'EPS Employer Contribution'}, {key: 'epfEmployeeContributionPercentage', label: 'EPF Employee Contribution'}]},
-    {title: 'ESI Contributions', fields: [{key: 'esiEmployerContributionPercentage', label: 'ESI Employer Contribution'}, {key: 'esiEmployeeContributionPercentage', label: 'ESI Employee Contribution'}]},
+    {title: 'EPF Contributions', fields: [{key: 'wageCap', label: 'Annual EPF Ceiling Limit', currency: true}, {key: 'epfEmployerContributionPercentage', label: 'EPF Employer Contribution'}, {key: 'epsEmployerContributionPercentage', label: 'EPS Employer Contribution'}]},
+    {title: 'ESI Contributions', fields: [{key: 'annualEsiCeilingLimit', label: 'Annual ESI Wage Ceiling Limit', currency: true}, {key: 'esiEmployerContributionPercentage', label: 'ESI Employer Contribution'}]},
   ];
   currency(value: number | null | undefined) { return value == null ? '' : new Intl.NumberFormat('en-IN', {style: 'currency', currency: 'INR', minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value); }
   ngOnInit() { this.load(); }

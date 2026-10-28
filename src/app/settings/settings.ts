@@ -38,14 +38,14 @@ export class Settings implements OnInit {
   private service = inject(SalaryComponentService);
   records = signal<SalaryComponent[]>([]); loading = signal(false); busy = signal(false);
   error = signal(''); success = signal(''); modal = signal(false); formError = signal('');
-  editId?: string; search = ''; draft = this.empty();
+  editId?: string; draft = this.empty();
   empty(): SalaryComponent { return { name: '', code: '', category: 'earning', calculationBaseType: 'annual_ctc', calculationBaseComponentId: null, calculationType: 'percentage', calculationValue: 0, fixedAmountPeriod: null, showInPayslip: true, status: 'active' }; }
   ngOnInit() { this.load(); }
   message(error: unknown) { const e = error as HttpErrorResponse; const m = e.error?.message; return Array.isArray(m) ? m.join('; ') : typeof m === 'string' ? m : 'Unable to reach the server. Please try again.'; }
   load() { this.loading.set(true); this.error.set(''); this.service.list().subscribe({ next: data => { this.records.set(data); this.loading.set(false); }, error: e => { this.error.set(this.message(e)); this.loading.set(false); } }); }
   locked() { return !!this.editId && this.mandatory(this.draft); }
   mandatory(c: SalaryComponent) { return c.isSystemDefined === true || ['BASIC','DA','RA'].includes(c.code); }
-  open(c?: SalaryComponent) { this.editId = c?._id; this.draft = c ? { ...c } : this.empty(); this.search = ''; this.formError.set(''); this.modal.set(true); setTimeout(() => document.querySelector<HTMLDialogElement>('dialog')?.showModal()); }
+  open(c?: SalaryComponent) { this.editId = c?._id; this.draft = c ? { ...c } : this.empty(); this.formError.set(''); this.modal.set(true); setTimeout(() => document.querySelector<HTMLDialogElement>('dialog')?.showModal()); }
   close() { if (!this.busy()) { document.querySelector<HTMLDialogElement>('dialog')?.close(); this.modal.set(false); document.getElementById('add-component')?.focus(); } }
   allowed(c: SalaryComponent) {
     if (c._id === this.editId) return false;
@@ -54,7 +54,7 @@ export class Settings implements OnInit {
     while (current) { if (current._id === this.editId || visited.has(current._id!)) return false; visited.add(current._id!); current = this.records().find(r => r._id === current?.calculationBaseComponentId); }
     return true;
   }
-  options() { const q = this.search.toLowerCase(); return this.records().filter(c => this.allowed(c) && (c._id === this.draft.calculationBaseComponentId || (c.name + ' ' + c.code).toLowerCase().includes(q))); }
+  options() { return this.records().filter(c => this.allowed(c)); }
   base(c: SalaryComponent) { const b = this.records().find(r => r._id === c.calculationBaseComponentId); return c.code === 'BASIC' ? 'Gross Wages' : ['DA','RA'].includes(c.code) ? 'BASIC' : c.calculationBaseType === 'gross_wages' ? 'Gross Wages' : c.calculationBaseType === 'core_wages' ? 'Core Wages' : c.calculationBaseType === 'annual_ctc' ? 'Annual CTC' : b ? `${b.name} (${b.code})` : 'Unavailable component'; }
   selectedBase() { return ['gross_wages','core_wages'].includes(this.draft.calculationBaseType) ? this.draft.calculationBaseType : this.draft.calculationBaseType === 'annual_ctc' ? '' : this.draft.calculationBaseComponentId ?? ''; }
   setBase(id: string) { this.draft.calculationBaseType = ['gross_wages','core_wages'].includes(id) ? id : id ? 'salary_component' : 'annual_ctc'; this.draft.calculationBaseComponentId = this.draft.calculationBaseType === 'salary_component' ? id : null; }

@@ -16,6 +16,7 @@ test('monthly PDF labels, rounded values, totals and download derive from annual
     annualTotalAllowances: 70000,
     annualExcessAllowance: 20000,
     annualComplianceWageBase: 70000,
+    annualNetPay: 100000,
   };
   const employees = [0, 1].map((i) => ({
     employee: {
@@ -27,6 +28,7 @@ test('monthly PDF labels, rounded values, totals and download derive from annual
   }));
   await page.route('**/employees', (r) => r.fulfill({ json: [] }));
   await page.route('**/payroll/annual', (r) => r.fulfill({ json: { employees } }));
+  await page.route('**/salary-components',r=>r.fulfill({json:[{_id:'basic',code:'BASIC',name:'Basic',category:'earning',status:'active',isSystemDefined:true}]}));
   await page.goto('/');
   await page.getByRole('button', { name: 'Generate Payroll', exact: true }).click();
   await page.getByLabel('Report Type', { exact: true }).selectOption('Monthly');

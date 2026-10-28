@@ -1,10 +1,11 @@
 import {test,expect} from '@playwright/test';
 import {readFile} from 'node:fs/promises';
-const annual={annualCtc:108100,employerEpsContribution:4000,employerEpfContribution:2000,employerEsiContribution:2100,annualGrossWages:100000,annualBasicSalary:40000,annualDearnessAllowance:4000,annualRetainingAllowance:6000,annualCoreWages:50000,annualTotalAllowances:70000,annualExcessAllowance:20000,annualComplianceWageBase:70000};
+const annual={annualCtc:108100,employerEpsContribution:4000,employerEpfContribution:2000,employerEsiContribution:2100,annualGrossWages:100000,annualBasicSalary:40000,annualDearnessAllowance:4000,annualRetainingAllowance:6000,annualCoreWages:50000,annualTotalAllowances:70000,annualExcessAllowance:20000,annualComplianceWageBase:70000,annualNetPay:100000};
 for(const count of [20,70]) test(`annual PDF: ${count} employees, all columns and totals`,async({page})=>{
   const employees=Array.from({length:count},(_,i)=>({employee:{_id:String(i),firstName:'Excel',lastName:`Employee ${i+1}`,annualCtc:108100},calculation:{annual}}));
   await page.route('**/employees',r=>r.fulfill({json:employees.map(r=>r.employee)}));
   await page.route('**/payroll/annual',r=>r.fulfill({json:{employees}}));
+  await page.route('**/salary-components',r=>r.fulfill({json:[{_id:'basic',code:'BASIC',name:'Basic',category:'earning',status:'active',isSystemDefined:true}]}));
   await page.goto('/');
   await page.getByRole('button',{name:'Generate Payroll',exact:true}).click();
   await page.getByLabel('Payroll Month',{exact:true}).selectOption({index:1});
