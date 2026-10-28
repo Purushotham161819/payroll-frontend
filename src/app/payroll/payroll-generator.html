@@ -1,0 +1,16 @@
+<button #opener type="button" class="secondary" (click)="show()" [disabled]="busy()">Generate Payroll</button>
+@if (success()) { <span class="download-success" role="status">{{ success() }}</span> }
+@if (open()) {
+<dialog #dialog aria-labelledby="payroll-title" (cancel)="$event.preventDefault(); close()">
+  <form (ngSubmit)="generate()" #form="ngForm" novalidate>
+    <header><h2 id="payroll-title">Generate Payroll</h2><button type="button" class="secondary" aria-label="Close payroll selection" (click)="close()" [disabled]="busy()">&times;</button></header>
+    <p>Generate an annual payroll report through Compliance Wage Base using saved employee data and settings. The selected month appears in the report header.</p>
+    <label for="payroll-month">Payroll Month</label><select id="payroll-month" name="payrollMonth" [(ngModel)]="selected" required [disabled]="busy()"><option value="" disabled>Select a month</option>@for (month of months; track month.value) { <option [value]="month.value">{{ month.label }}</option> }</select>
+    @if (error()) { <div class="notice error" role="alert">{{ error() }}</div> }
+    @if (busy()) { <p role="status">Retrieving employees and generating PDF…</p> }
+    <footer><button type="button" class="secondary" (click)="close()" [disabled]="busy()">Cancel</button><button type="submit" class="primary" [disabled]="busy() || !selected">{{ busy() ? 'Generating…' : 'Generate PDF' }}</button></footer>
+  </form>
+</dialog>
+}
+
+

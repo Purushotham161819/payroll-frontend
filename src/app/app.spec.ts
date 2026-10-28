@@ -1,17 +1,22 @@
-import { TestBed } from '@angular/core/testing';
+﻿import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
-import { App } from './app';
-describe('Employee workspace', () => {
-  it('loads employees and displays the empty state', async () => {
-    await TestBed.configureTestingModule({ imports: [App], providers: [provideHttpClient(), provideHttpClientTesting()] }).compileComponents();
-    const fixture = TestBed.createComponent(App);
-    fixture.detectChanges();
+import { provideRouter } from '@angular/router';
+import { RouterTestingHarness } from '@angular/router/testing';
+import { EmployeeList } from './employees/employee-list';
+import { Settings } from './settings/settings';
+describe('Payroll workspace routes', () => {
+  it('preserves employees and navigates to settings with persisted components', async () => {
+    await TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([{path: '', component: EmployeeList}, {path: 'settings', component: Settings}])] }).compileComponents();
+    const harness = await RouterTestingHarness.create('/');
     const http = TestBed.inject(HttpTestingController);
     http.expectOne('http://localhost:3000/employees').flush([]);
-    fixture.detectChanges();
-    expect(fixture.nativeElement.textContent).toContain('No employees found.');
-    expect(fixture.nativeElement.textContent).toContain('Generator');
+    harness.detectChanges();
+    expect(harness.routeNativeElement?.textContent).toContain('No employees found.');
+    await harness.navigateByUrl('/settings');
+    http.expectOne('http://localhost:3000/salary-components').flush([]);
+    harness.detectChanges();
+    expect(harness.routeNativeElement?.textContent).toContain('No salary components configured.');
     http.verify();
   });
 });

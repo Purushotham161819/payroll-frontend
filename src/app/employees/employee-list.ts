@@ -1,3 +1,4 @@
+﻿import { PayrollGenerator } from '../payroll/payroll-generator';
 import { Component, computed, inject, OnInit, signal } from "@angular/core";
 import { DatePipe, DecimalPipe } from "@angular/common";
 import { EmployeeService, apiError } from "./employee.service";
@@ -5,7 +6,7 @@ import { Employee } from "./employee";
 import { EmployeeForm } from "./employee-form";
 @Component({
   selector: "app-employee-list",
-  imports: [DatePipe, DecimalPipe, EmployeeForm],
+  imports: [DatePipe, DecimalPipe, EmployeeForm, PayrollGenerator],
   templateUrl: "./employee-list.html",
   styleUrl: "./employee-list.css",
 })
@@ -67,3 +68,4 @@ export class EmployeeList implements OnInit {
     this.load();
   }
 }
+

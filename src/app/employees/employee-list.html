@@ -1,12 +1,12 @@
-<div class="eyebrow">PEOPLE MANAGEMENT</div>
+﻿<div class="eyebrow">PEOPLE MANAGEMENT</div>
 <div class="page-heading">
   <div>
     <h1>Employees</h1>
     <p>Your people, organized in one place.</p>
   </div>
-  <button class="primary" (click)="showForm.set(true)">
+  <div class="heading-actions"><button class="primary" (click)="showForm.set(true)">
     <span aria-hidden="true">＋</span> Add Employee
-  </button>
+  </button><app-payroll-generator /></div>
 </div>
 @if (success()) {
 <div class="notice success" role="status">{{success()}}</div>
@@ -108,3 +108,4 @@
 <p class="footnote">
   Employee details are stored in your connected payroll database.
 </p>
+

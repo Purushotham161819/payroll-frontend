@@ -1,0 +1,23 @@
+﻿<h1>Settings</h1>
+<nav class="settings-tabs" aria-label="Settings sections"><a routerLink="/settings" routerLinkActive="selected" [routerLinkActiveOptions]="{exact:true}">Salary Components</a><a routerLink="/settings/statutory-deductions" routerLinkActive="selected" ariaCurrentWhenActive="page">Statutory Deductions</a></nav>
+<h2>Statutory Deductions</h2><p>Configure the wage cap and contribution percentages for future payroll calculations.</p>
+@if (loading()) { <p role="status">Loading statutory deduction settingsâ€¦</p> }
+@if (error()) { <div class="notice error" role="alert">{{ error() }} @if (!loaded()) { <button class="secondary" (click)="load()">Retry</button> }</div> }
+@if (success()) { <div class="notice success" role="status">{{ success() }}</div> }
+@if (loaded()) {
+  @if (!configured()) { <p class="initial">No statutory deduction settings have been configured. Enter all six values to save your initial configuration.</p> }
+  <form #form="ngForm" (ngSubmit)="save(form)" novalidate>
+    <fieldset [disabled]="saving()">
+    @for (group of groups; track group.title) {
+      <section><h3>{{ group.title }}</h3><div class="field-grid">
+      @for (field of group.fields; track field.key) {
+        <div><label [for]="field.key">{{ field.label }}</label><div class="input-wrap">@if (field.currency) { <span aria-hidden="true">â‚¹</span> }<input [id]="field.key" [name]="field.key" type="number" [(ngModel)]="draft[field.key]" required min="0" [max]="field.currency ? null : 100" [step]="field.currency ? '0.01' : 'any'" [pattern]="field.currency ? '[0-9]+([.][0-9]{1,2})?' : '[0-9]+([.][0-9]+)?'" #control="ngModel" [attr.aria-invalid]="control.touched && control.invalid" [attr.aria-describedby]="field.key + '-help'">@if (!field.currency) { <span aria-hidden="true">%</span> }</div>
+        <small [id]="field.key + '-help'" [class.invalid]="control.touched && control.invalid">@if (control.touched && control.invalid) { {{ field.currency ? 'Enter a non-negative amount with up to two decimal places.' : 'Enter a percentage between 0 and 100.' }} } @else { {{ field.currency ? 'Amount in INR.' : 'Percentage, from 0 to 100.' }} }</small></div>
+      }
+      </div></section>
+    }
+    </fieldset>
+    <footer><button type="button" class="secondary" (click)="reset(form)" [disabled]="saving()">Reset Changes</button><button type="submit" class="primary" [disabled]="saving()">{{ saving() ? 'Savingâ€¦' : 'Save Settings' }}</button></footer>
+  </form>
+}
+

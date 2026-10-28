@@ -135,3 +135,4 @@ input[type="checkbox"] {
 .selected-row td {
   background: #f0f6eb;
 }
+.heading-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}@media(max-width:1000px){.page-heading{flex-wrap:wrap}.heading-actions{gap:8px}}

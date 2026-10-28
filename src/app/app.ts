@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
-import { EmployeeList } from './employees/employee-list';
-@Component({ selector: 'app-root', imports: [EmployeeList], templateUrl: './app.html', styleUrl: './app.css' })
+﻿import { Component } from '@angular/core';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+@Component({ selector: 'app-root', imports: [RouterLink, RouterLinkActive, RouterOutlet], templateUrl: './app.html', styleUrl: './app.css' })
 export class App {}
