@@ -6,21 +6,26 @@ import { environment } from '../../environments/environment';
 
 export interface StatutoryValues {
   wageCap: number | null;
+  annualEsiCeilingLimit?: number | null;
   epfEmployerContributionPercentage: number | null;
   epsEmployerContributionPercentage: number | null;
   epfEmployeeContributionPercentage: number | null;
   esiEmployerContributionPercentage: number | null;
   esiEmployeeContributionPercentage: number | null;
 }
-const empty = (): StatutoryValues => ({ wageCap: null, epfEmployerContributionPercentage: null, epsEmployerContributionPercentage: null, epfEmployeeContributionPercentage: null, esiEmployerContributionPercentage: null, esiEmployeeContributionPercentage: null });
-const editable = (value: StatutoryValues): StatutoryValues => ({ wageCap: value.wageCap, epfEmployerContributionPercentage: value.epfEmployerContributionPercentage, epsEmployerContributionPercentage: value.epsEmployerContributionPercentage, epfEmployeeContributionPercentage: value.epfEmployeeContributionPercentage, esiEmployerContributionPercentage: value.esiEmployerContributionPercentage, esiEmployeeContributionPercentage: value.esiEmployeeContributionPercentage });
+const empty = (): StatutoryValues => ({ annualEsiCeilingLimit: null, wageCap: null, epfEmployerContributionPercentage: null, epsEmployerContributionPercentage: null, epfEmployeeContributionPercentage: null, esiEmployerContributionPercentage: null, esiEmployeeContributionPercentage: null });
+const editable = (value: StatutoryValues): StatutoryValues => ({ annualEsiCeilingLimit: value.annualEsiCeilingLimit ?? null, wageCap: value.wageCap, epfEmployerContributionPercentage: value.epfEmployerContributionPercentage, epsEmployerContributionPercentage: value.epsEmployerContributionPercentage, epfEmployeeContributionPercentage: value.epfEmployeeContributionPercentage, esiEmployerContributionPercentage: value.esiEmployerContributionPercentage, esiEmployeeContributionPercentage: value.esiEmployeeContributionPercentage });
 
 @Injectable({providedIn: 'root'})
 export class StatutoryDeductionsApi {
   private http = inject(HttpClient);
   private url = environment.apiUrl + '/settings/statutory-deductions';
   get() { return this.http.get<StatutoryValues | null>(this.url); }
-  save(value: StatutoryValues) { return this.http.put<StatutoryValues>(this.url, editable(value)); }
+  save(value: StatutoryValues) {
+    const payload = editable(value);
+    if (payload.annualEsiCeilingLimit == null) delete payload.annualEsiCeilingLimit;
+    return this.http.put<StatutoryValues>(this.url, payload);
+  }
 }
 
 @Component({selector: 'app-statutory-deductions', imports: [FormsModule, RouterLink, RouterLinkActive], templateUrl: './statutory-deductions.html', styleUrl: './statutory-deductions.css'})
@@ -29,10 +34,11 @@ export class StatutoryDeductionsPage implements OnInit {
   loading = signal(true); saving = signal(false); error = signal(''); success = signal(''); loaded = signal(false); configured = signal(false);
   draft = empty(); private saved = empty();
   groups: { title: string; fields: { key: keyof StatutoryValues; label: string; currency?: boolean }[] }[] = [
-    {title: 'Wage Cap', fields: [{key: 'wageCap', label: 'Wage Cap', currency: true}]},
+    {title: 'Annual Wage Ceiling Limits', fields: [{key: 'wageCap', label: 'Annual EPF Ceiling Limit', currency: true}, {key: 'annualEsiCeilingLimit', label: 'Annual ESI Wage Ceiling Limit', currency: true}]},
     {title: 'EPF Contributions', fields: [{key: 'epfEmployerContributionPercentage', label: 'EPF Employer Contribution'}, {key: 'epsEmployerContributionPercentage', label: 'EPS Employer Contribution'}, {key: 'epfEmployeeContributionPercentage', label: 'EPF Employee Contribution'}]},
     {title: 'ESI Contributions', fields: [{key: 'esiEmployerContributionPercentage', label: 'ESI Employer Contribution'}, {key: 'esiEmployeeContributionPercentage', label: 'ESI Employee Contribution'}]},
   ];
+  currency(value: number | null | undefined) { return value == null ? '' : new Intl.NumberFormat('en-IN', {style: 'currency', currency: 'INR', minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value); }
   ngOnInit() { this.load(); }
   message(error: unknown) { const e = error as HttpErrorResponse; const message = e.error?.message; return Array.isArray(message) ? message.join('; ') : typeof message === 'string' ? message : e.status === 0 ? 'Cannot reach the server. Check your connection and try again.' : 'Unable to save or load statutory deductions. Please try again.'; }
   load() {
@@ -42,7 +48,7 @@ export class StatutoryDeductionsPage implements OnInit {
   reset(form: NgForm) { this.draft = {...this.saved}; form.resetForm(this.draft); this.error.set(''); this.success.set(''); }
   save(form: NgForm) {
     this.success.set('');
-    if (form.invalid || Object.values(this.draft).some(v => v === null || !Number.isFinite(v) || v < 0)) { form.control.markAllAsTouched(); return; }
+    if (form.invalid || Object.entries(this.draft).some(([key, v]) => key === 'annualEsiCeilingLimit' && v == null ? false : v === null || !Number.isFinite(v) || v < 0)) { form.control.markAllAsTouched(); return; }
     this.saving.set(true); this.error.set('');
     this.api.save(this.draft).subscribe({next: value => { this.saved = editable(value); this.draft = {...this.saved}; this.configured.set(true); form.resetForm(this.draft); this.saving.set(false); this.success.set('Statutory deduction settings saved.'); }, error: e => { this.saving.set(false); this.error.set(this.message(e)); }});
   }

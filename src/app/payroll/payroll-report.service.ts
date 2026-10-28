@@ -3,6 +3,7 @@ import { firstValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { payrollPeriod } from './payroll-calculation';
+import { monthlyReport } from './monthly-payroll-report';
 import { annualReport, AnnualPayrollResponse } from './annual-payroll-report';
 
 @Injectable({providedIn:'root'})
@@ -18,10 +19,10 @@ export class PayrollReportService {
       return btoa(binary);
     }).catch(error => { this.font = undefined; throw error; });
   }
-  async create(periodValue: string, generatedOn = new Date()) {
+  async create(periodValue: string, generatedOn = new Date(), reportType: 'Annual' | 'Monthly' = 'Annual') {
     const period = payrollPeriod(periodValue,generatedOn);
     const data = await firstValueFrom(this.http.get<AnnualPayrollResponse>(environment.apiUrl + '/payroll/annual'));
-    const report = annualReport(data);
+    const report = reportType === 'Monthly' ? monthlyReport(data) : annualReport(data);
     const [{jsPDF},{autoTable},font] = await Promise.all([import('jspdf'),import('jspdf-autotable'),this.loadFont()]);
     const doc = new jsPDF({unit:'mm',format:'a4',orientation:'landscape',compress:true});
     doc.addFileToVFS('NotoSans-Regular.ttf',font);
@@ -30,7 +31,7 @@ export class PayrollReportService {
     const monthName = new Intl.DateTimeFormat('en-IN',{month:'long'}).format(new Date(period.year,period.month,1));
     const month = `${monthName} ${period.year}`;
     const date = new Intl.DateTimeFormat('en-IN',{day:'2-digit',month:'long',year:'numeric'}).format(generatedOn);
-    doc.setProperties({title:`Annual Payroll Report - ${month}`,author:data.companyName || 'Payroll Generator',subject:'Validated annual payroll through Compliance Wage Base'});
+    doc.setProperties({title:`${reportType} Payroll Report - ${month}`,author:data.companyName || 'Payroll Generator',subject:reportType === 'Annual' ? 'Validated annual payroll through Compliance Wage Base' : 'Monthly payroll derived from annual results'});
     const width = doc.internal.pageSize.getWidth();
     const height = doc.internal.pageSize.getHeight();
     const margin = 7;
@@ -56,21 +57,21 @@ export class PayrollReportService {
       didDrawPage: () => {
         doc.setFont('NotoSans','normal');doc.setTextColor(33,77,54);
         doc.setFontSize(9);doc.text(data.companyName?.trim() || 'Payroll Generator',margin,10);
-        doc.setFontSize(13);doc.text('Annual Payroll Report',margin,17);
+        doc.setFontSize(13);doc.text(reportType + ' Payroll Report',margin,17);
         doc.setFontSize(8);doc.setTextColor(85,100,90);
         doc.text(`Payroll Month: ${month}`,margin,24);
         doc.text(`Generated: ${date}`,width-margin,10,{align:'right'});
-        doc.text(`All amounts annual (INR) | Employees: ${report.totalEmployees}`,width-margin,24,{align:'right'});
+        doc.text(`All amounts ${reportType === 'Annual' ? 'annual' : 'monthly'} (INR) | Employees: ${report.totalEmployees}`,width-margin,24,{align:'right'});
       },
     });
     for (let page=1;page<=doc.getNumberOfPages();page++) {
       doc.setPage(page);doc.setFontSize(7);doc.setTextColor(85,100,90);
       doc.text(`Page ${page} of ${doc.getNumberOfPages()}`,width-margin,height-4,{align:'right'});
     }
-    return {doc,filename:`Payroll_Report_${monthName}_${period.year}.pdf`,report};
+    return {doc,filename:reportType === 'Annual' ? `Payroll_Report_${monthName}_${period.year}.pdf` : `Monthly_Payroll_Report_${monthName}_${period.year}.pdf`,report};
   }
-  async download(periodValue: string) {
-    const result = await this.create(periodValue);
+  async download(periodValue: string, reportType: 'Annual' | 'Monthly' = 'Annual') {
+    const result = await this.create(periodValue, new Date(), reportType);
     await result.doc.save(result.filename,{returnPromise:true});
     return result.filename;
   }

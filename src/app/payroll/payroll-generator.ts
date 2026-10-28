@@ -10,6 +10,7 @@ export class PayrollGenerator {
   private dialog = viewChild<ElementRef<HTMLDialogElement>>('dialog');
   private opener = viewChild<ElementRef<HTMLButtonElement>>('opener');
   open = signal(false); busy = signal(false); error = signal(''); success = signal('');
+  reportType: 'Annual' | 'Monthly' = 'Annual';
   months = payrollMonths(); selected = '';
   show() { this.months = payrollMonths(); this.selected = ''; this.error.set(''); this.success.set(''); this.open.set(true); setTimeout(()=>this.dialog()?.nativeElement.showModal()); }
   close() { if (!this.busy()) { this.dialog()?.nativeElement.close(); this.open.set(false); this.opener()?.nativeElement.focus(); } }
@@ -18,7 +19,7 @@ export class PayrollGenerator {
     if (!this.selected) { this.error.set('Select a payroll month before generating the report.'); return; }
     this.busy.set(true); this.error.set(''); this.success.set('');
     try {
-      const filename = await this.service.download(this.selected);
+      const filename = await this.service.download(this.selected, this.reportType);
       this.busy.set(false); this.close(); this.success.set(`Payroll PDF downloaded: ${filename}`);
     } catch (error) {
       this.busy.set(false);

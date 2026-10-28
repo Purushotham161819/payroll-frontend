@@ -14,17 +14,30 @@ describe('Statutory deduction settings form', () => {
     fixture.detectChanges(); http.expectOne(url).flush(data); fixture.detectChanges(); await fixture.whenStable();
     return {fixture,http};
   }
-  it('starts with six blank inputs and rejects missing, negative and excessive values', async () => {
+  it('starts with seven blank inputs and rejects missing, negative and excessive values', async () => {
     const {fixture,http} = await setup(null);
     const inputs = Array.from(fixture.nativeElement.querySelectorAll('input')) as HTMLInputElement[];
-    expect(inputs.length).toBe(6); expect(inputs.every(i => i.value === '')).toBe(true);
+    expect(inputs.length).toBe(7); expect(inputs.every(i => i.value === '')).toBe(true);
     const form = fixture.nativeElement.querySelector('form');
     form.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true})); fixture.detectChanges();
     expect(fixture.nativeElement.querySelectorAll('.invalid').length).toBe(6);
-    for (const [input,value] of [[inputs[0],'-1'],[inputs[1],'101']] as const) { input.value=value; input.dispatchEvent(new Event('input')); }
+    for (const [input,value] of [[inputs[0],'-1'],[inputs[2],'101']] as const) { input.value=value; input.dispatchEvent(new Event('input')); }
     await fixture.whenStable(); fixture.detectChanges();
     form.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));
     http.expectNone(url); http.verify();
+  });
+  it('shows independent INR ceilings and sends only a configured ESI value', async () => {
+    const {fixture,http} = await setup({...values, annualEsiCeilingLimit: 250000.25});
+    expect(fixture.nativeElement.textContent).toContain('Annual EPF Ceiling Limit');
+    expect(fixture.nativeElement.textContent).toContain('Annual ESI Wage Ceiling Limit');
+    expect(fixture.nativeElement.textContent).toContain('₹15,000.00');
+    expect(fixture.nativeElement.textContent).toContain('₹2,50,000.25');
+    const esi: HTMLInputElement = fixture.nativeElement.querySelector('#annualEsiCeilingLimit');
+    esi.value='300000.75'; esi.dispatchEvent(new Event('input')); await fixture.whenStable();
+    fixture.nativeElement.querySelector('form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));
+    const save = http.expectOne(url);
+    expect(save.request.body).toEqual({...values, annualEsiCeilingLimit:300000.75});
+    save.flush({...values, annualEsiCeilingLimit:300000.75}); fixture.detectChanges(); http.verify();
   });
   it('loads metadata-bearing records, sends only configuration fields, preserves failed edits and resets', async () => {
     const {fixture,http} = await setup({...values,_id:'current',createdAt:'2026-10-27',updatedAt:'2026-10-27',__v:0});

@@ -8,7 +8,7 @@ export const annualColumns = [
 ] as const;
 export type AnnualAmountKey = typeof annualColumns[number][0];
 export interface AnnualPayrollRow {
-  employee: { firstName: string; lastName: string };
+  employee: { firstName: string; lastName: string; payFrequency?: string };
   calculation: { annual: Record<AnnualAmountKey, number> };
 }
 export interface AnnualPayrollResponse { employees: AnnualPayrollRow[]; companyName?: string }

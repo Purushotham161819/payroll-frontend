@@ -1,15 +1,51 @@
-import { AfterViewInit, Component, ElementRef, inject, OnDestroy, output, signal, viewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  inject,
+  OnDestroy,
+  input,
+  effect,
+  output,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Employee, CreateEmployee, payFrequencies, defaultPayFrequency } from './employee';
 import { EmployeeService, apiError } from './employee.service';
 function realDate(control: AbstractControl) {
   if (!control.value) return null;
   const value = String(control.value);
   const date = new Date(value + 'T00:00:00Z');
-  return /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(date.getTime()) && date.toISOString().slice(0,10) === value ? null : { date: true };
+  return /^\d{4}-\d{2}-\d{2}$/.test(value) &&
+    !Number.isNaN(date.getTime()) &&
+    date.toISOString().slice(0, 10) === value
+    ? null
+    : { date: true };
 }
-@Component({ selector: 'app-employee-form', imports: [ReactiveFormsModule], templateUrl: './employee-form.html', styleUrl: './employee-form.css' })
+@Component({
+  selector: 'app-employee-form',
+  imports: [ReactiveFormsModule],
+  templateUrl: './employee-form.html',
+  styleUrl: './employee-form.css',
+})
 export class EmployeeForm implements AfterViewInit, OnDestroy {
+  readonly employee = input<Employee | null>(null);
+  readonly payFrequencies = payFrequencies;
+  constructor() {
+    effect(() => {
+      const employee = this.employee();
+      if (employee)
+        this.form.patchValue({
+          ...employee,
+          email: employee.email ?? '',
+          dateOfBirth: employee.dateOfBirth.slice(0, 10),
+          hireDate: employee.hireDate.slice(0, 10),
+          payFrequency: employee.payFrequency ?? defaultPayFrequency,
+        });
+    });
+  }
   private readonly dialog = viewChild.required<ElementRef<HTMLDialogElement>>('employeeDialog');
   private readonly document = inject(DOCUMENT);
   private previousOverflow = '';
@@ -24,7 +60,9 @@ export class EmployeeForm implements AfterViewInit, OnDestroy {
     this.dialog().nativeElement.close();
     this.document.body.style.overflow = this.previousOverflow;
     const target = this.returnFocus;
-    queueMicrotask(() => { if (target?.isConnected) target.focus(); });
+    queueMicrotask(() => {
+      if (target?.isConnected) target.focus();
+    });
   }
   cancel(event?: Event) {
     event?.preventDefault();
@@ -37,27 +75,62 @@ export class EmployeeForm implements AfterViewInit, OnDestroy {
   readonly saving = signal(false);
   readonly error = signal('');
   readonly form = this.fb.group({
+    payFrequency: this.fb.nonNullable.control(defaultPayFrequency, Validators.required),
     firstName: ['', [Validators.required, Validators.pattern(/\S/)]],
     lastName: ['', [Validators.required, Validators.pattern(/\S/)]],
     email: ['', [Validators.required, Validators.email]],
     dateOfBirth: ['', [Validators.required, realDate]],
     hireDate: ['', [Validators.required, realDate]],
-    annualCtc: this.fb.control<number | null>(null, [Validators.required, Validators.min(0), control => control.value === null || (typeof control.value === 'number' && Number.isFinite(control.value)) ? null : { number: true }]),
+    annualCtc: this.fb.control<number | null>(null, [
+      Validators.required,
+      Validators.min(0),
+      (control) =>
+        control.value === null ||
+        (typeof control.value === 'number' && Number.isFinite(control.value))
+          ? null
+          : { number: true },
+    ]),
   });
-  invalid(field: keyof typeof this.form.controls) { const control = this.form.controls[field]; return control.touched && control.invalid; }
-  normalizeEmail() { this.form.controls.email.setValue((this.form.controls.email.value ?? '').trim().toLowerCase()); }
+  invalid(field: keyof typeof this.form.controls) {
+    const control = this.form.controls[field];
+    return control.touched && control.invalid;
+  }
+  normalizeEmail() {
+    this.form.controls.email.setValue((this.form.controls.email.value ?? '').trim().toLowerCase());
+  }
   submit() {
     if (this.saving()) return;
     const controls = this.form.controls;
     controls.firstName.setValue((controls.firstName.value ?? '').trim());
     controls.lastName.setValue((controls.lastName.value ?? '').trim());
-    this.normalizeEmail(); this.form.markAllAsTouched(); this.error.set('');
+    this.normalizeEmail();
+    this.form.markAllAsTouched();
+    this.error.set('');
     if (this.form.invalid) return;
     const value = this.form.getRawValue();
     this.saving.set(true);
-    this.service.create({ firstName: value.firstName!, lastName: value.lastName!, email: value.email!, dateOfBirth: value.dateOfBirth!, hireDate: value.hireDate!, annualCtc: value.annualCtc! }).subscribe({
-      next: () => { this.saving.set(false); this.saved.emit(); },
-      error: error => { this.saving.set(false); this.error.set(apiError(error)); }
+    const payload: CreateEmployee = {
+      firstName: value.firstName!,
+      lastName: value.lastName!,
+      email: value.email!,
+      dateOfBirth: value.dateOfBirth!,
+      hireDate: value.hireDate!,
+      annualCtc: value.annualCtc!,
+      payFrequency: value.payFrequency,
+    };
+    const employee = this.employee();
+    (employee
+      ? this.service.update(employee._id, payload)
+      : this.service.create(payload)
+    ).subscribe({
+      next: () => {
+        this.saving.set(false);
+        this.saved.emit();
+      },
+      error: (error) => {
+        this.saving.set(false);
+        this.error.set(apiError(error));
+      },
     });
   }
 }
