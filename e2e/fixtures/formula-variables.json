@@ -1,0 +1,214 @@
+[
+  {
+    "id": "annualCtc",
+    "label": "Annual CTC",
+    "valueType": "amount",
+    "dependencies": [],
+    "available": true
+  },
+  {
+    "id": "annualBasicSalary",
+    "label": "Annual Basic Salary",
+    "valueType": "amount",
+    "dependencies": [
+      "annualGrossWages"
+    ],
+    "componentCode": "BASIC",
+    "available": true
+  },
+  {
+    "id": "annualDearnessAllowance",
+    "label": "Annual Dearness Allowance",
+    "valueType": "amount",
+    "dependencies": [
+      "annualBasicSalary"
+    ],
+    "componentCode": "DA",
+    "available": true
+  },
+  {
+    "id": "annualRetainingAllowance",
+    "label": "Annual Retaining Allowance",
+    "valueType": "amount",
+    "dependencies": [
+      "annualBasicSalary"
+    ],
+    "componentCode": "RA",
+    "available": true
+  },
+  {
+    "id": "annualGrossWages",
+    "label": "Annual Gross Wages",
+    "valueType": "amount",
+    "dependencies": [],
+    "available": true
+  },
+  {
+    "id": "annualCoreWages",
+    "label": "Annual Core Wages",
+    "valueType": "amount",
+    "dependencies": [
+      "annualBasicSalary",
+      "annualDearnessAllowance",
+      "annualRetainingAllowance"
+    ],
+    "available": true
+  },
+  {
+    "id": "annualTotalAllowances",
+    "label": "Annual Total Allowances",
+    "valueType": "amount",
+    "dependencies": [],
+    "available": true
+  },
+  {
+    "id": "annualExcessAllowance",
+    "label": "Annual Excess Allowance",
+    "valueType": "amount",
+    "dependencies": [
+      "annualTotalAllowances",
+      "annualGrossWages"
+    ],
+    "available": true
+  },
+  {
+    "id": "annualComplianceWageBase",
+    "label": "Annual Compliance Wage Base",
+    "aliases": [
+      "Compliance Wage Base"
+    ],
+    "valueType": "amount",
+    "dependencies": [
+      "annualCoreWages",
+      "annualExcessAllowance"
+    ],
+    "available": true
+  },
+  {
+    "id": "annualEpfCeilingLimit",
+    "label": "Annual EPF Ceiling Limit",
+    "valueType": "amount",
+    "dependencies": [],
+    "setting": "wageCap",
+    "available": true
+  },
+  {
+    "id": "annualEsiCeilingLimit",
+    "label": "Annual ESI Wage Ceiling Limit",
+    "valueType": "amount",
+    "dependencies": [],
+    "setting": "annualEsiCeilingLimit",
+    "available": true
+  },
+  {
+    "id": "epfEmployerContributionRate",
+    "label": "EPF Employer Contribution Rate",
+    "valueType": "rate",
+    "dependencies": [],
+    "setting": "epfEmployerContributionPercentage",
+    "available": true
+  },
+  {
+    "id": "epsEmployerContributionRate",
+    "label": "EPS Employer Contribution Rate",
+    "valueType": "rate",
+    "dependencies": [],
+    "setting": "epsEmployerContributionPercentage",
+    "available": true
+  },
+  {
+    "id": "esiEmployerContributionRate",
+    "label": "ESI Employer Contribution Rate",
+    "valueType": "rate",
+    "dependencies": [],
+    "setting": "esiEmployerContributionPercentage",
+    "available": true
+  },
+  {
+    "id": "epfEmployeeContributionRate",
+    "label": "EPF Employee Contribution Rate",
+    "valueType": "rate",
+    "dependencies": [],
+    "setting": "epfEmployeeContributionPercentage",
+    "available": true
+  },
+  {
+    "id": "esiEmployeeContributionRate",
+    "label": "ESI Employee Contribution Rate",
+    "valueType": "rate",
+    "dependencies": [],
+    "setting": "esiEmployeeContributionPercentage",
+    "available": true
+  },
+  {
+    "id": "employerEpfContribution",
+    "label": "Employer EPF Contribution",
+    "valueType": "amount",
+    "dependencies": [
+      "annualCoreWages",
+      "annualEpfCeilingLimit",
+      "epfEmployerContributionRate"
+    ],
+    "available": true
+  },
+  {
+    "id": "employerEpsContribution",
+    "label": "Employer EPS Contribution",
+    "valueType": "amount",
+    "dependencies": [
+      "annualCoreWages",
+      "annualEpfCeilingLimit",
+      "epsEmployerContributionRate"
+    ],
+    "available": true
+  },
+  {
+    "id": "employerEsiContribution",
+    "label": "Employer ESI Contribution",
+    "valueType": "amount",
+    "dependencies": [
+      "annualComplianceWageBase",
+      "annualEsiCeilingLimit",
+      "esiEmployerContributionRate"
+    ],
+    "available": true
+  },
+  {
+    "id": "component_000000000000000000000001",
+    "label": "Basic Salary (BASIC)",
+    "valueType": "amount",
+    "dependencies": [
+      "annualCtc"
+    ],
+    "available": true
+  },
+  {
+    "id": "component_000000000000000000000002",
+    "label": "Dearness Allowance (DA)",
+    "valueType": "amount",
+    "dependencies": [
+      "annualCtc"
+    ],
+    "available": true
+  },
+  {
+    "id": "component_000000000000000000000003",
+    "label": "Retaining Allowance (RA)",
+    "valueType": "amount",
+    "dependencies": [
+      "annualCtc"
+    ],
+    "available": true
+  },
+  {
+    "id": "component_000000000000000000000004",
+    "label": "Formula Deduction (CUSTOM_DEDUCTION)",
+    "valueType": "amount",
+    "dependencies": [
+      "annualComplianceWageBase",
+      "annualEsiCeilingLimit",
+      "esiEmployeeContributionRate"
+    ],
+    "available": true
+  }
+]

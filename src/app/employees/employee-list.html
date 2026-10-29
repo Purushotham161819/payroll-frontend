@@ -5,7 +5,7 @@
     <p>Your people, organized in one place.</p>
   </div>
   <div class="heading-actions">
-    <button class="primary" (click)="add()"><span aria-hidden="true">＋</span> Add Employee</button
+    <button id="add-employee" class="primary" (click)="add()"><span aria-hidden="true">＋</span> Add Employee</button
     ><app-payroll-generator />
   </div>
 </div>
@@ -23,6 +23,11 @@
     </div>
     <button class="secondary" (click)="load()" [disabled]="loading()">Refresh list</button>
   </div>
+  <div class="status-filter"><label for="employee-status">Employee Status</label>
+    <select id="employee-status" [value]="statusFilter()" (change)="changeFilter($any($event.target).value)">
+      <option>All</option><option>Active</option><option>Terminated</option>
+    </select>
+  </div>
   @if (error()) {
     <div class="notice error" role="alert">
       {{ error() }} <button class="secondary" (click)="load()">Retry</button>
@@ -34,7 +39,7 @@
     <div class="state">
       <span class="empty-icon" aria-hidden="true">▤</span>
       <h3>No employees found.</h3>
-      <p>Add your first employee to get started.</p>
+      <p>No employees match the selected status.</p>
       <button class="secondary" (click)="add()">Add Employee</button>
     </div>
   } @else if (!error()) {
@@ -62,7 +67,7 @@
             <th>Hire Date</th>
             <th class="number">Annual CTC</th>
             <th>Pay Frequency</th>
-            <th>Actions</th>
+            <th>Status</th><th>Actions</th>
             <th>Created Date</th>
           </tr>
         </thead>
@@ -78,14 +83,14 @@
                     ' ' +
                     employee.lastName +
                     ' (' +
-                    employee._id +
+                    (employee.employeeId || 'ID pending') +
                     ')'
                   "
                   [checked]="selectedIds().has(employee._id)"
                   (change)="toggleEmployee(employee._id, $any($event.target).checked)"
                 />
               </td>
-              <td class="employee-id">{{ employee._id }}</td>
+              <td class="employee-id">{{ employee.employeeId || 'ID pending' }}</td>
               <td class="name">{{ employee.firstName }}</td>
               <td>{{ employee.lastName }}</td>
               <td>{{ employee.email || 'Not provided' }}</td>
@@ -93,17 +98,21 @@
               <td>{{ employee.hireDate | date: 'dd MMM yyyy' : 'UTC' }}</td>
               <td class="number">{{ employee.annualCtc | number: '1.2-2' }}</td>
               <td>{{ employee.payFrequency || 'Monthly' }}</td>
+              <td>{{ employee.status || 'Active' }}</td>
               <td>
-                <button
-                  type="button"
-                  class="secondary"
-                  (click)="edit(employee)"
-                  [attr.aria-label]="
-                    'Edit employee ' + employee.firstName + ' ' + employee.lastName
-                  "
-                >
-                  Edit
-                </button>
+                <button type="button" class="secondary" [cdkMenuTriggerFor]="actions" [attr.aria-label]="'Actions for '+employee.firstName+' '+employee.lastName" [disabled]="deletingBusy()">&#8942;</button>
+                <ng-template #actions>
+                  <div cdkMenu class="employee-actions">
+                    <button cdkMenuItem (cdkMenuItemTriggered)="edit(employee)" [attr.aria-label]="'Edit employee '+employee.firstName+' '+employee.lastName">Edit</button>
+                    <button cdkMenuItem (cdkMenuItemTriggered)="requestDelete(employee)" [attr.aria-label]="'Delete employee '+employee.firstName+' '+employee.lastName">Delete</button>
+                    @if ((employee.status || 'Active') === 'Active') {
+                      <button cdkMenuItem (cdkMenuItemTriggered)="lifecycle.set({employee, action: 'Terminate'})">Terminate</button>
+                    } @else {
+                      <button cdkMenuItem (cdkMenuItemTriggered)="lifecycle.set({employee, action: 'Rehire'})">Rehire</button>
+                    }
+                    <button cdkMenuItem (cdkMenuItemTriggered)="lifecycle.set({employee, action: 'History'})">Employment history</button>
+                  </div>
+                </ng-template>
               </td>
               <td>
                 {{
@@ -124,3 +133,9 @@
   }
 </section>
 <p class="footnote">Employee details are stored in your connected payroll database.</p>
+
+@if(deleting();as employee){<app-delete-confirmation title="Delete employee" [description]="'Permanently delete '+employee.firstName+' '+employee.lastName+' ('+employee.email+')? This cannot be undone.'" [busy]="deletingBusy()" [error]="deleteError()" fallbackFocusId="add-employee" (cancelled)="deleting.set(null)" (confirmed)="confirmDelete()"/>}
+
+@if (lifecycle(); as change) {
+  <app-lifecycle-dialog [employee]="change.employee" [action]="change.action" (saved)="lifecycleSaved()" (cancelled)="lifecycle.set(null)" />
+}

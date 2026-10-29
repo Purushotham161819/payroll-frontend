@@ -11,8 +11,18 @@ export interface CreateEmployee {
   payFrequency?: PayFrequency;
 }
 export interface Employee extends Omit<CreateEmployee, 'email'> {
+  status?: 'Active' | 'Terminated';
+  rehireDate?: string;
+  employmentHistory?: EmploymentPeriod[];
   _id: string;
+  employeeId?: string;
   email?: string;
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface EmploymentPeriod {
+  startDate: string; endDate?: string; terminationReason?: string;
+  explanation?: string; recordedAt?: string; terminatedAt?: string;
+}
+export const terminationReasons = ['Voluntary Resignation', 'Involuntary Termination', 'Layoff / Reduction in Force', 'End of Contract', 'Retirement', 'Job Abandonment', 'Other'];

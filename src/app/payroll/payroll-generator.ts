@@ -12,6 +12,7 @@ export class PayrollGenerator {
   private dialog = viewChild<ElementRef<HTMLDialogElement>>('dialog');
   private opener = viewChild<ElementRef<HTMLButtonElement>>('opener');
   open = signal(false); busy = signal(false); error = signal(''); success = signal('');
+  includeTerminated = false;
   reportType: 'Annual' | 'Monthly' = 'Annual';
   months = payrollMonths(); selected = '';
   components = signal<ReportComponent[]>([]); loading = signal(false); selection = signal<string[]>([]);
@@ -31,14 +32,14 @@ export class PayrollGenerator {
     catch { this.error.set('Unable to load salary components. Close and try again.'); }
     finally { this.loading.set(false); }
   }
-  show() { void this.loadComponents(); this.months = payrollMonths(); this.selected = ''; this.error.set(''); this.success.set(''); this.open.set(true); setTimeout(()=>this.dialog()?.nativeElement.showModal()); }
+  show() { void this.loadComponents(); this.months = payrollMonths(); this.selected = ''; this.includeTerminated = false; this.error.set(''); this.success.set(''); this.open.set(true); setTimeout(()=>this.dialog()?.nativeElement.showModal()); }
   close() { if (!this.busy()) { this.dialog()?.nativeElement.close(); this.open.set(false); this.opener()?.nativeElement.focus(); } }
   async generate() {
     if (this.busy() || this.loading() || !this.components().length) return;
     if (!this.selected) { this.error.set('Select a payroll month before generating the report.'); return; }
     this.busy.set(true); this.error.set(''); this.success.set('');
     try {
-      const filename = await this.service.download(this.selected, this.reportType, this.selection(), this.components().map(c=>c.componentId));
+      const filename = await this.service.download(this.selected, this.reportType, this.selection(), this.components().map(c=>c.componentId), this.includeTerminated);
       this.busy.set(false); this.close(); this.success.set(`Payroll PDF downloaded: ${filename}`);
     } catch (error) {
       this.busy.set(false);

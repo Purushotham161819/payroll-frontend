@@ -11,12 +11,14 @@
     @for (group of groups; track group.title) {
       <section [attr.aria-label]="group.title"><h3>{{ group.title }}</h3><div class="field-grid" [class.two-columns]="group.fields.length === 2">
       @for (field of group.fields; track field.key) {
-        <div><label [for]="field.key">{{ field.label }}</label><div class="input-wrap">@if (field.currency) { <span aria-hidden="true">&#8377;</span> }<input [id]="field.key" [name]="field.key" type="number" [(ngModel)]="draft[field.key]" [required]="field.key !== 'annualEsiCeilingLimit'" min="0" [max]="field.currency ? null : 100" [step]="field.currency ? '0.01' : 'any'" [pattern]="field.currency ? '[0-9]+([.][0-9]{1,2})?' : '[0-9]+([.][0-9]+)?'" #control="ngModel" [attr.aria-invalid]="control.touched && control.invalid" [attr.aria-describedby]="field.key + '-help'">@if (!field.currency) { <span aria-hidden="true">%</span> }</div>
+        <div><label [for]="field.key">{{ field.label }}{{ field.currency ? '' : ' (%)' }}</label><div class="input-wrap">@if (field.currency) { <span aria-hidden="true">&#8377;</span> }<input [id]="field.key" [name]="field.key" type="number" [(ngModel)]="draft[field.key]" [required]="field.key !== 'annualEsiCeilingLimit'" min="0" [max]="field.currency ? null : 100" [step]="field.currency ? '0.01' : 'any'" [pattern]="field.currency ? '[0-9]+([.][0-9]{1,2})?' : '[0-9]+([.][0-9]+)?'" #control="ngModel" [attr.aria-invalid]="control.touched && control.invalid" [attr.aria-describedby]="field.key + '-help'">@if (!field.currency) { <span aria-hidden="true">%</span> }</div>
         @if (field.currency && draft[field.key] != null) { <small>{{ currency(draft[field.key]) }}</small> }
         @if (field.key === 'annualEsiCeilingLimit') { <small>No default amount. Leave blank to preserve the saved value, if any.</small> }
         <small [id]="field.key + '-help'" [class.invalid]="control.touched && control.invalid">@if (control.touched && control.invalid) { {{ field.currency ? 'Enter a non-negative amount with up to two decimal places.' : 'Enter a percentage between 0 and 100.' }} } @else { {{ field.currency ? 'Amount in INR.' : 'Percentage, from 0 to 100.' }} }</small></div>
       }
-      </div></section>
+      </div>
+      @if (group.title === 'EPF Contributions') { <label class="ceiling-toggle"><input type="checkbox" name="isEpfCeilingApplicable" [(ngModel)]="draft.isEpfCeilingApplicable">Is Ceiling Limit Applicable</label><small>When enabled, the annual EPF ceiling caps the wage base for employer EPF and EPS. ESI eligibility is independent.</small> }
+      </section>
     }
     </fieldset>
     <footer><button type="button" class="secondary" (click)="reset(form)" [disabled]="saving()">Reset Changes</button><button type="submit" class="primary" [disabled]="saving()">{{ saving() ? 'Savingâ€¦' : 'Save Settings' }}</button></footer>

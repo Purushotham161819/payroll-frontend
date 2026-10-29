@@ -13,6 +13,9 @@ describe('Annual PDF data mapping',()=>{
     }
     expect(report.foot[0]).toBe('Total');expect(JSON.stringify(data)).toBe(before);
   });
+  it('uses persistent employee IDs in the existing name cell without adding report columns',()=>{
+    const employee=row(1);employee.employee.employeeId='EMP001';const report=annualReport({employees:[employee]});expect(report.body[0][0]).toBe('EMP001 - A B');expect(report.headings.length).toBe(annualColumns.length+1);
+  });
   it('rejects missing or invalid backend values rather than displaying zero',()=>{
     for(const value of [undefined,NaN,Infinity,-1]) {
       const invalid=row(1);invalid.calculation.annual.annualComplianceWageBase=value as number;

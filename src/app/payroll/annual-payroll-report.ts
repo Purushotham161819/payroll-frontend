@@ -16,11 +16,11 @@ export function selectedResultKeys(ids: string[]) {
 }
 export type AnnualAmountKey = typeof annualColumns[number][0];
 export interface AnnualPayrollRow {
-  employee: { firstName: string; lastName: string; payFrequency?: string };
+  employee: { firstName: string; lastName: string; employeeId?: string; payFrequency?: string };
   calculation: { annual: Record<AnnualAmountKey, number>; components?: { componentId: string; annual: number; monthly: number }[] };
 }
 export interface ReportComponent { componentId: string; code: string; name: string; category: string; mandatory: boolean; hideCheckbox?: boolean }
-export interface AnnualPayrollResponse { reportComponents?: ReportComponent[]; employees: AnnualPayrollRow[]; companyName?: string }
+export interface AnnualPayrollResponse { components?: {_id:string;code:string;name?:string}[]; reportComponents?: ReportComponent[]; employees: AnnualPayrollRow[]; companyName?: string }
 
 // Sum the backend's reported paise, without recomputing any payroll equations.
 export function annualReport(data: AnnualPayrollResponse, selectedKeys?: string[], columnOrder?: string[]) {
@@ -32,7 +32,7 @@ export function annualReport(data: AnnualPayrollResponse, selectedKeys?: string[
   };
   const body = data.employees.map(({employee,calculation}) => {
     if (typeof employee?.firstName !== 'string' || typeof employee?.lastName !== 'string') throw new Error('Invalid employee name in payroll results.');
-    return [`${employee.firstName} ${employee.lastName}`.trim(), ...annualColumns.map(([key],i) => {
+    return [employeeReportName(employee), ...annualColumns.map(([key],i) => {
       const value = calculation?.annual?.[key];
       if (typeof value !== 'number' || !Number.isFinite(value) || (value < 0 && key !== 'annualNetPay') || Math.abs(value) * 100 > Number.MAX_SAFE_INTEGER) throw new Error(`Missing or invalid annual payroll result: ${key}.`);
       const cents = BigInt(value.toFixed(2).replace('.', ''));
@@ -85,3 +85,5 @@ function orderColumns(report: {headings:string[];body:string[][];foot:string[];t
   const indices=ids.map((id,index)=>({id,index})).sort((a,b)=>a.index===0?-1:b.index===0?1:(rank.get(a.id)??Number.MAX_SAFE_INTEGER)-(rank.get(b.id)??Number.MAX_SAFE_INTEGER)).map(c=>c.index);
   return {...report,columnIds:indices.map(i=>ids[i]),headings:indices.map(i=>report.headings[i]),body:report.body.map(row=>indices.map(i=>row[i])),foot:indices.map(i=>report.foot[i])};
 }
+
+export function employeeReportName(employee:AnnualPayrollRow['employee']) { const name=(employee.firstName+' '+employee.lastName).trim(); return employee.employeeId ? employee.employeeId+' - '+name : name; }

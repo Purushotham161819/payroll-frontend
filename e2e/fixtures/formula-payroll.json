@@ -1,0 +1,211 @@
+{
+  "components": [
+    {
+      "_id": "000000000000000000000001",
+      "code": "BASIC",
+      "name": "Basic Salary",
+      "category": "earning",
+      "status": "active",
+      "isSystemDefined": true,
+      "calculationBaseType": "annual_ctc",
+      "calculationType": "percentage",
+      "calculationValue": 40,
+      "showInPayslip": true
+    },
+    {
+      "_id": "000000000000000000000002",
+      "code": "DA",
+      "name": "Dearness Allowance",
+      "category": "earning",
+      "status": "active",
+      "isSystemDefined": true,
+      "calculationBaseType": "annual_ctc",
+      "calculationType": "percentage",
+      "calculationValue": 10,
+      "showInPayslip": true
+    },
+    {
+      "_id": "000000000000000000000003",
+      "code": "RA",
+      "name": "Retaining Allowance",
+      "category": "earning",
+      "status": "active",
+      "isSystemDefined": true,
+      "calculationBaseType": "annual_ctc",
+      "calculationType": "percentage",
+      "calculationValue": 15,
+      "showInPayslip": true
+    },
+    {
+      "_id": "000000000000000000000004",
+      "code": "CUSTOM_DEDUCTION",
+      "name": "Formula Deduction",
+      "category": "deduction",
+      "status": "active",
+      "isSystemDefined": false,
+      "calculationBaseType": "annual_ctc",
+      "calculationType": "formula",
+      "formula": "MIN(Annual Core Wages, Annual EPF Ceiling Limit) * 12%",
+      "calculationValue": null,
+      "showInPayslip": true
+    }
+  ],
+  "employees": [
+    {
+      "employee": {
+        "firstName": "Formula",
+        "lastName": "Employee"
+      },
+      "calculation": {
+        "annual": {
+          "annualCtc": 107500,
+          "employerEpsContribution": 4000,
+          "employerEpfContribution": 2000,
+          "employerEsiContribution": 1500,
+          "annualGrossWages": 100000,
+          "annualBasicSalary": 40000,
+          "annualDearnessAllowance": 4000,
+          "annualRetainingAllowance": 6000,
+          "annualCoreWages": 50000,
+          "annualTotalAllowances": 0,
+          "annualExcessAllowance": 0,
+          "annualComplianceWageBase": 50000,
+          "annualTotalDeductions": 6000,
+          "annualNetPay": 94000
+        },
+        "components": [
+          {
+            "componentId": "000000000000000000000001",
+            "code": "BASIC",
+            "category": "earning",
+            "annual": 40000,
+            "monthly": 3333.33,
+            "showInPayslip": true
+          },
+          {
+            "componentId": "000000000000000000000002",
+            "code": "DA",
+            "category": "earning",
+            "annual": 4000,
+            "monthly": 333.33,
+            "showInPayslip": true
+          },
+          {
+            "componentId": "000000000000000000000003",
+            "code": "RA",
+            "category": "earning",
+            "annual": 6000,
+            "monthly": 500,
+            "showInPayslip": true
+          },
+          {
+            "componentId": "000000000000000000000004",
+            "code": "CUSTOM_DEDUCTION",
+            "category": "deduction",
+            "annual": 6000,
+            "monthly": 500,
+            "showInPayslip": true
+          }
+        ],
+        "diagnostics": {
+          "branch": "zero",
+          "dependencyGraph": {
+            "000000000000000000000001": [
+              "gross_wages"
+            ],
+            "000000000000000000000002": [
+              "BASIC"
+            ],
+            "000000000000000000000003": [
+              "BASIC"
+            ],
+            "000000000000000000000004": [
+              "annualCoreWages",
+              "annualEpfCeilingLimit"
+            ]
+          },
+          "equationResidual": 0,
+          "rounding": "Half up to paise at reporting only; equations verified exactly before rounding."
+        }
+      }
+    },
+    {
+      "employee": {
+        "firstName": "Formula",
+        "lastName": "Employee"
+      },
+      "calculation": {
+        "annual": {
+          "annualCtc": 107500,
+          "employerEpsContribution": 4000,
+          "employerEpfContribution": 2000,
+          "employerEsiContribution": 1500,
+          "annualGrossWages": 100000,
+          "annualBasicSalary": 40000,
+          "annualDearnessAllowance": 4000,
+          "annualRetainingAllowance": 6000,
+          "annualCoreWages": 50000,
+          "annualTotalAllowances": 0,
+          "annualExcessAllowance": 0,
+          "annualComplianceWageBase": 50000,
+          "annualTotalDeductions": 6000,
+          "annualNetPay": 94000
+        },
+        "components": [
+          {
+            "componentId": "000000000000000000000001",
+            "code": "BASIC",
+            "category": "earning",
+            "annual": 40000,
+            "monthly": 3333.33,
+            "showInPayslip": true
+          },
+          {
+            "componentId": "000000000000000000000002",
+            "code": "DA",
+            "category": "earning",
+            "annual": 4000,
+            "monthly": 333.33,
+            "showInPayslip": true
+          },
+          {
+            "componentId": "000000000000000000000003",
+            "code": "RA",
+            "category": "earning",
+            "annual": 6000,
+            "monthly": 500,
+            "showInPayslip": true
+          },
+          {
+            "componentId": "000000000000000000000004",
+            "code": "CUSTOM_DEDUCTION",
+            "category": "deduction",
+            "annual": 6000,
+            "monthly": 500,
+            "showInPayslip": true
+          }
+        ],
+        "diagnostics": {
+          "branch": "zero",
+          "dependencyGraph": {
+            "000000000000000000000001": [
+              "gross_wages"
+            ],
+            "000000000000000000000002": [
+              "BASIC"
+            ],
+            "000000000000000000000003": [
+              "BASIC"
+            ],
+            "000000000000000000000004": [
+              "annualCoreWages",
+              "annualEpfCeilingLimit"
+            ]
+          },
+          "equationResidual": 0,
+          "rounding": "Half up to paise at reporting only; equations verified exactly before rounding."
+        }
+      }
+    }
+  ]
+}

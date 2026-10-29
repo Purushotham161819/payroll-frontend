@@ -136,3 +136,9 @@ input[type="checkbox"] {
   background: #f0f6eb;
 }
 .heading-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}@media(max-width:1000px){.page-heading{flex-wrap:wrap}.heading-actions{gap:8px}}
+
+.delete-action{margin-left:6px}
+
+.status-filter{display:flex;gap:12px;align-items:center;padding:0 24px 20px;font-size:13px}.status-filter select{padding:8px;border:1px solid #dce4de;border-radius:6px;background:white}
+.employee-actions{display:flex;flex-direction:column;min-width:180px;padding:6px;background:white;border:1px solid #dce4de;border-radius:8px;box-shadow:0 8px 24px #0002}
+.employee-actions button{border:0;background:white;padding:11px 14px;text-align:left;color:#213c30;cursor:pointer}.employee-actions button:hover,.employee-actions button:focus{background:#f0f6eb;outline:2px solid #648271;outline-offset:-2px}

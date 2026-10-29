@@ -37,7 +37,7 @@ test('selection uses IDs, reflects all states, and reconciles refresh results', 
   const header = page.getByRole('checkbox', {name:'Select all employees',exact:true});
   const row = (id: string) => page.getByRole('checkbox', {name:new RegExp('Select employee .*' + id)});
   await expect(page.getByText('0 employees selected', {exact:true})).toBeVisible();
-  await row(employees[0]._id).check();
+  await row(employees[0].employeeId).check();
   await expect(page.getByText('1 employee selected', {exact:true})).toBeVisible();
   await expect(header).toHaveJSProperty('indeterminate',true);
   await header.check();
@@ -46,12 +46,12 @@ test('selection uses IDs, reflects all states, and reconciles refresh results', 
   await header.uncheck();
   await expect(page.getByText('0 employees selected', {exact:true})).toBeVisible();
   await expect(header).toHaveJSProperty('indeterminate',false);
-  await row(employees[0]._id).focus();
+  await row(employees[0].employeeId).focus();
   await page.keyboard.press('Space');
-  await expect(row(employees[0]._id)).toBeChecked();
+  await expect(row(employees[0].employeeId)).toBeChecked();
   await page.route('http://localhost:3000/employees', route => route.fulfill({status:200,contentType:'application/json',body:JSON.stringify([...employees].reverse())}));
   await page.getByRole('button',{name:'Refresh list'}).click();
-  await expect(row(employees[0]._id)).toBeChecked();
+  await expect(row(employees[0].employeeId)).toBeChecked();
   await page.unroute('http://localhost:3000/employees');
   await page.route('http://localhost:3000/employees', route => route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(employees.slice(1))}));
   await page.getByRole('button',{name:'Refresh list'}).click();

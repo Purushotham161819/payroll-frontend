@@ -1,6 +1,7 @@
 import {
   appendComponents,
   annualColumns,
+  employeeReportName,
   annualReport,
   AnnualPayrollResponse,
   AnnualPayrollRow,
@@ -56,7 +57,7 @@ export function monthlyReport(data: AnnualPayrollResponse, selectedKeys?: string
   const body = data.employees.map((row) => {
     const monthly = monthlyPayroll(row);
     return [
-      (row.employee.firstName + ' ' + row.employee.lastName).trim(),
+      employeeReportName(row.employee),
       ...monthlyColumns.map(([key], index) => {
         const cents = BigInt(monthly[key].toFixed(2).replace('.', ''));
         totals[index] += cents;

@@ -7,6 +7,8 @@
     <p>Generate an annual or monthly payroll report through Compliance Wage Base using saved employee data and settings. Monthly amounts are derived from annual results.</p>
     <label for="report-type">Report Type</label><select id="report-type" name="reportType" [(ngModel)]="reportType" [disabled]="busy()"><option value="Annual">Annual Payroll</option><option value="Monthly">Monthly Payroll</option></select>
     <label for="payroll-month">Payroll Month</label><select id="payroll-month" name="payrollMonth" [(ngModel)]="selected" required [disabled]="busy()"><option value="" disabled>Select a month</option>@for (month of months; track month.value) { <option [value]="month.value">{{ month.label }}</option> }</select>
+    <label><input type="checkbox" name="includeTerminated" [(ngModel)]="includeTerminated" [disabled]="busy()"> Include terminated employees for historical projections</label>
+    <p>Terminated employees are excluded by default. Reports use current salary settings without employment-date proration; they do not recreate saved historical payroll.</p>
     <fieldset [disabled]="busy() || loading()"><legend>Report columns</legend>
       <p>Required components stay included. Selection changes report columns only.</p>
       @if (loading()) { <p role="status">Loading report columns�</p> }

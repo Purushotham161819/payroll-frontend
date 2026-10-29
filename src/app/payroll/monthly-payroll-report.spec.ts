@@ -40,6 +40,9 @@ describe('Monthly payroll from completed annual results', () => {
     data.employees[0].employee.payFrequency = 'Monthly';
     expect(monthlyReport(data)).toEqual(report);
   });
+  it('shows the same persistent employee ID in monthly reports',()=>{
+    const employee=row();employee.employee.employeeId='EMP001';expect(monthlyReport({employees:[employee]}).body[0][0]).toBe('EMP001 - A B');
+  });
   it('rejects unsupported frequencies and malformed annual results', () => {
     const employee = row();
     employee.employee.payFrequency = 'Semi-Monthly';

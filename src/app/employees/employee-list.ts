@@ -1,3 +1,6 @@
+import { CdkMenuModule } from '@angular/cdk/menu';
+import { LifecycleDialog } from './lifecycle-dialog';
+import { DeleteConfirmation } from '../shared/delete-confirmation';
 ﻿import { PayrollGenerator } from '../payroll/payroll-generator';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
@@ -6,16 +9,28 @@ import { Employee } from './employee';
 import { EmployeeForm } from './employee-form';
 @Component({
   selector: 'app-employee-list',
-  imports: [DatePipe, DecimalPipe, EmployeeForm, PayrollGenerator],
+  imports: [CdkMenuModule, LifecycleDialog, DatePipe, DecimalPipe, EmployeeForm, PayrollGenerator, DeleteConfirmation],
   templateUrl: './employee-list.html',
   styleUrl: './employee-list.css',
 })
 export class EmployeeList implements OnInit {
   private readonly service = inject(EmployeeService);
-  readonly employees = signal<Employee[]>([]);
+  readonly allEmployees = signal<Employee[]>([]);
+  readonly statusFilter = signal('Active');
+  readonly employees = computed(() => this.allEmployees().filter(employee => this.statusFilter() === 'All' || (employee.status ?? 'Active') === this.statusFilter()));
+  changeFilter(value: string) { this.statusFilter.set(value); this.selectedIds.set(new Set()); }
+  readonly lifecycle = signal<{employee: Employee; action: 'Terminate' | 'Rehire' | 'History'} | null>(null);
+  lifecycleSaved() { this.success.set('Employee '+(this.lifecycle()?.action === 'Terminate' ? 'terminated' : 'rehired')+' successfully.'); this.lifecycle.set(null); this.load(); }
   readonly loading = signal(false);
   readonly error = signal('');
   readonly success = signal('');
+  readonly deleting=signal<Employee|null>(null);readonly deletingBusy=signal(false);readonly deleteError=signal('');
+  requestDelete(employee:Employee){if(this.deletingBusy())return;this.success.set('');this.deleteError.set('');this.deleting.set(employee);}
+  confirmDelete(){
+    const employee=this.deleting();if(!employee||this.deletingBusy())return;
+    this.deletingBusy.set(true);this.deleteError.set('');
+    this.service.remove(employee._id).subscribe({next:()=>{this.deletingBusy.set(false);this.deleting.set(null);this.success.set('Employee deleted successfully.');this.load();},error:error=>{this.deletingBusy.set(false);this.deleteError.set(apiError(error));}});
+  }
   readonly editing = signal<Employee | null>(null);
   edit(employee: Employee) {
     this.editing.set(employee);
@@ -51,8 +66,8 @@ export class EmployeeList implements OnInit {
     this.error.set('');
     this.service.getAll().subscribe({
       next: (employees) => {
-        this.employees.set(employees);
-        const availableIds = new Set(employees.map((employee) => employee._id));
+        this.allEmployees.set(employees);
+        const availableIds = new Set(this.employees().map((employee) => employee._id));
         this.selectedIds.update(
           (current) => new Set([...current].filter((id) => availableIds.has(id))),
         );

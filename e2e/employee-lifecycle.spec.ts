@@ -1,0 +1,80 @@
+import { test, expect } from '@playwright/test';
+
+test('employee lifecycle menus, cancellation, dates, history, filters, refresh and existing actions', async ({page}) => {
+  const id='507f1f77bcf86cd799439011';
+  let employee:any={_id:id,employeeId:'EMP001',firstName:'Ada',lastName:'Example',email:'ada@example.com',dateOfBirth:'1990-01-01',hireDate:'2020-01-01',annualCtc:120000,payFrequency:'Monthly'};
+  let writes=0;
+  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
+  await page.route('**/employees**',async route=>{
+    const request=route.request();
+    if(request.method()==='GET')return route.fulfill({json:[employee]});
+    writes++;
+    if(request.url().endsWith('/terminate')) {
+      const body=request.postDataJSON();expect(body).toMatchObject({terminationDate:'2020-03-01',reason:'Retirement'});
+      employee={...employee,status:'Terminated',employmentHistory:[{startDate:employee.hireDate,endDate:body.terminationDate,terminationReason:body.reason}]};
+    } else if(request.url().endsWith('/rehire')) {
+      const body=request.postDataJSON();expect(body.rehireDate).toBe('2020-04-01');
+      employee={...employee,status:'Active',rehireDate:body.rehireDate,employmentHistory:[...employee.employmentHistory,{startDate:body.rehireDate}]};
+    } else throw Error('Unexpected write');
+    return route.fulfill({json:employee});
+  });
+  await page.goto('/');
+  await expect(page.getByLabel('Employee Status',{exact:true})).toHaveValue('Active');
+  const actions=page.getByRole('button',{name:'Actions for Ada Example'});
+  await actions.click();
+  await expect(page.getByRole('menuitem',{name:'Terminate',exact:true})).toBeVisible();
+  await expect(page.getByRole('menuitem',{name:'Rehire',exact:true})).toHaveCount(0);
+  await page.getByRole('heading',{name:'Employees',exact:true}).click();
+  await expect(page.getByRole('menu')).toHaveCount(0);
+  await actions.focus();await page.keyboard.press('Enter');await page.keyboard.press('ArrowDown');await page.keyboard.press('Escape');
+  await expect(page.getByRole('menu')).toHaveCount(0);
+  await actions.click();await page.getByRole('menuitem',{name:'Edit employee Ada Example'}).click();
+  await expect(page.getByRole('dialog')).toContainText('Edit employee');
+  await page.getByRole('button',{name:'Cancel',exact:true}).click();
+  await actions.click();await page.getByRole('menuitem',{name:'Terminate',exact:true}).click();
+  await expect(page.getByLabel('Termination Date',{exact:true})).not.toHaveValue('');
+  await expect(page.getByRole('button',{name:'Confirm Terminate'})).toBeDisabled();
+  await page.getByRole('button',{name:'Cancel',exact:true}).click();expect(writes).toBe(0);
+  await actions.click();await page.getByRole('menuitem',{name:'Terminate',exact:true}).click();
+  await page.getByLabel('Termination Date',{exact:true}).fill('2020-03-01');
+  await page.getByLabel('Termination Reason',{exact:true}).selectOption('Other');
+  await expect(page.getByLabel('Explanation (optional, up to 250 characters)')).toBeVisible();
+  await page.getByLabel('Termination Reason',{exact:true}).selectOption('Retirement');
+  await page.getByRole('button',{name:'Confirm Terminate'}).click();
+  await expect(page.getByText('Employee terminated successfully.',{exact:true})).toBeVisible();
+  await expect(page.getByText('No employees found.',{exact:true})).toBeVisible();expect(writes).toBe(1);
+  await page.getByLabel('Employee Status',{exact:true}).selectOption('Terminated');
+  await expect(page.locator('.table-footer')).toContainText('1 employee');
+  await page.getByRole('button',{name:'Refresh list'}).click();await expect(actions).toBeVisible();
+  await actions.click();await expect(page.getByRole('menuitem',{name:'Terminate',exact:true})).toHaveCount(0);
+  await page.getByRole('menuitem',{name:'Employment history',exact:true}).click();
+  await expect(page.getByRole('dialog')).toContainText('Retirement');await expect(page.getByRole('dialog')).toContainText('01 Mar 2020');
+  await page.getByRole('button',{name:'Close',exact:true}).click();
+  await actions.click();await page.getByRole('menuitem',{name:'Rehire',exact:true}).click();
+  await expect(page.getByRole('dialog')).toContainText('Previous termination: 01 Mar 2020');
+  await page.getByLabel('Rehire Date',{exact:true}).fill('2020-03-01');await expect(page.getByRole('button',{name:'Confirm Rehire'})).toBeDisabled();
+  await page.getByLabel('Rehire Date',{exact:true}).fill('2020-04-01');await page.getByRole('button',{name:'Confirm Rehire'}).click();
+  await expect(page.getByText('Employee rehired successfully.',{exact:true})).toBeVisible();
+  await page.getByLabel('Employee Status',{exact:true}).selectOption('All');await expect(page.getByRole('cell',{name:'EMP001',exact:true})).toBeVisible();
+  expect(writes).toBe(2);expect(employee.hireDate).toBe('2020-01-01');expect(employee.employmentHistory).toHaveLength(2);
+  await page.setViewportSize({width:390,height:844});await actions.scrollIntoViewIfNeeded();await actions.click();
+  const menu=page.getByRole('menu');await expect(menu).toBeVisible();
+  const box=await menu.boundingBox();expect(box!.x).toBeGreaterThanOrEqual(0);expect(box!.x+box!.width).toBeLessThanOrEqual(390);
+  await page.getByRole('menuitem',{name:'Delete employee Ada Example'}).click();await expect(page.getByRole('dialog')).toContainText('Permanently delete');
+  await page.getByRole('button',{name:'Cancel',exact:true}).click();expect(writes).toBe(2);expect(errors).toEqual([]);
+});
+
+test('payroll defaults to excluding terminated employees and offers explicit historical inclusion', async ({page}) => {
+  await page.route('**/employees',r=>r.fulfill({json:[]}));
+  await page.route('**/salary-components',r=>r.fulfill({json:[{_id:'basic',code:'BASIC',name:'Basic',category:'earning',status:'active'}]}));
+  let included=false;
+  await page.route('**/payroll/annual',r=>{included=r.request().postDataJSON().includeTerminated===true;return r.fulfill({status:400,json:{message:'Historical projection request received.'}});});
+  await page.goto('/');await page.getByRole('button',{name:'Generate Payroll',exact:true}).click();
+  const include=page.getByRole('checkbox',{name:'Include terminated employees for historical projections'});
+  await expect(include).not.toBeChecked();await include.check();await expect(include).toBeChecked();
+  await expect(page.getByRole('dialog')).toContainText('without employment-date proration');
+  await page.getByLabel('Payroll Month',{exact:true}).selectOption({index:1});
+  await page.getByRole('button',{name:'Generate PDF',exact:true}).click();
+  await expect(page.getByRole('alert')).toContainText('Historical projection request received.');expect(included).toBe(true);
+  await page.getByRole('button',{name:'Cancel',exact:true}).click();
+});

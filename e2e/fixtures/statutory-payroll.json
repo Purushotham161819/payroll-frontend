@@ -1,0 +1,376 @@
+[
+  {
+    "eligible": true,
+    "components": [
+      {
+        "_id": "000000000000000000000001",
+        "code": "BASIC",
+        "name": "Basic Salary",
+        "category": "earning",
+        "status": "active",
+        "isSystemDefined": true,
+        "calculationBaseType": "annual_ctc",
+        "calculationType": "percentage",
+        "calculationValue": 40,
+        "showInPayslip": true
+      },
+      {
+        "_id": "000000000000000000000002",
+        "code": "DA",
+        "name": "Dearness Allowance",
+        "category": "earning",
+        "status": "active",
+        "isSystemDefined": true,
+        "calculationBaseType": "annual_ctc",
+        "calculationType": "percentage",
+        "calculationValue": 10,
+        "showInPayslip": true
+      },
+      {
+        "_id": "000000000000000000000003",
+        "code": "RA",
+        "name": "Retaining Allowance",
+        "category": "earning",
+        "status": "active",
+        "isSystemDefined": true,
+        "calculationBaseType": "annual_ctc",
+        "calculationType": "percentage",
+        "calculationValue": 15,
+        "showInPayslip": true
+      }
+    ],
+    "settings": {
+      "wageCap": 25000,
+      "isEpfCeilingApplicable": true,
+      "annualEsiCeilingLimit": 60000,
+      "epsEmployerContributionPercentage": 8,
+      "epfEmployerContributionPercentage": 4,
+      "esiEmployerContributionPercentage": 3
+    },
+    "employees": [
+      {
+        "employee": {
+          "firstName": "Statutory",
+          "lastName": "Employee"
+        },
+        "calculation": {
+          "annual": {
+            "annualCtc": 107500,
+            "employerEpsContribution": 2000,
+            "employerEpfContribution": 1000,
+            "employerEsiContribution": 1544.33,
+            "annualGrossWages": 102955.67,
+            "annualBasicSalary": 41182.27,
+            "annualDearnessAllowance": 4118.23,
+            "annualRetainingAllowance": 6177.34,
+            "annualCoreWages": 51477.83,
+            "annualTotalAllowances": 0,
+            "annualExcessAllowance": 0,
+            "annualComplianceWageBase": 51477.83,
+            "annualTotalDeductions": 0,
+            "annualNetPay": 102955.67
+          },
+          "components": [
+            {
+              "componentId": "000000000000000000000001",
+              "code": "BASIC",
+              "category": "earning",
+              "annual": 41182.27,
+              "monthly": 3431.86,
+              "showInPayslip": true
+            },
+            {
+              "componentId": "000000000000000000000002",
+              "code": "DA",
+              "category": "earning",
+              "annual": 4118.23,
+              "monthly": 343.19,
+              "showInPayslip": true
+            },
+            {
+              "componentId": "000000000000000000000003",
+              "code": "RA",
+              "category": "earning",
+              "annual": 6177.34,
+              "monthly": 514.78,
+              "showInPayslip": true
+            }
+          ],
+          "diagnostics": {
+            "employerEsiEligible": true,
+            "epfCeilingApplied": true,
+            "branch": "zero",
+            "dependencyGraph": {
+              "000000000000000000000001": [
+                "gross_wages"
+              ],
+              "000000000000000000000002": [
+                "BASIC"
+              ],
+              "000000000000000000000003": [
+                "BASIC"
+              ]
+            },
+            "equationResidual": 0,
+            "rounding": "Half up to paise at reporting only; equations verified exactly before rounding."
+          }
+        }
+      },
+      {
+        "employee": {
+          "firstName": "Statutory",
+          "lastName": "Employee"
+        },
+        "calculation": {
+          "annual": {
+            "annualCtc": 107500,
+            "employerEpsContribution": 2000,
+            "employerEpfContribution": 1000,
+            "employerEsiContribution": 1544.33,
+            "annualGrossWages": 102955.67,
+            "annualBasicSalary": 41182.27,
+            "annualDearnessAllowance": 4118.23,
+            "annualRetainingAllowance": 6177.34,
+            "annualCoreWages": 51477.83,
+            "annualTotalAllowances": 0,
+            "annualExcessAllowance": 0,
+            "annualComplianceWageBase": 51477.83,
+            "annualTotalDeductions": 0,
+            "annualNetPay": 102955.67
+          },
+          "components": [
+            {
+              "componentId": "000000000000000000000001",
+              "code": "BASIC",
+              "category": "earning",
+              "annual": 41182.27,
+              "monthly": 3431.86,
+              "showInPayslip": true
+            },
+            {
+              "componentId": "000000000000000000000002",
+              "code": "DA",
+              "category": "earning",
+              "annual": 4118.23,
+              "monthly": 343.19,
+              "showInPayslip": true
+            },
+            {
+              "componentId": "000000000000000000000003",
+              "code": "RA",
+              "category": "earning",
+              "annual": 6177.34,
+              "monthly": 514.78,
+              "showInPayslip": true
+            }
+          ],
+          "diagnostics": {
+            "employerEsiEligible": true,
+            "epfCeilingApplied": true,
+            "branch": "zero",
+            "dependencyGraph": {
+              "000000000000000000000001": [
+                "gross_wages"
+              ],
+              "000000000000000000000002": [
+                "BASIC"
+              ],
+              "000000000000000000000003": [
+                "BASIC"
+              ]
+            },
+            "equationResidual": 0,
+            "rounding": "Half up to paise at reporting only; equations verified exactly before rounding."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "eligible": false,
+    "components": [
+      {
+        "_id": "000000000000000000000001",
+        "code": "BASIC",
+        "name": "Basic Salary",
+        "category": "earning",
+        "status": "active",
+        "isSystemDefined": true,
+        "calculationBaseType": "annual_ctc",
+        "calculationType": "percentage",
+        "calculationValue": 40,
+        "showInPayslip": true
+      },
+      {
+        "_id": "000000000000000000000002",
+        "code": "DA",
+        "name": "Dearness Allowance",
+        "category": "earning",
+        "status": "active",
+        "isSystemDefined": true,
+        "calculationBaseType": "annual_ctc",
+        "calculationType": "percentage",
+        "calculationValue": 10,
+        "showInPayslip": true
+      },
+      {
+        "_id": "000000000000000000000003",
+        "code": "RA",
+        "name": "Retaining Allowance",
+        "category": "earning",
+        "status": "active",
+        "isSystemDefined": true,
+        "calculationBaseType": "annual_ctc",
+        "calculationType": "percentage",
+        "calculationValue": 15,
+        "showInPayslip": true
+      }
+    ],
+    "settings": {
+      "wageCap": 25000,
+      "isEpfCeilingApplicable": true,
+      "annualEsiCeilingLimit": 40000,
+      "epsEmployerContributionPercentage": 8,
+      "epfEmployerContributionPercentage": 4,
+      "esiEmployerContributionPercentage": 3
+    },
+    "employees": [
+      {
+        "employee": {
+          "firstName": "Statutory",
+          "lastName": "Employee"
+        },
+        "calculation": {
+          "annual": {
+            "annualCtc": 107500,
+            "employerEpsContribution": 2000,
+            "employerEpfContribution": 1000,
+            "employerEsiContribution": 0,
+            "annualGrossWages": 104500,
+            "annualBasicSalary": 41800,
+            "annualDearnessAllowance": 4180,
+            "annualRetainingAllowance": 6270,
+            "annualCoreWages": 52250,
+            "annualTotalAllowances": 0,
+            "annualExcessAllowance": 0,
+            "annualComplianceWageBase": 52250,
+            "annualTotalDeductions": 0,
+            "annualNetPay": 104500
+          },
+          "components": [
+            {
+              "componentId": "000000000000000000000001",
+              "code": "BASIC",
+              "category": "earning",
+              "annual": 41800,
+              "monthly": 3483.33,
+              "showInPayslip": true
+            },
+            {
+              "componentId": "000000000000000000000002",
+              "code": "DA",
+              "category": "earning",
+              "annual": 4180,
+              "monthly": 348.33,
+              "showInPayslip": true
+            },
+            {
+              "componentId": "000000000000000000000003",
+              "code": "RA",
+              "category": "earning",
+              "annual": 6270,
+              "monthly": 522.5,
+              "showInPayslip": true
+            }
+          ],
+          "diagnostics": {
+            "employerEsiEligible": false,
+            "epfCeilingApplied": true,
+            "branch": "zero",
+            "dependencyGraph": {
+              "000000000000000000000001": [
+                "gross_wages"
+              ],
+              "000000000000000000000002": [
+                "BASIC"
+              ],
+              "000000000000000000000003": [
+                "BASIC"
+              ]
+            },
+            "equationResidual": 0,
+            "rounding": "Half up to paise at reporting only; equations verified exactly before rounding."
+          }
+        }
+      },
+      {
+        "employee": {
+          "firstName": "Statutory",
+          "lastName": "Employee"
+        },
+        "calculation": {
+          "annual": {
+            "annualCtc": 107500,
+            "employerEpsContribution": 2000,
+            "employerEpfContribution": 1000,
+            "employerEsiContribution": 0,
+            "annualGrossWages": 104500,
+            "annualBasicSalary": 41800,
+            "annualDearnessAllowance": 4180,
+            "annualRetainingAllowance": 6270,
+            "annualCoreWages": 52250,
+            "annualTotalAllowances": 0,
+            "annualExcessAllowance": 0,
+            "annualComplianceWageBase": 52250,
+            "annualTotalDeductions": 0,
+            "annualNetPay": 104500
+          },
+          "components": [
+            {
+              "componentId": "000000000000000000000001",
+              "code": "BASIC",
+              "category": "earning",
+              "annual": 41800,
+              "monthly": 3483.33,
+              "showInPayslip": true
+            },
+            {
+              "componentId": "000000000000000000000002",
+              "code": "DA",
+              "category": "earning",
+              "annual": 4180,
+              "monthly": 348.33,
+              "showInPayslip": true
+            },
+            {
+              "componentId": "000000000000000000000003",
+              "code": "RA",
+              "category": "earning",
+              "annual": 6270,
+              "monthly": 522.5,
+              "showInPayslip": true
+            }
+          ],
+          "diagnostics": {
+            "employerEsiEligible": false,
+            "epfCeilingApplied": true,
+            "branch": "zero",
+            "dependencyGraph": {
+              "000000000000000000000001": [
+                "gross_wages"
+              ],
+              "000000000000000000000002": [
+                "BASIC"
+              ],
+              "000000000000000000000003": [
+                "BASIC"
+              ]
+            },
+            "equationResidual": 0,
+            "rounding": "Half up to paise at reporting only; equations verified exactly before rounding."
+          }
+        }
+      }
+    ]
+  }
+]

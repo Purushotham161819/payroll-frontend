@@ -27,7 +27,7 @@ test('employee add and edit use Monthly and persist through the employee API', a
     await route.fulfill({ json: employee });
   });
   await page.goto('/');
-  await page.getByRole('button', { name: 'Edit employee Existing Employee', exact: true }).click();
+  await page.getByRole('button',{name:'Actions for Existing Employee',exact:true}).click();await page.getByRole('menuitem',{name:'Edit employee Existing Employee',exact:true}).click();
   await expect(page.getByRole('heading', { name: 'Edit employee', exact: true })).toBeVisible();
   await expect(page.getByLabel('First Name', { exact: true })).toHaveValue('Existing');
   await expect(page.getByLabel('Date of Birth', { exact: true })).toHaveValue('1990-01-01');

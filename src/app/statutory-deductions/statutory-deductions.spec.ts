@@ -17,9 +17,11 @@ describe('Statutory deduction settings form', () => {
   }
   it('starts with five blank inputs and rejects missing, negative and excessive values', async () => {
     const {fixture,http} = await setup(null);
-    const inputs = Array.from(fixture.nativeElement.querySelectorAll('input')) as HTMLInputElement[];
+    const inputs = Array.from(fixture.nativeElement.querySelectorAll('input[type=number]')) as HTMLInputElement[];
+    expect(fixture.nativeElement.querySelector('input[type=checkbox]').checked).toBe(false);
     expect(fixture.nativeElement.textContent).not.toContain('EPF Employee Contribution');
     expect(fixture.nativeElement.textContent).not.toContain('ESI Employee Contribution');
+    for(const name of ['EPF','EPS','ESI'])expect(fixture.nativeElement.textContent).toContain(name+' Employer Contribution Rate (%)');
     expect(inputs.length).toBe(5); expect(inputs.every(i => i.value === '')).toBe(true);
     const form = fixture.nativeElement.querySelector('form');
     form.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true})); fixture.detectChanges();
@@ -39,8 +41,16 @@ describe('Statutory deduction settings form', () => {
     esi.value='300000.75'; esi.dispatchEvent(new Event('input')); await fixture.whenStable();
     fixture.nativeElement.querySelector('form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));
     const save = http.expectOne(url);
-    expect(save.request.body).toEqual({...visibleValues, annualEsiCeilingLimit:300000.75});
+    expect(save.request.body).toEqual({...visibleValues,isEpfCeilingApplicable:false, annualEsiCeilingLimit:300000.75});
     save.flush({...values, annualEsiCeilingLimit:300000.75}); fixture.detectChanges(); http.verify();
+  });
+  it('loads, saves and resets the ceiling applicability checkbox independently of numeric fields',async()=>{
+    const {fixture,http}=await setup({...values,isEpfCeilingApplicable:true});
+    const checkbox:HTMLInputElement=fixture.nativeElement.querySelector('input[type=checkbox]');
+    expect(checkbox.checked).toBe(true);checkbox.click();await fixture.whenStable();
+    fixture.nativeElement.querySelector('form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));
+    const save=http.expectOne(url);expect(save.request.body.isEpfCeilingApplicable).toBe(false);save.flush({...values,isEpfCeilingApplicable:false});fixture.detectChanges();
+    checkbox.click();await fixture.whenStable();fixture.nativeElement.querySelector('button[type=button]').click();fixture.detectChanges();await fixture.whenStable();expect(checkbox.checked).toBe(false);http.verify();
   });
   it('loads metadata-bearing records, sends only configuration fields, preserves failed edits and resets', async () => {
     const {fixture,http} = await setup({...values,_id:'current',createdAt:'2026-10-27',updatedAt:'2026-10-27',__v:0});
@@ -49,7 +59,7 @@ describe('Statutory deduction settings form', () => {
     expect(fixture.componentInstance.draft).not.toHaveProperty('esiEmployeeContributionPercentage');
     expect(cap.value).toBe('15000'); cap.value='16000'; cap.dispatchEvent(new Event('input')); await fixture.whenStable();
     fixture.nativeElement.querySelector('form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true})); fixture.detectChanges();
-    const save = http.expectOne(url); expect(save.request.method).toBe('PUT'); expect(save.request.body).toEqual({...visibleValues,wageCap:16000});
+    const save = http.expectOne(url); expect(save.request.method).toBe('PUT'); expect(save.request.body).toEqual({...visibleValues,isEpfCeilingApplicable:false,wageCap:16000});
     expect(fixture.nativeElement.querySelector('button[type=submit]').disabled).toBe(true);
     save.flush({message:'Save unavailable'},{status:503,statusText:'Unavailable'}); fixture.detectChanges();
     expect(cap.value).toBe('16000'); expect(fixture.nativeElement.textContent).toContain('Save unavailable');

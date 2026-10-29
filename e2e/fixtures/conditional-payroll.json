@@ -1,0 +1,454 @@
+[
+  {
+    "components": [
+      {
+        "_id": "000000000000000000000001",
+        "code": "BASIC",
+        "name": "Basic Salary",
+        "category": "earning",
+        "status": "active",
+        "isSystemDefined": true,
+        "calculationBaseType": "annual_ctc",
+        "calculationType": "percentage",
+        "calculationValue": 40,
+        "showInPayslip": true
+      },
+      {
+        "_id": "000000000000000000000002",
+        "code": "DA",
+        "name": "Dearness Allowance",
+        "category": "earning",
+        "status": "active",
+        "isSystemDefined": true,
+        "calculationBaseType": "annual_ctc",
+        "calculationType": "percentage",
+        "calculationValue": 10,
+        "showInPayslip": true
+      },
+      {
+        "_id": "000000000000000000000003",
+        "code": "RA",
+        "name": "Retaining Allowance",
+        "category": "earning",
+        "status": "active",
+        "isSystemDefined": true,
+        "calculationBaseType": "annual_ctc",
+        "calculationType": "percentage",
+        "calculationValue": 15,
+        "showInPayslip": true
+      },
+      {
+        "_id": "000000000000000000000004",
+        "code": "CUSTOM_DEDUCTION",
+        "name": "Formula Deduction",
+        "category": "deduction",
+        "status": "active",
+        "isSystemDefined": false,
+        "calculationBaseType": "annual_ctc",
+        "calculationType": "formula",
+        "formula": "IF(Compliance Wage Base <= Annual ESI Wage Ceiling Limit, Compliance Wage Base * ESI Employee Contribution Rate, 0)",
+        "calculationValue": null,
+        "showInPayslip": true
+      }
+    ],
+    "settings": {
+      "wageCap": 180000,
+      "annualEsiCeilingLimit": 60000,
+      "epsEmployerContributionPercentage": 8,
+      "epfEmployerContributionPercentage": 4,
+      "esiEmployerContributionPercentage": 3,
+      "esiEmployeeContributionPercentage": 0.75,
+      "epfEmployeeContributionPercentage": 12
+    },
+    "employees": [
+      {
+        "employee": {
+          "firstName": "Conditional",
+          "lastName": "Employee"
+        },
+        "calculation": {
+          "annual": {
+            "annualCtc": 107500,
+            "employerEpsContribution": 4000,
+            "employerEpfContribution": 2000,
+            "employerEsiContribution": 1500,
+            "annualGrossWages": 100000,
+            "annualBasicSalary": 40000,
+            "annualDearnessAllowance": 4000,
+            "annualRetainingAllowance": 6000,
+            "annualCoreWages": 50000,
+            "annualTotalAllowances": 0,
+            "annualExcessAllowance": 0,
+            "annualComplianceWageBase": 50000,
+            "annualTotalDeductions": 375,
+            "annualNetPay": 99625
+          },
+          "components": [
+            {
+              "componentId": "000000000000000000000001",
+              "code": "BASIC",
+              "category": "earning",
+              "annual": 40000,
+              "monthly": 3333.33,
+              "showInPayslip": true
+            },
+            {
+              "componentId": "000000000000000000000002",
+              "code": "DA",
+              "category": "earning",
+              "annual": 4000,
+              "monthly": 333.33,
+              "showInPayslip": true
+            },
+            {
+              "componentId": "000000000000000000000003",
+              "code": "RA",
+              "category": "earning",
+              "annual": 6000,
+              "monthly": 500,
+              "showInPayslip": true
+            },
+            {
+              "componentId": "000000000000000000000004",
+              "code": "CUSTOM_DEDUCTION",
+              "category": "deduction",
+              "annual": 375,
+              "monthly": 31.25,
+              "showInPayslip": true
+            }
+          ],
+          "diagnostics": {
+            "employerEsiEligible": true,
+            "epfCeilingApplied": false,
+            "branch": "zero",
+            "dependencyGraph": {
+              "000000000000000000000001": [
+                "gross_wages"
+              ],
+              "000000000000000000000002": [
+                "BASIC"
+              ],
+              "000000000000000000000003": [
+                "BASIC"
+              ],
+              "000000000000000000000004": [
+                "annualComplianceWageBase",
+                "annualEsiCeilingLimit",
+                "esiEmployeeContributionRate"
+              ]
+            },
+            "equationResidual": 0,
+            "rounding": "Half up to paise at reporting only; equations verified exactly before rounding."
+          }
+        }
+      },
+      {
+        "employee": {
+          "firstName": "Conditional",
+          "lastName": "Employee"
+        },
+        "calculation": {
+          "annual": {
+            "annualCtc": 107500,
+            "employerEpsContribution": 4000,
+            "employerEpfContribution": 2000,
+            "employerEsiContribution": 1500,
+            "annualGrossWages": 100000,
+            "annualBasicSalary": 40000,
+            "annualDearnessAllowance": 4000,
+            "annualRetainingAllowance": 6000,
+            "annualCoreWages": 50000,
+            "annualTotalAllowances": 0,
+            "annualExcessAllowance": 0,
+            "annualComplianceWageBase": 50000,
+            "annualTotalDeductions": 375,
+            "annualNetPay": 99625
+          },
+          "components": [
+            {
+              "componentId": "000000000000000000000001",
+              "code": "BASIC",
+              "category": "earning",
+              "annual": 40000,
+              "monthly": 3333.33,
+              "showInPayslip": true
+            },
+            {
+              "componentId": "000000000000000000000002",
+              "code": "DA",
+              "category": "earning",
+              "annual": 4000,
+              "monthly": 333.33,
+              "showInPayslip": true
+            },
+            {
+              "componentId": "000000000000000000000003",
+              "code": "RA",
+              "category": "earning",
+              "annual": 6000,
+              "monthly": 500,
+              "showInPayslip": true
+            },
+            {
+              "componentId": "000000000000000000000004",
+              "code": "CUSTOM_DEDUCTION",
+              "category": "deduction",
+              "annual": 375,
+              "monthly": 31.25,
+              "showInPayslip": true
+            }
+          ],
+          "diagnostics": {
+            "employerEsiEligible": true,
+            "epfCeilingApplied": false,
+            "branch": "zero",
+            "dependencyGraph": {
+              "000000000000000000000001": [
+                "gross_wages"
+              ],
+              "000000000000000000000002": [
+                "BASIC"
+              ],
+              "000000000000000000000003": [
+                "BASIC"
+              ],
+              "000000000000000000000004": [
+                "annualComplianceWageBase",
+                "annualEsiCeilingLimit",
+                "esiEmployeeContributionRate"
+              ]
+            },
+            "equationResidual": 0,
+            "rounding": "Half up to paise at reporting only; equations verified exactly before rounding."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "components": [
+      {
+        "_id": "000000000000000000000001",
+        "code": "BASIC",
+        "name": "Basic Salary",
+        "category": "earning",
+        "status": "active",
+        "isSystemDefined": true,
+        "calculationBaseType": "annual_ctc",
+        "calculationType": "percentage",
+        "calculationValue": 40,
+        "showInPayslip": true
+      },
+      {
+        "_id": "000000000000000000000002",
+        "code": "DA",
+        "name": "Dearness Allowance",
+        "category": "earning",
+        "status": "active",
+        "isSystemDefined": true,
+        "calculationBaseType": "annual_ctc",
+        "calculationType": "percentage",
+        "calculationValue": 10,
+        "showInPayslip": true
+      },
+      {
+        "_id": "000000000000000000000003",
+        "code": "RA",
+        "name": "Retaining Allowance",
+        "category": "earning",
+        "status": "active",
+        "isSystemDefined": true,
+        "calculationBaseType": "annual_ctc",
+        "calculationType": "percentage",
+        "calculationValue": 15,
+        "showInPayslip": true
+      },
+      {
+        "_id": "000000000000000000000004",
+        "code": "CUSTOM_DEDUCTION",
+        "name": "Formula Deduction",
+        "category": "deduction",
+        "status": "active",
+        "isSystemDefined": false,
+        "calculationBaseType": "annual_ctc",
+        "calculationType": "formula",
+        "formula": "IF(Compliance Wage Base <= Annual ESI Wage Ceiling Limit, Compliance Wage Base * ESI Employee Contribution Rate, 0)",
+        "calculationValue": null,
+        "showInPayslip": true
+      }
+    ],
+    "settings": {
+      "wageCap": 180000,
+      "annualEsiCeilingLimit": 60000,
+      "epsEmployerContributionPercentage": 8,
+      "epfEmployerContributionPercentage": 4,
+      "esiEmployerContributionPercentage": 3,
+      "esiEmployeeContributionPercentage": 0.75,
+      "epfEmployeeContributionPercentage": 12
+    },
+    "employees": [
+      {
+        "employee": {
+          "firstName": "Conditional",
+          "lastName": "Employee"
+        },
+        "calculation": {
+          "annual": {
+            "annualCtc": 215000,
+            "employerEpsContribution": 8113.21,
+            "employerEpfContribution": 4056.6,
+            "employerEsiContribution": 0,
+            "annualGrossWages": 202830.19,
+            "annualBasicSalary": 81132.08,
+            "annualDearnessAllowance": 8113.21,
+            "annualRetainingAllowance": 12169.81,
+            "annualCoreWages": 101415.09,
+            "annualTotalAllowances": 0,
+            "annualExcessAllowance": 0,
+            "annualComplianceWageBase": 101415.09,
+            "annualTotalDeductions": 0,
+            "annualNetPay": 202830.19
+          },
+          "components": [
+            {
+              "componentId": "000000000000000000000001",
+              "code": "BASIC",
+              "category": "earning",
+              "annual": 81132.08,
+              "monthly": 6761.01,
+              "showInPayslip": true
+            },
+            {
+              "componentId": "000000000000000000000002",
+              "code": "DA",
+              "category": "earning",
+              "annual": 8113.21,
+              "monthly": 676.1,
+              "showInPayslip": true
+            },
+            {
+              "componentId": "000000000000000000000003",
+              "code": "RA",
+              "category": "earning",
+              "annual": 12169.81,
+              "monthly": 1014.15,
+              "showInPayslip": true
+            },
+            {
+              "componentId": "000000000000000000000004",
+              "code": "CUSTOM_DEDUCTION",
+              "category": "deduction",
+              "annual": 0,
+              "monthly": 0,
+              "showInPayslip": true
+            }
+          ],
+          "diagnostics": {
+            "employerEsiEligible": false,
+            "epfCeilingApplied": false,
+            "branch": "zero",
+            "dependencyGraph": {
+              "000000000000000000000001": [
+                "gross_wages"
+              ],
+              "000000000000000000000002": [
+                "BASIC"
+              ],
+              "000000000000000000000003": [
+                "BASIC"
+              ],
+              "000000000000000000000004": [
+                "annualComplianceWageBase",
+                "annualEsiCeilingLimit",
+                "esiEmployeeContributionRate"
+              ]
+            },
+            "equationResidual": 0,
+            "rounding": "Half up to paise at reporting only; equations verified exactly before rounding."
+          }
+        }
+      },
+      {
+        "employee": {
+          "firstName": "Conditional",
+          "lastName": "Employee"
+        },
+        "calculation": {
+          "annual": {
+            "annualCtc": 215000,
+            "employerEpsContribution": 8113.21,
+            "employerEpfContribution": 4056.6,
+            "employerEsiContribution": 0,
+            "annualGrossWages": 202830.19,
+            "annualBasicSalary": 81132.08,
+            "annualDearnessAllowance": 8113.21,
+            "annualRetainingAllowance": 12169.81,
+            "annualCoreWages": 101415.09,
+            "annualTotalAllowances": 0,
+            "annualExcessAllowance": 0,
+            "annualComplianceWageBase": 101415.09,
+            "annualTotalDeductions": 0,
+            "annualNetPay": 202830.19
+          },
+          "components": [
+            {
+              "componentId": "000000000000000000000001",
+              "code": "BASIC",
+              "category": "earning",
+              "annual": 81132.08,
+              "monthly": 6761.01,
+              "showInPayslip": true
+            },
+            {
+              "componentId": "000000000000000000000002",
+              "code": "DA",
+              "category": "earning",
+              "annual": 8113.21,
+              "monthly": 676.1,
+              "showInPayslip": true
+            },
+            {
+              "componentId": "000000000000000000000003",
+              "code": "RA",
+              "category": "earning",
+              "annual": 12169.81,
+              "monthly": 1014.15,
+              "showInPayslip": true
+            },
+            {
+              "componentId": "000000000000000000000004",
+              "code": "CUSTOM_DEDUCTION",
+              "category": "deduction",
+              "annual": 0,
+              "monthly": 0,
+              "showInPayslip": true
+            }
+          ],
+          "diagnostics": {
+            "employerEsiEligible": false,
+            "epfCeilingApplied": false,
+            "branch": "zero",
+            "dependencyGraph": {
+              "000000000000000000000001": [
+                "gross_wages"
+              ],
+              "000000000000000000000002": [
+                "BASIC"
+              ],
+              "000000000000000000000003": [
+                "BASIC"
+              ],
+              "000000000000000000000004": [
+                "annualComplianceWageBase",
+                "annualEsiCeilingLimit",
+                "esiEmployeeContributionRate"
+              ]
+            },
+            "equationResidual": 0,
+            "rounding": "Half up to paise at reporting only; equations verified exactly before rounding."
+          }
+        }
+      }
+    ]
+  }
+]

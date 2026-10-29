@@ -7,7 +7,7 @@ test('real employee reads, validation, duplicate handling, responsive layout, an
   page.on('pageerror', error => browserErrors.push(error.message));
   await page.goto('/');
   await expect(page.getByRole('heading', {name: 'Employees', exact: true})).toBeVisible();
-  if (employees.length) await expect(page.getByRole('cell', {name: employees[0]._id, exact: true})).toBeVisible();
+  if (employees.length) await expect(page.getByRole('cell', {name: employees[0].employeeId, exact: true})).toBeVisible();
   else await expect(page.getByText('No employees found.')).toBeVisible();
   await page.getByRole('button', {name: 'Add Employee', exact: true}).first().click();
   await page.getByRole('button', {name: 'Save employee', exact: true}).click();
