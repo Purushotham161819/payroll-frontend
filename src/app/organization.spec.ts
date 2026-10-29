@@ -35,3 +35,11 @@ describe('Organization identity and product branding',()=>{
   expect(fixture.nativeElement.querySelector('.brand').getAttribute('aria-label')).toBe(PRODUCT_BRAND+' home');
  });
 });
+
+it('keeps platform navigation and header labels separate from the previous customer',()=>{
+ TestBed.configureTestingModule({providers:[provideHttpClient(),provideHttpClientTesting(),provideRouter([]),{provide:Auth,useValue:{user:signal({id:'s',role:'super_admin'}),logout:vi.fn()}}]});
+ const http=TestBed.inject(HttpTestingController);TestBed.inject(Organization).displayName.set('Previous customer');
+ const fixture=TestBed.createComponent(WorkspaceLayout);fixture.detectChanges();
+ const header=fixture.nativeElement.querySelector('.organization-name');expect(header.textContent).toBe(PRODUCT_BRAND);expect(header.title).toBe(PRODUCT_BRAND);
+ expect(fixture.nativeElement.querySelector('a[href="/super-admin"]')).toBeTruthy();expect(fixture.nativeElement.querySelector('a[href="/settings"]')).toBeNull();http.verify();
+});

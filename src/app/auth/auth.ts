@@ -8,13 +8,13 @@ import { environment } from '../../environments/environment';
 export class Auth {
   private http = inject(HttpClient);
   private router = inject(Router);
-  readonly user = signal<{ id: string; email: string; role?: 'admin' | 'user' } | null>(null);
+  readonly user = signal<{ id: string; email: string; role?: 'admin' | 'user' | 'super_admin'; mustChangePassword?: boolean; organizationId?: string } | null>(null);
   async check() {
-    try { this.user.set(await firstValueFrom(this.http.get<{ id: string; email: string; role?: 'admin' | 'user' }>(`${environment.apiUrl}/auth/me`))); return true; }
+    try { this.user.set(await firstValueFrom(this.http.get<{ id: string; email: string; role?: 'admin' | 'user' | 'super_admin'; mustChangePassword?: boolean; organizationId?: string }>(`${environment.apiUrl}/auth/me`))); return true; }
     catch { this.user.set(null); return false; }
   }
   async login(email: string, password: string) {
-    this.user.set(await firstValueFrom(this.http.post<{ id: string; email: string; role?: 'admin' | 'user' }>(`${environment.apiUrl}/auth/login`, { email, password })));
+    this.user.set(await firstValueFrom(this.http.post<{ id: string; email: string; role?: 'admin' | 'user' | 'super_admin'; mustChangePassword?: boolean; organizationId?: string }>(`${environment.apiUrl}/auth/login`, { email, password })));
   }
   async logout() {
     await firstValueFrom(this.http.post(`${environment.apiUrl}/auth/logout`, {}));
@@ -31,11 +31,14 @@ export function safeDestination(value: string | null): string {
 }
 export const authenticated: CanActivateFn = async (_route, state) => {
   const auth = inject(Auth), router = inject(Router);
-  return await auth.check() || router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url } });
+  if (!await auth.check()) return router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url } });
+  if (auth.user()?.mustChangePassword && state.url !== '/change-password') return router.parseUrl('/change-password');
+  if (auth.user()?.role === 'super_admin' && !state.url.startsWith('/super-admin') && state.url !== '/change-password') return router.parseUrl('/super-admin');
+  return true;
 };
 export const anonymous: CanActivateFn = async route => {
   const auth = inject(Auth), router = inject(Router);
-  return await auth.check() ? router.parseUrl(safeDestination(route.queryParamMap.get('returnUrl'))) : true;
+  return await auth.check() ? router.parseUrl(auth.user()?.mustChangePassword ? '/change-password' : auth.user()?.role === 'super_admin' ? '/super-admin' : safeDestination(route.queryParamMap.get('returnUrl'))) : true;
 };
 export const authenticationInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = inject(Auth);
@@ -50,4 +53,10 @@ export const administrator: CanActivateFn = async (_route, state) => {
   const auth = inject(Auth), router = inject(Router);
   if (!await auth.check()) return router.createUrlTree(['/login'], {queryParams: {returnUrl: state.url}});
   return auth.user()?.role === 'admin' || router.parseUrl('/');
+};
+
+export const superAdministrator: CanActivateFn = async (_route, state) => {
+  const auth = inject(Auth), router = inject(Router);
+  if (!await auth.check()) return router.createUrlTree(['/login'], {queryParams: {returnUrl: state.url}});
+  return auth.user()?.role === 'super_admin' || router.parseUrl('/');
 };

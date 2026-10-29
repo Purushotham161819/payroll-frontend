@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { ActivatedRouteSnapshot, provideRouter, Router, RouterStateSnapshot } from '@angular/router';
-import { Auth, authenticated, anonymous, authenticationInterceptor, safeDestination } from './auth';
+import { Auth, authenticated, anonymous, superAdministrator, authenticationInterceptor, safeDestination } from './auth';
 import { Login } from './login';
 
 describe('Authentication and session handling', () => {
@@ -79,4 +79,27 @@ describe('Authentication and session handling', () => {
     http.expectOne('http://localhost:3000/auth/login').flush({id:'user',email:'admin@example.test'}); await result;
     expect(navigate).toHaveBeenCalledWith('/'); expect(fixture.componentInstance.password).toBe('');
   });
+});
+
+describe('Platform and temporary-credential route security', () => {
+ let http: HttpTestingController, router: Router;
+ beforeEach(() => { TestBed.configureTestingModule({providers:[provideHttpClient(),provideHttpClientTesting(),provideRouter([])]}); http=TestBed.inject(HttpTestingController);router=TestBed.inject(Router); });
+ afterEach(()=>http.verify());
+ for (const role of ['admin','user']) it('denies portal navigation for '+role, async()=>{
+  const result=TestBed.runInInjectionContext(()=>superAdministrator({} as ActivatedRouteSnapshot,{url:'/super-admin'} as RouterStateSnapshot));
+  http.expectOne('http://localhost:3000/auth/me').flush({id:'u',email:'user@example.test',role});
+  expect(router.serializeUrl(await result as any)).toBe('/');
+ });
+ it('admits a Super Admin to the portal',async()=>{
+  const result=TestBed.runInInjectionContext(()=>superAdministrator({} as ActivatedRouteSnapshot,{url:'/super-admin'} as RouterStateSnapshot));
+  http.expectOne('http://localhost:3000/auth/me').flush({id:'s',email:'super@example.test',role:'super_admin'});expect(await result).toBe(true);
+ });
+ it('redirects Super Admin away from business pages',async()=>{
+  const result=TestBed.runInInjectionContext(()=>authenticated({} as ActivatedRouteSnapshot,{url:'/settings'} as RouterStateSnapshot));
+  http.expectOne('http://localhost:3000/auth/me').flush({id:'s',email:'super@example.test',role:'super_admin'});expect(router.serializeUrl(await result as any)).toBe('/super-admin');
+ });
+ it('requires password setup before workspace access',async()=>{
+  const result=TestBed.runInInjectionContext(()=>authenticated({} as ActivatedRouteSnapshot,{url:'/users'} as RouterStateSnapshot));
+  http.expectOne('http://localhost:3000/auth/me').flush({id:'a',email:'admin@example.test',role:'admin',mustChangePassword:true});expect(router.serializeUrl(await result as any)).toBe('/change-password');
+ });
 });

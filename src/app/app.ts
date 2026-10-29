@@ -7,9 +7,10 @@ import { Auth } from './auth/auth';
 export class WorkspaceLayout {
   readonly productBrand = PRODUCT_BRAND;
   readonly organization = inject(Organization);
-  constructor() { void this.organization.load(); }
+  constructor() { this.organization.displayName.set(PRODUCT_BRAND); if (this.auth.user()?.role !== 'super_admin') void this.organization.load(); }
   private change = inject(ChangeDetectorRef);
   readonly auth = inject(Auth);
+  get headerName() { return this.auth.user()?.role === 'super_admin' ? this.productBrand : this.organization.displayName(); }
   logoutError = ''; loggingOut = false;
   async logout() {
     if (this.loggingOut) return;

@@ -1,0 +1,381 @@
+<section class="portal">
+  <p class="eyebrow">PLATFORM ADMINISTRATION</p>
+  <div class="heading">
+    <div>
+      <h1>
+        {{
+          dashboard
+            ? 'Platform overview'
+            : orgId
+              ? organization()?.name || 'Organization'
+              : 'Customers'
+        }}
+      </h1>
+      <p>
+        {{
+          dashboard
+            ? 'A clear view of your customer organizations and login accounts.'
+            : orgId
+              ? orgId
+              : 'Onboard organizations and manage their application accounts.'
+        }}
+      </p>
+    </div>
+    @if (!dashboard && !orgId) {
+      <button class="primary" (click)="open('customer')">Add Customer</button>
+    }
+    @if (orgId) {
+      <a routerLink="/super-admin/organizations">All customers</a>
+    }
+  </div>
+  @if (notice()) {
+    <p class="notice" role="status">{{ notice() }}</p>
+  }
+  @if (error()) {
+    <p class="notice error" role="alert">
+      {{ error() }}
+      <button type="button" class="secondary" (click)="load()" [disabled]="loading()">Retry</button>
+    </p>
+  }
+  @if (loading()) {
+    <p role="status">Loading...</p>
+  }
+  @if (dashboard) {
+    @if (totals(); as t) {
+      <div class="cards">
+        <article>
+          <span>Total organizations</span><strong>{{ t.organizations }}</strong>
+        </article>
+        <article>
+          <span>Active organizations</span><strong>{{ t.activeOrganizations }}</strong>
+        </article>
+        <article>
+          <span>Organization admin accounts</span><strong>{{ t.admins }}</strong>
+        </article>
+        <article>
+          <span>Organization user accounts</span><strong>{{ t.users }}</strong>
+        </article>
+      </div>
+    }
+    <article class="panel">
+      <h2>Customer workspace</h2>
+      <p>
+        Manage organization access and login accounts. Employee and payroll records stay within each
+        customer's workspace.
+      </p>
+      <a class="primary link-button" routerLink="/super-admin/organizations">View customers</a>
+    </article>
+  } @else if (!orgId) {
+    <div class="panel table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Organization</th>
+            <th>ID</th>
+            <th>Status</th>
+            <th>Admins</th>
+            <th>Users</th>
+            <th>Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (org of organizations(); track org.organizationId) {
+            <tr>
+              <td>
+                <a [routerLink]="['/super-admin/organizations', org.organizationId]">{{
+                  org.name
+                }}</a>
+              </td>
+              <td>{{ org.organizationId }}</td>
+              <td>
+                <span class="badge">{{ org.status }}</span>
+              </td>
+              <td>{{ org.admins }}</td>
+              <td>{{ org.users }}</td>
+              <td>{{ org.createdAt | date: 'mediumDate' }}</td>
+              <td>
+                <a [routerLink]="['/super-admin/organizations', org.organizationId]">Manage</a>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="7">
+                {{
+                  loading()
+                    ? 'Loading customers...'
+                    : 'No customers yet. Add your first customer to get started.'
+                }}
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <nav class="tabs" aria-label="Organization sections">
+      <button
+        class="secondary"
+        [attr.aria-pressed]="tab === 'details'"
+        (click)="switchTab('details')"
+      >
+        Organization details</button
+      ><button class="secondary" [attr.aria-pressed]="tab === 'admin'" (click)="switchTab('admin')">
+        Organization admins</button
+      ><button class="secondary" [attr.aria-pressed]="tab === 'user'" (click)="switchTab('user')">
+        Organization users
+      </button>
+    </nav>
+    @if (tab === 'details') {
+      <article class="panel">
+        <h2>Organization details</h2>
+        <dl>
+          <dt>Organization name</dt>
+          <dd>{{ organization()?.name }}</dd>
+          <dt>Stable organization ID</dt>
+          <dd>{{ orgId }}</dd>
+          <dt>Status</dt>
+          <dd>{{ organization()?.status }}</dd>
+          <dt>Created</dt>
+          <dd>{{ organization()?.createdAt | date: 'medium' }}</dd>
+        </dl>
+        <button
+          class="secondary"
+          [disabled]="busy() || organization()?.status === 'pending'"
+          (click)="request('organization')"
+        >
+          {{
+            organization()?.status === 'active'
+              ? 'Deactivate organization'
+              : 'Activate organization'
+          }}
+        </button>
+        <p>
+          Deactivation blocks sign-in and invalidates all organization sessions. No business records
+          are deleted.
+        </p>
+      </article>
+      <article class="panel table-wrap">
+        <h2>Recent audit events</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Action</th>
+              <th>Actor account ID</th>
+              <th>Affected account ID</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (event of events(); track $index) {
+              <tr>
+                <td>{{ event.action }}</td>
+                <td>{{ event.actorId }}</td>
+                <td>{{ event.accountId || '-' }}</td>
+                <td>{{ event.at | date: 'medium' }}</td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="4">No audit events.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </article>
+    } @else {
+      <div class="account-heading">
+        <div>
+          <h2>{{ tab === 'admin' ? 'Administrator accounts' : 'User accounts' }}</h2>
+          <p>Application login accounts for {{ organization()?.name }}.</p>
+        </div>
+        <button
+          class="primary"
+          [disabled]="organization()?.status !== 'active'"
+          (click)="open('create')"
+        >
+          Add account
+        </button>
+      </div>
+      <div class="panel table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Created</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (account of accounts(); track account.id) {
+              <tr>
+                <td>{{ account.email }}</td>
+                <td>{{ account.role }}</td>
+                <td>{{ account.active ? 'Active' : 'Inactive' }}</td>
+                <td>{{ account.createdAt | date: 'mediumDate' }}</td>
+                <td class="row-actions">
+                  <button class="secondary" (click)="open('edit', account)">Edit</button
+                  ><button class="secondary" (click)="open('password', account)">
+                    Reset password</button
+                  ><button class="secondary" (click)="request('status', account)">
+                    {{ account.active ? 'Deactivate' : 'Activate' }}
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="5">
+                  No {{ tab === 'admin' ? 'administrator' : 'user' }} accounts on this page.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  }
+  @if (!dashboard) {
+    <div class="pagination">
+      <button class="secondary" [disabled]="page <= 1 || loading()" (click)="move(-1)">
+        Previous</button
+      ><span>Page {{ page }} &middot; {{ total() }} records</span
+      ><button
+        class="secondary"
+        [disabled]="page * limit >= total() || loading()"
+        (click)="move(1)"
+      >
+        Next
+      </button>
+    </div>
+  }
+  <dialog #editor (cancel)="close($event)">
+    <form #form="ngForm" (ngSubmit)="submit()">
+      <h2>
+        {{
+          mode === 'customer'
+            ? 'Add Customer'
+            : mode === 'password'
+              ? 'Reset password'
+              : mode === 'edit'
+                ? 'Edit account'
+                : 'Add account'
+        }}
+      </h2>
+      <p>
+        {{
+          mode === 'customer'
+            ? 'Create an organization and its first administrator.'
+            : organization()?.name
+        }}
+      </p>
+      @if (mode === 'customer') {
+        <label
+          >Organization name<input
+            name="organizationName"
+            [(ngModel)]="name"
+            required
+            maxlength="160" /></label
+        ><label>Organization ID<input value="Generated securely when saved" readonly /></label>
+      }
+      @if (mode !== 'password') {
+        <label
+          >{{ mode === 'customer' ? 'Initial administrator email' : 'Email'
+          }}<input
+            name="email"
+            type="email"
+            [(ngModel)]="email"
+            required
+            email
+            maxlength="254"
+            autocomplete="off"
+        /></label>
+      } @else {
+        <p>
+          Account: <strong>{{ selected?.email }}</strong>
+        </p>
+      }
+      @if (mode !== 'customer' && mode !== 'password') {
+        <label
+          >Role<select name="role" [(ngModel)]="role">
+            <option value="admin">Organization admin</option>
+            <option value="user">Organization user</option>
+          </select></label
+        >
+      }
+      @if (mode === 'create') {
+        <label class="checkbox"
+          ><input type="checkbox" name="active" [(ngModel)]="active" /> Active account</label
+        >
+      }
+      @if (mode !== 'edit') {
+        <label
+          >Temporary password<input
+            name="password"
+            type="password"
+            [(ngModel)]="password"
+            required
+            minlength="8"
+            maxlength="128"
+            autocomplete="new-password" /></label
+        ><label
+          >Confirm temporary password<input
+            name="confirmation"
+            type="password"
+            [(ngModel)]="confirmation"
+            required
+            minlength="8"
+            maxlength="128"
+            autocomplete="new-password" /></label
+        ><small
+          >Password must be at least 8 characters long. Deliver it privately. The account must
+          choose a different password at first sign-in.</small
+        >
+      }
+      @if (error()) {
+        <p class="error" role="alert">{{ error() }}</p>
+      }
+      <div class="actions">
+        <button type="button" class="secondary" [disabled]="busy()" (click)="close()">Cancel</button
+        ><button
+          class="primary"
+          [disabled]="
+            form.invalid ||
+            busy() ||
+            (mode !== 'edit' && password !== confirmation) ||
+            (mode === 'customer' && !name.trim())
+          "
+        >
+          {{ busy() ? 'Saving...' : 'Save' }}
+        </button>
+      </div>
+    </form>
+  </dialog>
+  <dialog #confirm (cancel)="cancelConfirmation($event)">
+    <h2>Confirm {{ pending === 'password' ? 'password reset' : 'access change' }}</h2>
+    <p>
+      Organization: <strong>{{ organization()?.name }}</strong> ({{ orgId }})
+    </p>
+    @if (selected && pending !== 'organization') {
+      <p>
+        Account: <strong>{{ selected.email }}</strong>
+      </p>
+    }
+    <p>
+      {{
+        pending === 'password'
+          ? 'Set the entered temporary password and invalidate existing sessions? A new password will be required at sign-in.'
+          : pending === 'organization'
+            ? 'Change organization access? All existing organization sessions will be invalidated.'
+            : 'Change access for this account? Its existing sessions will be invalidated.'
+      }}
+    </p>
+    @if (error()) {
+      <p role="alert" class="error">{{ error() }}</p>
+    }
+    <div class="actions">
+      <button class="secondary" [disabled]="busy()" (click)="cancelConfirmation()">Cancel</button
+      ><button class="primary" [disabled]="busy()" (click)="save()">Confirm</button>
+    </div>
+  </dialog>
+</section>
