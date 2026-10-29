@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 test('login, intended destination, navigation, expiration and logout', async ({page}) => {
   let active = false;
+  await page.route('http://localhost:3000/settings/organization',r=>r.fulfill({json:{displayName:'PayStream, An Excelhire Product'}}));
   await page.route('**/auth/me', r => active ? r.fulfill({json:{id:'user',email:'test@example.test'}}) : r.fulfill({status:401,json:{message:'Authentication required'}}));
   await page.route('**/auth/login', r => {
     if (r.request().postDataJSON().password !== 'test-input') return r.fulfill({status:401,json:{message:'Invalid email or password'}});

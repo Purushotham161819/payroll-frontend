@@ -1,3 +1,4 @@
+import { PRODUCT_BRAND } from '../branding';
 import {payrollPdfHead,payrollPdfAlignment} from './payroll-report-presentation';
 import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
@@ -44,7 +45,7 @@ export class PayrollReportService {
     const monthName = new Intl.DateTimeFormat('en-IN',{month:'long'}).format(new Date(period.year,period.month,1));
     const month = `${monthName} ${period.year}`;
     const date = new Intl.DateTimeFormat('en-IN',{day:'2-digit',month:'long',year:'numeric'}).format(generatedOn);
-    doc.setProperties({title:`${reportType} Payroll Report - ${month}`,author:data.companyName || 'Payroll Generator',subject:reportType === 'Annual' ? 'Validated annual payroll through Compliance Wage Base' : 'Monthly payroll derived from annual results'});
+    doc.setProperties({title:`${reportType} Payroll Report - ${month}`,author:data.companyName || PRODUCT_BRAND,subject:reportType === 'Annual' ? 'Validated annual payroll through Compliance Wage Base' : 'Monthly payroll derived from annual results'});
     const width = doc.internal.pageSize.getWidth();
     const height = doc.internal.pageSize.getHeight();
     const margin = 7;
@@ -70,7 +71,7 @@ export class PayrollReportService {
       didParseCell: data => { data.cell.styles.halign=payrollPdfAlignment(data.section,data.column.index); },
       didDrawPage: () => {
         doc.setFont('NotoSans','normal');doc.setTextColor(33,77,54);
-        doc.setFontSize(9);doc.text(data.companyName?.trim() || 'Payroll Generator',margin,10);
+        doc.setFontSize(9);doc.text(data.companyName?.trim() || PRODUCT_BRAND,margin,10);
         doc.setFontSize(13);doc.text(reportType + ' Payroll Report',margin,17);
         doc.setFontSize(8);doc.setTextColor(85,100,90);
         doc.text(`Payroll Month: ${month}`,margin,24);

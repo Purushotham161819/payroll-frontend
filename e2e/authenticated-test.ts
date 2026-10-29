@@ -14,6 +14,7 @@ export const test = base.extend({
   },
   page: async ({ page }, use) => {
     await page.route('**/auth/me', route => route.fulfill({ json: { id: 'test-user', email: 'ui-test@example.test' } }));
+    await page.route('http://localhost:3000/settings/organization', route => route.fulfill({json:{displayName:'PayStream, An Excelhire Product'}}));
     await use(page);
   },
 });

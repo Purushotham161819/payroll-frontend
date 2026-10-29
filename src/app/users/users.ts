@@ -1,3 +1,4 @@
+import { PRODUCT_BRAND } from '../branding';
 import { Component, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -12,6 +13,7 @@ export interface ManagedUser { id: string; email: string; role: 'admin' | 'user'
   templateUrl: './users.html', styleUrl: './users.css',
 })
 export class UserManagement {
+  readonly productBrand = PRODUCT_BRAND;
   readonly auth = inject(Auth); private http = inject(HttpClient);
   readonly users = signal<ManagedUser[]>([]); readonly busy = signal(false); readonly loading = signal(false);
   readonly error = signal(''); readonly notice = signal('');
