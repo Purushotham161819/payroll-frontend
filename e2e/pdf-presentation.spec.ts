@@ -1,4 +1,4 @@
-import {test,expect} from '@playwright/test';
+import {test,expect} from './authenticated-test';
 import {readFile} from 'node:fs/promises';
 import cases from './fixtures/conditional-payroll.json';
 for(const period of ['Annual','Monthly'])test(`${period} PDF single header row, centered headers and right-aligned data/totals`,async({page})=>{

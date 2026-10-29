@@ -1,4 +1,4 @@
-import {test,expect} from '@playwright/test';
+import {test,expect} from './authenticated-test';
 test('mandatory components show setup state, protect fixed fields, and save user percentages',async({page})=>{
   const records:any[]=[['BASIC','Basic Salary'],['DA','Dearness Allowance'],['RA','Retaining Allowance']].map(([code,name],i)=>({_id:String(i+1),name,code,isSystemDefined:true,category:'earning',status:'active',calculationBaseType:'annual_ctc',calculationBaseComponentId:null,calculationType:'percentage',calculationValue:null,fixedAmountPeriod:null,showInPayslip:true}));
   records.push({...records[0],_id:'ordinary',name:'Bonus',code:'BONUS',isSystemDefined:false,calculationValue:5});

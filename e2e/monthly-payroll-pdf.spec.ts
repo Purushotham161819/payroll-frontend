@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './authenticated-test';
 import { readFile } from 'node:fs/promises';
 test('monthly PDF labels, rounded values, totals and download derive from annual results', async ({
   page,

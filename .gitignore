@@ -46,3 +46,8 @@ Thumbs.db
 /artifacts/
 /test-results/
 /playwright-report/
+
+# Local secret configuration
+.env
+.env.*
+!.env.example

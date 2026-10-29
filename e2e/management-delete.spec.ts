@@ -1,4 +1,4 @@
-import {test,expect} from '@playwright/test';
+import {test,expect} from './authenticated-test';
 const id='507f1f77bcf86cd799439011',other='507f1f77bcf86cd799439012';
 test('employee delete confirmation cancels safely, reports errors, deletes once and refreshes selected rows',async({page})=>{
  let records=[{_id:id,firstName:'Ada',lastName:'Delete',email:'ada@example.com',dateOfBirth:'1990-01-01',hireDate:'2026-01-01',annualCtc:107500},{_id:other,firstName:'Keep',lastName:'Employee',email:'keep@example.com',dateOfBirth:'1990-01-01',hireDate:'2026-01-01',annualCtc:107500}];let fail=true,writes=0;

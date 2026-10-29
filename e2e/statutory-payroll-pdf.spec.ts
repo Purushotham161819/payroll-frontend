@@ -1,4 +1,4 @@
-import {test,expect} from '@playwright/test';
+import {test,expect} from './authenticated-test';
 import {readFile} from 'node:fs/promises';
 import cases from './fixtures/statutory-payroll.json';
 for(const saved of cases)for(const period of ['Annual','Monthly'])test(`${period} capped EPF/EPS, employer ESI eligible ${saved.eligible}, PDF values and totals`,async({page})=>{

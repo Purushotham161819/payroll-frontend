@@ -1,4 +1,4 @@
-import {test,expect} from '@playwright/test';
+import {test,expect} from './authenticated-test';
 import {readFile} from 'node:fs/promises';
 const annual={annualCtc:108100,employerEpsContribution:4000,employerEpfContribution:2000,employerEsiContribution:2100,annualGrossWages:100000,annualBasicSalary:40000,annualDearnessAllowance:4000,annualRetainingAllowance:6000,annualCoreWages:50000,annualTotalAllowances:70000,annualExcessAllowance:20000,annualComplianceWageBase:70000,annualNetPay:100000};
 for(const count of [20,70]) test(`annual PDF: ${count} employees, all columns and totals`,async({page})=>{

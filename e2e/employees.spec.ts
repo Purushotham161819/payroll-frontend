@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './authenticated-test';
 test('real employee reads, validation, duplicate handling, responsive layout, and simulated success', async ({page, request}) => {
   const initial = await request.get('http://localhost:3000/employees');
   expect(initial.status()).toBe(200);
@@ -38,7 +38,7 @@ test('real employee reads, validation, duplicate handling, responsive layout, an
     await expect(page.getByText('Employee added successfully.', {exact:true})).toBeVisible();
     expect((await refresh).status()).toBe(200);
     await page.unroute('http://localhost:3000/employees');
-    const invalid = await request.post('http://localhost:3000/employees', { data: {firstName:existing.firstName, lastName:existing.lastName, email:'invalid', dateOfBirth:existing.dateOfBirth, hireDate:existing.hireDate, annualCtc:existing.annualCtc} });
+    const invalid = await request.post('http://localhost:3000/employees', { headers: {Origin: 'http://localhost:4200', 'X-Payroll-Request': '1'}, data: {firstName:existing.firstName, lastName:existing.lastName, email:'invalid', dateOfBirth:existing.dateOfBirth, hireDate:existing.hireDate, annualCtc:existing.annualCtc} });
     expect(invalid.status()).toBe(400);
   }
   await page.setViewportSize({width:390,height:844});

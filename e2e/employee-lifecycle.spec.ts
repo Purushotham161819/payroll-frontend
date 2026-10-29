@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './authenticated-test';
 
 test('employee lifecycle menus, cancellation, dates, history, filters, refresh and existing actions', async ({page}) => {
   const id='507f1f77bcf86cd799439011';

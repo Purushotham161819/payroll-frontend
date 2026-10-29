@@ -1,4 +1,4 @@
-import { test,expect } from '@playwright/test';
+import { test,expect } from './authenticated-test';
 import { readFile } from 'node:fs/promises';
 import calculated from './fixtures/formula-payroll.json';
 test('Formula component creation, validation feedback, retrieval and editing',async({page})=>{

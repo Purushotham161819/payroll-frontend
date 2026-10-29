@@ -1,4 +1,4 @@
-import {test,expect} from '@playwright/test';
+import {test,expect} from './authenticated-test';
 import {readFile} from 'node:fs/promises';
 for (const period of ['Annual','Monthly']) for (const include of [true,false]) test(`${period} PDF selected optional components: ${include}`,async({page})=>{
  const annual={annualCtc:108100,employerEpsContribution:4000,employerEpfContribution:2000,employerEsiContribution:2100,annualGrossWages:100000,annualBasicSalary:40000,annualDearnessAllowance:4000,annualRetainingAllowance:6000,annualCoreWages:50000,annualTotalAllowances:70000,annualExcessAllowance:20000,annualComplianceWageBase:70000,annualNetPay:100000};

@@ -1,4 +1,4 @@
-import {test,expect} from '@playwright/test';
+import {test,expect} from './authenticated-test';
 import {readFile} from 'node:fs/promises';
 for(const period of ['Annual','Monthly']) test(`${period}: drag and keyboard ordering, required Core Wages and net pay PDF`,async({page})=>{
  const annual={annualCtc:107500,employerEpsContribution:4000,employerEpfContribution:2000,employerEsiContribution:1500,annualGrossWages:100000,annualBasicSalary:40000,annualDearnessAllowance:4000,annualRetainingAllowance:6000,annualCoreWages:50000,annualTotalAllowances:0,annualExcessAllowance:0,annualComplianceWageBase:50000,annualNetPay:93250};

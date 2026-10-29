@@ -1,4 +1,4 @@
-﻿import { test, expect } from '@playwright/test';
+﻿import { test, expect } from './authenticated-test';
 
 test('statutory settings validate, save, reload, reset, preserve errors and retain existing routes', async ({page}) => {
   let saved: any = null; let fail = false; let writes = 0;

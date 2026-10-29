@@ -1,0 +1,38 @@
+import { test, expect } from '@playwright/test';
+test('login, intended destination, navigation, expiration and logout', async ({page}) => {
+  let active = false;
+  await page.route('**/auth/me', r => active ? r.fulfill({json:{id:'user',email:'test@example.test'}}) : r.fulfill({status:401,json:{message:'Authentication required'}}));
+  await page.route('**/auth/login', r => {
+    if (r.request().postDataJSON().password !== 'test-input') return r.fulfill({status:401,json:{message:'Invalid email or password'}});
+    expect(r.request().headers()['x-payroll-request']).toBe('1');
+    active = true; return r.fulfill({json:{id:'user',email:'test@example.test'}});
+  });
+  await page.route('**/auth/logout', r => {active = false; return r.fulfill({status:204});});
+  await page.route('**/salary-components', r => r.fulfill({json:[]}));
+  await page.route('**/employees', r => active ? r.fulfill({json:[]}) : r.fulfill({status:401,json:{message:'Authentication required'}}));
+  await page.goto('/settings');
+  await expect(page).toHaveURL(/login\?returnUrl/);
+  await expect(page.getByRole('button',{name:'Sign in',exact:true})).toBeDisabled();
+  await page.getByLabel('Email address').fill('test@example.test');
+  await page.getByLabel('Password',{exact:true}).fill('bad-input');
+  await page.getByRole('button',{name:'Show password'}).click();
+  await expect(page.getByLabel('Password',{exact:true})).toHaveAttribute('type','text');
+  await page.getByRole('button',{name:'Sign in',exact:true}).click();
+  await expect(page.getByRole('alert')).toHaveText('Invalid email or password.');
+  await page.getByLabel('Password',{exact:true}).fill('test-input');
+  await page.getByRole('button',{name:'Sign in',exact:true}).click();
+  await expect(page).toHaveURL(/\/settings$/);
+  await page.getByRole('link',{name:'Employees',exact:true}).click();
+  await expect(page.getByText('No employees found.',{exact:true})).toBeVisible();
+  active = false;
+  await page.reload();
+  await expect(page).toHaveURL(/\/login/);
+  await page.getByLabel('Email address').fill('test@example.test');
+  await page.getByLabel('Password',{exact:true}).fill('test-input');
+  await page.getByRole('button',{name:'Sign in',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Sign out',exact:true})).toBeVisible();
+  await page.getByRole('button',{name:'Sign out',exact:true}).click();
+  await expect(page).toHaveURL(/\/login$/);
+  await page.goto('/settings');
+  await expect(page).toHaveURL(/\/login/);
+});

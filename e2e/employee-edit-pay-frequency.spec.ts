@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './authenticated-test';
 
 test('employee add and edit use Monthly and persist through the employee API', async ({ page }) => {
   let employee = {

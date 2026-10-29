@@ -1,9 +1,10 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './authenticated-test';
 test('modal stays above the directory, traps focus, and closes without saving', async ({page}) => {
   let posts = 0;
   page.on('request', request => { if(request.method() === 'POST') posts++; });
   await page.goto('/');
   const directory = page.locator('.directory');
+  await expect(directory).toBeVisible();
   const before = await directory.boundingBox();
   const opener = page.getByRole('button', {name:'Add Employee',exact:true}).first();
   await opener.click();
@@ -11,6 +12,8 @@ test('modal stays above the directory, traps focus, and closes without saving', 
   await expect(dialog).toBeVisible();
   expect((await directory.boundingBox())?.y).toBe(before?.y);
   await expect(page.getByLabel('First Name', {exact:true})).toBeFocused();
+  await page.keyboard.press('Shift+Tab');
+  await expect(page.getByLabel('Pay Frequency', {exact:true})).toBeFocused();
   await page.keyboard.press('Shift+Tab');
   await expect(page.getByRole('button', {name:'Close add employee'})).toBeFocused();
   await page.getByRole('button', {name:'Close add employee'}).click();
@@ -74,7 +77,7 @@ test('failed save retains data and keeps the modal open; saving prevents cancell
   const pending = new Promise<void>(resolve => { release = resolve; });
   await page.route('http://localhost:3000/employees',async route => { await pending; await route.fulfill({status:503,contentType:'application/json',body:'{}'}); });
   await page.getByRole('button',{name:'Save employee',exact:true}).click();
-  await expect(page.getByRole('button',{name:'Saving employee…',exact:true})).toBeDisabled();
+  await expect(page.getByRole('dialog').locator('button[type=submit]')).toBeDisabled();
   await expect(page.getByRole('button',{name:'Cancel',exact:true})).toBeDisabled();
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).toBeVisible();

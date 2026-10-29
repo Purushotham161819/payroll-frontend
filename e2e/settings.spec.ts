@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './authenticated-test';
 // Browser-only API fixtures; persistence is tested against real MongoDB in the backend suite.
 test('settings navigation, modal, dynamic bases, edit persistence and mobile layout', async ({page}) => {
   const records: any[] = [];
