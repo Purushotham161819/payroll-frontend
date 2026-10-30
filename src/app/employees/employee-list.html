@@ -7,6 +7,7 @@
   <div class="heading-actions">
     <button id="add-employee" class="primary" (click)="add()"><span aria-hidden="true">＋</span> Add Employee</button
     ><app-payroll-generator />
+    <button class="primary" (click)="runPayroll()" [disabled]="!selectedCount() || loading()">Run Payroll</button>
   </div>
 </div>
 @if (success()) {
@@ -54,6 +55,7 @@
               <input
                 type="checkbox"
                 aria-label="Select all employees"
+                [disabled]="!eligibleEmployees().length"
                 [checked]="allSelected()"
                 [indeterminate]="someSelected()"
                 (change)="toggleAll($any($event.target).checked)"
@@ -86,13 +88,14 @@
                     (employee.employeeId || 'ID pending') +
                     ')'
                   "
+                  [disabled]="(employee.status || 'Active') !== 'Active'"
                   [checked]="selectedIds().has(employee._id)"
                   (change)="toggleEmployee(employee._id, $any($event.target).checked)"
                 />
               </td>
               <td class="employee-id">{{ employee.employeeId || 'ID pending' }}</td>
-              <td class="name">{{ employee.firstName }}</td>
-              <td>{{ employee.lastName }}</td>
+              <td class="name"><a [href]="profileUrl(employee._id)" (click)="openProfile($event, employee._id)">{{ employee.firstName }}</a></td>
+              <td><a [href]="profileUrl(employee._id)" (click)="openProfile($event, employee._id)">{{ employee.lastName }}</a></td>
               <td>{{ employee.email || 'Not provided' }}</td>
               <td>{{ employee.dateOfBirth | date: 'dd MMM yyyy' : 'UTC' }}</td>
               <td>{{ employee.hireDate | date: 'dd MMM yyyy' : 'UTC' }}</td>

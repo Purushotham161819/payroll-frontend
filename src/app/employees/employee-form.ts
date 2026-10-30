@@ -1,3 +1,6 @@
+import { ProfileTabs, ProfileTab } from './profile-tabs';
+import { EmploymentHistory } from './employment-history';
+import { PayChecks } from './pay-checks';
 import {
   AfterViewInit,
   Component,
@@ -26,11 +29,12 @@ function realDate(control: AbstractControl) {
 }
 @Component({
   selector: 'app-employee-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, PayChecks, ProfileTabs, EmploymentHistory],
   templateUrl: './employee-form.html',
   styleUrl: './employee-form.css',
 })
 export class EmployeeForm implements AfterViewInit, OnDestroy {
+  readonly profileTab = signal<ProfileTab>('details');
   readonly employee = input<Employee | null>(null);
   readonly payFrequencies = payFrequencies;
   constructor() {

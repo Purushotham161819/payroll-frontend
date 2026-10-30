@@ -1,0 +1,69 @@
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { NavigationContext } from '../shared/navigation-context';
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { DatePipe, CurrencyPipe } from '@angular/common';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
+import { EmployeeService, apiError } from './employee.service';
+import { Employee } from './employee';
+import { EmployeeForm } from './employee-form';
+import { PayChecks } from './pay-checks';
+import { ProfileTabs, ProfileTab } from './profile-tabs';
+import { ProfileCard } from './profile-card';
+import { EmploymentHistory } from './employment-history';
+import { Organization } from '../organization';
+@Component({
+  selector: 'app-employee-profile',
+  imports: [
+    RouterLink,
+    DatePipe,
+    CurrencyPipe,
+    EmployeeForm,
+    PayChecks,
+    ProfileTabs,
+    ProfileCard,
+    EmploymentHistory,
+  ],
+  templateUrl: './employee-profile.html',
+  styleUrl: './employee-profile.css',
+})
+export class EmployeeProfile implements OnInit {
+  private readonly service = inject(EmployeeService);
+  private readonly route = inject(ActivatedRoute);
+  readonly organization = inject(Organization);
+  readonly employee = signal<Employee | null>(null);
+  readonly tab = signal<ProfileTab>('details');
+  readonly editing = signal(false);
+  readonly error = signal('');
+  readonly loading = signal(false);
+  readonly returnStatus = ['Active', 'Terminated', 'All'].includes(
+    this.route.snapshot.queryParamMap.get('returnStatus') ?? '',
+  )
+    ? this.route.snapshot.queryParamMap.get('returnStatus')!
+    : 'Active';
+  private readonly navigation = inject(NavigationContext);
+  private readonly router = inject(Router);
+  private readonly origin = this.navigation.origin(inject(Location).getState());
+  readonly backLabel = this.origin?.kind === 'payroll' ? 'Back to Run Payroll' : 'Back to Employees';
+  readonly backUrl = this.router.parseUrl(this.origin?.url ?? '/?status=' + this.returnStatus);
+  readonly backState = this.origin ? this.navigation.backState(this.origin) : {};
+  ngOnInit() {
+    void this.load();
+  }
+  async load() {
+    this.loading.set(true);
+    this.error.set('');
+    try {
+      const person = (await firstValueFrom(this.service.getAll())).find(
+        (e) => e._id === this.route.snapshot.paramMap.get('id'),
+      );
+      if (!person) this.error.set('Employee not found.');
+      this.employee.set(person ?? null);
+    } catch (error) {
+      this.error.set(apiError(error));
+    } finally {
+      this.loading.set(false);
+    }
+  }
+}

@@ -1,0 +1,83 @@
+<header class="profile-heading">
+  <a
+    class="back-arrow"
+    [routerLink]="backUrl"
+    [state]="backState"
+    [title]="backLabel"
+    [attr.aria-label]="backLabel"
+    ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 5-7 7 7 7M5 12h14" /></svg
+  ></a>
+  <div>
+    <div class="eyebrow">EMPLOYEE PROFILE</div>
+    <h1>{{ employee() ? employee()!.firstName + ' ' + employee()!.lastName : 'Employee' }}</h1>
+  </div>
+</header>
+@if (error()) {
+  <p role="alert" class="notice error">{{ error() }}</p>
+}
+@if (loading()) {
+  <p role="status">Loading employee...</p>
+}
+@if (employee(); as person) {
+  <app-profile-tabs [active]="tab()" (activeChange)="tab.set($event)" />
+  @if (tab() === 'details') {
+    <section role="tabpanel" id="profile-details-panel" aria-labelledby="profile-details-tab">
+      <div class="widgets">
+        <app-profile-card heading="Employment Information"
+          ><dl class="info-grid">
+            <dt>Employee ID</dt>
+            <dd>{{ person.employeeId || 'Not available' }}</dd>
+            <dt>Hiring Date</dt>
+            <dd>{{ person.hireDate | date: 'longDate' : 'UTC' }}</dd>
+            <dt>Employment Status</dt>
+            <dd>
+              <span class="status">{{ person.status || 'Active' }}</span>
+            </dd>
+            @if (person.rehireDate) {
+              <dt>Latest Rehire</dt>
+              <dd>{{ person.rehireDate | date: 'longDate' : 'UTC' }}</dd>
+            }
+          </dl></app-profile-card
+        >
+        <app-profile-card heading="Compensation Information"
+          ><dl class="info-grid">
+            <dt>Annual CTC</dt>
+            <dd class="amount">{{ person.annualCtc | currency: 'INR' }}</dd>
+            <dt>Pay Frequency</dt>
+            <dd>{{ person.payFrequency || 'Monthly' }}</dd>
+          </dl></app-profile-card
+        >
+        <app-profile-card heading="Organization Information"
+          ><dl class="info-grid">
+            <dt>Organization</dt>
+            <dd>{{ organization.displayName() }}</dd>
+          </dl></app-profile-card
+        >
+        <app-profile-card heading="Personal Information"
+          ><dl class="info-grid">
+            <dt>Email</dt>
+            <dd>{{ person.email || 'Not available' }}</dd>
+            <dt>Date of Birth</dt>
+            <dd>{{ person.dateOfBirth | date: 'longDate' : 'UTC' }}</dd>
+          </dl></app-profile-card
+        >
+      </div>
+      <button class="secondary edit" (click)="editing.set(true)">Edit employee</button>
+    </section>
+  } @else if (tab() === 'history') {
+    <section role="tabpanel" id="profile-history-panel" aria-labelledby="profile-history-tab">
+      <app-employment-history [employee]="person" />
+    </section>
+  } @else {
+    <section role="tabpanel" id="profile-checks-panel" aria-labelledby="profile-checks-tab">
+      <app-pay-checks [employeeId]="person._id" />
+    </section>
+  }
+  @if (editing()) {
+    <app-employee-form
+      [employee]="person"
+      (saved)="editing.set(false); load()"
+      (cancelled)="editing.set(false)"
+    />
+  }
+}

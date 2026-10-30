@@ -1,9 +1,6 @@
 export interface PayrollPeriod { year: number; month: number }
 export interface PayrollEmployee { firstName: string; lastName: string; annualCtc: number }
-export function payrollMonths(now = new Date()) {
-  const year = now.getFullYear();
-  return Array.from({length: 12}, (_, month) => ({value: `${year}-${String(month + 1).padStart(2,'0')}`, year, month, label: new Intl.DateTimeFormat('en-IN',{month:'long',year:'numeric'}).format(new Date(year,month,1))}));
-}
+export { payrollMonths } from '../shared/payroll-calendar';
 export function payrollPeriod(value: string, now = new Date()): PayrollPeriod {
   const match = /^(\d{4})-(\d{2})$/.exec(value);
   if (!match || +match[1] !== now.getFullYear() || +match[2] < 1 || +match[2] > 12) throw new Error('Select a payroll month in the current calendar year.');

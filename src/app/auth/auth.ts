@@ -1,3 +1,4 @@
+import { NavigationContext } from '../shared/navigation-context';
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { CanActivateFn, Router } from '@angular/router';
@@ -6,23 +7,25 @@ import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class Auth {
+  private readonly navigation = inject(NavigationContext);
   private http = inject(HttpClient);
   private router = inject(Router);
   readonly user = signal<{ id: string; email: string; role?: 'admin' | 'user' | 'super_admin'; mustChangePassword?: boolean; organizationId?: string } | null>(null);
+  private setUser(user: ReturnType<Auth['user']>) { this.user.set(user); this.navigation.setScope(user ? (user.role ?? 'user') + ':' + user.id + ':' + (user.organizationId ?? 'legacy') : null); }
   async check() {
-    try { this.user.set(await firstValueFrom(this.http.get<{ id: string; email: string; role?: 'admin' | 'user' | 'super_admin'; mustChangePassword?: boolean; organizationId?: string }>(`${environment.apiUrl}/auth/me`))); return true; }
-    catch { this.user.set(null); return false; }
+    try { this.setUser(await firstValueFrom(this.http.get<{ id: string; email: string; role?: 'admin' | 'user' | 'super_admin'; mustChangePassword?: boolean; organizationId?: string }>(`${environment.apiUrl}/auth/me`))); return true; }
+    catch { this.setUser(null); return false; }
   }
   async login(email: string, password: string) {
-    this.user.set(await firstValueFrom(this.http.post<{ id: string; email: string; role?: 'admin' | 'user' | 'super_admin'; mustChangePassword?: boolean; organizationId?: string }>(`${environment.apiUrl}/auth/login`, { email, password })));
+    this.setUser(await firstValueFrom(this.http.post<{ id: string; email: string; role?: 'admin' | 'user' | 'super_admin'; mustChangePassword?: boolean; organizationId?: string }>(`${environment.apiUrl}/auth/login`, { email, password })));
   }
   async logout() {
     await firstValueFrom(this.http.post(`${environment.apiUrl}/auth/logout`, {}));
-    this.user.set(null);
+    this.setUser(null);
     await this.router.navigateByUrl('/login');
   }
   expired() {
-    this.user.set(null);
+    this.setUser(null);
     if (!this.router.url.startsWith('/login')) void this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
   }
 }

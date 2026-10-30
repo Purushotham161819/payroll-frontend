@@ -22,7 +22,12 @@
       </div>
       <span class="required-note">All fields required</span>
     </div>
-    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    @if (employee(); as person) {
+      <app-profile-tabs prefix="editor" [active]="profileTab()" (activeChange)="profileTab.set($event)" />
+      @if (profileTab() === 'history') { <section role="tabpanel" id="editor-history-panel" aria-labelledby="editor-history-tab"><app-employment-history [employee]="person" /></section> }
+      @if (profileTab() === 'checks') { <section role="tabpanel" id="editor-checks-panel" aria-labelledby="editor-checks-tab"><app-pay-checks [employeeId]="person._id" /></section> }
+    }
+    <form role="tabpanel" id="editor-details-panel" [attr.aria-labelledby]="employee() ? 'editor-details-tab' : 'form-title'" [hidden]="profileTab() !== 'details'" [formGroup]="form" (ngSubmit)="submit()" novalidate>
       <fieldset [disabled]="saving()">
         <div class="form-grid">
           <div class="full">

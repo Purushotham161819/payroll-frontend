@@ -5,6 +5,11 @@ test('modal stays above the directory, traps focus, and closes without saving', 
   await page.goto('/');
   const directory = page.locator('.directory');
   await expect(directory).toBeVisible();
+  // Compare modal layout after the workspace entrance has finished moving.
+  await page.locator('main').evaluate(async main => {
+    await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+    await Promise.all(main.getAnimations().map(animation => animation.finished));
+  });
   const before = await directory.boundingBox();
   const opener = page.getByRole('button', {name:'Add Employee',exact:true}).first();
   await opener.click();

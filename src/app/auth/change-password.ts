@@ -1,3 +1,4 @@
+import { PageTransition } from '../shared/page-transition';
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -7,6 +8,7 @@ import { Auth } from './auth';
 import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-change-password',
+  hostDirectives: [PageTransition],
   imports: [FormsModule],
   template: ` <section class="password-page">
     <form #form="ngForm" (ngSubmit)="save()">

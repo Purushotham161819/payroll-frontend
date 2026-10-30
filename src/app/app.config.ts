@@ -1,3 +1,4 @@
+import { EmployeeProfile } from './employees/employee-profile';
 import { PlatformPortal } from './platform/platform';
 import { ChangePassword } from './auth/change-password';
 import { superAdministrator } from './auth/auth';
@@ -21,6 +22,8 @@ export const routes: Routes = [
   ] },
   { path: '', component: WorkspaceLayout, canActivateChild: [authenticated], children: [
     { path: '', component: EmployeeList },
+    { path: 'payroll', loadChildren: () => import('./features/run-payroll/run-payroll.routes').then(m => m.RUN_PAYROLL_ROUTES) },
+    { path: 'employees/:id', component: EmployeeProfile },
     { path: 'settings', component: Settings },
     { path: 'settings/statutory-deductions', component: StatutoryDeductionsPage },
     { path: 'users', component: UserManagement, canActivate: [administrator] },

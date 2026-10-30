@@ -1,0 +1,73 @@
+.check-actions {
+  display: flex;
+  gap: 8px;
+}
+.pdf-viewer {
+  width: min(1000px, calc(100vw - 32px));
+  max-height: 92dvh;
+  padding: 18px;
+  border: 1px solid #c7d9cd;
+  border-radius: 12px;
+  background: white;
+  color: #203d2d;
+  box-shadow: 0 20px 80px #102c2a44;
+}
+.pdf-viewer::backdrop {
+  background: #102c2a99;
+}
+.pdf-viewer header {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.pdf-viewer h2 {
+  font-size: 17px;
+  margin: 0;
+}
+.pdf-viewer iframe {
+  display: block;
+  width: 100%;
+  height: 65dvh;
+  border: 1px solid #dce6df;
+  border-radius: 6px;
+}
+.pdf-viewer footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+.table-scroll {
+  overflow: auto;
+  margin-top: 20px;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background: white;
+}
+th,
+td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #dce6df;
+  white-space: nowrap;
+}
+thead,
+tfoot {
+  background: #eef5f0;
+}
+.notice {
+  padding: 14px;
+  border-radius: 8px;
+}
+.error {
+  background: #fff0ed;
+  color: #8b3026;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
