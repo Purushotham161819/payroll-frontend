@@ -19,7 +19,11 @@
   <p role="status">Loading employee...</p>
 }
 @if (employee(); as person) {
-  <app-profile-tabs [active]="tab()" (activeChange)="tab.set($event)" />
+  <app-profile-tabs
+    [active]="tab()"
+    [showTax]="taxAuth.user()?.role === 'admin'"
+    (activeChange)="changeTab($event)"
+  />
   @if (tab() === 'details') {
     <section role="tabpanel" id="profile-details-panel" aria-labelledby="profile-details-tab">
       <div class="widgets">
@@ -62,15 +66,26 @@
           </dl></app-profile-card
         >
       </div>
+
       <button class="secondary edit" (click)="editing.set(true)">Edit employee</button>
     </section>
   } @else if (tab() === 'history') {
     <section role="tabpanel" id="profile-history-panel" aria-labelledby="profile-history-tab">
       <app-employment-history [employee]="person" />
     </section>
-  } @else {
+  } @else if (tab() === 'checks') {
     <section role="tabpanel" id="profile-checks-panel" aria-labelledby="profile-checks-tab">
       <app-pay-checks [employeeId]="person._id" />
+    </section>
+  }
+  @if (taxOpened() && taxAuth.user()?.role === 'admin') {
+    <section
+      role="tabpanel"
+      id="profile-tax-panel"
+      aria-labelledby="profile-tax-tab"
+      [hidden]="tab() !== 'tax'"
+    >
+      <app-employee-tax [employeeId]="person._id" />
     </section>
   }
   @if (editing()) {

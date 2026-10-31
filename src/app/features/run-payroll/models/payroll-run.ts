@@ -11,6 +11,10 @@ export interface PayCheck {
   employerContributions: number;
   deductions: number;
   netPay: number;
+  tds?: number;
+  tdsCalculationStatus?: string;
+  tdsCalculationStatusLabel?: string;
+  existingDeductions?: number;
   paymentStatus: string;
   pdfUrl?: string;
   period?: string;
@@ -26,6 +30,7 @@ export interface PayrollRun {
   inputHash: string;
   stale: boolean;
   warning?: string;
+  validationIssues?: { employeeId: string; employeeCode?: string; firstName: string; lastName: string; stage: string; message: string }[];
   submittedAt?: string;
   paymentDate?: string | null;
   totalPayrollCost?: number | null;

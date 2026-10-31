@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import type { PayCheck, PayrollRun } from './models/payroll-run';
@@ -8,10 +8,16 @@ export type { PayCheck, PayrollRun } from './models/payroll-run';
 export class RunPayrollService {
   private readonly http = inject(HttpClient);
   private readonly url = environment.apiUrl + '/payroll';
-  preview(period: string, employeeIds: string[], recalculate = false) {
-    return firstValueFrom(
-      this.http.post<PayrollRun>(this.url + '/runs/preview', { period, employeeIds, recalculate }),
-    );
+  async preview(period: string, employeeIds: string[], recalculate = false) {
+    try {
+      return await firstValueFrom(this.http.post<PayrollRun>(this.url + '/runs/preview', { period, employeeIds, recalculate }));
+    } catch (error) {
+      if (error instanceof HttpErrorResponse && error.status === 409 && error.error?.code === 'PAYROLL_EMPLOYEE_REVIEW_REQUIRED') {
+        const preview = error.error.payrollPreview as PayrollRun;
+        if (preview?.period === period && Array.isArray(preview.checks) && preview.validationIssues?.length) return preview;
+      }
+      throw error;
+    }
   }
   save(run: PayrollRun) {
     return firstValueFrom(

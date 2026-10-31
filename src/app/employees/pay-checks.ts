@@ -48,7 +48,7 @@ import { apiError } from './employee.service';
               <td>{{ check.paymentDate | date: 'mediumDate' : 'UTC' }}</td>
               <td>{{ check.grossPay | currency: 'INR' }}</td>
               <td>{{ check.employerContributions | currency: 'INR' }}</td>
-              <td>{{ check.deductions | currency: 'INR' }}</td>
+              <td>{{ check.deductions | currency: 'INR' }}@if(check.tds !== undefined){<small> · Income Tax / TDS: {{ check.tds | currency:'INR' }}</small>}</td>
               <td>{{ check.netPay | currency: 'INR' }}</td>
               <td class="check-actions">
                 <button class="secondary" (click)="view(check)" [disabled]="busy()">

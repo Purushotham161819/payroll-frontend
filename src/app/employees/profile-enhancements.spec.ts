@@ -26,6 +26,7 @@ describe('Employee profile presentation and historical PDF viewer', () => {
     expect(tabs.map((t) => t.textContent?.trim())).toEqual([
       'Employee Details',
       'Employment History',
+      'Income Tax / TDS',
       'Pay Checks',
     ]);
     expect(tabs[0].getAttribute('aria-selected')).toBe('true');

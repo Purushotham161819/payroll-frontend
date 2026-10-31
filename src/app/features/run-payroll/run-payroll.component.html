@@ -48,23 +48,23 @@
   <article class="kpi" aria-label="Total Payroll Cost">
     <h2>Total Payroll Cost</h2>
     <strong>{{
-      run()?.totalPayrollCost === null ? '—' : (run()?.totalPayrollCost ?? 0 | currency: 'INR')
+      !totalsAvailable() || run()?.totalPayrollCost === null ? '—' : (run()?.totalPayrollCost ?? 0 | currency: 'INR')
     }}</strong
     ><small>Monthly CTC</small>
   </article>
   <article class="kpi" aria-label="Employer Contributions">
     <h2>Employer Contributions</h2>
-    <strong>{{ run()?.totals?.employerContributions ?? 0 | currency: 'INR' }}</strong
+    <strong>{{ totalsAvailable() ? (run()?.totals?.employerContributions ?? 0 | currency: 'INR') : 'Unavailable' }}</strong
     ><small>Monthly</small>
   </article>
   <article class="kpi" aria-label="Total Employee Deductions">
     <h2>Total Employee Deductions</h2>
-    <strong>{{ run()?.totals?.deductions ?? 0 | currency: 'INR' }}</strong
+    <strong>{{ totalsAvailable() ? (run()?.totals?.deductions ?? 0 | currency: 'INR') : 'Unavailable' }}</strong
     ><small>Monthly</small>
   </article>
   <article class="kpi net" aria-label="Total NET Pay">
     <h2>Total NET Pay</h2>
-    <strong>{{ run()?.totals?.netPay ?? 0 | currency: 'INR' }}</strong
+    <strong>{{ totalsAvailable() ? (run()?.totals?.netPay ?? 0 | currency: 'INR') : 'Unavailable' }}</strong
     ><small>Monthly</small>
   </article>
 </section>
@@ -73,6 +73,14 @@
   <p class="loading" role="status">Updating payroll...</p>
 }
 @if (run(); as payroll) {
+  @if (hasReviewIssues()) {
+    <section class="notice error" role="alert">
+      <p>Payroll needs review. Totals cover {{ payroll.checks.length }} calculated employees; employees requiring review are excluded. Save and Submit are blocked for this selection. Resolve the issues, or deselect those employees and recalculate to process the others.</p>
+      @for (issue of payroll.validationIssues; track issue.employeeId) {
+        <p>{{ issue.employeeCode || issue.firstName + ' ' + issue.lastName }}: {{ issue.message }}</p>
+      }
+    </section>
+  }
   @if (confirmationPage) {
     <section class="submission-meta" aria-label="Payroll submission summary">
       <strong>{{ payroll.organizationName }}</strong
@@ -121,6 +129,7 @@
           <th>Last Name</th>
           <th class="money">Monthly CTC</th>
           <th class="money">Employer Contributions</th>
+          <th class="money">TDS</th>
           <th class="money">Deductions</th>
           <th class="money">NET Pay</th>
           <th>Payment Status</th>
@@ -183,7 +192,11 @@
               }}
             </td>
             <td class="money">
-              {{ row.deductions == null ? '—' : (row.deductions | currency: 'INR') }}
+              {{ row.tds ?? 0 | currency: 'INR' }}
+              @if (row.tdsCalculationStatusLabel) { <small class="payment-detail">{{ row.tdsCalculationStatusLabel }}</small> }
+            </td>
+            <td class="money">
+              {{ otherDeductions(row) == null ? '—' : (otherDeductions(row) | currency: 'INR') }}
             </td>
             <td class="money">{{ row.netPay == null ? '—' : (row.netPay | currency: 'INR') }}</td>
             <td>
@@ -193,6 +206,7 @@
                 [class.paid]="row.paymentStatus === 'Paid'"
                 >{{ rowStatus(row) }}</span
               >
+              @if (row.validationMessage) { <small class="payment-detail">{{ row.validationMessage }}</small> }
               @if (row.historical && row.paymentStatus !== 'Paid') {
                 <small class="payment-detail">{{ row.paymentStatus }}</small>
               }
@@ -221,7 +235,7 @@
           </tr>
         } @empty {
           <tr>
-            <td colspan="9" class="empty">
+            <td colspan="10" class="empty">
               No eligible employees or payroll records for this period.
             </td>
           </tr>
@@ -230,18 +244,19 @@
       <tfoot>
         <tr>
           <th colspan="3">
-            {{ confirmationPage ? 'Submission totals' : 'Selected draft totals' }}
+            {{ confirmationPage ? 'Submission totals' : hasReviewIssues() ? 'Calculated employees subtotal' : 'Selected draft totals' }}
           </th>
           <td class="money">
             {{
-              payroll.totalPayrollCost === null
+              !totalsAvailable() || payroll.totalPayrollCost === null
                 ? '—'
                 : (payroll.totalPayrollCost ?? 0 | currency: 'INR')
             }}
           </td>
-          <td class="money">{{ payroll.totals.employerContributions | currency: 'INR' }}</td>
-          <td class="money">{{ payroll.totals.deductions | currency: 'INR' }}</td>
-          <td class="money">{{ payroll.totals.netPay | currency: 'INR' }}</td>
+          <td class="money">{{ totalsAvailable() ? (payroll.totals.employerContributions | currency: 'INR') : 'Unavailable' }}</td>
+          <td class="money">{{ totalsAvailable() ? (tdsTotal() | currency: 'INR') : 'Unavailable' }}</td>
+          <td class="money">{{ totalsAvailable() ? (otherDeductionsTotal() | currency: 'INR') : 'Unavailable' }}</td>
+          <td class="money">{{ totalsAvailable() ? (payroll.totals.netPay | currency: 'INR') : 'Unavailable' }}</td>
           <td colspan="2"></td>
         </tr>
       </tfoot>
@@ -254,7 +269,7 @@
         (click)="save()"
         [disabled]="
           busy() ||
-          payroll.stale ||
+          hasReviewIssues() || payroll.stale ||
           selectionChanged() ||
           !payroll.inputHash ||
           (!payroll.checks.length && !payroll.version)
@@ -266,7 +281,7 @@
         (click)="openConfirmation()"
         [disabled]="
           busy() ||
-          dirty() ||
+          hasReviewIssues() || dirty() ||
           payroll.stale ||
           selectionChanged() ||
           !payroll.version ||

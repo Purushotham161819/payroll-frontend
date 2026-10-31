@@ -1,5 +1,5 @@
 ﻿<h1>Settings</h1>
-<nav class="settings-tabs" aria-label="Settings sections"><a routerLink="/settings" routerLinkActive="selected" [routerLinkActiveOptions]="{exact:true}">Salary Components</a><a routerLink="/settings/statutory-deductions" routerLinkActive="selected" ariaCurrentWhenActive="page">Statutory Deductions</a></nav>
+<nav class="settings-tabs" aria-label="Settings sections"><a routerLink="/settings" routerLinkActive="selected" [routerLinkActiveOptions]="{exact:true}">Salary Components</a><a routerLink="/settings/statutory-deductions" routerLinkActive="selected" ariaCurrentWhenActive="page">Statutory Deductions</a>@if(taxAuth.user()?.role === 'admin'){<a routerLink="/settings/tax-configuration">Tax Configuration</a>}</nav>
 <h2>Statutory Deductions</h2><p>Configure the annual EPF and ESI ceiling limits and contribution percentages for upcoming payroll calculations.</p>
 @if (loading()) { <p role="status">Loading statutory deduction settingsâ€¦</p> }
 @if (error()) { <div class="notice error" role="alert">{{ error() }} @if (!loaded()) { <button class="secondary" (click)="load()">Retry</button> }</div> }

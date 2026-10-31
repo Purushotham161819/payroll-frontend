@@ -25,7 +25,7 @@ import { Employee } from '../../employees/employee';
 import { payrollMonths } from '../../shared/payroll-calendar';
 import { PayCheck, PayrollRun, RunPayrollService } from './run-payroll.service';
 type PayrollRow = Pick<PayCheck, 'employeeId' | 'firstName' | 'lastName'> &
-  Partial<PayCheck> & { historical: boolean; selectable: boolean };
+  Partial<PayCheck> & { historical: boolean; selectable: boolean; validationMessage?: string };
 @Component({
   selector: 'app-run-payroll',
   imports: [CurrencyPipe, DatePipe, FormsModule, RouterLink, ActionIcon, PayrollGuide],
@@ -138,14 +138,16 @@ export class RunPayroll implements OnInit, OnDestroy {
   }
   private async load(recalculate: boolean) {
     const requested = [...new Set([...this.selected(), ...this.historicalSelection])];
-    const result = await this.service.preview(this.period, requested, recalculate);
+    let result: PayrollRun;
+    try { result = await this.service.preview(this.period, requested, recalculate); }
+    catch (error) { if (this.alive) this.run.set(null); throw error; }
     this.historicalSelection = new Set(
       requested.filter((id) => result.processedEmployeeIds?.includes(id)),
     );
     if (!this.alive) return;
     this.run.set(result);
     if (!recalculate) this.paymentDate = result.paymentDate ?? '';
-    this.selected.set(new Set(result.checks.map((c) => c.employeeId)));
+    this.selected.set(new Set([...result.checks.map((c) => c.employeeId), ...(result.validationIssues ?? []).map(issue => issue.employeeId)]));
     this.candidates.update((current) => {
       const next = new Map(current);
       for (const c of result.checks) next.set(c.employeeId, c);
@@ -222,6 +224,10 @@ export class RunPayroll implements OnInit, OnDestroy {
       });
     for (const c of this.run()?.historicalChecks ?? [])
       rows.set(c.employeeId, { ...c, historical: true, selectable: false });
+    for (const issue of this.run()?.validationIssues ?? []) {
+      const row = rows.get(issue.employeeId);
+      rows.set(issue.employeeId, { ...row, employeeId: issue.employeeId, firstName: issue.firstName, lastName: issue.lastName, historical: false, selectable: row?.selectable ?? true, validationMessage: issue.message });
+    }
     return [...rows.values()];
   }
   selectableRows() {
@@ -244,8 +250,14 @@ export class RunPayroll implements OnInit, OnDestroy {
       checked ? ids.add(row.employeeId) : ids.delete(row.employeeId);
     this.changeSelection(ids);
   }
+  tdsTotal() { return (this.run()?.checks ?? []).reduce((sum, check) => Math.round((sum + (check.tds ?? 0)) * 100) / 100, 0); }
+  otherDeductions(row: Partial<PayCheck>) {
+    return row.existingDeductions ?? (row.deductions == null ? null : Math.round((row.deductions - (row.tds ?? 0)) * 100) / 100);
+  }
+  otherDeductionsTotal() { return (this.run()?.checks ?? []).reduce((sum, check) => Math.round((sum + (this.otherDeductions(check) ?? 0)) * 100) / 100, 0); }
   rowStatus(row: PayrollRow) {
     if (row.historical) return row.paymentStatus === 'Paid' ? 'Paid' : 'Submitted';
+    if (row.validationMessage) return 'Needs Review';
     if (!row.selectable) return 'Ineligible';
     return this.selected().has(row.employeeId) &&
       (this.run()?.draftSaved === true ||
@@ -290,9 +302,11 @@ export class RunPayroll implements OnInit, OnDestroy {
     clearTimeout(this.timer); this.selectionPending.set(false); this.refreshing.set(true);
     void this.perform(async () => { try { await this.load(true); if (manual) this.message.set('Payroll recalculated. Review and save the updated draft.'); } finally { if (this.alive) this.refreshing.set(false); } });
   }
+  hasReviewIssues() { return !!this.run()?.validationIssues?.length; }
+  totalsAvailable() { return !!this.run() && (!this.hasReviewIssues() || !!this.run()?.checks.length) && !this.selectionPending() && !this.refreshing(); }
   save() {
     const run = this.run();
-    if (!run) return;
+    if (!run || this.hasReviewIssues() || run.stale) return;
     void this.perform(async () => {
       this.run.set({ ...await this.service.save({ ...run, paymentDate: this.paymentDate || null }), employeeCompensation: run.employeeCompensation });
       this.paymentDate = this.run()?.paymentDate ?? '';
@@ -303,7 +317,7 @@ export class RunPayroll implements OnInit, OnDestroy {
   }
   submit() {
     const run = this.run();
-    if (!run || !run.checks.length || !this.paymentDate || this.dirty() || this.selectionChanged())
+    if (!run || this.hasReviewIssues() || run.stale || !run.checks.length || !this.paymentDate || this.dirty() || this.selectionChanged())
       return;
     this.key ||= crypto.randomUUID();
     void this.perform(async () => {
@@ -340,10 +354,10 @@ export class RunPayroll implements OnInit, OnDestroy {
     const fresh = await this.service.preview(ui.period, ui.selectedIds, ui.dirty);
     if (!this.alive) return;
     const changed = fresh.version !== ui.version || (!!ui.inputHash && fresh.inputHash !== ui.inputHash);
-    const snapshot = memory && fresh.version === ui.version ? { ...memory.run, employeeCompensation: fresh.employeeCompensation,
+    const snapshot = memory && !fresh.validationIssues?.length && fresh.version === ui.version ? { ...memory.run, employeeCompensation: fresh.employeeCompensation,
       stale: memory.run.stale || fresh.stale || fresh.inputHash !== ui.inputHash,
       warning: fresh.inputHash !== ui.inputHash ? 'Payroll inputs changed while viewing the employee. Explicitly recalculate and review.' : fresh.warning } : fresh;
-    this.run.set(snapshot); this.selected.set(new Set(memory && fresh.version === ui.version ? ui.selectedIds : fresh.checks.map(c => c.employeeId)));
+    this.run.set(snapshot); this.selected.set(new Set(memory && fresh.version === ui.version ? ui.selectedIds : [...fresh.checks.map(c => c.employeeId), ...(fresh.validationIssues ?? []).map(issue => issue.employeeId)]));
     this.paymentDate = ui.paymentDate; this.dirty.set(ui.dirty || changed);
     this.candidates.set(new Map(memory?.candidates ?? snapshot.checks.map(c => [c.employeeId, c] as [string, PayCheck])));
     this.historicalSelection = new Set([...(ui.historicalIds ?? []), ...ui.selectedIds.filter(id => snapshot.processedEmployeeIds?.includes(id))]);

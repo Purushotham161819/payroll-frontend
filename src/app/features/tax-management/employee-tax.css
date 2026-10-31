@@ -1,0 +1,176 @@
+:host {
+  display: block;
+}
+.tax-intro h2 {
+  margin: 0 0 6px;
+}
+.tax-intro p {
+  font-size: 13px;
+  margin: 0 0 20px;
+}
+.tax-card {
+  padding: 24px;
+  border-color: #dce4da;
+  margin: 20px 0;
+}
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+.card-header h3 {
+  margin: 0 0 6px;
+  font-size: 19px;
+}
+.card-header p {
+  margin: 0;
+  font-size: 13px;
+}
+.header-actions,
+.card-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.header-actions button,
+.card-actions button {
+  margin: 0;
+}
+.card-actions {
+  margin-top: 20px;
+}
+.summary {
+  padding: 16px;
+  background: #f5f7f2;
+  border-radius: 7px;
+  margin: 18px 0;
+}
+.summary dt {
+  font-size: 12px;
+}
+.summary dd {
+  font-size: 15px;
+}
+.fields label {
+  margin: 0;
+}
+.fields {
+  gap: 20px;
+}
+.checks {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+.readonly input:disabled,
+.readonly select:disabled,
+input[readonly],
+select:disabled {
+  background: #f3f5f0;
+  color: #52624f;
+}
+input[readonly] {
+  cursor: default;
+}
+.mode {
+  display: inline-block;
+  font-size: 12px;
+  border-radius: 12px;
+  padding: 5px 9px;
+  background: #edf2e9;
+  color: #52624f;
+}
+.mode.editing {
+  background: #faf3e3;
+  color: #78591f;
+}
+table {
+  font-size: 13px;
+}
+th {
+  font-size: 12px;
+  background: #edf2e9;
+}
+th,
+td {
+  padding: 13px 12px;
+  vertical-align: top;
+}
+.table-wrap {
+  overflow: auto;
+  border: 1px solid #e1e7de;
+  border-radius: 7px;
+}
+td:first-child {
+  min-width: 150px;
+}
+td small {
+  display: block;
+  color: #65756b;
+  margin-top: 5px;
+}
+.breakdown {
+  gap: 22px;
+}
+.breakdown dd {
+  font-variant-numeric: tabular-nums;
+}
+.empty {
+  padding: 20px;
+  background: #f5f7f2;
+  border-radius: 6px;
+}
+.history-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.muted {
+  overflow-wrap: anywhere;
+}
+.notice.info {
+  background: #f0f4ec;
+  color: #40563d;
+}
+button:focus-visible,
+a:focus-visible,
+.table-wrap:focus-visible {
+  outline: 2px solid #28644a;
+  outline-offset: 3px;
+}
+dialog {
+  width: min(520px, calc(100% - 28px));
+  box-sizing: border-box;
+  border: 1px solid #dce4da;
+  border-radius: 12px;
+  padding: 25px;
+  color: #20372c;
+}
+dialog::backdrop {
+  background: #102c2a99;
+}
+[hidden] {
+  display: none !important;
+}
+@media (max-width: 650px) {
+  .tax-card {
+    padding: 16px;
+  }
+  .card-header {
+    flex-wrap: wrap;
+  }
+  .fields,
+  .checks {
+    grid-template-columns: 1fr;
+  }
+  .header-actions {
+    justify-content: flex-start;
+  }
+  .card-actions button {
+    flex: 1 1 auto;
+  }
+  .summary {
+    padding: 12px;
+  }
+}

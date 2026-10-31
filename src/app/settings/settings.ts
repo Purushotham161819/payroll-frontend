@@ -1,3 +1,4 @@
+import { Auth } from '../auth/auth';
 import { DeleteConfirmation } from '../shared/delete-confirmation';
 ﻿import { RouterLink, RouterLinkActive } from '@angular/router';
 import { registerLocaleData } from '@angular/common';
@@ -40,6 +41,7 @@ export class SalaryComponentService {
 }
 @Component({ selector: 'app-settings', imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive, DeleteConfirmation], templateUrl: './settings.html', styleUrl: './settings.css' })
 export class Settings implements OnInit {
+  readonly taxAuth = inject(Auth);
   private service = inject(SalaryComponentService);
   records = signal<SalaryComponent[]>([]); loading = signal(false); busy = signal(false);
   error = signal(''); success = signal(''); modal = signal(false); formError = signal('');

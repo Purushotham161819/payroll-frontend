@@ -1,3 +1,4 @@
+import { Auth } from '../auth/auth';
 import { Component, Injectable, OnInit, inject, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -29,6 +30,7 @@ export class StatutoryDeductionsApi {
 
 @Component({selector: 'app-statutory-deductions', imports: [FormsModule, RouterLink, RouterLinkActive], templateUrl: './statutory-deductions.html', styleUrl: './statutory-deductions.css'})
 export class StatutoryDeductionsPage implements OnInit {
+  readonly taxAuth = inject(Auth);
   private api = inject(StatutoryDeductionsApi);
   loading = signal(true); saving = signal(false); error = signal(''); success = signal(''); loaded = signal(false); configured = signal(false);
   draft = empty(); private saved = empty();

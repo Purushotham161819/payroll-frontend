@@ -1,0 +1,894 @@
+<h1>Settings</h1>
+<nav class="settings-tabs" aria-label="Settings sections">
+  <a routerLink="/settings">Salary Components</a
+  ><a routerLink="/settings/statutory-deductions">Statutory Deductions</a
+  ><a routerLink="/settings/tax-configuration" aria-current="page">Tax Configuration</a>
+</nav>
+<div class="page-heading">
+  <h2>Tax Configuration</h2>
+  <p>Manage financial years, reviewed tax rules and component taxability.</p>
+</div>
+@if (busy()) {
+  <p role="status">Processing tax configuration…</p>
+}
+@if (error()) {
+  <p role="alert" class="notice error">
+    {{ error() }} <button type="button" (click)="load()" [disabled]="busy()">Reload</button>
+  </p>
+}
+@if (message()) {
+  <p role="status" class="notice success">{{ message() }}</p>
+}
+<section class="tax-card" aria-labelledby="financial-years">
+  <header class="card-header">
+    <div>
+      <h3 id="financial-years">Financial Years</h3>
+      <p>Existing years and their activation status.</p>
+    </div>
+    <button
+      type="button"
+      class="primary"
+      (click)="yearEditor.open = !yearEditor.open"
+      [attr.aria-expanded]="yearEditor.open"
+      aria-controls="add-financial-year"
+      [disabled]="busy()"
+    >
+      Add Financial Year
+    </button>
+  </header>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Financial years">
+    <table>
+      <thead>
+        <tr>
+          <th>Financial Year</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (y of state().years; track y.code) {
+          <tr>
+            <td>
+              <strong>{{ y.name }} ({{ y.code }})</strong
+              ><small>{{ y.legislation }} · {{ y.ruleVersion }}</small>
+            </td>
+            <td>{{ y.startDate | date: 'dd MMM yyyy' : 'UTC' }}</td>
+            <td>{{ y.endDate | date: 'dd MMM yyyy' : 'UTC' }}</td>
+            <td>
+              <span class="status" [class.active]="y.active">{{
+                y.active ? 'Active' : 'Inactive'
+              }}</span>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="row-action"
+                [title]="y.active ? 'Deactivate financial year' : 'Activate financial year'"
+                [attr.aria-label]="(y.active ? 'Deactivate ' : 'Activate ') + y.name"
+                [disabled]="busy()"
+                (click)="requestActivation({ kind: 'year', id: y.code, active: !y.active })"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 3v9m-5-7a8 8 0 1 0 10 0" />
+                </svg>
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="5" class="empty">No financial years configured. Add a year to begin.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <details #yearEditor id="add-financial-year">
+    <summary class="sr-only">Add financial year form</summary>
+    <form (ngSubmit)="saveYear(yearForm)" #yearForm="ngForm">
+      <fieldset [disabled]="busy()">
+        <div class="fields">
+          <label
+            >Name<input
+              name="name"
+              [(ngModel)]="year.name"
+              required
+              pattern="[\s\S]*\S[\s\S]*"
+              maxlength="100"
+              #yearName="ngModel"
+            />
+            @if (yearName.invalid && (yearName.touched || yearForm.submitted)) {
+              <small role="alert">Enter a financial year name.</small>
+            }
+          </label>
+          <label
+            >Code<input
+              name="code"
+              [(ngModel)]="year.code"
+              required
+              pattern="[A-Za-z0-9 _\-]{3,30}"
+              #yearCodeInput="ngModel"
+            /><small
+              >3–30 letters, numbers, spaces, hyphens or underscores. Example: FY 2026-27.</small
+            >
+            @if (yearCodeInput.invalid && (yearCodeInput.touched || yearForm.submitted)) {
+              <small role="alert">Enter a valid financial year code.</small>
+            }
+          </label>
+          <label
+            >Start date<input
+              type="date"
+              name="start"
+              [(ngModel)]="year.startDate"
+              required
+              #yearStart="ngModel"
+            />
+            @if (yearStart.invalid && (yearStart.touched || yearForm.submitted)) {
+              <small role="alert">Enter a valid start date.</small>
+            }
+          </label>
+          <label
+            >End date<input
+              type="date"
+              name="end"
+              [(ngModel)]="year.endDate"
+              required
+              #yearEnd="ngModel"
+            />
+            @if (yearEnd.invalid && (yearEnd.touched || yearForm.submitted)) {
+              <small role="alert">Enter a valid end date.</small>
+            }
+          </label>
+          <label
+            >Applicable legislation<input
+              name="legislation"
+              [(ngModel)]="year.legislation"
+              required
+              pattern="[\s\S]*\S[\s\S]*"
+              maxlength="500"
+              #yearLegislation="ngModel"
+            />
+            @if (yearLegislation.invalid && (yearLegislation.touched || yearForm.submitted)) {
+              <small role="alert">Enter the applicable legislation.</small>
+            }
+          </label>
+          <label
+            >Rule version<input
+              name="ruleVersion"
+              [(ngModel)]="year.ruleVersion"
+              required
+              pattern="[\s\S]*\S[\s\S]*"
+              maxlength="100"
+              #yearVersion="ngModel"
+            />
+            @if (yearVersion.invalid && (yearVersion.touched || yearForm.submitted)) {
+              <small role="alert">Enter the rule version.</small>
+            }
+          </label>
+        </div>
+        @if ((yearStart.touched || yearEnd.touched || yearForm.submitted) && yearDateError()) {
+          <p role="alert">{{ yearDateError() }}</p>
+        }
+        @if (
+          yearCodeInput.touched && yearError() === 'A financial year with this code already exists.'
+        ) {
+          <p role="alert">{{ yearError() }}</p>
+        }
+        <button class="primary" [disabled]="busy() || yearForm.invalid || !!yearError()">
+          {{ busy() ? 'Saving…' : 'Save financial year' }}
+        </button>
+      </fieldset>
+    </form>
+  </details>
+</section>
+<form
+  (ngSubmit)="submitEditor($event, rulesForm)"
+  #rulesForm="ngForm"
+  aria-label="Tax configuration editor"
+>
+  <fieldset [disabled]="busy()">
+    <section class="tax-card" ngModelGroup="master" aria-labelledby="master">
+      <header class="card-header">
+        <div>
+          <h3 id="master">Tax Master</h3>
+          <p>Select a financial year and regime, then review the master settings.</p>
+        </div>
+        <span class="draft-badge" [class.dirty]="sectionDirty('master')">{{
+          sectionDirty('master') ? 'Unsaved changes' : 'Saved'
+        }}</span>
+      </header>
+      <div class="fields">
+        <label
+          >Financial year<select
+            name="yearCode"
+            [(ngModel)]="yearCode"
+            (ngModelChange)="selectYear()"
+            required
+          >
+            <option value="">Select a year</option>
+            @for (y of state().years; track y.code) {
+              <option [value]="y.code">{{ y.name }}</option>
+            }
+          </select></label
+        >
+        <label
+          >Regime<select name="regime" [(ngModel)]="regime">
+            <option value="new">New</option>
+            <option value="old">Old</option>
+          </select></label
+        >
+        <label
+          >Effective date<input
+            name="effectiveDate"
+            type="date"
+            [(ngModel)]="effectiveDate"
+            required
+            readonly
+        /></label>
+        <label
+          >Standard deduction<input
+            name="standard"
+            type="number"
+            [(ngModel)]="standardDeduction"
+            min="0"
+            required
+        /></label>
+        <label
+          >Rebate eligibility limit<input
+            name="rebateLimit"
+            type="number"
+            [(ngModel)]="rebateLimit"
+            min="0"
+            required
+        /></label>
+        <label
+          >Maximum rebate<input
+            name="maximumRebate"
+            type="number"
+            [(ngModel)]="maximumRebate"
+            min="0"
+            required
+        /></label>
+        <label
+          >Cess percentage<input
+            name="cess"
+            type="number"
+            [(ngModel)]="cess"
+            min="0"
+            max="100"
+            step="any"
+            required
+        /></label>
+        <label
+          >Minimum age at year end<input
+            name="minimumAge"
+            type="number"
+            [(ngModel)]="minimumAge"
+            min="0"
+            max="120"
+            required
+        /></label>
+        <label
+          >Maximum age (blank: unlimited)<input
+            name="maximumAge"
+            type="number"
+            [(ngModel)]="maximumAge"
+            min="0"
+            max="120"
+        /></label>
+        <label
+          >Income rounding<select name="incomeRounding" [(ngModel)]="incomeRounding">
+            <option value="nearest-ten-ignore-paise">Ignore paise, nearest ₹10</option>
+            <option value="paise">Nearest paise</option>
+          </select></label
+        >
+        <label
+          >Liability rounding<select name="liabilityRounding" [(ngModel)]="liabilityRounding">
+            <option value="nearest-ten-ignore-paise">Ignore paise, nearest ₹10</option>
+            <option value="paise">Nearest paise</option>
+          </select></label
+        >
+        <label class="check"
+          ><input type="checkbox" name="rebateRelief" [(ngModel)]="rebateRelief" />Rebate marginal
+          relief applies</label
+        >
+        <label class="check"
+          ><input type="checkbox" name="surchargeRelief" [(ngModel)]="surchargeRelief" />Surcharge
+          marginal relief applies</label
+        >
+      </div>
+      @if (sectionErrors()['master']) {
+        <p class="notice error" role="alert">{{ sectionErrors()['master'] }}</p>
+      }
+      @if (sectionMessages()['master']) {
+        <p class="notice success" role="status">{{ sectionMessages()['master'] }}</p>
+      }
+      <footer class="card-footer">
+        <button
+          class="primary"
+          type="submit"
+          data-section="master"
+          [disabled]="busy() || !baseline() || !sectionDirty('master')"
+        >
+          {{ savingSection() === 'master' ? 'Saving…' : 'Save Tax Master' }}
+        </button>
+      </footer>
+    </section>
+    @if (!baseline()) {
+      <p class="notice info">
+        Create the first complete configuration for this financial year and regime using Save new
+        revision below. After that, each card saves its own changes. Publishing remains a separate
+        action in Tax History.
+      </p>
+    }
+    <section class="tax-card" ngModelGroup="slabs" aria-labelledby="slabs">
+      <header class="card-header">
+        <div>
+          <h3 id="slabs">Progressive Tax Slabs</h3>
+          <p>Continuous income ranges and their reviewed tax rates.</p>
+        </div>
+        <span class="draft-badge" [class.dirty]="sectionDirty('slabs')">{{
+          sectionDirty('slabs') ? 'Unsaved changes' : 'Saved'
+        }}</span>
+      </header>
+      <p>Use contiguous boundaries, starting at zero. Leave only the final upper limit blank.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>From Amount</th>
+              <th>To Amount (blank: unlimited)</th>
+              <th>Tax Rate %</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (s of slabs; track $index; let i = $index) {
+              <tr>
+                <td>
+                  <input
+                    [name]="'from' + i"
+                    type="number"
+                    [(ngModel)]="s.from"
+                    min="0"
+                    required
+                    aria-label="Slab from"
+                  />
+                </td>
+                <td>
+                  <input
+                    [name]="'to' + i"
+                    type="number"
+                    [(ngModel)]="s.to"
+                    min="0"
+                    aria-label="Slab to"
+                  />
+                </td>
+                <td>
+                  <input
+                    [name]="'rate' + i"
+                    type="number"
+                    [(ngModel)]="s.rate"
+                    min="0"
+                    max="100"
+                    step="any"
+                    required
+                    aria-label="Slab rate"
+                  />
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    (click)="slabs.splice(i, 1)"
+                    class="row-action"
+                    title="Remove slab"
+                    aria-label="Remove slab"
+                  >
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5m4-5v5" />
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <button type="button" (click)="slabs.push({ from: 0, to: null, rate: 0 })">Add slab</button>
+      @if (sectionErrors()['slabs']) {
+        <p class="notice error" role="alert">{{ sectionErrors()['slabs'] }}</p>
+      }
+      @if (sectionMessages()['slabs']) {
+        <p class="notice success" role="status">{{ sectionMessages()['slabs'] }}</p>
+      }
+      <footer class="card-footer">
+        <button
+          class="primary"
+          type="submit"
+          data-section="slabs"
+          [disabled]="busy() || !baseline() || !sectionDirty('slabs')"
+        >
+          {{ savingSection() === 'slabs' ? 'Saving…' : 'Save Progressive Slabs' }}
+        </button>
+      </footer>
+    </section>
+    <section class="tax-card" ngModelGroup="surcharge" aria-labelledby="surcharge">
+      <header class="card-header">
+        <div>
+          <h3 id="surcharge">Surcharge Thresholds</h3>
+          <p>
+            Enter increasing thresholds and non-decreasing rates. Rates apply above the threshold.
+          </p>
+        </div>
+        <span class="draft-badge" [class.dirty]="sectionDirty('surcharge')">{{
+          sectionDirty('surcharge') ? 'Unsaved changes' : 'Saved'
+        }}</span>
+      </header>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Surcharge thresholds">
+        <table>
+          <thead>
+            <tr>
+              <th>Income Threshold</th>
+              <th>Surcharge Rate %</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (s of surcharge; track $index; let i = $index) {
+              <tr>
+                <td>
+                  <input
+                    [name]="'threshold' + i"
+                    type="number"
+                    [(ngModel)]="s.threshold"
+                    min="0"
+                    required
+                    aria-label="Threshold"
+                  />
+                </td>
+                <td>
+                  <input
+                    [name]="'surchargeRate' + i"
+                    type="number"
+                    [(ngModel)]="s.rate"
+                    min="0"
+                    max="100"
+                    required
+                    aria-label="Surcharge rate"
+                  />
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="row-action"
+                    (click)="surcharge.splice(i, 1)"
+                    title="Remove threshold"
+                    aria-label="Remove threshold"
+                  >
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5m4-5v5" />
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="3" class="empty">No surcharge thresholds configured.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <button type="button" (click)="surcharge.push({ threshold: 0, rate: 0 })">
+        Add Threshold
+      </button>
+      @if (sectionErrors()['surcharge']) {
+        <p class="notice error" role="alert">{{ sectionErrors()['surcharge'] }}</p>
+      }
+      @if (sectionMessages()['surcharge']) {
+        <p class="notice success" role="status">{{ sectionMessages()['surcharge'] }}</p>
+      }
+      <footer class="card-footer">
+        <button
+          class="primary"
+          type="submit"
+          data-section="surcharge"
+          [disabled]="busy() || !baseline() || !sectionDirty('surcharge')"
+        >
+          {{ savingSection() === 'surcharge' ? 'Saving…' : 'Save Surcharge Thresholds' }}
+        </button>
+      </footer>
+    </section>
+    <section class="tax-card" ngModelGroup="taxability" aria-labelledby="taxability">
+      <header class="card-header">
+        <div>
+          <h3 id="taxability">Salary Component Taxability</h3>
+          <p>
+            Review actual Payroll Generator components. No salary components or treatments are
+            created automatically.
+          </p>
+        </div>
+        <span class="draft-badge" [class.dirty]="sectionDirty('taxability')">{{
+          sectionDirty('taxability') ? 'Unsaved changes' : 'Saved'
+        }}</span>
+      </header>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Salary component taxability">
+        <table class="mapping-table">
+          <thead>
+            <tr>
+              <th>Salary Component</th>
+              <th>Component Code</th>
+              <th>Taxability</th>
+              <th>Tax Treatment / Reference</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (m of mappings; track m.componentId; let i = $index) {
+              <tr>
+                <td>
+                  <strong>{{ m.name }}</strong>
+                  @if (m.available === false) {
+                    <p role="alert">
+                      Inactive or no longer configured. Saved history is preserved.
+                    </p>
+                  }
+                </td>
+                <td>{{ m.code || '—' }}</td>
+                <td>
+                  <label
+                    ><span class="sr-only">{{ m.name }} — taxability treatment</span
+                    ><select [name]="'type' + i" [(ngModel)]="m.type" required>
+                      <option value="" disabled>Select reviewed treatment</option>
+                      <option value="taxable">Fully taxable</option>
+                      <option value="exempt">Fully exempt</option>
+                      <option value="partial">Partially taxable</option>
+                      <option value="conditional">Conditional (requires review)</option>
+                    </select></label
+                  >
+                </td>
+                <td>
+                  <label
+                    >{{ m.name }} — legal reference<input
+                      [name]="'reference' + i"
+                      [(ngModel)]="m.legalReference"
+                      required
+                      pattern="[\s\S]*\S[\s\S]*"
+                  /></label>
+                  @if (m.type && m.type !== 'taxable') {
+                    <label
+                      >Conditions<input
+                        [name]="'conditions' + i"
+                        [(ngModel)]="m.conditions"
+                        required
+                        pattern="[\s\S]*\S[\s\S]*"
+                    /></label>
+                  }
+                  @if (m.type === 'partial') {
+                    <label
+                      >Partial exemption method<select
+                        [name]="'partialMode' + i"
+                        [(ngModel)]="m.partialMode"
+                      >
+                        <option value="percentage">Taxable percentage</option>
+                        <option value="amount">Annual exempt amount</option>
+                      </select></label
+                    >
+                    @if (m.partialMode === 'percentage') {
+                      <label
+                        >Taxable %<input
+                          [name]="'taxable' + i"
+                          type="number"
+                          [(ngModel)]="m.taxablePercentage"
+                          min="0"
+                          max="100"
+                          required
+                      /></label>
+                    } @else {
+                      <label
+                        >Annual exempt amount<input
+                          [name]="'exempt' + i"
+                          type="number"
+                          [(ngModel)]="m.exemptAmount"
+                          min="0"
+                          required
+                      /></label>
+                    }
+                  }
+                </td>
+                <td>
+                  @if (m.available === false) {
+                    <button
+                      type="button"
+                      class="row-action"
+                      (click)="removeUnavailableMapping(m.componentId)"
+                      [attr.aria-label]="'Remove ' + m.name + ' from this draft'"
+                      title="Remove unavailable mapping from this draft"
+                    >
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5m4-5v5" />
+                      </svg>
+                    </button>
+                  } @else {
+                    <span class="muted">Edit in row</span>
+                  }
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="5" class="empty">No active salary components found.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <button type="button" (click)="loadComponents()" [disabled]="busy()">
+        {{ loadingComponents() ? 'Loading salary components…' : 'Load current salary components' }}
+      </button>
+      @if (componentMessage()) {
+        <p role="status">{{ componentMessage() }}</p>
+      }
+      @if (componentError()) {
+        <p role="alert">{{ componentError() }}</p>
+      }
+      <p class="muted">
+        Review exemptions against Gross Wages. Conditional claims require a future workflow and
+        block tax calculation in this release.
+      </p>
+      <label
+        >Official source URLs (one per line)<textarea
+          name="sources"
+          [(ngModel)]="sources"
+          rows="3"
+          required
+          pattern="[\s\S]*\S[\s\S]*"
+        ></textarea>
+      </label>
+      <label
+        >Review note and taxability conditions<textarea
+          name="reviewNote"
+          [(ngModel)]="reviewNote"
+          rows="3"
+          required
+          pattern="[\s\S]*\S[\s\S]*"
+        ></textarea>
+      </label>
+      <label class="check"
+        ><input
+          name="employerReviewed"
+          type="checkbox"
+          [(ngModel)]="employerReviewed"
+          required
+        />Employer contribution tax treatment reviewed; no unsupported additions or overlapping
+        exemptions</label
+      >
+      @if (sectionErrors()['taxability']) {
+        <p class="notice error" role="alert">{{ sectionErrors()['taxability'] }}</p>
+      }
+      @if (sectionMessages()['taxability']) {
+        <p class="notice success" role="status">{{ sectionMessages()['taxability'] }}</p>
+      }
+      <footer class="card-footer">
+        <button
+          class="primary"
+          type="submit"
+          data-section="taxability"
+          [disabled]="busy() || !baseline() || !sectionDirty('taxability')"
+        >
+          {{ savingSection() === 'taxability' ? 'Saving…' : 'Save Component Taxability' }}
+        </button>
+      </footer>
+    </section>
+    <div class="revision-actions">
+      @if (
+        (rulesForm.invalid || configurationProblems().length) &&
+        (rulesForm.touched || rulesForm.submitted)
+      ) {
+        <div role="alert">
+          <p>Correct these tax configuration fields:</p>
+          <ul>
+            @for (problem of validationErrors(rulesForm); track problem) {
+              <li>{{ problem }}</li>
+            }
+          </ul>
+        </div>
+      }
+      <p>
+        Save all editor changes together when creating a first configuration or intentionally saving
+        several cards. Every save creates one unpublished revision.
+      </p>
+      <button
+        type="submit"
+        class="primary"
+        data-section="complete"
+        [disabled]="busy() || rulesForm.invalid || !yearCode || !!configurationProblems().length"
+      >
+        Save new revision
+      </button>
+    </div>
+  </fieldset>
+</form>
+<section class="tax-card" aria-labelledby="tax-history">
+  <header class="card-header">
+    <div>
+      <h3 id="tax-history">Tax History</h3>
+      <p>Saved revisions are immutable. Activate a reviewed revision separately to publish it.</p>
+    </div>
+  </header>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Tax history">
+    <table>
+      <thead>
+        <tr>
+          <th>Version</th>
+          <th>Financial Year</th>
+          <th>Tax Regime</th>
+          <th>Effective Date</th>
+          <th>Created By</th>
+          <th>Created Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of pagedHistory(); track r.id) {
+          <tr>
+            <td>
+              <strong>Version {{ r.version }}</strong>
+              @if (latestRevision(r)) {
+                <small class="latest">Latest</small>
+              }
+            </td>
+            <td>{{ r.yearCode }}</td>
+            <td>{{ r.regime === 'new' ? 'New' : 'Old' }}</td>
+            <td>{{ r.effectiveDate | date: 'dd MMM yyyy' : 'UTC' }}</td>
+            <td>{{ r.createdBy || 'Not recorded' }}</td>
+            <td>{{ r.createdAt | date: 'dd MMM yyyy, HH:mm' }}</td>
+            <td>
+              <span
+                class="status"
+                [class.active]="state().published[r.yearCode + ':' + r.regime] === r.id"
+                >{{
+                  state().published[r.yearCode + ':' + r.regime] === r.id
+                    ? 'Published'
+                    : 'Unpublished / superseded'
+                }}</span
+              >
+            </td>
+            <td>
+              <div class="row-actions">
+                <button
+                  type="button"
+                  class="row-action"
+                  title="View revision"
+                  aria-label="View revision"
+                  (click)="viewRevision(r)"
+                >
+                  <app-action-icon name="eye" /></button
+                ><button
+                  type="button"
+                  class="row-action"
+                  title="Copy to editor"
+                  aria-label="Copy to editor"
+                  [disabled]="busy()"
+                  (click)="editRevision(r)"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M9 9h11v11H9zM15 9V4H4v11h5" />
+                  </svg></button
+                ><button
+                  type="button"
+                  class="row-action"
+                  title="Activate revision"
+                  aria-label="Activate revision"
+                  [disabled]="busy() || state().published[r.yearCode + ':' + r.regime] === r.id"
+                  (click)="requestActivation({ kind: 'revision', id: r.id })"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="8" class="empty">No tax revisions saved.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  @if (historyPages() > 1) {
+    <nav class="pagination" aria-label="Tax history pages">
+      <button type="button" (click)="historyPage = historyPage - 1" [disabled]="historyPage <= 1">
+        Previous</button
+      ><span>Page {{ historyPage }} of {{ historyPages() }}</span
+      ><button
+        type="button"
+        (click)="historyPage = historyPage + 1"
+        [disabled]="historyPage >= historyPages()"
+      >
+        Next
+      </button>
+    </nav>
+  }
+</section>
+@if (viewingRevision; as r) {
+  <dialog #historyDialog (cancel)="closeHistory($event)" aria-labelledby="revision-title">
+    <header class="card-header">
+      <h3 id="revision-title">
+        {{ r.yearCode }} · {{ r.regime }} regime · Version {{ r.version }}
+      </h3>
+      <button type="button" (click)="closeHistory()" aria-label="Close revision">Close</button>
+    </header>
+    <p>{{ r.rules.reviewNote }}</p>
+    <p>
+      Standard deduction: {{ r.rules.standardDeduction | currency: 'INR' }} · Rebate:
+      {{ r.rules.maximumRebate | currency: 'INR' }} through
+      {{ r.rules.rebateLimit | currency: 'INR' }} · Cess: {{ r.rules.cessPercentage }}%
+    </p>
+    <p>
+      Age: {{ r.rules.minimumAge }}–{{ r.rules.maximumAge ?? 'Unlimited' }} · Income rounding:
+      {{ r.rules.incomeRounding }} · Liability rounding: {{ r.rules.liabilityRounding }}
+    </p>
+    <p>
+      Rebate marginal relief: {{ r.rules.rebateMarginalRelief ? 'Yes' : 'No' }} · Surcharge marginal
+      relief: {{ r.rules.surchargeMarginalRelief ? 'Yes' : 'No' }} · Employer contribution review:
+      {{ r.rules.employerContributionsReviewed ? 'Confirmed' : 'Not confirmed' }}
+    </p>
+    @for (url of r.rules.legalReferences; track url) {
+      <p>
+        <a [href]="url" target="_blank" rel="noopener noreferrer">{{ url }}</a>
+      </p>
+    }
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>From</th>
+            <th>To</th>
+            <th>Rate %</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (s of r.rules.slabs; track $index) {
+            <tr>
+              <td>{{ s.from | currency: 'INR' }}</td>
+              <td>{{ s.to === null ? 'Unlimited' : (s.to | currency: 'INR') }}</td>
+              <td>{{ s.rate }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    @for (s of r.rules.surcharge; track $index) {
+      <p>Surcharge above {{ s.threshold | currency: 'INR' }}: {{ s.rate }}%</p>
+    }
+    @for (m of r.rules.mappings; track m.componentId) {
+      <p>
+        {{ m.componentName || 'Previously configured salary component' }}: {{ m.type }} —
+        {{ m.legalReference }} {{ m.conditions }}
+        @if (m.taxablePercentage !== undefined) {
+          · Taxable {{ m.taxablePercentage }}%
+        }
+        @if (m.exemptAmount !== undefined) {
+          · Exempt {{ m.exemptAmount | currency: 'INR' }}
+        }
+      </p>
+    }
+  </dialog>
+}
+@if (confirmation) {
+  <dialog #activationDialog (cancel)="cancelActivation($event)" aria-labelledby="activation-title">
+    <h3 id="activation-title">Confirm tax activation change</h3>
+    <p>
+      This change is audited. Review and recalculate affected drafts. Finalized payroll and payslips
+      retain their saved tax snapshots.
+    </p>
+    <footer class="card-footer">
+      <button type="button" (click)="cancelActivation()" [disabled]="busy()">Cancel</button
+      ><button type="button" class="primary" (click)="confirm()" [disabled]="busy()">
+        Confirm
+      </button>
+    </footer>
+  </dialog>
+}

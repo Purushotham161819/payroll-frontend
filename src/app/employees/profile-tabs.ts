@@ -1,5 +1,5 @@
 import { Component, input, model } from '@angular/core';
-export type ProfileTab = 'details' | 'history' | 'checks';
+export type ProfileTab = 'details' | 'history' | 'tax' | 'checks';
 @Component({
   selector: 'app-profile-tabs',
   template: `<nav class="ribbon" role="tablist" aria-label="Employee profile">
@@ -68,11 +68,15 @@ export type ProfileTab = 'details' | 'history' | 'checks';
 export class ProfileTabs {
   readonly active = model<ProfileTab>('details');
   readonly prefix = input('profile');
-  readonly tabs: { id: ProfileTab; label: string }[] = [
-    { id: 'details', label: 'Employee Details' },
-    { id: 'history', label: 'Employment History' },
-    { id: 'checks', label: 'Pay Checks' },
-  ];
+  readonly showTax = input(true);
+  get tabs(): { id: ProfileTab; label: string }[] {
+    return [
+      { id: 'details', label: 'Employee Details' },
+      { id: 'history', label: 'Employment History' },
+      { id: 'tax', label: 'Income Tax / TDS' },
+      { id: 'checks', label: 'Pay Checks' },
+    ].filter((tab) => tab.id !== 'tax' || this.showTax()) as { id: ProfileTab; label: string }[];
+  }
   navigate(event: KeyboardEvent, index: number) {
     let next = index;
     if (event.key === 'ArrowRight') next = (index + 1) % this.tabs.length;

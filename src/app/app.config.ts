@@ -26,6 +26,7 @@ export const routes: Routes = [
     { path: 'employees/:id', component: EmployeeProfile },
     { path: 'settings', component: Settings },
     { path: 'settings/statutory-deductions', component: StatutoryDeductionsPage },
+    { path: 'settings/tax-configuration', loadComponent: () => import('./features/tax-management/tax-configuration').then(m => m.TaxConfiguration), canActivate: [administrator] },
     { path: 'users', component: UserManagement, canActivate: [administrator] },
     { path: '**', redirectTo: '' },
   ] },

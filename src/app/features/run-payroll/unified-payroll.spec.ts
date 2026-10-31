@@ -137,7 +137,7 @@ describe('Unified payroll table, draft Payment Date and KPI scope', () => {
     URL.revokeObjectURL = vi.fn();
   });
   afterEach(() => vi.useRealTimers());
-  it('renders one table with nine columns, all eligible/historical employees and no separate selection sections', async () => {
+  it('renders one table with ten columns, all eligible/historical employees and no separate selection sections', async () => {
     const fixture = setup({ preview: async () => run() });
     await ready(fixture);
     const element = fixture.nativeElement as HTMLElement;
@@ -151,6 +151,7 @@ describe('Unified payroll table, draft Payment Date and KPI scope', () => {
       'Last Name',
       'Monthly CTC',
       'Employer Contributions',
+      'TDS',
       'Deductions',
       'NET Pay',
       'Payment Status',
@@ -287,5 +288,52 @@ describe('Unified payroll table, draft Payment Date and KPI scope', () => {
     fixture.detectChanges();
     expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:historical-pdf');
     expect(fixture.nativeElement.querySelector('iframe')).toBeNull();
+  });
+});
+
+describe('Per-employee payroll review display', () => {
+  it('retains blocked selections, identifies the reason and blocks save while showing valid subtotals', async () => {
+    const save = vi.fn(async () => run());
+    const preview = { ...run(), validationIssues: [{ employeeId: 'b', firstName: 'Grace', lastName: 'Example', stage: 'income_tax', message: 'Mid-year reconciliation requires review.' }] };
+    let calls = 0;
+    const fixture = setup({ preview: async () => ++calls === 1 ? preview : run(), save }); await ready(fixture);
+    const page = fixture.componentInstance;
+    expect(page.selected().has('b')).toBe(true);
+    expect(fixture.nativeElement.textContent).toContain('Needs Review');
+    expect(fixture.nativeElement.textContent).toContain('Totals cover 1 calculated employees');
+    expect(fixture.nativeElement.querySelector('[aria-label="Total NET Pay"]').textContent).toContain('95.00');
+    page.save(); expect(save).not.toHaveBeenCalled();
+    page.toggle('b', false); await new Promise(r => setTimeout(r, 220)); await ready(fixture);
+    expect(page.hasReviewIssues()).toBe(false); expect([...page.selected()]).toEqual(['a']);
+    page.save(); await ready(fixture); expect(save).toHaveBeenCalledOnce();
+    fixture.destroy();
+  });
+  it('displays unavailable KPIs when every selected employee requires review', async () => {
+    const fixture = setup({ preview: async () => ({ ...run(), checks: [], totalPayrollCost: 0, totals: { employerContributions: 0, deductions: 0, netPay: 0 }, validationIssues: [{ employeeId: 'a', firstName: 'Ada', lastName: 'Example', stage: 'income_tax', message: 'Configuration requires review.' }] }) });
+    await ready(fixture);
+    expect(fixture.nativeElement.querySelector('[aria-label="Total NET Pay"]').textContent).toContain('Unavailable');
+    expect(fixture.nativeElement.querySelector('[aria-label="Total NET Pay"]').textContent).not.toContain('0.00');
+    expect(fixture.componentInstance.selected().has('a')).toBe(true); fixture.destroy();
+  });
+  it('does not show zero payroll after an unstructured API failure', async () => {
+    const fixture = setup({ preview: async () => { throw new Error('Connection failed'); } }); await ready(fixture);
+    expect(fixture.componentInstance.run()).toBeNull();
+    expect(fixture.nativeElement.querySelector('[aria-label="Total NET Pay"]').textContent).toContain('Unavailable'); fixture.destroy();
+  });
+});
+
+describe('Separate optional TDS amounts', () => {
+  it('renders TDS separately, keeps other deductions unchanged and includes TDS once in KPI totals', async () => {
+    const check = { ...a, tds: 2000, existingDeductions: 5, deductions: 2005, netPay: 95, tdsCalculationStatus: 'calculated', tdsCalculationStatusLabel: 'Calculated' };
+    const fixture = setup({ preview: async () => ({...run(), checks: [check], totals: {employerContributions: 10, deductions: 2005, netPay: 95}}) }); await ready(fixture);
+    const page = fixture.componentInstance; expect(page.tdsTotal()).toBe(2000); expect(page.otherDeductionsTotal()).toBe(5);
+    const row = fixture.nativeElement.querySelector('tbody tr'); const cells = row.querySelectorAll('td');
+    expect(cells[5].textContent).toContain('2,000.00'); expect(cells[6].textContent).toContain('5.00');
+    expect(fixture.nativeElement.querySelector('[aria-label="Total Employee Deductions"]').textContent).toContain('2,005.00'); fixture.destroy();
+  });
+  it('shows INR zero for an employee with no TDS field and keeps historical other deductions separate', async () => {
+    const fixture = setup({ preview: async () => run() }); await ready(fixture);
+    expect(fixture.nativeElement.querySelector('tbody tr').querySelectorAll('td')[5].textContent).toContain('0.00');
+    expect(fixture.componentInstance.otherDeductions({...a, tds: 2, deductions: 7})).toBe(5); fixture.destroy();
   });
 });
