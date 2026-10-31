@@ -16,7 +16,29 @@ import { TaxApi } from './tax-api';
 import { apiError } from '../../employees/employee.service';
 import { SalaryComponentService } from '../../settings/settings';
 
-const emptyProfile = () => ({
+type EmploymentFields = {
+  employmentScenario?: 'first_job' | 'job_change' | null;
+  previousEmployerGrossWages?: number | null;
+  previousEmployerExemptWages?: number | null;
+  previousEmployerTds?: number | null;
+  previousEmployerExemptionsVerified?: boolean;
+};
+const emptyProfile = (): EmploymentFields & {
+  version: number;
+  regime: string;
+  tdsApplicable: boolean;
+  resident: boolean;
+  salaryOnly: boolean;
+  panOperative: boolean;
+  fullYearEmployment: boolean;
+  exemptionConditionsConfirmed: boolean;
+  reason: string;
+} => ({
+  employmentScenario: null,
+  previousEmployerGrossWages: null,
+  previousEmployerExemptWages: null,
+  previousEmployerTds: null,
+  previousEmployerExemptionsVerified: false,
   version: 0,
   regime: '',
   tdsApplicable: false,
@@ -184,15 +206,82 @@ export class EmployeeTax implements OnInit, OnDestroy {
     this.editing.set(!this.summary()?.profile);
     this.error.set('');
   }
+  employmentScenarioChanged() {
+    if (this.profile.employmentScenario === 'first_job') {
+      this.profile.previousEmployerGrossWages = null;
+      this.profile.previousEmployerExemptWages = null;
+      this.profile.previousEmployerTds = null;
+      this.profile.previousEmployerExemptionsVerified = false;
+    }
+  }
+  hasProfileChanges() {
+    const saved = this.summary()?.profile;
+    if (!saved) return true;
+    const values = (profile: any) => {
+      const value = { ...emptyProfile(), ...profile };
+      if (value.employmentScenario !== 'job_change') {
+        value.previousEmployerGrossWages = 0;
+        value.previousEmployerExemptWages = 0;
+        value.previousEmployerTds = 0;
+        value.previousEmployerExemptionsVerified = false;
+      }
+      return Object.keys(emptyProfile()).map((key) => value[key] ?? null);
+    };
+    return JSON.stringify(values(this.profile)) !== JSON.stringify(values(saved));
+  }
+  previousEmployerErrors() {
+    if (this.profile.employmentScenario !== 'job_change') return [];
+    const errors: string[] = [];
+    for (const [value, label] of [
+      [this.profile.previousEmployerGrossWages, 'Previous employer gross wages'],
+      [this.profile.previousEmployerExemptWages, 'Previous employer exempt wages'],
+      [this.profile.previousEmployerTds, 'Previous employer TDS'],
+    ] as const) {
+      if (typeof value !== 'number' || !Number.isFinite(value) || value < 0 || value > 1e12)
+        errors.push(label + ' must be a number from zero to 1 trillion. Enter zero if none.');
+      else if (Math.abs(value * 100 - Math.round(value * 100)) > 0.001)
+        errors.push(label + ' must have at most two decimal places.');
+    }
+    if (
+      (this.profile.previousEmployerExemptWages ?? 0) >
+      (this.profile.previousEmployerGrossWages ?? 0)
+    )
+      errors.push('Previous employer exempt wages cannot exceed gross wages.');
+    if (
+      (this.profile.previousEmployerExemptWages ?? 0) > 0 &&
+      !this.profile.previousEmployerExemptionsVerified
+    )
+      errors.push(
+        'Verify documented previous-employer exemptions before saving a positive exempt amount.',
+      );
+    return errors;
+  }
+  canSave(form?: NgForm) {
+    return (
+      !this.busy() &&
+      this.editing() &&
+      this.regimeReady() &&
+      !form?.invalid &&
+      this.hasProfileChanges() &&
+      this.previousEmployerErrors().length === 0 &&
+      (this.profile.tdsApplicable || !!this.profile.reason.trim())
+    );
+  }
   async save(form?: NgForm) {
     if (this.busy() || !this.editing() || !this.regimeReady()) return;
     form?.form.markAllAsTouched();
-    if (form?.invalid || (!this.profile.tdsApplicable && !this.profile.reason.trim())) {
+    if (
+      form?.invalid ||
+      this.previousEmployerErrors().length ||
+      (!this.profile.tdsApplicable && !this.profile.reason.trim())
+    ) {
       this.error.set(
-        'Complete the highlighted profile fields. A reason is required when TDS is disabled.',
+        this.previousEmployerErrors().join(' ') ||
+          'Complete the required profile fields. Enter a reason if TDS is disabled.',
       );
       return;
     }
+    if (!this.hasProfileChanges()) return;
     if (this.lockedYear && this.yearCode !== this.lockedYear) {
       this.error.set('Financial year is locked. Use Change Financial Year.');
       return;
