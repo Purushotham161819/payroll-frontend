@@ -16,8 +16,8 @@ describe('Management delete requests and state',()=>{
   const response=new Subject<any>();let deletes=0,loads=0;
   TestBed.configureTestingModule({providers:[{provide:EmployeeService,useValue:{remove:()=>{deletes++;return response;},getAll:()=>{loads++;return of([]);}}}]});
   const page=TestBed.runInInjectionContext(()=>new EmployeeList());const employee={_id:'id',firstName:'A',lastName:'B',email:'a@example.com'} as any;
-  page.selectedIds.set(new Set(['id']));page.requestDelete(employee);page.confirmDelete();page.confirmDelete();expect(deletes).toBe(1);expect(page.deletingBusy()).toBe(true);
-  response.next({message:'Deleted',deletedId:'id'});response.complete();expect(page.deleting()).toBeNull();expect(page.success()).toContain('deleted');expect(loads).toBe(1);expect(page.selectedCount()).toBe(0);
+  page.requestDelete(employee);page.confirmDelete();page.confirmDelete();expect(deletes).toBe(1);expect(page.deletingBusy()).toBe(true);
+  response.next({message:'Deleted',deletedId:'id'});response.complete();expect(page.deleting()).toBeNull();expect(page.success()).toContain('deleted');expect(loads).toBe(1);expect(page.allEmployees()).toEqual([]);
  });
  it('keeps failed employee deletion open with a meaningful server error and no success',()=>{
   TestBed.configureTestingModule({providers:[{provide:EmployeeService,useValue:{remove:()=>throwError(()=>new HttpErrorResponse({status:404,error:{message:'Employee not found.'}}))}}]});

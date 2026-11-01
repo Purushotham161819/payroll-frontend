@@ -1,6 +1,6 @@
 # Authentication
 
-See `../payroll-backend/AUTHENTICATION.md` for backend configuration, secure
+See `../../payroll-backend/docs/AUTHENTICATION.md` for backend configuration, secure
 administrator provisioning, deployment, CSRF requirements and test instructions.
 
 The login page is `/login`. All workspace routes are guarded. The interceptor
@@ -8,8 +8,8 @@ uses HttpOnly session cookies and handles expired sessions. Sign out in the
 workspace header invalidates the server session. No credentials or tokens are
 stored in browser storage.
 
-Set `src/environments/environment.ts` apiUrl before a production build; see
-`environment.example.ts` for same-origin proxy configuration. This is public
+Set `../src/environments/environment.ts` apiUrl before a production build; see
+`../src/environments/environment.example.ts` for same-origin proxy configuration. This is public
 build configuration, not a place for secrets. Use HTTPS in production, on the
 same site as the API. The host must serve index.html for Angular route URLs.
 
@@ -34,5 +34,5 @@ Passwords, roles, email or status changes revoke prior sessions as applicable.
 You cannot deactivate or demote yourself; accounts are never deleted.
 
 For lost administrator credentials, run `npm.cmd run recover-admin` on the trusted
-backend host. See `../payroll-backend/USER-MANAGEMENT.md` and
-`../payroll-backend/AUTHENTICATION.md` for the complete operator instructions.
+backend host. See `../../payroll-backend/docs/USER-MANAGEMENT.md` and
+`../../payroll-backend/docs/AUTHENTICATION.md` for the complete operator instructions.

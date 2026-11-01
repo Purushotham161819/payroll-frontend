@@ -24,3 +24,5 @@
  .workspace-context{display:block;grid-column:1;grid-row:2}
  .account-area{grid-column:2;grid-row:2;width:auto}
 }
+
+nav .nav-icon{width:16px;height:16px;flex:none;margin-top:2px}

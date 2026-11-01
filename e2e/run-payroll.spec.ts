@@ -1,6 +1,6 @@
 import { test, expect } from './authenticated-test';
 
-test('select employees, reopen and edit a saved draft, submit, and download historical pay checks', async ({
+test('launch payroll, reopen and edit a saved draft, submit, and download historical pay checks', async ({
   page,
 }) => {
   const year = new Date().getFullYear();
@@ -98,11 +98,9 @@ test('select employees, reopen and edit a saved draft, submit, and download hist
   );
   await page.goto('/');
   const run = page.getByRole('button', { name: 'Run Payroll', exact: true });
-  await expect(run).toBeDisabled();
+  await expect(run).toBeEnabled();
+  await expect(page.locator('table input[type="checkbox"]')).toHaveCount(0);
   await page.getByLabel('Employee Status', { exact: true }).selectOption('All');
-  await expect(page.getByRole('checkbox', { name: /Select employee Former/ })).toBeDisabled();
-  await page.getByRole('checkbox', { name: /Select employee Ada/ }).check();
-  await page.getByRole('checkbox', { name: /Select employee Grace/ }).check();
   await run.click();
   await expect(page.getByRole('heading', { name: 'Run Payroll', exact: true })).toBeVisible();
   await expect(page.getByLabel('Pay Period').locator('option')).toHaveCount(12);
@@ -114,7 +112,6 @@ test('select employees, reopen and edit a saved draft, submit, and download hist
   expect(draft.checks).toHaveLength(2);
   expect(submission).toBeNull();
   await page.getByRole('link', { name: 'Back to Employees', exact: true }).click();
-  await page.getByRole('checkbox', { name: /Select employee Ada/ }).check();
   await page.getByRole('button', { name: 'Run Payroll', exact: true }).click();
   await expect(page.getByRole('link', { name: 'Grace', exact: true })).toBeVisible();
   await page
@@ -123,7 +120,7 @@ test('select employees, reopen and edit a saved draft, submit, and download hist
     .getByRole('checkbox', { name: 'Include Grace Example in payroll' })
     .uncheck();
   await expect(page.getByRole('status')).toContainText('Updating payroll');
-  await page.getByRole('button', { name: 'Recalculate / Refresh Payroll' }).click();
+  await page.getByRole('button', { name: 'Refresh Payroll' }).click();
   await expect(
     page.getByRole('checkbox', { name: 'Include Grace Example in payroll' }),
   ).not.toBeChecked();

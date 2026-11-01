@@ -300,7 +300,7 @@ describe('Per-employee payroll review display', () => {
     const page = fixture.componentInstance;
     expect(page.selected().has('b')).toBe(true);
     expect(fixture.nativeElement.textContent).toContain('Needs Review');
-    expect(fixture.nativeElement.textContent).toContain('Totals cover 1 calculated employees');
+    expect(fixture.nativeElement.textContent).toContain('Save and Submit are blocked for this selection');
     expect(fixture.nativeElement.querySelector('[aria-label="Total NET Pay"]').textContent).toContain('95.00');
     page.save(); expect(save).not.toHaveBeenCalled();
     page.toggle('b', false); await new Promise(r => setTimeout(r, 220)); await ready(fixture);
@@ -335,5 +335,70 @@ describe('Separate optional TDS amounts', () => {
     const fixture = setup({ preview: async () => run() }); await ready(fixture);
     expect(fixture.nativeElement.querySelector('tbody tr').querySelectorAll('td')[5].textContent).toContain('0.00');
     expect(fixture.componentInstance.otherDeductions({...a, tds: 2, deductions: 7})).toBe(5); fixture.destroy();
+  });  it('keeps complete employee warnings out of table cells and shows one accessible indicator for multiple messages', async () => {
+    HTMLDialogElement.prototype.close = function () {
+      this.removeAttribute('open');
+    };
+    const message = 'Estimate saved - recalculate after input changes in Income Tax/TDS.';
+    const fixture = setup({
+      preview: async () => ({
+        ...run(),
+        checks: [
+          { ...a, tdsCalculationStatus: 'estimate_saved', tdsCalculationStatusLabel: message },
+        ],
+        validationIssues: [
+          {
+            employeeId: 'a',
+            firstName: 'Ada',
+            lastName: 'Example',
+            stage: 'salary',
+            message: 'Review salary mappings.',
+          },
+          {
+            employeeId: 'a',
+            firstName: 'Ada',
+            lastName: 'Example',
+            stage: 'tax',
+            message: 'Verify employee records.',
+          },
+        ],
+      }),
+    });
+    await ready(fixture);
+    const table = fixture.nativeElement.querySelector('table');
+    expect(table.textContent).not.toContain(message);
+    expect(table.textContent).not.toContain('Review salary mappings.');
+    const indicators = table.querySelectorAll('[title="Employee requires attention"]');
+    expect(indicators.length).toBe(1);
+    expect(fixture.nativeElement.querySelector('.review-summary').textContent).not.toContain('Review salary mappings.');
+    expect(fixture.nativeElement.textContent).not.toContain('Review salary mappings.');
+    const buttons = [...fixture.nativeElement.querySelectorAll('button')] as HTMLButtonElement[];
+    expect(buttons.find(b => b.textContent.trim() === 'Save')!.disabled).toBe(true);
+    expect(buttons.find(b => b.textContent.trim() === 'Submit')!.disabled).toBe(true);
+    const before = fixture.componentInstance.run()?.totals;
+    indicators[0].click();
+    fixture.detectChanges();
+    await ready(fixture);
+    const dialog = document.querySelector('.warning-popover')!;
+    expect(dialog.textContent).toContain(message);
+    expect(dialog.textContent).toContain('Review salary mappings.');
+    expect(dialog.textContent).toContain('Verify employee records.');
+    expect(dialog.querySelectorAll('li').length).toBe(3);
+    expect(fixture.componentInstance.run()?.totals).toEqual(before);
+    (dialog.querySelector('button') as HTMLButtonElement).click();
+    fixture.detectChanges();
+    await ready(fixture);
+    expect(document.querySelector('.warning-popover')).toBeNull();
+    expect(
+      fixture.componentInstance.employeeWarnings({
+        ...a,
+        historical: false,
+        selectable: true,
+        employeeId: 'disabled-employee',
+        tdsCalculationStatus: 'disabled',
+        tdsCalculationStatusLabel: 'TDS disabled',
+      }),
+    ).toEqual([]);
   });
+
 });

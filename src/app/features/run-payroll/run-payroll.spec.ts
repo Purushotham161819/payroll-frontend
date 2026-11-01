@@ -33,58 +33,29 @@ const fixtureRun = (): PayrollRun => ({
   totals: { employerContributions: 10, deductions: 5, netPay: 95 },
 });
 describe('Run Payroll workflow', () => {
-  it('selects only active employees and navigates using database IDs', () => {
-    TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-        {
-          provide: EmployeeService,
-          useValue: {
-            getAll: () =>
-              of([
-                { _id: 'a', status: 'Active' },
-                { _id: 'b', status: 'Terminated' },
-                { _id: 'c' },
-              ]),
-          },
-        },
-      ],
-    });
+  it('launches payroll without selection using active IDs independently of the directory filter', () => {
+    TestBed.configureTestingModule({providers: [provideRouter([]), {provide: EmployeeService, useValue: {getAll: () => of([{_id: 'a',status:'Active'}, {_id:'b',status:'Terminated'}, {_id:'c'}])}}]});
     const list = TestBed.runInInjectionContext(() => new EmployeeList());
     list.load();
-    list.changeFilter('All');
-    expect(list.selectedCount()).toBe(0);
-    list.toggleEmployee('b', true);
-    expect(list.selectedCount()).toBe(0);
-    list.toggleAll(true);
-    expect([...list.selectedIds()]).toEqual(['a', 'c']);
     const navigate = vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
+    list.changeFilter('Terminated');
     list.runPayroll();
-    expect(navigate).toHaveBeenCalledWith(['/payroll/run'], {
-      queryParams: { employees: 'a,c', returnStatus: 'All' },
-    });
+    expect(navigate).toHaveBeenLastCalledWith(['/payroll/run'], {queryParams:{employees:'a,c',returnStatus:'Terminated'}});
   });
-  it('renders Run Payroll disabled with no selection and enabled for multiple active selections', () => {
-    TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        { provide: EmployeeService, useValue: { getAll: () => of([]) } },
-      ],
-    });
+  it('shows no directory checkboxes and keeps Run Payroll active even with an empty list', () => {
+    TestBed.configureTestingModule({providers:[provideRouter([]),provideHttpClient(),{provide:EmployeeService,useValue:{getAll:()=>of([])}}]});
     const fixture = TestBed.createComponent(EmployeeList);
     fixture.detectChanges();
-    const button = [...fixture.nativeElement.querySelectorAll('button')].find(
-      (b: any) => b.textContent.trim() === 'Run Payroll',
-    ) as HTMLButtonElement;
-    expect(button.disabled).toBe(true);
-    fixture.componentInstance.allEmployees.set([
-      { _id: 'a', status: 'Active' },
-      { _id: 'b', status: 'Active' },
-    ] as any);
-    fixture.componentInstance.toggleAll(true);
-    fixture.detectChanges();
+    const button = [...fixture.nativeElement.querySelectorAll('button')].find((b:any)=>b.textContent.trim()==='Run Payroll') as HTMLButtonElement;
     expect(button.disabled).toBe(false);
+    fixture.componentInstance.allEmployees.set([{_id:'a',firstName:'Ada',lastName:'Example',status:'Active'},{_id:'b',status:'Terminated'}] as any);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelectorAll('table input[type=checkbox]').length).toBe(0);
+    expect(fixture.nativeElement.querySelectorAll('thead th').length).toBe(11);
+    expect(button.disabled).toBe(false);
+    const navigate=vi.spyOn(TestBed.inject(Router),'navigate').mockResolvedValue(true);
+    button.click();
+    expect(navigate).toHaveBeenCalledWith(['/payroll/run'],{queryParams:{employees:'a',returnStatus:'Active'}});
   });
   it('sends no client monetary values when saving or submitting and encodes protected PDF paths', async () => {
     TestBed.configureTestingModule({

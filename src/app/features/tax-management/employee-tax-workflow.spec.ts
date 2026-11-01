@@ -124,7 +124,14 @@ describe('Employee TDS profile editing and year locking', () => {
   });
   it('requires confirmation for changing years and preserves the original profile on cancellation', async () => {
     const { fixture, http, page } = await setup(true);
-    page.openYearChange();
+    const opening = page.openYearChange();
+    http.expectOne(base + '/settings/tax-configuration').flush({
+      years: [
+        { code: 'FY_ONE', name: 'First year', active: true },
+        { code: 'FY_TWO', name: 'Second year' },
+      ],
+    });
+    await opening;
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('dialog')).not.toBeNull();
     page.targetYear = 'FY_TWO';
@@ -169,30 +176,39 @@ describe('Employee TDS profile editing and year locking', () => {
     expect(page.summary().calculationStatus).toBe('calculated');
     expect(page.editing()).toBe(false);
   });
-  it('keeps an existing target year selected when its later edit is cancelled', async () => {
+  it('keeps an existing target editable until Save and returns to the source on Cancel', async () => {
     const { http, page } = await setup(true);
-    page.openYearChange();
+    const opening = page.openYearChange();
+    http.expectOne(base + '/settings/tax-configuration').flush({
+      years: [
+        { code: 'FY_ONE', name: 'First year' },
+        { code: 'FY_TWO', name: 'Second year' },
+      ],
+    });
+    await opening;
+    expect(page.targetYear).toBe('FY_ONE');
     page.targetYear = 'FY_TWO';
     const change = page.confirmYearChange();
     http
       .expectOne(base + '/employees/employee/income-tax/FY_TWO/change-year')
-      .flush({ yearCode: 'FY_TWO', changeYearToken: 'permission' });
+      .flush({ yearCode: 'FY_TWO', editToken: 'target-edit', changeYearToken: 'permission' });
     await Promise.resolve();
     await Promise.resolve();
     const saved = { ...fields, reason: 'Target year facts' };
     http.expectOne(base + '/employees/employee/income-tax/FY_TWO').flush(summary(saved));
     await change;
-    const edit = page.edit();
-    http
-      .expectOne(base + '/employees/employee/income-tax/FY_TWO/edit')
-      .flush({ editToken: 'target-edit' });
-    await edit;
-    page.profile.reason = 'Do not save';
-    await page.cancel();
-    expect(page.yearCode).toBe('FY_TWO');
-    expect(page.profile.reason).toBe('Target year facts');
+    expect(page.editing()).toBe(true);
+    expect(page.changingYear()).toBe(true);
+    expect(page.hasProfileChanges()).toBe(true);
+    expect(page.message()).toBe('');
+    const cancel = page.cancel();
+    http.expectOne(url).flush(summary(fields));
+    await cancel;
+    expect(page.yearCode).toBe('FY_ONE');
+    expect(page.profile.reason).toBe(fields.reason);
     expect(page.editing()).toBe(false);
-    http.expectNone(url);
+    expect(page.changingYear()).toBe(false);
+    http.expectNone((r) => r.method === 'PUT');
   });
   it('leaves failed saves editable with entered values intact', async () => {
     const { http, page } = await setup(true);
@@ -438,5 +454,263 @@ describe('Employee TDS profile editing and year locking', () => {
     fixture.detectChanges();
     expect(form.controls['previousEmployerTds']).toBeUndefined();
     expect(form.valid).toBe(true);
+  });
+  it('previews configuration by selected year and blocks a target without published rules', async () => {
+    const { fixture, http, page } = await setup(true);
+    const opening = page.openYearChange();
+    http.expectOne(base + '/settings/tax-configuration').flush({
+      years: [
+        { code: 'FY_ONE', name: 'First year' },
+        { code: 'FY_TWO', name: 'Second year' },
+      ],
+    });
+    await opening;
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const select = fixture.nativeElement.querySelector('dialog select');
+    expect(select.value).toBe('FY_ONE');
+    expect(select.options.length).toBe(3);
+    const selecting = page.selectTargetYear('FY_TWO');
+    http.expectOne(base + '/employees/employee/income-tax/FY_TWO').flush({
+      ...summary(),
+      regimeSelection: {
+        regime: null,
+        message: 'Publish reviewed rules for this financial year.',
+      },
+    });
+    await selecting;
+    expect(page.canConfirmYearChange()).toBe(false);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('dialog').textContent).toContain(
+      'Publish reviewed rules',
+    );
+    expect(page.yearCode).toBe('FY_ONE');
+    expect(page.profile.regime).toBe('new');
+    page.closeYearChange();
+    http.expectNone((r) => r.method === 'PUT');
+  });
+  it('saves an existing target year with its edit permission and reloads the correct regime and calculation', async () => {
+    const { http, page } = await setup(true);
+    page.targetYear = 'FY_TWO';
+    const change = page.confirmYearChange();
+    http
+      .expectOne(base + '/employees/employee/income-tax/FY_TWO/change-year')
+      .flush({ yearCode: 'FY_TWO', editToken: 'target-edit' });
+    await Promise.resolve();
+    await Promise.resolve();
+    const target = {
+      ...fields,
+      regime: 'old',
+      reason: 'Year two only',
+      employmentScenario: 'job_change',
+      previousEmployerGrossWages: 500000,
+      previousEmployerExemptWages: 50000,
+      previousEmployerTds: 25000,
+      previousEmployerExemptionsVerified: true,
+    };
+    const response = {
+      ...summary(target, 'calculated'),
+      regimeSelection: { regime: 'old' },
+      latest: { _id: 'year-two-calculation' },
+    };
+    http.expectOne(base + '/employees/employee/income-tax/FY_TWO').flush(response);
+    await change;
+    expect(page.regimeLabel()).toBe('Old Regime');
+    expect(page.canSave()).toBe(true);
+    expect(page.viewingCalculation()._id).toBe('year-two-calculation');
+    const saving = page.save();
+    const req = http.expectOne(base + '/employees/employee/income-tax/FY_TWO');
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.body.editToken).toBe('target-edit');
+    expect(req.request.body.regime).toBe('old');
+    expect(req.request.body.previousEmployerTds).toBe(25000);
+    req.flush({ ...target, version: 2 });
+    await Promise.resolve();
+    await Promise.resolve();
+    const savedResponse = {
+      ...response,
+      profile: { ...target, version: 2 },
+      calculationStatus: 'estimate_saved',
+    };
+    http.expectOne(base + '/employees/employee/income-tax/FY_TWO').flush(savedResponse);
+    await saving;
+    expect(page.editing()).toBe(false);
+    expect(page.changingYear()).toBe(false);
+    const reload = page.load();
+    http.expectOne(base + '/employees/employee/income-tax/FY_TWO').flush(savedResponse);
+    await reload;
+    expect(page.yearCode).toBe('FY_TWO');
+    expect(page.profile.previousEmployerTds).toBe(25000);
+    expect(page.summary().calculationStatus).toBe('estimate_saved');
+    expect(page.message()).not.toContain('Financial year opened');
+  });
+  it('leaves source state intact when loading the target fails after permission is issued', async () => {
+    const { http, page } = await setup(true);
+    page.targetYear = 'FY_TWO';
+    const changing = page.confirmYearChange();
+    http
+      .expectOne(base + '/employees/employee/income-tax/FY_TWO/change-year')
+      .flush({ yearCode: 'FY_TWO', changeYearToken: 'permission' });
+    await Promise.resolve();
+    await Promise.resolve();
+    http
+      .expectOne(base + '/employees/employee/income-tax/FY_TWO')
+      .flush({ message: 'Target unavailable' }, { status: 500, statusText: 'Error' });
+    await changing;
+    expect(page.yearCode).toBe('FY_ONE');
+    expect(page.changingYear()).toBe(false);
+    expect(page.profile.reason).toBe(fields.reason);
+    expect(page.error()).toContain('The server could not complete your request');
+  });
+  it('saves a new target with its year-change token and selects that persisted year after component reinitialization', async () => {
+    const { http, page } = await setup(true);
+    page.targetYear = 'FY_TWO';
+    const changing = page.confirmYearChange();
+    http
+      .expectOne(base + '/employees/employee/income-tax/FY_TWO/change-year')
+      .flush({ yearCode: 'FY_TWO', changeYearToken: 'new-year-permission' });
+    await Promise.resolve();
+    await Promise.resolve();
+    http
+      .expectOne(base + '/employees/employee/income-tax/FY_TWO')
+      .flush({ ...summary(), regimeSelection: { regime: 'old' } });
+    await changing;
+    expect(page.profile.previousEmployerGrossWages).toBeNull();
+    expect(page.viewingCalculation()).toBeNull();
+    page.profile = { ...fields, version: 0, regime: 'old', employmentScenario: 'first_job' };
+    const saving = page.save();
+    const req = http.expectOne(base + '/employees/employee/income-tax/FY_TWO');
+    expect(req.request.body.changeYearToken).toBe('new-year-permission');
+    expect(req.request.body).not.toHaveProperty('editToken');
+    const saved = { ...page.profile, version: 1 };
+    req.flush(saved);
+    await Promise.resolve();
+    await Promise.resolve();
+    http
+      .expectOne(base + '/employees/employee/income-tax/FY_TWO')
+      .flush({ ...summary(saved, 'not_calculated'), regimeSelection: { regime: 'old' } });
+    await saving;
+    expect(page.yearCode).toBe('FY_TWO');
+    expect(page.editing()).toBe(false);
+    const reload = page.ngOnInit();
+    http.expectOne(base + '/settings/tax-configuration').flush({
+      years: [
+        { code: 'FY_ONE', name: 'First year', active: true },
+        { code: 'FY_TWO', name: 'Second year' },
+      ],
+    });
+    http
+      .expectOne(base + '/employees/employee/income-tax')
+      .flush([{ yearCode: 'FY_TWO' }, { yearCode: 'FY_ONE' }]);
+    http.expectOne(base + '/salary-components').flush([]);
+    await Promise.resolve();
+    await Promise.resolve();
+    http
+      .expectOne(base + '/employees/employee/income-tax/FY_TWO')
+      .flush({ ...summary(saved, 'not_calculated'), regimeSelection: { regime: 'old' } });
+    await reload;
+    expect(page.yearCode).toBe('FY_TWO');
+    expect(page.regimeLabel()).toBe('Old Regime');
+  });
+  it('saves changed tax inputs before explicit calculation and disables it again when current', async () => {
+    const { http, page } = await setup(true);
+    page.summary.set(summary(fields, 'calculated'));
+    expect(page.canCalculate()).toBe(false);
+    const editing = page.edit();
+    http.expectOne(url + '/edit').flush({ editToken: 'edit' });
+    await editing;
+    page.profile = {
+      ...page.profile,
+      employmentScenario: 'job_change',
+      previousEmployerGrossWages: 500000,
+      previousEmployerExemptWages: 50000,
+      previousEmployerTds: 25000,
+      previousEmployerExemptionsVerified: true,
+    };
+    expect(page.canCalculate()).toBe(true);
+    const calculation = page.calculate();
+    void page.calculate();
+    const save = http.expectOne(url);
+    expect(save.request.method).toBe('PUT');
+    expect(save.request.body.previousEmployerExemptWages).toBe(50000);
+    const saved = { ...page.profile, version: 2 };
+    save.flush(saved);
+    await Promise.resolve();
+    await Promise.resolve();
+    http.expectOne(url).flush(summary(saved, 'estimate_saved'));
+    await vi.waitFor(() => expect(page.busy()).toBe(true));
+    await Promise.resolve();
+    await Promise.resolve();
+    await Promise.resolve();
+    let calc: any;
+    await vi.waitFor(() => {
+      calc = http.expectOne(url + '/calculate');
+    });
+    expect(calc.request.method).toBe('POST');
+    calc.flush({ status: 'calculated' });
+    await Promise.resolve();
+    await Promise.resolve();
+    http.expectOne(url).flush(summary(saved, 'calculated'));
+    await calculation;
+    expect(page.canCalculate()).toBe(false);
+    expect(page.editing()).toBe(false);
+  });
+  it('shows history in a dialog and uses historical snapshot slabs instead of latest configuration', async () => {
+    const { fixture, http, page } = await setup(true);
+    const saved = {
+      _id: 'historical',
+      createdAt: '2026-09-01',
+      snapshot: {
+        yearCode: 'FY_ONE',
+        regime: 'new',
+        configurationVersion: 'older-revision',
+        profileVersion: 1,
+        status: 'calculated',
+        inputs: { revision: { rules: { mappings: [] } } },
+        result: {
+          annualEstimatedTax: 123,
+          remainingAnnualTds: 100,
+          annualTds: 123,
+          allocation: Array(12).fill(0),
+          taxableComponents: [],
+          slabs: [{ from: 0, to: null, rate: 17, tax: 123, taxableAmount: 1000 }],
+        },
+      },
+    };
+    page.summary.set({ ...summary(fields, 'calculated'), latest: saved });
+    page.viewingCalculation.set(saved);
+    page.configuration.set({ revisions: [{ id: 'latest', rules: { slabs: [{ rate: 99 }] } }] });
+    fixture.detectChanges();
+    expect(
+      fixture.nativeElement.querySelector('section[aria-labelledby=annual-tax-breakdown] table'),
+    ).toBeNull();
+    const loading = page.loadHistory();
+    http.expectOne(url + '/history').flush([saved]);
+    await loading;
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('dialog').textContent).toContain(
+      'Calculation History',
+    );
+    expect(fixture.nativeElement.querySelector('dialog').textContent).toContain('FY_ONE');
+    fixture.nativeElement.querySelector('dialog button:not([aria-label])').click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(page.viewingCalculation()._id).toBe('historical');
+    expect(page.detailModal()).toBeNull();
+    page.detailModal.set('slabs');
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const modal = fixture.nativeElement.querySelector('dialog');
+    expect(modal.textContent).toContain('older-revision');
+    expect(modal.textContent).toContain('17');
+    expect(modal.textContent).not.toContain('99');
+    modal.querySelector('[aria-label="Close Tax Slabs"]').click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(page.detailModal()).toBeNull();
   });
 });

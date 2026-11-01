@@ -38,34 +38,17 @@ test('modal stays above the directory, traps focus, and closes without saving', 
   expect(bounds!.height).toBeLessThanOrEqual(844);
   await expect(page.getByRole('button', {name:'Save employee',exact:true})).toBeInViewport();
 });
-test('selection uses IDs, reflects all states, and reconciles refresh results', async ({page,request}) => {
+test('directory stays selection-free after refresh and keeps payroll accessible', async ({page,request}) => {
   const employees = await (await request.get('http://localhost:3000/employees')).json();
-  test.skip(employees.length < 2, 'Needs at least two existing employees; no records are inserted.');
   await page.goto('/');
-  const header = page.getByRole('checkbox', {name:'Select all employees',exact:true});
-  const row = (id: string) => page.getByRole('checkbox', {name:new RegExp('Select employee .*' + id)});
-  await expect(page.getByText('0 employees selected', {exact:true})).toBeVisible();
-  await row(employees[0].employeeId).check();
-  await expect(page.getByText('1 employee selected', {exact:true})).toBeVisible();
-  await expect(header).toHaveJSProperty('indeterminate',true);
-  await header.check();
-  await expect(header).toBeChecked();
-  await expect(page.getByText(employees.length+' employees selected', {exact:true})).toBeVisible();
-  await header.uncheck();
-  await expect(page.getByText('0 employees selected', {exact:true})).toBeVisible();
-  await expect(header).toHaveJSProperty('indeterminate',false);
-  await row(employees[0].employeeId).focus();
-  await page.keyboard.press('Space');
-  await expect(row(employees[0].employeeId)).toBeChecked();
-  await page.route('http://localhost:3000/employees', route => route.fulfill({status:200,contentType:'application/json',body:JSON.stringify([...employees].reverse())}));
+  await expect(page.getByRole('button',{name:'Run Payroll',exact:true})).toBeEnabled();
+  await expect(page.locator('table input[type=checkbox]')).toHaveCount(0);
+  await page.route('http://localhost:3000/employees', route => route.fulfill({json:[...employees].reverse()}));
   await page.getByRole('button',{name:'Refresh list'}).click();
-  await expect(row(employees[0].employeeId)).toBeChecked();
-  await page.unroute('http://localhost:3000/employees');
-  await page.route('http://localhost:3000/employees', route => route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(employees.slice(1))}));
-  await page.getByRole('button',{name:'Refresh list'}).click();
-  await expect(page.getByText('0 employees selected', {exact:true})).toBeVisible();
-  await expect(header).not.toBeChecked();
+  await expect(page.locator('table input[type=checkbox]')).toHaveCount(0);
+  await expect(page.getByRole('button',{name:'Run Payroll',exact:true})).toBeEnabled();
 });
+
 test('failed save retains data and keeps the modal open; saving prevents cancellation', async ({page,request}) => {
   const employees = await (await request.get('http://localhost:3000/employees')).json();
   const employee = employees.find((employee: any) => employee.email);

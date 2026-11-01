@@ -38,7 +38,7 @@
         </div>
       }
     </header>
-    <label
+    <label class="compact-field"
       >Financial year<select
         id="employee-tax-financial-year"
         aria-describedby="employee-tax-financial-year-help"
@@ -100,9 +100,15 @@
         }}
       </p>
     }
+    @if (changingYear()) {
+      <p class="notice info">
+        Review this financial year's profile, then Save Tax Profile to confirm the change. Cancel
+        returns to the previous year. Other years and calculation history are preserved.
+      </p>
+    }
     <form (ngSubmit)="save(form)" #form="ngForm">
       <fieldset [disabled]="busy() || !editing()">
-        <div class="fields">
+        <div class="fields compact-fields">
           <label
             >Tax regime<input
               name="regime"
@@ -113,143 +119,184 @@
             /><small>Automatically derived from Tax Configuration.</small></label
           >
         </div>
-        <h4>Employment During Current Financial Year</h4>
-        <label class="check"
-          ><input
-            type="radio"
-            name="employmentScenario"
-            value="first_job"
-            [(ngModel)]="profile.employmentScenario"
-            (ngModelChange)="employmentScenarioChanged()"
-          />
-          This is the employee's first job in the current Financial Year.</label
-        >
-        <label class="check"
-          ><input
-            type="radio"
-            name="employmentScenario"
-            value="job_change"
-            [(ngModel)]="profile.employmentScenario"
-            (ngModelChange)="employmentScenarioChanged()"
-          />
-          The employee has changed jobs during the current Financial Year.</label
-        >
-        <p class="muted">
-          Select a scenario for a mid-year projection. The joining month and financial year end
-          month are included.
-        </p>
-        @if (profile.employmentScenario === 'job_change') {
-          <div class="fields">
-            <label
-              >Previous Employer Gross Wages Received (INR)
-              <input
-                name="previousEmployerGrossWages"
-                type="number"
-                min="0"
-                max="1000000000000"
-                step="0.01"
-                required
-                [(ngModel)]="profile.previousEmployerGrossWages"
-              />
-              <small
-                >Total gross salary wages received during this financial year before joining the
-                current employer. Enter gross wages, not CTC.</small
+      </fieldset>
+      <section class="employment-card" aria-labelledby="employment-heading">
+        <header class="card-header">
+          <h4 id="employment-heading">Employment During Current Financial Year</h4>
+          <div class="header-actions">
+            @if (!editing() && s.profile) {
+              <button
+                type="button"
+                class="icon-button"
+                title="Edit Employment Profile"
+                aria-label="Edit Employment Profile"
+                (click)="edit()"
+                [disabled]="busy()"
               >
-            </label>
-            <label
-              >Previous Employer Exempt Wages (INR)
-              <input
-                name="previousEmployerExemptWages"
-                type="number"
-                min="0"
-                [max]="profile.previousEmployerGrossWages ?? 0"
-                step="0.01"
-                required
-                [(ngModel)]="profile.previousEmployerExemptWages"
-              />
-              <small
-                >Documented exemptions included in the previous gross wages. Exclude standard
-                deduction; it is applied once to combined salary.</small
-              >
-            </label>
-            <label
-              >Previous Employer Total TDS Deducted (INR)
-              <input
-                name="previousEmployerTds"
-                type="number"
-                min="0"
-                max="1000000000000"
-                step="0.01"
-                required
-                [(ngModel)]="profile.previousEmployerTds"
-              />
-              <small
-                >Total income tax already deducted by the previous employer in this financial year.
-                This is a tax credit.</small
-              >
-            </label>
-          </div>
-          <label class="check"
-            ><input
-              name="previousEmployerExemptionsVerified"
-              type="checkbox"
-              [required]="(profile.previousEmployerExemptWages ?? 0) > 0"
-              [(ngModel)]="profile.previousEmployerExemptionsVerified"
-            />Documented previous-employer exemptions verified</label
-          >
-          <small
-            >Verification is required when Previous Employer Exempt Wages is greater than zero.
-            Enter zero when there are no exempt wages.</small
-          >
-          @if (editing()) {
-            @for (validation of previousEmployerErrors(); track validation) {
-              <p class="notice error" role="alert">{{ validation }}</p>
+                <app-action-icon name="edit" />
+              </button>
             }
+            @if (editing()) {
+              <button
+                type="submit"
+                class="icon-button"
+                title="Save Tax Profile"
+                aria-label="Save Employment Profile"
+                [disabled]="!canSave(form)"
+              >
+                <app-action-icon name="save" />
+              </button>
+            }
+          </div>
+        </header>
+        <fieldset [disabled]="busy() || !editing()">
+          <div class="scenario-options">
+            <label class="check"
+              ><input
+                type="radio"
+                name="employmentScenario"
+                value="first_job"
+                [(ngModel)]="profile.employmentScenario"
+                (ngModelChange)="employmentScenarioChanged()"
+              />
+              This is the employee's first job in the current Financial Year.</label
+            >
+            <label class="check"
+              ><input
+                type="radio"
+                name="employmentScenario"
+                value="job_change"
+                [(ngModel)]="profile.employmentScenario"
+                (ngModelChange)="employmentScenarioChanged()"
+              />
+              The employee has changed jobs during the current Financial Year.</label
+            >
+            <p class="muted">
+              Select a scenario for a mid-year projection. The joining month and financial year end
+              month are included.
+            </p>
+          </div>
+          @if (profile.employmentScenario === 'job_change') {
+            <div class="fields">
+              <label
+                >Previous Employer Gross Wages Received (INR)
+                <input
+                  name="previousEmployerGrossWages"
+                  type="number"
+                  min="0"
+                  max="1000000000000"
+                  step="0.01"
+                  required
+                  [(ngModel)]="profile.previousEmployerGrossWages"
+                />
+                <small
+                  >Total gross salary wages received during this financial year before joining the
+                  current employer. Enter gross wages, not CTC.</small
+                >
+              </label>
+              <label
+                >Previous Employer Exempt Wages (INR)
+                <input
+                  name="previousEmployerExemptWages"
+                  type="number"
+                  min="0"
+                  [max]="profile.previousEmployerGrossWages ?? 0"
+                  step="0.01"
+                  required
+                  [(ngModel)]="profile.previousEmployerExemptWages"
+                />
+                <small
+                  >Documented exemptions included in the previous gross wages. Exclude standard
+                  deduction; it is applied once to combined salary.</small
+                >
+              </label>
+              <label
+                >Previous Employer Total TDS Deducted (INR)
+                <input
+                  name="previousEmployerTds"
+                  type="number"
+                  min="0"
+                  max="1000000000000"
+                  step="0.01"
+                  required
+                  [(ngModel)]="profile.previousEmployerTds"
+                />
+                <small
+                  >Total income tax already deducted by the previous employer in this financial
+                  year. This is a tax credit.</small
+                >
+              </label>
+            </div>
+            <label class="check"
+              ><input
+                name="previousEmployerExemptionsVerified"
+                type="checkbox"
+                [required]="(profile.previousEmployerExemptWages ?? 0) > 0"
+                [(ngModel)]="profile.previousEmployerExemptionsVerified"
+              />Documented previous-employer exemptions verified</label
+            >
+            <small
+              >Verification is required when Previous Employer Exempt Wages is greater than zero.
+              Enter zero when there are no exempt wages.</small
+            >
+            @if (editing()) {
+              @for (validation of previousEmployerErrors(); track validation) {
+                <p class="notice error" role="alert">{{ validation }}</p>
+              }
+            }
+            <p class="muted">
+              Previous-employer amounts are employee-provided information. Review the supporting
+              salary and TDS records.
+            </p>
           }
-          <p class="muted">
-            Previous-employer amounts are employee-provided information. Review the supporting
-            salary and TDS records.
-          </p>
-        }
-        <div class="fields checks">
-          <label class="check"
-            ><input name="applicable" type="checkbox" [(ngModel)]="profile.tdsApplicable" />TDS
-            applicable</label
-          >
-          <label class="check"
-            ><input name="resident" type="checkbox" [(ngModel)]="profile.resident" />Confirmed
-            Indian tax resident</label
-          >
-          <label class="check"
-            ><input name="salaryOnly" type="checkbox" [(ngModel)]="profile.salaryOnly" />Salary-only
-            income</label
-          >
-          <label class="check"
-            ><input name="pan" type="checkbox" [(ngModel)]="profile.panOperative" />PAN operative
-            and verified</label
-          >
-          <label class="check"
-            ><input
-              name="fullYear"
-              type="checkbox"
-              [(ngModel)]="profile.fullYearEmployment"
-            />Full-year employment confirmed (required only without an employment scenario)</label
-          >
-          <label class="check"
-            ><input
-              name="exemptions"
-              type="checkbox"
-              [(ngModel)]="profile.exemptionConditionsConfirmed"
-            />Documented exemption conditions verified</label
-          >
-        </div>
-        <label
-          >Reason / review note<input
+          <h4>Eligibility and confirmations</h4>
+          <div class="fields checks">
+            <label class="check"
+              ><input name="applicable" type="checkbox" [(ngModel)]="profile.tdsApplicable" />TDS
+              applicable</label
+            >
+            <label class="check"
+              ><input name="resident" type="checkbox" [(ngModel)]="profile.resident" />Confirmed
+              Indian tax resident</label
+            >
+            <label class="check"
+              ><input
+                name="salaryOnly"
+                type="checkbox"
+                [(ngModel)]="profile.salaryOnly"
+              />Salary-only income</label
+            >
+            <label class="check"
+              ><input name="pan" type="checkbox" [(ngModel)]="profile.panOperative" />PAN operative
+              and verified</label
+            >
+            <label class="check"
+              ><input
+                name="fullYear"
+                type="checkbox"
+                [(ngModel)]="profile.fullYearEmployment"
+              />Full-year employment confirmed (required only without an employment scenario)</label
+            >
+            <label class="check"
+              ><input
+                name="exemptions"
+                type="checkbox"
+                [(ngModel)]="profile.exemptionConditionsConfirmed"
+              />Documented exemption conditions verified</label
+            >
+          </div>
+        </fieldset>
+      </section>
+      <fieldset [disabled]="busy() || !editing()">
+        <label class="review-note"
+          >Reason / review note<textarea
+            rows="2"
             name="reason"
             [(ngModel)]="profile.reason"
             [required]="!profile.tdsApplicable"
             maxlength="1000"
-        /></label>
+          ></textarea>
+        </label>
       </fieldset>
       @if (editing()) {
         @if (!hasProfileChanges()) {
@@ -263,21 +310,27 @@
         </footer>
       }
     </form>
-    @if (!editing() && s.profile) {
-      <footer class="card-actions">
-        <button
-          type="button"
-          class="primary"
-          (click)="calculate()"
-          [disabled]="busy() || !profile.tdsApplicable || !regimeReady()"
-        >
-          Calculate Annual TDS
-        </button>
-      </footer>
-    }
+    <footer class="card-actions">
+      <button
+        type="button"
+        class="primary"
+        (click)="calculate(form)"
+        [disabled]="!canCalculate(form)"
+        [title]="
+          editing()
+            ? 'Save valid profile changes and calculate annual TDS'
+            : summary()?.calculationStatus === 'calculated'
+              ? 'Calculation is current'
+              : 'Calculate using the latest saved profile'
+        "
+      >
+        Calculate Annual TDS
+      </button>
+    </footer>
     @if (editing()) {
       <p class="muted">
-        Save the profile before calculating annual TDS. Opening this tab never calculates tax.
+        Calculate Annual TDS saves valid changes before calculating. Opening this tab never
+        calculates tax.
       </p>
     }
   </section>
@@ -290,24 +343,30 @@
         </p>
       </div>
       @if (s.latest) {
-        <button type="button" (click)="loadHistory()" [disabled]="busy()">
-          View Calculation History
-        </button>
-      }
-    </header>
-    @if (history().length) {
-      <div class="history-list" aria-label="Saved tax calculations">
-        @for (item of history(); track item._id) {
+        <div class="header-actions">
           <button
             type="button"
-            (click)="viewingCalculation.set(item)"
-            [attr.aria-pressed]="viewingCalculation()?._id === item._id"
+            class="icon-button"
+            title="View Calculation History"
+            aria-label="View Calculation History"
+            (click)="loadHistory()"
+            [disabled]="busy()"
           >
-            {{ item.createdAt | date: 'medium' }} · Profile v{{ item.snapshot.profileVersion }}
+            <app-action-icon name="history" />
           </button>
-        }
-      </div>
-    }
+          <button
+            type="button"
+            class="icon-button"
+            title="View Tax Slabs"
+            aria-label="View Tax Slabs"
+            (click)="detailModal.set('slabs')"
+            [disabled]="busy() || !viewingCalculation()"
+          >
+            <app-action-icon name="table" />
+          </button>
+        </div>
+      }
+    </header>
     @if (viewingCalculation(); as calculation) {
       @let r = calculation.snapshot.result;
       <p>
@@ -387,7 +446,7 @@
           <p role="alert" class="notice">{{ warning }}</p>
         }
       }
-      <dl>
+      <dl class="summary">
         <div>
           <dt>Estimated total annual gross wages</dt>
           <dd>{{ r.annualGrossWages | currency: 'INR' }}</dd>
@@ -446,30 +505,6 @@
         </div>
       </dl>
       <p>{{ s.withholdingStatus }}</p>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Slab from</th>
-              <th>Slab to</th>
-              <th>Rate</th>
-              <th>Taxable amount</th>
-              <th>Tax</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (slab of r.slabs; track slab.from) {
-              <tr>
-                <td>{{ slab.from | currency: 'INR' }}</td>
-                <td>{{ slab.to === null ? 'Unlimited' : (slab.to | currency: 'INR') }}</td>
-                <td>{{ slab.rate }}%</td>
-                <td>{{ slab.taxableAmount | currency: 'INR' }}</td>
-                <td>{{ slab.tax | currency: 'INR' }}</td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
       <p class="muted">
         TDS is allocated to eligible unsubmitted monthly checks. The final eligible check receives
         the paise remainder. Earlier payroll is not recalculated.
@@ -539,25 +574,149 @@
       payroll records will be retained.
     </p>
     <label
-      >New financial year<select [(ngModel)]="targetYear" [disabled]="busy()">
+      >Financial year<select
+        [ngModel]="targetYear"
+        (ngModelChange)="selectTargetYear($event)"
+        [disabled]="busy()"
+      >
         <option value="">Select a financial year</option>
         @for (year of years(); track year.code) {
-          @if (year.code !== yearCode) {
-            <option [value]="year.code">{{ year.name }}</option>
-          }
+          <option [value]="year.code">{{ year.name }}</option>
         }
       </select></label
     >
+    @if (yearPreview(); as preview) {
+      <p>
+        Tax regime:
+        {{
+          preview.regimeSelection?.regime === 'new'
+            ? 'New Regime'
+            : preview.regimeSelection?.regime === 'old'
+              ? 'Old Regime'
+              : 'No applicable configuration'
+        }}
+      </p>
+      @if (!preview.regimeSelection?.regime) {
+        <p role="alert" class="notice error">{{ preview.regimeSelection?.message }}</p>
+      }
+    }
+    <p>
+      Confirm to review the selected year's profile. Save Tax Profile applies the change; Cancel
+      preserves the original profile.
+    </p>
     <footer class="card-actions">
       <button type="button" (click)="closeYearChange()" [disabled]="busy()">Cancel</button
       ><button
         type="button"
         class="primary"
         (click)="confirmYearChange()"
-        [disabled]="busy() || !targetYear"
+        [disabled]="!canConfirmYearChange()"
       >
         Confirm Change Financial Year
       </button>
     </footer>
   </dialog>
+}
+
+@if (detailModal() === 'history') {
+  <app-detail-dialog title="Calculation History" (closed)="detailModal.set(null)">
+    @if (busy()) {
+      <p role="status">Loading calculation history...</p>
+    }
+    @if (error()) {
+      <p role="alert">{{ error() }}</p>
+    }
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Calculation Date</th>
+            <th>Financial Year</th>
+            <th>Tax Regime</th>
+            <th>Employment Scenario</th>
+            <th>Estimated Annual Tax</th>
+            <th>Remaining Annual TDS</th>
+            <th>Saved Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of history(); track item._id) {
+            <tr>
+              <td>{{ item.createdAt | date: 'medium' }}</td>
+              <td>{{ item.snapshot.yearCode }}</td>
+              <td>{{ item.snapshot.regime }}</td>
+              <td>
+                {{
+                  item.snapshot.inputs?.projection?.employmentScenario === 'job_change'
+                    ? 'Job Change'
+                    : item.snapshot.inputs?.projection?.employmentScenario === 'first_job'
+                      ? 'First Job'
+                      : 'Not recorded'
+                }}
+              </td>
+              <td>{{ item.snapshot.result.annualEstimatedTax | currency: 'INR' }}</td>
+              <td>
+                {{
+                  item.snapshot.result.remainingAnnualTds == null
+                    ? 'Not recorded'
+                    : (item.snapshot.result.remainingAnnualTds | currency: 'INR')
+                }}
+              </td>
+              <td>{{ item.snapshot.status }}</td>
+              <td>
+                <button type="button" (click)="viewingCalculation.set(item); detailModal.set(null)">
+                  View breakdown
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            @if (!busy()) {
+              <tr>
+                <td colspan="8">No calculation history available.</td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="muted">
+      Status is recorded at calculation time. Current payroll eligibility is shown in the Employee
+      Tax Profile.
+    </p>
+  </app-detail-dialog>
+}
+@if (detailModal() === 'slabs' && viewingCalculation()) {
+  <app-detail-dialog title="Tax Slabs" (closed)="detailModal.set(null)">
+    @let r = viewingCalculation().snapshot.result;
+    <p>
+      {{ viewingCalculation().snapshot.yearCode }} -
+      {{ viewingCalculation().snapshot.regime }} regime. Configuration:
+      {{ viewingCalculation().snapshot.configurationVersion }}
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Slab from</th>
+            <th>Slab to</th>
+            <th>Rate</th>
+            <th>Taxable amount</th>
+            <th>Tax</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (slab of r.slabs; track slab.from) {
+            <tr>
+              <td>{{ slab.from | currency: 'INR' }}</td>
+              <td>{{ slab.to === null ? 'Unlimited' : (slab.to | currency: 'INR') }}</td>
+              <td>{{ slab.rate }}%</td>
+              <td>{{ slab.taxableAmount | currency: 'INR' }}</td>
+              <td>{{ slab.tax | currency: 'INR' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </app-detail-dialog>
 }

@@ -18,8 +18,8 @@ describe('Employee lifecycle UI', () => {
     TestBed.configureTestingModule({providers:[{provide:EmployeeService,useValue:{getAll:()=>of([active,terminated,{...active,_id:'c',status:undefined}])}}]});
     const list = TestBed.runInInjectionContext(()=>new EmployeeList()); list.load();
     expect(list.employees().map(e=>e._id)).toEqual(['a','c']);
-    list.toggleAll(true); expect(list.selectedCount()).toBe(2);
-    list.changeFilter('Terminated'); expect(list.selectedCount()).toBe(0); expect(list.employees()).toEqual([terminated]);
+    expect(list.employees()).toHaveLength(2);
+    list.changeFilter('Terminated'); expect(list.employees()).toEqual([terminated]);
     list.load(); expect(list.employees()).toEqual([terminated]);
     list.changeFilter('All'); expect(list.employees()).toHaveLength(3);
   });

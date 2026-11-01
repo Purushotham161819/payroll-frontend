@@ -1,3 +1,5 @@
+import { ActionIcon } from '../../shared/action-icon';
+import { DetailDialog } from '../../shared/detail-dialog';
 import {
   Component,
   OnInit,
@@ -51,7 +53,7 @@ const emptyProfile = (): EmploymentFields & {
 });
 @Component({
   selector: 'app-employee-tax',
-  imports: [FormsModule, CurrencyPipe, DatePipe],
+  imports: [FormsModule, CurrencyPipe, DatePipe, ActionIcon, DetailDialog],
   templateUrl: './employee-tax.html',
   styleUrls: ['./tax-management.css', './employee-tax.css'],
 })
@@ -65,12 +67,14 @@ export class EmployeeTax implements OnInit, OnDestroy {
   readonly error = signal('');
   readonly message = signal('');
   readonly history = signal<any[]>([]);
+  readonly detailModal = signal<'history' | 'slabs' | null>(null);
   readonly components = signal<any[]>([]);
   readonly configuration = signal<any>(null);
   readonly editing = signal(false);
   readonly viewingCalculation = signal<any>(null);
   readonly yearChangeOpen = signal(false);
   readonly changingYear = signal(false);
+  readonly yearPreview = signal<any>(null);
   private readonly yearDialog = viewChild<ElementRef<HTMLDialogElement>>('yearDialog');
   private opener: HTMLElement | null = null;
   private editToken = '';
@@ -130,19 +134,15 @@ export class EmployeeTax implements OnInit, OnDestroy {
     const year = this.yearCode,
       value = await this.api.summary(this.employeeId(), year);
     if (!this.alive || this.yearCode !== year) return;
+    this.applySummary(value, year);
+  }
+  private applySummary(value: any, year: string) {
     this.summary.set(value);
     this.restoreProfile(value);
     this.history.set([]);
     this.viewingCalculation.set(value.latest);
-    if (value.profile) {
-      this.lockedYear = year;
-      if (this.changingYear()) {
-        this.changeYearToken = '';
-        this.returnYear = '';
-        this.changingYear.set(false);
-      }
-    }
-    this.editing.set(!value.profile);
+    if (value.profile || this.changingYear()) this.lockedYear = year;
+    this.editing.set(this.changingYear() || !value.profile);
   }
   yearLocked() {
     return !!this.lockedYear;
@@ -192,16 +192,21 @@ export class EmployeeTax implements OnInit, OnDestroy {
   }
   async cancel() {
     if (this.busy()) return;
-    this.editToken = '';
     if (this.returnYear) {
-      this.yearCode = this.returnYear;
-      this.lockedYear = this.returnYear;
-      this.returnYear = '';
-      this.changeYearToken = '';
-      this.changingYear.set(false);
-      await this.perform(() => this.fetch());
+      const sourceYear = this.returnYear;
+      await this.perform(async () => {
+        const value = await this.api.summary(this.employeeId(), sourceYear);
+        this.yearCode = sourceYear;
+        this.lockedYear = sourceYear;
+        this.returnYear = '';
+        this.editToken = '';
+        this.changeYearToken = '';
+        this.changingYear.set(false);
+        this.applySummary(value, sourceYear);
+      });
       return;
     }
+    this.editToken = '';
     this.restoreProfile(this.summary());
     this.editing.set(!this.summary()?.profile);
     this.error.set('');
@@ -215,6 +220,7 @@ export class EmployeeTax implements OnInit, OnDestroy {
     }
   }
   hasProfileChanges() {
+    if (this.changingYear()) return true;
     const saved = this.summary()?.profile;
     if (!saved) return true;
     const values = (profile: any) => {
@@ -300,27 +306,51 @@ export class EmployeeTax implements OnInit, OnDestroy {
       this.message.set('Tax profile saved. Recalculate the annual estimate after input changes.');
     });
   }
-  async calculate() {
-    if (
-      this.busy() ||
-      this.editing() ||
-      !this.summary()?.profile ||
-      !this.profile.tdsApplicable ||
-      !this.regimeReady()
-    )
-      return;
+  canCalculate(form?: NgForm) {
+    if (this.busy() || !this.profile.tdsApplicable || !this.regimeReady()) return false;
+    if (this.editing()) return this.canSave(form);
+    return !!this.summary()?.profile && this.summary()?.calculationStatus !== 'calculated';
+  }
+  async calculate(form?: NgForm) {
+    if (!this.canCalculate(form)) return;
+    if (this.editing()) {
+      await this.save(form);
+      if (this.editing() || this.error()) return;
+    }
     await this.perform(async () => {
       await this.api.calculate(this.employeeId(), this.yearCode);
       await this.fetch();
       this.message.set('Annual tax estimate calculated and saved.');
     });
   }
-  openYearChange() {
+  async openYearChange() {
     if (this.busy() || this.editing() || !this.summary()?.profile) return;
     this.opener = document.activeElement as HTMLElement;
     this.error.set('');
-    this.targetYear = '';
+    this.targetYear = this.yearCode;
+    this.yearPreview.set(this.summary());
     this.yearChangeOpen.set(true);
+    await this.perform(async () => {
+      const state = await this.api.configuration();
+      this.configuration.set(state);
+      this.years.set(state.years);
+    });
+  }
+  async selectTargetYear(year: string) {
+    if (this.busy()) return;
+    this.targetYear = year;
+    this.yearPreview.set(null);
+    await this.perform(async () => {
+      if (year) this.yearPreview.set(await this.api.summary(this.employeeId(), year));
+    });
+  }
+  canConfirmYearChange() {
+    return (
+      !this.busy() &&
+      !!this.targetYear &&
+      this.targetYear !== this.yearCode &&
+      !!this.yearPreview()?.regimeSelection?.regime
+    );
   }
   closeYearChange(event?: Event) {
     event?.preventDefault();
@@ -337,20 +367,28 @@ export class EmployeeTax implements OnInit, OnDestroy {
         fromYearCode: this.lockedYear,
         fromVersion: this.summary().profile.version,
       });
+      const value = await this.api.summary(this.employeeId(), permission.yearCode);
+      if (!value.regimeSelection?.regime) {
+        this.error.set(
+          value.regimeSelection?.message ||
+            'No valid Tax Configuration is available for this financial year.',
+        );
+        return;
+      }
       this.returnYear = this.lockedYear;
-      this.changeYearToken = permission.changeYearToken;
+      this.changeYearToken = permission.changeYearToken ?? '';
+      this.editToken = permission.editToken ?? '';
       this.yearCode = permission.yearCode;
-      this.lockedYear = permission.yearCode;
       this.changingYear.set(true);
+      this.applySummary(value, permission.yearCode);
       this.yearDialog()?.nativeElement.close();
       this.yearChangeOpen.set(false);
-      await this.fetch();
-      this.message.set(
-        'Financial year opened. Existing profiles, calculations and payroll history are retained.',
-      );
     });
   }
   async loadHistory() {
+    if (this.busy()) return;
+    this.detailModal.set('history');
+    this.history.set([]);
     await this.perform(async () =>
       this.history.set(await this.api.history(this.employeeId(), this.yearCode)),
     );

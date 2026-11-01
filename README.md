@@ -41,3 +41,7 @@ Browser tests require both servers and installed Microsoft Edge. They read real 
 ## Manual creation check
 
 Click Add Employee, enter your real employee details, then Save employee. Expect success and a refreshed table showing the new MongoDB ID. Repeating the email should show a conflict. In Compass connect to mongodb://127.0.0.1:27017 and inspect payroll_db/employees. Restart the backend and refresh to confirm persistence.
+
+## PayStream documentation
+
+See the [documentation index](docs/README.md) for setup, architecture, security, payroll, testing and implementation notes.

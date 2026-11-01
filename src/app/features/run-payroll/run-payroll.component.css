@@ -299,3 +299,17 @@ select:focus-visible {
     flex-wrap: wrap;
   }
 }
+
+/* Row indicators stay next to the name; link states preserve a single text color. */
+.employee-name { display: inline-flex; align-items: center; gap: 8px; }
+.warning-trigger.icon-button { width: 26px; height: 26px; min-height: 26px; padding: 4px; flex: none; border-color: transparent; background: transparent; }
+.warning-trigger app-action-icon { width: 16px; height: 16px; }
+td a, td a:visited, td a:hover, td a:active { color: #213c30; text-decoration: none; }
+td a:hover { background: #edf4ed; border-radius: 3px; }
+.review-summary { margin: 12px 0; font-size: 12px; line-height: 1.5; color: #8a5a16; }
+.warning-popover { box-sizing: border-box; width: max-content; max-width: min(340px, calc(100vw - 16px)); max-height: calc(100dvh - 16px); overflow: auto; padding: 10px 12px; border: 1px solid #dce4da; border-radius: 8px; background: white; color: #20372c; box-shadow: 0 5px 20px #102c2a26; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.warning-popover header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.warning-popover header strong { min-width: 0; }
+.warning-popover .icon-button { width: 24px; height: 24px; min-height: 24px; padding: 3px; flex: none; }
+.warning-popover ul { margin: 6px 0 0; padding-left: 17px; }
+.warning-popover li + li { margin-top: 6px; }

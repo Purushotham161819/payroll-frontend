@@ -1,10 +1,11 @@
+import { ActionIcon } from './shared/action-icon';
 import { PageTransition } from './shared/page-transition';
 import { PRODUCT_BRAND } from './branding';
 import { Organization } from './organization';
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Auth } from './auth/auth';
-@Component({ selector: 'app-workspace', imports: [RouterLink, RouterLinkActive, RouterOutlet, PageTransition], templateUrl: './app.html', styleUrl: './app.css' })
+@Component({ selector: 'app-workspace', imports: [RouterLink, RouterLinkActive, RouterOutlet, PageTransition, ActionIcon], templateUrl: './app.html', styleUrl: './app.css' })
 export class WorkspaceLayout {
   readonly productBrand = PRODUCT_BRAND;
   readonly organization = inject(Organization);

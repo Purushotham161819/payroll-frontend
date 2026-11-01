@@ -1,3 +1,5 @@
+import { CdkOverlayOrigin, ConnectedPosition, OverlayModule } from '@angular/cdk/overlay';
+import { A11yModule } from '@angular/cdk/a11y';
 import { PayrollGuide } from './components/payroll-guide';
 import { NavigationContext, EmployeeOrigin } from '../../shared/navigation-context';
 import { ActionIcon } from '../../shared/action-icon';
@@ -28,7 +30,7 @@ type PayrollRow = Pick<PayCheck, 'employeeId' | 'firstName' | 'lastName'> &
   Partial<PayCheck> & { historical: boolean; selectable: boolean; validationMessage?: string };
 @Component({
   selector: 'app-run-payroll',
-  imports: [CurrencyPipe, DatePipe, FormsModule, RouterLink, ActionIcon, PayrollGuide],
+  imports: [CurrencyPipe, DatePipe, FormsModule, RouterLink, ActionIcon, PayrollGuide, OverlayModule, A11yModule],
   templateUrl: './run-payroll.component.html',
   styleUrl: './run-payroll.component.css',
 })
@@ -61,6 +63,22 @@ export class RunPayroll implements OnInit, OnDestroy {
   readonly message = signal('');
   readonly dirty = signal(false);
   readonly confirm = signal(false);
+  readonly warningEmployee = signal<PayrollRow | null>(null);
+  warningOrigin: CdkOverlayOrigin | null = null;
+  readonly warningPositions: ConnectedPosition[] = [
+    { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: 6 },
+    { originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top', offsetY: 6 },
+    { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -6 },
+    { originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'bottom', offsetY: -6 },
+  ];
+  openWarnings(employee: PayrollRow, origin: CdkOverlayOrigin) {
+    this.warningOrigin = origin;
+    this.warningEmployee.set(employee);
+  }
+  closeWarnings() {
+    this.warningEmployee.set(null);
+    this.warningOrigin = null;
+  }
   paymentDate = '';
   private readonly sanitizer = inject(DomSanitizer);
   private readonly pdfUrl = signal<string | null>(null);
@@ -229,6 +247,12 @@ export class RunPayroll implements OnInit, OnDestroy {
       rows.set(issue.employeeId, { ...row, employeeId: issue.employeeId, firstName: issue.firstName, lastName: issue.lastName, historical: false, selectable: row?.selectable ?? true, validationMessage: issue.message });
     }
     return [...rows.values()];
+  }
+  employeeWarnings(row: PayrollRow) {
+    const messages = (this.run()?.validationIssues ?? []).filter((issue) => issue.employeeId === row.employeeId).map((issue) => issue.message);
+    if (row.validationMessage) messages.push(row.validationMessage);
+    if (row.tdsCalculationStatusLabel && ['estimate_saved', 'not_calculated'].includes(row.tdsCalculationStatus ?? '')) messages.push(row.tdsCalculationStatusLabel);
+    return [...new Set(messages.filter(Boolean))];
   }
   selectableRows() {
     return this.unifiedRows().filter((row) => row.selectable && !row.historical);

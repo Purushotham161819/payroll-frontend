@@ -74,12 +74,7 @@
 }
 @if (run(); as payroll) {
   @if (hasReviewIssues()) {
-    <section class="notice error" role="alert">
-      <p>Payroll needs review. Totals cover {{ payroll.checks.length }} calculated employees; employees requiring review are excluded. Save and Submit are blocked for this selection. Resolve the issues, or deselect those employees and recalculate to process the others.</p>
-      @for (issue of payroll.validationIssues; track issue.employeeId) {
-        <p>{{ issue.employeeCode || issue.firstName + ' ' + issue.lastName }}: {{ issue.message }}</p>
-      }
-    </section>
+    <p class="review-summary" role="status">Payroll needs review. Save and Submit are blocked for this selection. Review the warning icons in the employee rows.</p>
   }
   @if (confirmationPage) {
     <section class="submission-meta" aria-label="Payroll submission summary">
@@ -108,7 +103,7 @@
     }
     <div class="preview-meta">
       <span>{{ selected().size }} selected &middot; Draft version {{ payroll.version }}</span
-      ><button class="icon-button" (click)="recalculate()" [disabled]="busy()" title="Recalculate / Refresh Payroll" aria-label="Recalculate / Refresh Payroll" [attr.aria-busy]="refreshing()"><app-action-icon name="refresh" [class.spinning]="refreshing()" /></button>
+      ><button class="icon-button" (click)="recalculate()" [disabled]="busy()" title="Refresh Payroll" aria-label="Refresh Payroll" [attr.aria-busy]="refreshing()"><app-action-icon name="refresh" [class.spinning]="refreshing()" /></button>
     </div>
   }
   <div #payrollTableScroll class="table-scroll" tabindex="0" role="region" aria-label="Employee payroll table">
@@ -167,12 +162,14 @@
                 (change)="toggle(row.employeeId, $any($event.target).checked)"
               />
             </td>
-            <td>
+            <td class="first-name-cell"><span class="employee-name">@if (employeeWarnings(row).length) {
+                <button type="button" class="icon-button warning-trigger" cdkOverlayOrigin #warningOrigin="cdkOverlayOrigin" title="Employee requires attention" aria-haspopup="dialog" [attr.aria-expanded]="warningEmployee()?.employeeId === row.employeeId" [attr.aria-label]="'Employee requires attention: ' + row.firstName + ' ' + row.lastName" (click)="openWarnings(row, warningOrigin)"><app-action-icon name="warning" /></button>
+              }
               <a
                 [href]="employeeHref(row.employeeId)"
                 (click)="openEmployee($event, row.employeeId)"
                 >{{ row.firstName }}</a
-              >
+              ></span>
             </td>
             <td>
               <a
@@ -193,7 +190,7 @@
             </td>
             <td class="money">
               {{ row.tds ?? 0 | currency: 'INR' }}
-              @if (row.tdsCalculationStatusLabel) { <small class="payment-detail">{{ row.tdsCalculationStatusLabel }}</small> }
+
             </td>
             <td class="money">
               {{ otherDeductions(row) == null ? '—' : (otherDeductions(row) | currency: 'INR') }}
@@ -206,7 +203,7 @@
                 [class.paid]="row.paymentStatus === 'Paid'"
                 >{{ rowStatus(row) }}</span
               >
-              @if (row.validationMessage) { <small class="payment-detail">{{ row.validationMessage }}</small> }
+
               @if (row.historical && row.paymentStatus !== 'Paid') {
                 <small class="payment-detail">{{ row.paymentStatus }}</small>
               }
@@ -339,3 +336,25 @@
     </footer>
   </dialog>
 }
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="warningOrigin!"
+  [cdkConnectedOverlayOpen]="!!warningEmployee()"
+  [cdkConnectedOverlayPositions]="warningPositions"
+  [cdkConnectedOverlayPush]="true"
+  [cdkConnectedOverlayViewportMargin]="8"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  (backdropClick)="closeWarnings()"
+  (overlayOutsideClick)="closeWarnings()"
+  (overlayKeydown)="$event.key === 'Escape' && closeWarnings()"
+  (detach)="closeWarnings()"
+>
+  @if (warningEmployee(); as employee) {
+    <section class="warning-popover" role="dialog" aria-labelledby="employee-warning-title" cdkTrapFocus [cdkTrapFocusAutoCapture]="true">
+      <header><strong id="employee-warning-title">{{ employee.firstName }} {{ employee.lastName }}</strong><button type="button" class="icon-button" aria-label="Close employee warnings" title="Close employee warnings" cdkFocusInitial (click)="closeWarnings()"><app-action-icon name="close" /></button></header>
+      <ul>@for (warning of employeeWarnings(employee); track warning) { <li>{{ warning }}</li> }</ul>
+    </section>
+  }
+</ng-template>

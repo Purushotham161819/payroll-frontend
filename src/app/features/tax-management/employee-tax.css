@@ -174,3 +174,89 @@ dialog::backdrop {
     padding: 12px;
   }
 }
+
+.compact-field,
+.compact-fields {
+  width: min(100%, 300px);
+}
+.review-note {
+  width: min(100%, 560px);
+}
+.review-note textarea {
+  min-height: 56px;
+  resize: vertical;
+}
+.employment-card {
+  background: #fafcf8;
+  border: 1px solid #dce4da;
+  border-radius: 9px;
+  padding: 18px;
+  margin: 18px 0;
+}
+.employment-card h4 {
+  margin: 0;
+}
+.employment-card .card-header {
+  align-items: center;
+  margin-bottom: 12px;
+}
+.scenario-options {
+  display: grid;
+  gap: 8px;
+}
+.scenario-options .check,
+.checks .check {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  margin: 5px 0;
+  line-height: 1.5;
+}
+.check input {
+  margin: 3px 0 0;
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+.checks {
+  gap: 12px 20px;
+}
+.summary > div {
+  min-width: 0;
+}
+.summary dd {
+  overflow-wrap: anywhere;
+}
+.header-actions .icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  width: 36px;
+  height: 36px;
+  min-height: 36px;
+  padding: 8px;
+}
+@media (max-width: 650px) {
+  .compact-field,
+  .compact-fields,
+  .review-note {
+    width: 100%;
+  }
+  .employment-card {
+    padding: 14px;
+  }
+}
+
+.employment-card .card-header {
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+.employment-card h4 {
+  flex: 1;
+  min-width: 0;
+}
+.employment-card .header-actions {
+  flex: 0 0 auto;
+}

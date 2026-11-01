@@ -1,3 +1,5 @@
+import { registerLocaleData } from '@angular/common';
+import localeIn from '@angular/common/locales/en-IN';
 import { EmployeeProfile } from './employees/employee-profile';
 import { PlatformPortal } from './platform/platform';
 import { ChangePassword } from './auth/change-password';
@@ -7,7 +9,7 @@ import { StatutoryDeductionsPage } from './statutory-deductions/statutory-deduct
 import { provideRouter, Routes } from '@angular/router';
 import { EmployeeList } from './employees/employee-list';
 import { Settings } from './settings/settings';
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { ApplicationConfig, LOCALE_ID, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { anonymous, authenticated, administrator, authenticationInterceptor } from './auth/auth';
 import { Login } from './auth/login';
@@ -27,10 +29,13 @@ export const routes: Routes = [
     { path: 'settings', component: Settings },
     { path: 'settings/statutory-deductions', component: StatutoryDeductionsPage },
     { path: 'settings/tax-configuration', loadComponent: () => import('./features/tax-management/tax-configuration').then(m => m.TaxConfiguration), canActivate: [administrator] },
+    { path: 'settings/organization', loadComponent: () => import('./settings/organization-settings').then(m => m.OrganizationSettings), canActivate: [administrator] },
     { path: 'users', component: UserManagement, canActivate: [administrator] },
     { path: '**', redirectTo: '' },
   ] },
 ];
+// Apply Indian grouping to Angular number/currency pipes throughout the UI.
+registerLocaleData(localeIn);
 export const appConfig: ApplicationConfig = {
-  providers: [provideBrowserGlobalErrorListeners(), provideHttpClient(withInterceptors([authenticationInterceptor])), provideRouter(routes)],
+  providers: [{ provide: LOCALE_ID, useValue: 'en-IN' }, provideBrowserGlobalErrorListeners(), provideHttpClient(withInterceptors([authenticationInterceptor])), provideRouter(routes)],
 };
