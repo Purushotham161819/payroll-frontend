@@ -1,7 +1,8 @@
+import { ActionIcon } from '../shared/action-icon';
+import { SettingsTabs } from '../shared/settings-tabs';
 import { Auth } from '../auth/auth';
 import { DeleteConfirmation } from '../shared/delete-confirmation';
-﻿import { RouterLink, RouterLinkActive } from '@angular/router';
-import { registerLocaleData } from '@angular/common';
+﻿import { registerLocaleData } from '@angular/common';
 import localeIn from '@angular/common/locales/en-IN';
 registerLocaleData(localeIn);
 import { Component, inject, signal, OnInit } from '@angular/core';
@@ -39,7 +40,7 @@ export class SalaryComponentService {
   remove(id:string){return this.http.delete<{message:string;deletedId:string}>(this.url+'/'+encodeURIComponent(id));}
   status(id: string, status: string) { return this.http.patch(this.url + '/' + id + '/status', { status }); }
 }
-@Component({ selector: 'app-settings', imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive, DeleteConfirmation], templateUrl: './settings.html', styleUrl: './settings.css' })
+@Component({ selector: 'app-settings', imports: [ActionIcon, SettingsTabs, CommonModule, FormsModule, DeleteConfirmation], templateUrl: './settings.html', styleUrl: './settings.css' })
 export class Settings implements OnInit {
   readonly taxAuth = inject(Auth);
   private service = inject(SalaryComponentService);

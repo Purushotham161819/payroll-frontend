@@ -145,9 +145,9 @@ test('launch payroll, reopen and edit a saved draft, submit, and download histor
   await page.getByRole('link', { name: 'Ada', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Ada Example' })).toBeVisible();
   await page.getByRole('tab', { name: 'Pay Checks', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Download PDF', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Download Pay Check PDF', exact: true })).toBeVisible();
   const download = page.waitForEvent('download');
-  await page.getByRole('button', { name: 'Download PDF', exact: true }).click();
+  await page.getByRole('button', { name: 'Download Pay Check PDF', exact: true }).click();
   expect((await download).suggestedFilename()).toContain('Payslip_');
   await page.setViewportSize({ width: 390, height: 844 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);

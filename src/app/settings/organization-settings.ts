@@ -1,7 +1,8 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { ActionIcon } from '../shared/action-icon';
+import { SettingsTabs } from '../shared/settings-tabs';
+import { Component, OnInit, inject, signal, HostListener } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { apiError } from '../employees/employee.service';
@@ -29,7 +30,7 @@ const emptyAddress = (): OrganizationAddress => ({
 });
 @Component({
   selector: 'app-organization-settings',
-  imports: [FormsModule, RouterLink],
+  imports: [ActionIcon, SettingsTabs, FormsModule],
   templateUrl: './organization-settings.html',
   styleUrl: './organization-settings.css',
 })
@@ -39,7 +40,7 @@ export class OrganizationSettings implements OnInit {
   readonly organization = signal<OrganizationProfile | null>(null);
   readonly loading = signal(false);
   readonly saving = signal(false);
-  readonly editing = signal(true);
+  readonly editing = signal(false);
   readonly error = signal('');
   readonly success = signal('');
   readonly countries = COUNTRIES;
@@ -86,6 +87,20 @@ export class OrganizationSettings implements OnInit {
       placeholder: 'Postal or ZIP code',
     },
   ] as const;
+  canLeave() {
+    return (
+      !this.saving() &&
+      (!this.editing() ||
+        !this.hasChanges() ||
+        window.confirm('Leave organization settings with unsaved changes?'))
+    );
+  }
+  @HostListener('window:beforeunload', ['$event']) beforeUnload(event: BeforeUnloadEvent) {
+    if (this.saving() || (this.editing() && this.hasChanges())) {
+      event.preventDefault();
+      event.returnValue = '';
+    }
+  }
   ngOnInit() {
     void this.load();
   }
@@ -97,7 +112,7 @@ export class OrganizationSettings implements OnInit {
       const value = await firstValueFrom(this.http.get<OrganizationProfile>(this.url));
       this.organization.set(value);
       this.draft = { ...emptyAddress(), ...value.address };
-      this.editing.set(value.addressVersion === 0);
+      this.editing.set(false);
     } catch (e) {
       this.error.set(apiError(e));
     } finally {

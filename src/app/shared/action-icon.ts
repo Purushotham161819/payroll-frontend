@@ -9,7 +9,9 @@ import { Component, input } from '@angular/core';
   >
     @switch (name()) {
       @case ('users') {
-        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+        <path
+          d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"
+        />
         <circle cx="9" cy="7" r="4" />
       }
       @case ('history') {
@@ -19,6 +21,8 @@ import { Component, input } from '@angular/core';
         <rect x="3" y="3" width="18" height="18" rx="2" />
         <path d="M3 9h18M3 15h18M9 3v18" />
       }
+      @case ('delete') { <path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5m4-5v5" /> }
+      @case ('power') { <path d="M12 2v10M6 5a9 9 0 1 0 12 0" /> }
       @case ('edit') {
         <path d="m15 4 5 5M4 20l4-1L21 6l-5-5L3 14l-1 7Z" />
       }
@@ -33,6 +37,14 @@ import { Component, input } from '@angular/core';
       }
       @case ('refresh') {
         <path d="M20 11a8 8 0 1 0-2.34 6.66M20 4v7h-7" />
+      }
+      @case ('calendar') {
+        <rect x="3" y="5" width="18" height="16" rx="2" />
+        <path d="M16 3v4M8 3v4M3 11h18M8 15h3M14 15h2" />
+      }
+      @case ('info') {
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 11v6M12 7h.01" />
       }
       @case ('eye') {
         <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
@@ -67,6 +79,19 @@ import { Component, input } from '@angular/core';
 })
 export class ActionIcon {
   readonly name = input.required<
-    'users' | 'refresh' | 'eye' | 'download' | 'history' | 'table' | 'edit' | 'save' | 'warning' | 'close'
+    | 'users'
+    | 'refresh'
+    | 'eye'
+    | 'download'
+    | 'history'
+    | 'table'
+    | 'edit'
+    | 'save'
+    | 'warning'
+    | 'close'
+    | 'info'
+    | 'calendar'
+    | 'delete'
+    | 'power'
   >();
 }

@@ -71,3 +71,48 @@ button:disabled {
   opacity: 0.5;
   cursor: default;
 }
+
+tbody td {
+  padding: 18px 14px;
+  vertical-align: middle;
+}
+tbody tr + tr td {
+  border-top: 1px solid #e4ebe6;
+}
+.deduction-amount {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.tds-trigger {
+  flex: none;
+}
+.check-actions {
+  align-items: center;
+}
+.tds-popover {
+  box-sizing: border-box;
+  width: min(280px, calc(100vw - 32px));
+  padding: 14px 16px;
+  border: 1px solid #dce6df;
+  border-radius: 8px;
+  background: white;
+  color: #203d2d;
+  box-shadow: 0 8px 28px #102c2a26;
+  font-size: 13px;
+}
+.tds-period {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #64746a;
+}
+.tds-popover p {
+  margin: 10px 0 0;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.icon-button:focus-visible {
+  outline: 2px solid #28644a;
+  outline-offset: 3px;
+}

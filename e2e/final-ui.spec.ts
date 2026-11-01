@@ -58,9 +58,9 @@ test('main-content transitions are consistent across business routes, coalesce f
   const count = animations.length;
   await page.getByRole('link', { name: 'Ada', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Ada Example' })).toBeVisible();
-  await page.getByRole('tab', { name: 'Employment History' }).click();
+  await page.getByRole('tab', { name: 'Pay Checks', exact: true }).click();
   // Angular replaces the details panel; never read its detached DOM node.
-  const historyPanel = page.getByRole('tabpanel', { name: 'Employment History', exact: true });
+  const historyPanel = page.getByRole('tabpanel', { name: 'Pay Checks', exact: true });
   await expect(historyPanel).toBeVisible();
   await expect(historyPanel).toHaveCSS('animation-name', 'none');
   expect(await historyPanel.evaluate(panel => panel.getAnimations().length)).toBe(0);

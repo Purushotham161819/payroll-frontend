@@ -44,14 +44,16 @@ describe('Organization Settings address editor', () => {
     expect(fixture.nativeElement.textContent).toContain('Name from Super Admin');
     expect(fixture.nativeElement.querySelector('[name=organizationName]')).toBeNull();
     expect(page.draft).toEqual(empty);
-    expect(page.editing()).toBe(true);
+    expect(page.editing()).toBe(false);
     expect(COUNTRIES.length).toBe(249);
     expect(fixture.nativeElement.querySelectorAll('#country option').length).toBe(250);
-    expect(fixture.nativeElement.querySelector('button[type=submit]').disabled).toBe(true);
+    expect(fixture.nativeElement.querySelector('button[type=submit]')).toBeNull();
     expect(fixture.nativeElement.querySelector('#zipCode').type).toBe('text');
   });
   it('saves only address fields once, preserves postal strings, reloads and supports Edit/Cancel', async () => {
     const { fixture, page, http } = await setup();
+    page.edit();
+    fixture.detectChanges();
     for (const [key, value] of Object.entries(address)) {
       const control = fixture.nativeElement.querySelector('#' + key);
       control.value = value;

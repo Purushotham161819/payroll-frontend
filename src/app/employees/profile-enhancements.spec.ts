@@ -40,7 +40,7 @@ describe('Employee profile presentation and historical PDF viewer', () => {
     fixture.detectChanges();
     expect(fixture.componentInstance.active()).toBe('checks');
   });
-  it('groups only supported fields in independent cards and keeps full employment history in its own tab', async () => {
+  it('groups only supported fields in independent cards and keeps full employment history in the details tab', async () => {
     const employee = {
       _id: 'a',
       firstName: 'Ada',
@@ -85,22 +85,23 @@ describe('Employee profile presentation and historical PDF viewer', () => {
     await fixture.whenStable();
     fixture.detectChanges();
     const element = fixture.nativeElement as HTMLElement;
-    expect(element.querySelectorAll('app-profile-card').length).toBe(4);
+    expect(element.querySelectorAll('app-profile-card').length).toBe(3);
     for (const value of ['EMP001', 'ada@example.test', 'Annual CTC', 'Pay Frequency'])
       expect(element.textContent).toContain(value);
     expect(element.textContent).not.toContain('Department');
-    expect(element.querySelector('app-employment-history')).toBeNull();
+    expect(element.querySelector('app-employment-history')).not.toBeNull();
+    expect([...element.querySelectorAll('[role=tab]')].some(tab => tab.textContent?.trim() === 'Employment History')).toBe(false);
+    expect(element.textContent).not.toContain('Edit employee');
     const back = element.querySelector<HTMLAnchorElement>('[aria-label="Back to Employees"]')!;
     expect(back.getAttribute('href')).toContain('status=All');
     expect(back.title).toBe('Back to Employees');
     expect(back.textContent?.trim()).toBe('');
-    (element.querySelectorAll('[role=tab]')[1] as HTMLButtonElement).click();
-    fixture.detectChanges();
     expect(element.querySelectorAll('app-employment-history li').length).toBe(2);
     expect(element.textContent).toContain('Retirement');
     expect(element.textContent).toContain('Original period');
     expect(element.textContent).toContain('Termination recorded');
-    expect(element.querySelectorAll('app-profile-card').length).toBe(0);
+    fixture.componentInstance.changeTab('history');
+    expect(fixture.componentInstance.tab()).toBe('details');
   });
   it('fetches the selected employee PDF and releases its viewer URL when closed', async () => {
     const check = {

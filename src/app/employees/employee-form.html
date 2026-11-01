@@ -23,21 +23,33 @@
       <span class="required-note">All fields required</span>
     </div>
     @if (employee(); as person) {
-      <app-profile-tabs prefix="editor" [active]="profileTab()" (activeChange)="profileTab.set($event)" />
-      @if (profileTab() === 'history') { <section role="tabpanel" id="editor-history-panel" aria-labelledby="editor-history-tab"><app-employment-history [employee]="person" /></section> }
-      @if (profileTab() === 'checks') { <section role="tabpanel" id="editor-checks-panel" aria-labelledby="editor-checks-tab"><app-pay-checks [employeeId]="person._id" /></section> }
+      <app-profile-tabs
+        prefix="editor"
+        [active]="profileTab()"
+        (activeChange)="profileTab.set($event)"
+      />
+      @if (profileTab() === 'history') {
+        <section role="tabpanel" id="editor-history-panel" aria-labelledby="editor-history-tab">
+          <app-employment-history [employee]="person" />
+        </section>
+      }
+      @if (profileTab() === 'checks') {
+        <section role="tabpanel" id="editor-checks-panel" aria-labelledby="editor-checks-tab">
+          <app-pay-checks [employeeId]="person._id" />
+        </section>
+      }
     }
-    <form role="tabpanel" id="editor-details-panel" [attr.aria-labelledby]="employee() ? 'editor-details-tab' : 'form-title'" [hidden]="profileTab() !== 'details'" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <form
+      role="tabpanel"
+      id="editor-details-panel"
+      [attr.aria-labelledby]="employee() ? 'editor-details-tab' : 'form-title'"
+      [hidden]="profileTab() !== 'details'"
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+      novalidate
+    >
       <fieldset [disabled]="saving()">
         <div class="form-grid">
-          <div class="full">
-            <label for="payFrequency">Pay Frequency</label>
-            <select id="payFrequency" formControlName="payFrequency">
-              @for (frequency of payFrequencies; track frequency) {
-                <option [value]="frequency">{{ frequency }}</option>
-              }
-            </select>
-          </div>
           <div>
             <label for="firstName">First Name</label
             ><input
@@ -80,6 +92,7 @@
               <p id="email-error" class="field-error">Enter a valid email address.</p>
             }
           </div>
+
           <div>
             <label for="dateOfBirth">Date of Birth</label
             ><input
@@ -98,16 +111,19 @@
             ><input
               id="hireDate"
               type="date"
-              formControlName="hireDate" [readOnly]="!!employee()?.employmentHistory?.length"
+              formControlName="hireDate"
+              [readOnly]="!!employee()?.employmentHistory?.length"
               [attr.aria-invalid]="invalid('hireDate')"
               aria-describedby="hire-error"
             />
-            <p class="field-help">After lifecycle history is recorded, the original hire date is preserved.</p>
-@if (invalid('hireDate')) {
+            <p class="field-help">
+              After lifecycle history is recorded, the original hire date is preserved.
+            </p>
+            @if (invalid('hireDate')) {
               <p id="hire-error" class="field-error">Enter a valid hire date.</p>
             }
           </div>
-          <div class="full">
+          <div class="compact-field">
             <label for="annualCtc">Annual CTC</label
             ><input
               id="annualCtc"
@@ -121,6 +137,14 @@
             @if (invalid('annualCtc')) {
               <p id="ctc-error" class="field-error">Enter a number of zero or greater.</p>
             }
+          </div>
+          <div class="compact-field">
+            <label for="payFrequency">Pay Frequency</label>
+            <select id="payFrequency" formControlName="payFrequency">
+              @for (frequency of payFrequencies; track frequency) {
+                <option [value]="frequency">{{ frequency }}</option>
+              }
+            </select>
           </div>
         </div>
       </fieldset>
@@ -137,4 +161,3 @@
     </form>
   </section>
 </dialog>
-

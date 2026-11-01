@@ -17,7 +17,7 @@ import { DOCUMENT } from '@angular/common';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Employee, CreateEmployee, payFrequencies, defaultPayFrequency } from './employee';
 import { EmployeeService, apiError } from './employee.service';
-function realDate(control: AbstractControl) {
+export function realDate(control: AbstractControl) {
   if (!control.value) return null;
   const value = String(control.value);
   const date = new Date(value + 'T00:00:00Z');

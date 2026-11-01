@@ -1,8 +1,17 @@
+import { SettingsTabs } from '../../shared/settings-tabs';
 import { configurationProblems } from './tax-configuration-validation';
-import { Component, OnInit, inject, signal, viewChild, ElementRef, effect } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  inject,
+  signal,
+  viewChild,
+  ElementRef,
+  effect,
+  HostListener,
+} from '@angular/core';
 import { FormsModule, NgForm, AbstractControl } from '@angular/forms';
 import { DatePipe, CurrencyPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { SalaryComponentService } from '../../settings/settings';
 import { apiError } from '../../employees/employee.service';
@@ -30,7 +39,7 @@ const sectionKeys: Record<TaxSection, string[]> = {
 
 @Component({
   selector: 'app-tax-configuration',
-  imports: [FormsModule, DatePipe, CurrencyPipe, RouterLink, ActionIcon],
+  imports: [SettingsTabs, FormsModule, DatePipe, CurrencyPipe, ActionIcon],
   templateUrl: './tax-configuration.html',
   styleUrls: ['./tax-management.css', './tax-configuration.css'],
 })
@@ -69,6 +78,40 @@ export class TaxConfiguration implements OnInit {
   readonly savingSection = signal<TaxSection | null>(null);
   readonly sectionMessages = signal<Partial<Record<TaxSection, string>>>({});
   readonly sectionErrors = signal<Partial<Record<TaxSection, string>>>({});
+  readonly editingTables = signal<Partial<Record<TaxSection, boolean>>>({});
+  private tableDrafts: Partial<Record<TaxSection, string>> = {};
+  editTable(section: 'slabs' | 'surcharge') {
+    this.tableDrafts[section] = JSON.stringify(this[section]);
+    this.editingTables.update((value) => ({ ...value, [section]: true }));
+  }
+  tableChanged(section: 'slabs' | 'surcharge') {
+    return (
+      !!this.editingTables()[section] && this.tableDrafts[section] !== JSON.stringify(this[section])
+    );
+  }
+  cancelTable(section: 'slabs' | 'surcharge') {
+    if (
+      this.busy() ||
+      (this.tableChanged(section) && !window.confirm('Discard unsaved changes to this table?'))
+    )
+      return;
+    this[section] = JSON.parse(this.tableDrafts[section]!);
+    this.editingTables.update((value) => ({ ...value, [section]: false }));
+    this.sectionErrors.update((value) => ({ ...value, [section]: '' }));
+  }
+  canLeave() {
+    return (
+      !this.busy() &&
+      (!(this.tableChanged('slabs') || this.tableChanged('surcharge')) ||
+        window.confirm('Leave tax configuration with unsaved table changes?'))
+    );
+  }
+  @HostListener('window:beforeunload', ['$event']) beforeUnload(event: BeforeUnloadEvent) {
+    if (this.busy() || this.tableChanged('slabs') || this.tableChanged('surcharge')) {
+      event.preventDefault();
+      event.returnValue = '';
+    }
+  }
   historyPage = 1;
   readonly historyPageSize = 10;
   viewingRevision: any = null;
@@ -250,6 +293,7 @@ export class TaxConfiguration implements OnInit {
         this.historyPage = 1;
         const saved = this.baseline();
         if (saved) this.applySavedSection(section, saved.rules);
+        this.editingTables.update((value) => ({ ...value, [section]: false }));
         this.sectionMessages.update((messages) => ({
           ...messages,
           [section]:
@@ -324,6 +368,7 @@ export class TaxConfiguration implements OnInit {
     }
   }
   async load() {
+    if (!this.canLeave()) return;
     await this.perform(async () => {
       const [state, components] = await Promise.all([
         this.api.configuration(),
@@ -545,10 +590,17 @@ export class TaxConfiguration implements OnInit {
         }),
       );
       this.historyPage = 1;
+      this.editingTables.set({});
       this.message.set('New immutable revision saved. Review its details and activate it below.');
     });
   }
   editRevision(r: any) {
+    if (
+      (this.tableChanged('slabs') || this.tableChanged('surcharge')) &&
+      !window.confirm('Discard unsaved table changes and load this revision?')
+    )
+      return;
+    this.editingTables.set({});
     this.yearCode = r.yearCode;
     this.regime = r.regime;
     this.effectiveDate = r.effectiveDate;

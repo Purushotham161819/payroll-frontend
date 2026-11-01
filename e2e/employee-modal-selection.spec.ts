@@ -18,9 +18,9 @@ test('modal stays above the directory, traps focus, and closes without saving', 
   expect((await directory.boundingBox())?.y).toBe(before?.y);
   await expect(page.getByLabel('First Name', {exact:true})).toBeFocused();
   await page.keyboard.press('Shift+Tab');
-  await expect(page.getByLabel('Pay Frequency', {exact:true})).toBeFocused();
-  await page.keyboard.press('Shift+Tab');
   await expect(page.getByRole('button', {name:'Close add employee'})).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(page.getByLabel('First Name', {exact:true})).toBeFocused();
   await page.getByRole('button', {name:'Close add employee'}).click();
   await expect(dialog).toHaveCount(0);
   await expect(opener).toBeFocused();

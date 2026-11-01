@@ -21,57 +21,329 @@
 @if (employee(); as person) {
   <app-profile-tabs
     [active]="tab()"
+    [showHistory]="false"
     [showTax]="taxAuth.user()?.role === 'admin'"
     (activeChange)="changeTab($event)"
   />
   @if (tab() === 'details') {
     <section role="tabpanel" id="profile-details-panel" aria-labelledby="profile-details-tab">
       <div class="widgets">
-        <app-profile-card heading="Employment Information"
-          ><dl class="info-grid">
-            <dt>Employee ID</dt>
-            <dd>{{ person.employeeId || 'Not available' }}</dd>
-            <dt>Hiring Date</dt>
-            <dd>{{ person.hireDate | date: 'longDate' : 'UTC' }}</dd>
-            <dt>Employment Status</dt>
-            <dd>
-              <span class="status">{{ person.status || 'Active' }}</span>
-            </dd>
-            @if (person.rehireDate) {
-              <dt>Latest Rehire</dt>
-              <dd>{{ person.rehireDate | date: 'longDate' : 'UTC' }}</dd>
+        <app-profile-card heading="Employment Information">
+          <div card-actions class="card-actions">
+            @if (!employmentEditing()) {
+              <button
+                type="button"
+                class="icon-button"
+                title="Edit Employment Information"
+                aria-label="Edit Employment Information"
+                (click)="editEmployment()"
+              >
+                <app-action-icon name="edit" />
+              </button>
+            } @else {
+              <button
+                type="submit"
+                form="employment-information"
+                class="icon-button"
+                title="Save Employment Information"
+                aria-label="Save Employment Information"
+                [disabled]="employmentSaving()"
+              >
+                <app-action-icon name="save" />
+              </button>
+              <button
+                type="button"
+                class="icon-button"
+                title="Cancel Employment Information"
+                aria-label="Cancel Employment Information"
+                (click)="cancelCard('employment')"
+                [disabled]="employmentSaving()"
+              >
+                <app-action-icon name="close" />
+              </button>
             }
-          </dl></app-profile-card
-        >
-        <app-profile-card heading="Compensation Information"
-          ><dl class="info-grid">
-            <dt>Annual CTC</dt>
-            <dd class="amount">{{ person.annualCtc | currency: 'INR' }}</dd>
-            <dt>Pay Frequency</dt>
-            <dd>{{ person.payFrequency || 'Monthly' }}</dd>
-          </dl></app-profile-card
-        >
-        <app-profile-card heading="Organization Information"
-          ><dl class="info-grid">
-            <dt>Organization</dt>
-            <dd>{{ organization.displayName() }}</dd>
-          </dl></app-profile-card
-        >
-        <app-profile-card heading="Personal Information"
-          ><dl class="info-grid">
-            <dt>Email</dt>
-            <dd>{{ person.email || 'Not available' }}</dd>
-            <dt>Date of Birth</dt>
-            <dd>{{ person.dateOfBirth | date: 'longDate' : 'UTC' }}</dd>
-          </dl></app-profile-card
-        >
+          </div>
+          <form
+            id="employment-information"
+            [formGroup]="employmentForm"
+            (ngSubmit)="saveCard('employment')"
+            novalidate
+          >
+            <dl class="info-grid">
+              <div>
+                <dt>Employee ID</dt>
+                <dd>{{ person.employeeId || 'Not available' }}</dd>
+              </div>
+              <div>
+                <dt>Employment Status</dt>
+                <dd>{{ person.status || 'Active' }}</dd>
+              </div>
+              <div>
+                <dt>Hiring Date</dt>
+                <dd>{{ person.hireDate | date: 'longDate' : 'UTC' }}</dd>
+              </div>
+              <div>
+                <dt><label for="profile-designation">Designation</label></dt>
+                <dd>
+                  @if (employmentEditing()) {
+                    <input
+                      id="profile-designation"
+                      formControlName="designation"
+                      maxlength="120"
+                      autocomplete="organization-title"
+                      [readOnly]="employmentSaving()"
+                      [attr.aria-invalid]="
+                        employmentForm.controls.designation.touched &&
+                        employmentForm.controls.designation.invalid
+                      "
+                      aria-describedby="designation-error"
+                    />
+                    @if (
+                      employmentForm.controls.designation.touched &&
+                      employmentForm.controls.designation.invalid
+                    ) {
+                      <p id="designation-error" class="field-error">
+                        Use at most 120 characters without control characters.
+                      </p>
+                    }
+                  } @else {
+                    <span class="optional-value">{{ person.designation || '—' }}</span>
+                  }
+                </dd>
+              </div>
+              <div>
+                <dt>Pay Frequency</dt>
+                <dd>{{ person.payFrequency || 'Monthly' }}</dd>
+              </div>
+              <div>
+                <dt>Annual CTC</dt>
+                <dd class="amount">{{ person.annualCtc | currency: 'INR' }}</dd>
+              </div>
+              <div class="wide">
+                <dt>Organization Name</dt>
+                <dd>{{ organization.displayName() }}</dd>
+              </div>
+            </dl>
+            @if (employmentError()) {
+              <p class="notice error" role="alert">{{ employmentError() }}</p>
+            }
+            @if (employmentSuccess()) {
+              <p class="notice success" role="status">{{ employmentSuccess() }}</p>
+            }
+            @if (employmentSaving()) {
+              <p role="status">Saving employment information…</p>
+            }
+          </form>
+        </app-profile-card>
+        <app-profile-card heading="Personal Information">
+          <div card-actions class="card-actions">
+            @if (!personalEditing()) {
+              <button
+                type="button"
+                class="icon-button"
+                title="Edit Personal Information"
+                aria-label="Edit Personal Information"
+                (click)="editPersonal()"
+              >
+                <app-action-icon name="edit" />
+              </button>
+            } @else {
+              <button
+                type="submit"
+                form="personal-information"
+                class="icon-button"
+                title="Save Personal Information"
+                aria-label="Save Personal Information"
+                [disabled]="personalSaving()"
+              >
+                <app-action-icon name="save" />
+              </button>
+              <button
+                type="button"
+                class="icon-button"
+                title="Cancel Personal Information"
+                aria-label="Cancel Personal Information"
+                (click)="cancelCard('personal')"
+                [disabled]="personalSaving()"
+              >
+                <app-action-icon name="close" />
+              </button>
+            }
+          </div>
+          <form
+            id="personal-information"
+            [formGroup]="personalForm"
+            (ngSubmit)="saveCard('personal')"
+            novalidate
+          >
+            <dl class="info-grid">
+              <div>
+                <dt><label for="profile-email">Email</label></dt>
+                <dd>
+                  @if (personalEditing()) {
+                    <input
+                      id="profile-email"
+                      type="email"
+                      formControlName="email"
+                      autocomplete="email"
+                      [readOnly]="personalSaving()"
+                      [attr.aria-invalid]="
+                        personalForm.controls.email.touched && personalForm.controls.email.invalid
+                      "
+                      aria-describedby="profile-email-error"
+                    />
+                    @if (
+                      personalForm.controls.email.touched && personalForm.controls.email.invalid
+                    ) {
+                      <p id="profile-email-error" class="field-error">
+                        Enter a valid email address.
+                      </p>
+                    }
+                  } @else {
+                    {{ person.email || 'Not available' }}
+                  }
+                </dd>
+              </div>
+              <div>
+                <dt><label for="profile-contact">Contact Number</label></dt>
+                <dd>
+                  @if (personalEditing()) {
+                    <input
+                      id="profile-contact"
+                      type="tel"
+                      formControlName="contactNumber"
+                      maxlength="40"
+                      autocomplete="tel"
+                      [readOnly]="personalSaving()"
+                      [attr.aria-invalid]="
+                        personalForm.controls.contactNumber.touched &&
+                        personalForm.controls.contactNumber.invalid
+                      "
+                      aria-describedby="profile-contact-error"
+                    />
+                    @if (
+                      personalForm.controls.contactNumber.touched &&
+                      personalForm.controls.contactNumber.invalid
+                    ) {
+                      <p id="profile-contact-error" class="field-error">
+                        Enter a contact number up to 40 characters. Country codes, spaces, brackets,
+                        hyphens and extensions are supported.
+                      </p>
+                    }
+                  } @else {
+                    <span class="optional-value">{{ person.contactNumber || '—' }}</span>
+                  }
+                </dd>
+              </div>
+              <div>
+                <dt><label for="profile-dob">Date of Birth</label></dt>
+                <dd>
+                  @if (personalEditing()) {
+                    <input
+                      id="profile-dob"
+                      type="date"
+                      formControlName="dateOfBirth"
+                      [readOnly]="personalSaving()"
+                      [attr.aria-invalid]="
+                        personalForm.controls.dateOfBirth.touched &&
+                        personalForm.controls.dateOfBirth.invalid
+                      "
+                      aria-describedby="profile-dob-error"
+                    />
+                    @if (
+                      personalForm.controls.dateOfBirth.touched &&
+                      personalForm.controls.dateOfBirth.invalid
+                    ) {
+                      <p id="profile-dob-error" class="field-error">Enter a valid date of birth.</p>
+                    }
+                  } @else {
+                    {{ person.dateOfBirth | date: 'longDate' : 'UTC' }}
+                  }
+                </dd>
+              </div>
+              @for (field of addressFields; track field.key) {
+                <div [class.wide]="field.wide">
+                  <dt>
+                    <label [for]="'profile-' + field.key">{{ field.label }}</label>
+                  </dt>
+                  <dd>
+                    @if (personalEditing()) {
+                      <input
+                        [id]="'profile-' + field.key"
+                        [formControlName]="field.key"
+                        [maxLength]="field.max"
+                        [autocomplete]="field.autocomplete"
+                        [readOnly]="personalSaving()"
+                        [attr.aria-invalid]="
+                          personalForm.controls[field.key].touched &&
+                          personalForm.controls[field.key].invalid
+                        "
+                        [attr.aria-describedby]="'profile-' + field.key + '-error'"
+                      />
+                      @if (
+                        personalForm.controls[field.key].touched &&
+                        personalForm.controls[field.key].invalid
+                      ) {
+                        <p [id]="'profile-' + field.key + '-error'" class="field-error">
+                          Use at most {{ field.max }} characters without control characters.
+                        </p>
+                      }
+                    } @else {
+                      <span class="optional-value">{{ person[field.key] || '—' }}</span>
+                    }
+                  </dd>
+                </div>
+              }
+              <div>
+                <dt><label for="profile-country">Country</label></dt>
+                <dd>
+                  @if (personalEditing()) {
+                    <input
+                      id="profile-country"
+                      formControlName="country"
+                      maxlength="120"
+                      autocomplete="country-name"
+                      list="employee-countries"
+                      [readOnly]="personalSaving()"
+                      [attr.aria-invalid]="
+                        personalForm.controls.country.touched &&
+                        personalForm.controls.country.invalid
+                      "
+                      aria-describedby="profile-country-error"
+                    />
+                    <datalist id="employee-countries">
+                      @for (country of countries; track country.code) {
+                        <option [value]="country.name"></option>
+                      }
+                    </datalist>
+                    @if (
+                      personalForm.controls.country.touched && personalForm.controls.country.invalid
+                    ) {
+                      <p id="profile-country-error" class="field-error">
+                        Use at most 120 characters without control characters.
+                      </p>
+                    }
+                  } @else {
+                    <span class="optional-value">{{ person.country || '—' }}</span>
+                  }
+                </dd>
+              </div>
+            </dl>
+            @if (personalError()) {
+              <p class="notice error" role="alert">{{ personalError() }}</p>
+            }
+            @if (personalSuccess()) {
+              <p class="notice success" role="status">{{ personalSuccess() }}</p>
+            }
+            @if (personalSaving()) {
+              <p role="status">Saving personal information…</p>
+            }
+          </form>
+        </app-profile-card>
+        <app-profile-card class="history-card" heading="Employment History"
+          ><app-employment-history [employee]="person" [embedded]="true"
+        /></app-profile-card>
       </div>
-
-      <button class="secondary edit" (click)="editing.set(true)">Edit employee</button>
-    </section>
-  } @else if (tab() === 'history') {
-    <section role="tabpanel" id="profile-history-panel" aria-labelledby="profile-history-tab">
-      <app-employment-history [employee]="person" />
     </section>
   } @else if (tab() === 'checks') {
     <section role="tabpanel" id="profile-checks-panel" aria-labelledby="profile-checks-tab">
@@ -87,12 +359,5 @@
     >
       <app-employee-tax [employeeId]="person._id" />
     </section>
-  }
-  @if (editing()) {
-    <app-employee-form
-      [employee]="person"
-      (saved)="editing.set(false); load()"
-      (cancelled)="editing.set(false)"
-    />
   }
 }

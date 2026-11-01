@@ -79,7 +79,67 @@ describe('Tax Configuration card persistence', () => {
     fixture.detectChanges();
     return { fixture, http, page: fixture.componentInstance };
   }
-  afterEach(() => TestBed.inject(HttpTestingController).verify());
+  afterEach(() => {
+    TestBed.inject(HttpTestingController).verify();
+    vi.restoreAllMocks();
+  });
+  it('keeps each table readonly until Edit and restores only the cancelled table after confirmation', async () => {
+    const { fixture, page, http } = await setup();
+    expect(fixture.nativeElement.querySelector('[aria-label="Slab rate"]').readOnly).toBe(true);
+    expect(fixture.nativeElement.querySelector('[aria-label="Edit slabs"]')).not.toBeNull();
+    page.editTable('slabs');
+    page.slabs[0].rate = 9;
+    page.editTable('surcharge');
+    page.surcharge.push({ threshold: 5000000, rate: 10 });
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('[aria-label="Slab rate"]').readOnly).toBe(false);
+    const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false);
+    page.cancelTable('slabs');
+    expect(page.slabs[0].rate).toBe(9);
+    expect(page.canLeave()).toBe(false);
+    page.editRevision(revision());
+    expect(page.slabs[0].rate).toBe(9);
+    confirm.mockReturnValue(true);
+    page.cancelTable('slabs');
+    fixture.detectChanges();
+    expect(page.slabs).toEqual(rules().slabs);
+    expect(page.surcharge).toHaveLength(1);
+    expect(page.editingTables()['surcharge']).toBe(true);
+    expect(fixture.nativeElement.querySelector('[aria-label="Slab rate"]').readOnly).toBe(true);
+    http.expectNone(url + '/revisions');
+  });
+  it.each(['slabs', 'surcharge'] as const)(
+    'retains %s edit mode on invalid rules and API conflict, then closes after a versioned save',
+    async (section) => {
+      const { fixture, page, http } = await setup();
+      page.editTable(section);
+      if (section === 'slabs') page.slabs[0].rate = -1;
+      else page.surcharge = [{ threshold: 5000000, rate: -1 }];
+      await page.saveSection(section);
+      http.expectNone(url + '/revisions');
+      expect(page.editingTables()[section]).toBe(true);
+      if (section === 'slabs') page.slabs[0].rate = 2;
+      else page.surcharge[0].rate = 10;
+      let pending = page.saveSection(section);
+      http
+        .expectOne(url + '/revisions')
+        .flush({ message: 'Version conflict' }, { status: 409, statusText: 'Conflict' });
+      await pending;
+      expect(page.editingTables()[section]).toBe(true);
+      pending = page.saveSection(section);
+      const req = http.expectOne(url + '/revisions');
+      expect(req.request.body.version).toBe(1);
+      const saved = { ...revision(), id: 'saved', version: 2, rules: req.request.body.rules };
+      req.flush({ ...page.state(), version: 2, revisions: [revision(), saved] });
+      await pending;
+      fixture.detectChanges();
+      expect(page.editingTables()[section]).toBe(false);
+      expect(page.state().revisions[0]).toEqual(revision());
+      expect(page.sectionMessages()[section]).toContain('unpublished');
+      page.editRevision(saved);
+      expect(page.sectionDirty(section)).toBe(false);
+    },
+  );
   it('loads the saved editor on reload and renders distinct cards and structured history', async () => {
     const { fixture, page } = await setup();
     expect(page.standardDeduction).toBe(0);

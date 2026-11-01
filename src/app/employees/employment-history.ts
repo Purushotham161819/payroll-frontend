@@ -3,58 +3,88 @@ import { DatePipe } from '@angular/common';
 import { Employee } from './employee';
 @Component({
   selector: 'app-employment-history',
+  host: { '[class.embedded]': 'embedded()' },
   imports: [DatePipe],
   template: ` <div class="history-heading">
-      <h2>Employment History</h2>
+      @if (!embedded()) {
+        <h2>Employment History</h2>
+      }
       <span>{{ employee().status || 'Active' }}</span>
     </div>
     <p>Original hire date: {{ employee().hireDate | date: 'longDate' : 'UTC' }}</p>
     @if (employee().rehireDate) {
       <p>Latest rehire: {{ employee().rehireDate | date: 'longDate' : 'UTC' }}</p>
     }
-    <ol class="timeline">
-      @for (period of periods(); track $index) {
-        <li>
-          <article>
-            <h3>Employment period {{ $index + 1 }}</h3>
-            <p class="dates">
-              {{ period.startDate | date: 'longDate' : 'UTC' }} &ndash;
-              {{
-                period.endDate
-                  ? (period.endDate | date: 'longDate' : 'UTC')
-                  : employee().status === 'Terminated'
-                    ? 'End date not recorded'
-                    : 'Present'
-              }}
-            </p>
-            <dl>
-              <dt>Status</dt>
-              <dd>
-                {{ period.endDate || employee().status === 'Terminated' ? 'Terminated' : 'Active' }}
-              </dd>
-              @if (period.terminationReason) {
-                <dt>Termination reason</dt>
-                <dd>{{ period.terminationReason }}</dd>
-              }
-              @if (period.explanation) {
-                <dt>Explanation</dt>
-                <dd>{{ period.explanation }}</dd>
-              }
-              @if (period.recordedAt) {
-                <dt>Period recorded</dt>
-                <dd>{{ period.recordedAt | date: 'medium' }}</dd>
-              }
-              @if (period.terminatedAt) {
-                <dt>Termination recorded</dt>
-                <dd>{{ period.terminatedAt | date: 'medium' }}</dd>
-              }
-            </dl>
-          </article>
-        </li>
-      }
-    </ol>`,
+    @if (!employee().employmentHistory?.length) {
+      <p role="status">No employment history records have been recorded.</p>
+    }
+    @if (!embedded() || employee().employmentHistory?.length) {
+      <ol class="timeline">
+        @for (period of periods(); track $index) {
+          <li>
+            <article>
+              <h3>Employment period {{ $index + 1 }}</h3>
+              <p class="dates">
+                {{ period.startDate | date: 'longDate' : 'UTC' }} &ndash;
+                {{
+                  period.endDate
+                    ? (period.endDate | date: 'longDate' : 'UTC')
+                    : employee().status === 'Terminated'
+                      ? 'End date not recorded'
+                      : 'Present'
+                }}
+              </p>
+              <dl>
+                <dt>Status</dt>
+                <dd>
+                  {{
+                    period.endDate || employee().status === 'Terminated' ? 'Terminated' : 'Active'
+                  }}
+                </dd>
+                @if (period.terminationReason) {
+                  <dt>Termination reason</dt>
+                  <dd>{{ period.terminationReason }}</dd>
+                }
+                @if (period.explanation) {
+                  <dt>Explanation</dt>
+                  <dd>{{ period.explanation }}</dd>
+                }
+                @if (period.recordedAt) {
+                  <dt>Period recorded</dt>
+                  <dd>{{ period.recordedAt | date: 'medium' }}</dd>
+                }
+                @if (period.terminatedAt) {
+                  <dt>Termination recorded</dt>
+                  <dd>{{ period.terminatedAt | date: 'medium' }}</dd>
+                }
+              </dl>
+            </article>
+          </li>
+        }
+      </ol>
+    }`,
   styles: [
     `
+      :host {
+        display: block;
+      }
+      :host(.embedded) p {
+        margin: 6px 0;
+      }
+      :host(.embedded) .timeline {
+        margin: 10px 0 0;
+        gap: 10px;
+      }
+      :host(.embedded) article {
+        padding: 12px 16px;
+      }
+      :host(.embedded) h3 {
+        margin-bottom: 6px;
+      }
+      :host(.embedded) dl {
+        margin: 8px 0 0;
+        gap: 6px 10px;
+      }
       .history-heading {
         display: flex;
         gap: 16px;
@@ -124,6 +154,7 @@ import { Employee } from './employee';
 })
 export class EmploymentHistory {
   readonly employee = input.required<Employee>();
+  readonly embedded = input(false);
   periods() {
     return this.employee().employmentHistory?.length
       ? this.employee().employmentHistory!

@@ -155,3 +155,5 @@ select {
   font: inherit;
   font-size: 14px;
 }
+
+.compact-field { width: min(100%, 260px); min-width: 0; }

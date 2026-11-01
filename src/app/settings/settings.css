@@ -9,3 +9,5 @@ textarea{width:100%;padding:11px;border:1px solid #cbd6c9;border-radius:5px;font
 .mandatory-delete-help{font-size:11px;color:#617067;align-self:center}
 
 .formula-label{display:flex;align-items:center;gap:8px;margin-bottom:8px}.formula-info{border:1px solid #cbd6c9;background:white;color:#52624f;border-radius:50%;width:25px;height:25px;font-size:17px;cursor:pointer}.formula-info:focus-visible{outline:2px solid #214d36;outline-offset:2px}.formula-help-panel{margin:12px 0;padding:12px;background:#edf2e9;border:1px solid #cbd6c9;border-radius:6px;max-height:260px;overflow:auto}.formula-help-panel p{margin:0 0 10px}.formula-help-panel code{white-space:normal;overflow-wrap:anywhere}.formula-variable-picker{display:flex;gap:8px;align-items:center;margin-top:8px}.formula-variable-picker select{min-width:0}.formula-variable-picker button{flex-shrink:0}
+
+.actions .icon-action{display:inline-flex;align-items:center;justify-content:center;padding:9px;margin-right:6px}.actions .icon-action:hover{background:#edf5ef}

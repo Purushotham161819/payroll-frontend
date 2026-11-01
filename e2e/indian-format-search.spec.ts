@@ -92,7 +92,7 @@ test('Run Payroll KPIs, dynamic rows and Pay Check history use Indian grouping w
   const before=previews;await page.getByRole('button',{name:'Refresh Payroll',exact:true}).click();await expect(page.getByText('Payroll recalculated.',{exact:false})).toBeVisible();expect(previews).toBe(before+1);
   await page.route('http://localhost:3000/payroll/employees/*/checks',r=>r.fulfill({json:[{...checks[5],period:lastBody.period,paymentDate:lastBody.period+'-28'}]}));
   await page.goto('/employees/'+state.employees[5]._id+'?tab=checks');
-  const history=page.getByRole('table');await expect(history).toContainText(currency(values[5]*3));await expect(history).toContainText(currency(values[5]));await expect(history).toContainText(currency(values[5]/2));
+  const history=page.getByRole('table');await expect(history).toContainText(currency(values[5]*3));await expect(history).toContainText(currency(values[5]));await expect(history).not.toContainText('Income Tax / TDS:');await history.getByRole('button',{name:'View TDS details',exact:true}).click();await expect(page.getByRole('dialog',{name:'Income Tax / TDS',exact:true})).toContainText(currency(values[5]/2));
 });
 
 test('salary settings, statutory amounts and tax revision displays share Indian currency presentation',async({page})=>{

@@ -1,4 +1,5 @@
 import { ActionIcon } from '../../shared/action-icon';
+import { InformationTip } from '../../shared/information-tip';
 import { DetailDialog } from '../../shared/detail-dialog';
 import {
   Component,
@@ -10,6 +11,7 @@ import {
   viewChild,
   ElementRef,
   effect,
+  HostListener,
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CurrencyPipe, DatePipe } from '@angular/common';
@@ -53,7 +55,7 @@ const emptyProfile = (): EmploymentFields & {
 });
 @Component({
   selector: 'app-employee-tax',
-  imports: [FormsModule, CurrencyPipe, DatePipe, ActionIcon, DetailDialog],
+  imports: [FormsModule, CurrencyPipe, DatePipe, ActionIcon, DetailDialog, InformationTip],
   templateUrl: './employee-tax.html',
   styleUrls: ['./tax-management.css', './employee-tax.css'],
 })
@@ -71,6 +73,21 @@ export class EmployeeTax implements OnInit, OnDestroy {
   readonly components = signal<any[]>([]);
   readonly configuration = signal<any>(null);
   readonly editing = signal(false);
+  private readonly taxForm = viewChild<NgForm>('form');
+  hasUnsavedChanges() {
+    return (
+      this.editing() &&
+      (this.changingYear() ||
+        (this.summary()?.profile ? this.hasProfileChanges() : !!this.taxForm()?.dirty))
+    );
+  }
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnload(event: BeforeUnloadEvent) {
+    if (this.hasUnsavedChanges()) {
+      event.preventDefault();
+      event.returnValue = '';
+    }
+  }
   readonly viewingCalculation = signal<any>(null);
   readonly yearChangeOpen = signal(false);
   readonly changingYear = signal(false);

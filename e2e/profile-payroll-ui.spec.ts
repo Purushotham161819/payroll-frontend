@@ -74,33 +74,21 @@ test('profile ribbon, independent cards/history, stored PDF viewer, editor prese
   await expect(
     page.getByRole('heading', { name: 'Employment Information', exact: true }),
   ).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Compensation Information' })).toBeVisible();
-  await expect(page.locator('app-profile-card')).toHaveCount(4);
+  await expect(page.getByRole('heading', { name: 'Personal Information' })).toBeVisible();
+  await expect(page.locator('app-profile-card')).toHaveCount(3);
   const tabs = page.getByRole('tablist', { name: 'Employee profile' });
   await expect(tabs.getByRole('tab', { name: 'Employee Details' })).toHaveAttribute(
     'aria-selected',
     'true',
   );
-  await tabs.getByRole('tab', { name: 'Employee Details' }).focus();
-  await page.keyboard.press('ArrowRight');
-  await expect(tabs.getByRole('tab', { name: 'Employment History' })).toBeFocused();
-  await expect(tabs.getByRole('tab', { name: 'Employment History' })).toHaveAttribute(
-    'aria-selected',
-    'true',
-  );
+  await expect(tabs.getByRole('tab', { name: 'Employment History' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Edit employee', exact: true })).toHaveCount(0);
   await expect(page.getByText('Retirement', { exact: true })).toBeVisible();
   await expect(page.getByText('First employment period')).toBeVisible();
   await expect(page.locator('app-employment-history li')).toHaveCount(2);
-  await expect(page.locator('app-profile-card')).toHaveCount(0);
-  await tabs.getByRole('tab', { name: 'Employee Details' }).click();
-  await page.getByRole('button', { name: 'Edit employee', exact: true }).click();
-  const editor = page.getByRole('dialog');
-  await editor.getByLabel('First Name', { exact: true }).fill('Ada Unsaved');
-  await editor.getByRole('tab', { name: 'Employment History' }).click();
-  await expect(editor.getByText('Retirement', { exact: true })).toBeVisible();
-  await editor.getByRole('tab', { name: 'Employee Details' }).click();
-  await expect(editor.getByLabel('First Name', { exact: true })).toHaveValue('Ada Unsaved');
-  await editor.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await tabs.getByRole('tab', { name: 'Employee Details' }).focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(tabs.getByRole('tab', { name: 'Pay Checks' })).toBeFocused();
   await tabs.getByRole('tab', { name: 'Pay Checks' }).click();
   await page.getByRole('button', { name: 'View Pay Check', exact: true }).click();
   const viewer = page.getByRole('dialog', { name: /Pay Check/ });
@@ -116,7 +104,7 @@ test('profile ribbon, independent cards/history, stored PDF viewer, editor prese
   expect(Buffer.from(displayed)).toEqual(pdf);
   await viewer.getByRole('button', { name: 'Close pay check viewer' }).click();
   const download = page.waitForEvent('download');
-  await page.getByRole('button', { name: 'Download PDF', exact: true }).click();
+  await page.getByRole('button', { name: 'Download Pay Check PDF', exact: true }).click();
   expect((await download).suggestedFilename()).toContain(`${year - 1}-01`);
   expect(pdfReads).toBe(2);
   employees[0].annualCtc = 999999;

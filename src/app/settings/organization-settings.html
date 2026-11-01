@@ -1,10 +1,4 @@
-<h1>Settings</h1>
-<nav class="settings-tabs" aria-label="Settings sections">
-  <a routerLink="/settings">Salary Components</a
-  ><a routerLink="/settings/statutory-deductions">Statutory Deductions</a
-  ><a routerLink="/settings/tax-configuration">Tax Configuration</a
-  ><a routerLink="/settings/organization" aria-current="page">Organization Settings</a>
-</nav>
+<app-settings-tabs />
 <h2>Organization Settings</h2>
 <p>View your organization's information and maintain its address.</p>
 @if (loading()) {
@@ -22,94 +16,104 @@
   <div class="notice success" role="status">{{ success() }}</div>
 }
 @if (organization(); as info) {
-  <section aria-labelledby="organization-information">
-    <h3 id="organization-information">Organization Information</h3>
-    <dl>
-      <dt>Organization Name</dt>
-      <dd>{{ info.organizationName }}</dd>
-    </dl>
-    <p class="muted">Maintained by the Super Admin.</p>
-  </section>
-  <section aria-labelledby="organization-address">
-    <header>
-      <div>
-        <h3 id="organization-address">Organization Address</h3>
-        <p class="muted">
-          {{
-            editing()
-              ? 'Enter a complete address when ready to save. Address Line 2 is optional.'
-              : 'Saved address'
-          }}
-        </p>
-      </div>
-      @if (!editing()) {
-        <button type="button" class="secondary" (click)="edit()">Edit</button>
-      }
-    </header>
-    <form #form="ngForm" (ngSubmit)="save(form)" novalidate>
-      <fieldset [disabled]="saving()">
-        <div class="field-grid">
-          @for (field of fields; track field.key) {
+  <div class="organization-cards">
+    <section aria-labelledby="organization-information">
+      <h3 id="organization-information">Organization Information</h3>
+      <dl>
+        <dt>Organization Name</dt>
+        <dd>{{ info.organizationName }}</dd>
+      </dl>
+      <p class="muted">Maintained by the Super Admin.</p>
+    </section>
+    <section aria-labelledby="organization-address">
+      <header>
+        <div>
+          <h3 id="organization-address">Organization Address</h3>
+          <p class="muted">
+            {{
+              editing()
+                ? 'Enter a complete address when ready to save. Address Line 2 is optional.'
+                : 'Saved address'
+            }}
+          </p>
+        </div>
+        @if (!editing()) {
+          <button
+            type="button"
+            class="secondary icon-action"
+            (click)="edit()"
+            title="Edit organization address"
+            aria-label="Edit organization address"
+          >
+            <app-action-icon name="edit" />
+          </button>
+        }
+      </header>
+      <form #form="ngForm" (ngSubmit)="save(form)" novalidate>
+        <fieldset [disabled]="saving()">
+          <div class="field-grid">
+            @for (field of fields; track field.key) {
+              <div>
+                <label [for]="field.key"
+                  >{{ field.label }}{{ field.required ? ' *' : ' (optional)' }}</label
+                >
+                <input
+                  [id]="field.key"
+                  [name]="field.key"
+                  type="text"
+                  [(ngModel)]="draft[field.key]"
+                  [required]="field.required"
+                  [maxlength]="field.max"
+                  [readonly]="!editing()"
+                  [attr.autocomplete]="field.autocomplete"
+                  [placeholder]="editing() ? field.placeholder : ''"
+                  #control="ngModel"
+                  [attr.aria-invalid]="control.invalid && control.touched"
+                />
+                @if (control.invalid && control.touched) {
+                  <small class="field-error">Enter {{ field.label.toLowerCase() }}.</small>
+                }
+              </div>
+            }
             <div>
-              <label [for]="field.key"
-                >{{ field.label }}{{ field.required ? ' *' : ' (optional)' }}</label
+              <label for="country">Country *</label
+              ><select
+                id="country"
+                name="country"
+                [(ngModel)]="draft.country"
+                required
+                [disabled]="!editing()"
+                autocomplete="country-name"
+                #country="ngModel"
               >
-              <input
-                [id]="field.key"
-                [name]="field.key"
-                type="text"
-                [(ngModel)]="draft[field.key]"
-                [required]="field.required"
-                [maxlength]="field.max"
-                [readonly]="!editing()"
-                [attr.autocomplete]="field.autocomplete"
-                [placeholder]="editing() ? field.placeholder : ''"
-                #control="ngModel"
-                [attr.aria-invalid]="control.invalid && control.touched"
-              />
-              @if (control.invalid && control.touched) {
-                <small class="field-error">Enter {{ field.label.toLowerCase() }}.</small>
+                <option value="">Select a country</option>
+                @for (item of countries; track item.code) {
+                  <option [value]="item.name">{{ item.name }}</option>
+                }
+              </select>
+              @if (country.invalid && country.touched) {
+                <small class="field-error">Select a country.</small>
               }
             </div>
-          }
-          <div>
-            <label for="country">Country *</label
-            ><select
-              id="country"
-              name="country"
-              [(ngModel)]="draft.country"
-              required
-              [disabled]="!editing()"
-              autocomplete="country-name"
-              #country="ngModel"
-            >
-              <option value="">Select a country</option>
-              @for (item of countries; track item.code) {
-                <option [value]="item.name">{{ item.name }}</option>
-              }
-            </select>
-            @if (country.invalid && country.touched) {
-              <small class="field-error">Select a country.</small>
-            }
           </div>
-        </div>
-      </fieldset>
-      @if (editing()) {
-        <footer>
-          @if (info.addressVersion > 0) {
-            <button type="button" class="secondary" (click)="cancel()" [disabled]="saving()">
-              Cancel
+        </fieldset>
+        @if (editing()) {
+          <footer>
+            @if (editing()) {
+              <button type="button" class="secondary" (click)="cancel()" [disabled]="saving()">
+                Cancel
+              </button>
+            }
+            <button
+              type="submit"
+              class="primary"
+              [disabled]="saving() || form.invalid || !valid() || !hasChanges()"
+            >
+              {{ saving() ? 'Saving...' : 'Save' }}
             </button>
-          }
-          <button
-            type="submit"
-            class="primary"
-            [disabled]="saving() || form.invalid || !valid() || !hasChanges()"
-          >
-            {{ saving() ? 'Saving...' : 'Save' }}
-          </button>
-        </footer>
-      }
-    </form>
-  </section>
+          </footer>
+        }
+      </form>
+    </section>
+  </div>
 }

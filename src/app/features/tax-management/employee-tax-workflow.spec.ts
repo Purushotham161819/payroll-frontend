@@ -73,6 +73,51 @@ describe('Employee TDS profile editing and year locking', () => {
     fixture.detectChanges();
     return { fixture, http, page: fixture.componentInstance };
   }
+  it('presents separate widgets with all profile facts and one Calculate action above them', async () => {
+    const { fixture } = await setup(true);
+    const el = fixture.nativeElement as HTMLElement;
+    const profile = el.querySelector('#employee-tax-profile')!.closest('section')!;
+    const employment = el.querySelector('#employment-heading')!.closest('section')!;
+    expect(profile.contains(employment)).toBe(false);
+    expect(profile.parentElement).toBe(employment.parentElement);
+    expect([...profile.querySelectorAll('dt')].map((x) => x.textContent?.trim())).toEqual([
+      'Saved / Read-only status',
+      'Financial year',
+      'Annual CTC',
+      'Payroll frequency',
+      'Calculation status',
+      'Tax regime',
+    ]);
+    const calculate = el.querySelector('.calculation-toolbar button')!;
+    expect(calculate.textContent).toContain('Calculate Annual TDS');
+    expect(
+      calculate.compareDocumentPosition(profile) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
+      [...el.querySelectorAll('button')].filter(
+        (button) => button.textContent?.trim() === 'Calculate Annual TDS',
+      ),
+    ).toHaveLength(1);
+    expect(employment.querySelector('[name=reason]')).not.toBeNull();
+    expect(profile.querySelector('[title="Change Financial Year"]')).not.toBeNull();
+    expect(profile.querySelector('[aria-label="Edit Tax Profile"]')).not.toBeNull();
+  });
+  it('protects changed employment inputs without calculating or altering saved history', async () => {
+    const { page, http } = await setup(true);
+    const edit = page.edit();
+    http.expectOne(url + '/edit').flush({ editToken: 'permission' });
+    await edit;
+    expect(page.hasUnsavedChanges()).toBe(false);
+    page.profile.reason = 'Updated review note';
+    expect(page.hasUnsavedChanges()).toBe(true);
+    const event = new Event('beforeunload', { cancelable: true });
+    page.beforeUnload(event as BeforeUnloadEvent);
+    expect(event.defaultPrevented).toBe(true);
+    http.expectNone(url + '/calculate');
+    http.expectNone(url + '/history');
+    await page.cancel();
+    expect(page.hasUnsavedChanges()).toBe(false);
+  });
   it('loads configured financial years, derives a readonly regime and never automatically calculates', async () => {
     const { fixture, http, page } = await setup();
     expect(page.editing()).toBe(true);

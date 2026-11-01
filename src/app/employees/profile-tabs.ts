@@ -69,13 +69,16 @@ export class ProfileTabs {
   readonly active = model<ProfileTab>('details');
   readonly prefix = input('profile');
   readonly showTax = input(true);
+  readonly showHistory = input(true);
   get tabs(): { id: ProfileTab; label: string }[] {
     return [
       { id: 'details', label: 'Employee Details' },
       { id: 'history', label: 'Employment History' },
       { id: 'tax', label: 'Income Tax / TDS' },
       { id: 'checks', label: 'Pay Checks' },
-    ].filter((tab) => tab.id !== 'tax' || this.showTax()) as { id: ProfileTab; label: string }[];
+    ].filter(
+      (tab) => (tab.id !== 'tax' || this.showTax()) && (tab.id !== 'history' || this.showHistory()),
+    ) as { id: ProfileTab; label: string }[];
   }
   navigate(event: KeyboardEvent, index: number) {
     let next = index;
