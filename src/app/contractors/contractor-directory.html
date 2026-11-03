@@ -1,0 +1,211 @@
+<ps-feature-layout>
+  <ps-tabs label="People directory" [items]="tabs" />
+  <ps-page-header
+    eyebrow="PEOPLE MANAGEMENT"
+    title="Contractors"
+    subtitle="Manage independent contractors and record their payments."
+  >
+    <div pageActions class="ps-actions">
+      <button
+        psButton
+        variant="secondary"
+        (click)="pay.set([])"
+        [disabled]="loading() || !activeContractors().length"
+      >
+        Pay Contractors
+      </button>
+      <button psButton icon="add" id="add-contractor" (click)="adding.set(true)">
+        Add Contractor
+      </button>
+    </div>
+  </ps-page-header>
+  @if (success()) {
+    <p class="notice success" role="status">{{ success() }}</p>
+  }
+  @if (error()) {
+    <p class="notice error" role="alert">
+      {{ error() }} <button psButton variant="secondary" (click)="load()">Retry</button>
+    </p>
+  }
+  <ps-card class="ps-directory" role="region" aria-labelledby="contractor-directory-title">
+    <span cardTitle id="contractor-directory-title">Contractor directory</span>
+    <span cardSubtitle>Contractor records are independent of employee payroll.</span>
+    <button
+      cardActions
+      psIconButton
+      action="refresh"
+      size="sm"
+      label="Refresh Contractors"
+      (click)="load()"
+      [disabled]="loading()"
+    ></button>
+    <ps-data-table
+      label="Contractor directory"
+      [naturalWidth]="true"
+      [loading]="loading()"
+      [empty]="!filtered().length && !loading()"
+      emptyLabel="No contractors found."
+    >
+      <div tableToolbar class="ps-directory-toolbar">
+        <ps-form-field
+          label="Contractor Status"
+          layout="inline"
+          controlId="contractor-status-filter"
+        >
+          <select
+            psFieldControl
+            id="contractor-status-filter"
+            [value]="statusFilter()"
+              (change)="changeFilter($any($event.target).value)"
+          >
+            <option>All</option>
+            <option>Active</option>
+            <option>Inactive</option>
+          </select>
+        </ps-form-field>
+        <div class="ps-search ps-search-end">
+          <ps-form-field label="Search contractors" layout="hidden-label"
+            ><ps-icon fieldPrefix action="search" />
+            <input
+              #contractorSearch
+              psFieldControl
+              type="search"
+              name="search"
+              [(ngModel)]="search"
+              placeholder="Search contractors..."
+              autocomplete="off"
+            />
+            @if (search()) {
+              <button
+                fieldSuffix
+                psIconButton
+                action="close"
+                size="sm"
+                label="Clear contractor search"
+                (click)="search.set(''); contractorSearch.focus()"
+              ></button>
+            }
+          </ps-form-field>
+        </div>
+      </div>
+      <table class="ps-table" aria-label="Contractor directory">
+        <thead>
+          <tr>
+            <th scope="col">Contractor ID</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Contractor Status</th>
+            <th scope="col" class="act">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (c of filtered(); track c._id) {
+            <tr>
+              <td class="id">{{ c.contractorId }}</td>
+              <td class="name">
+                <a class="ps-text-link" [routerLink]="['/contractors', c._id]">{{ c.firstName }}</a>
+              </td>
+              <td>
+                <a class="ps-text-link" [routerLink]="['/contractors', c._id]">{{ c.lastName }}</a>
+              </td>
+              <td>
+                <span class="email-text" [psTooltip]="c.email">{{ c.email }}</span>
+              </td>
+              <td><ps-status-badge [status]="c.status || 'Active'" /></td>
+              <td class="act">
+                <button
+                  psIconButton
+                  action="more"
+                  size="sm"
+                  [cdkMenuTriggerFor]="actions"
+                  [label]="'Actions for ' + c.firstName + ' ' + c.lastName"
+                  [disabled]="deletingBusy()"
+                ></button>
+                <ng-template #actions
+                  ><div cdkMenu class="ps-action-menu">
+                    <button
+                      cdkMenuItem
+                      (cdkMenuItemTriggered)="editing.set(c)"
+                      [attr.aria-label]="'Edit Contractor ' + c.firstName + ' ' + c.lastName"
+                    >
+                      <ps-icon action="edit" />Edit Contractor
+                    </button>
+                    <button
+                      cdkMenuItem
+                      class="danger-item"
+                      [disabled]="auth.user()?.role !== 'admin'"
+                      (cdkMenuItemTriggered)="requestDelete(c)"
+                      [attr.aria-label]="'Delete Contractor ' + c.firstName + ' ' + c.lastName"
+                    >
+                      <ps-icon action="delete" />Delete Contractor
+                    </button>
+                    <button
+                      cdkMenuItem
+                      [disabled]="c.status === 'Inactive'"
+                      (cdkMenuItemTriggered)="pay.set([c._id])"
+                      [attr.aria-label]="'Pay Contractor ' + c.firstName + ' ' + c.lastName"
+                    >
+                      Pay Contractor
+                    </button>
+                    @if (c.status === 'Inactive') {
+                      <p class="ps-muted">Inactive contractors cannot receive new payments.</p>
+                    }
+                  </div></ng-template
+                >
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      <div tableFooter>
+        {{ filtered().length }} contractor{{ filtered().length === 1 ? '' : 's' }}
+      </div>
+    </ps-data-table>
+  </ps-card>
+  @if (adding()) {
+    <app-contractor-form (cancelled)="adding.set(false)" (saved)="added($event)" />
+  }
+  @if (editing(); as c) {
+    <app-contractor-form [contractor]="c" (cancelled)="editing.set(null)" (saved)="edited()" />
+  }
+  @if (pay(); as selected) {
+    <app-contractor-payment-form
+      [initialIds]="selected"
+      (closed)="pay.set(null)"
+      (recorded)="paymentRecorded()"
+    />
+  }
+  @if (deleting(); as c) {
+    <ps-dialog title="Delete Contractor" [busy]="deletingBusy()" (closed)="deleting.set(null)">
+      <div class="ps-stack">
+        <p>{{ c.firstName }} {{ c.lastName }} ({{ c.contractorId }})</p>
+        <p class="notice error">
+          Deleting this contractor will permanently delete the contractor record and all associated
+          payment records. This action cannot be undone.
+        </p>
+        @if (deleteError()) {
+          <p class="notice error" role="alert">{{ deleteError() }}</p>
+        }
+        <footer class="ps-form-actions">
+          <button
+            psButton
+            variant="secondary"
+            (click)="deleting.set(null)"
+            [disabled]="deletingBusy()"
+          >
+            Cancel</button
+          ><button
+            psButton
+            variant="danger"
+            (click)="confirmDelete()"
+            [loading]="deletingBusy()"
+            [disabled]="deletingBusy()"
+          >
+            Delete Contractor
+          </button>
+        </footer>
+      </div>
+    </ps-dialog>
+  }
+</ps-feature-layout>

@@ -23,7 +23,7 @@ test('login, intended destination, navigation, expiration and logout', async ({p
   await page.getByLabel('Password',{exact:true}).fill('test-input');
   await page.getByRole('button',{name:'Sign in',exact:true}).click();
   await expect(page).toHaveURL(/\/settings$/);
-  await page.getByRole('link',{name:'Employees',exact:true}).click();
+  await page.getByRole('navigation', {name: 'Main navigation'}).getByRole('link', {name: 'Employees', exact: true}).click();
   await expect(page.getByText('No employees found.',{exact:true})).toBeVisible();
   active = false;
   await page.reload();

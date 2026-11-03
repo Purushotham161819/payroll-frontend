@@ -59,7 +59,7 @@ test('statutory settings validate, save, reload, reset, preserve errors and reta
   const mobilePositions=await page.locator('input[type=number]').evaluateAll(inputs=>inputs.map(el=>el.getBoundingClientRect().top));
   expect(mobilePositions.every((top,i)=>i===0||top>mobilePositions[i-1])).toBe(true); expect(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.getByRole('link',{name:'Salary Components',exact:true}).click(); await expect(page.getByText('No salary components configured.',{exact:true})).toBeVisible();
-  await page.getByRole('link',{name:'Employees',exact:true}).click(); await expect(page.getByRole('heading',{name:'Employees',exact:true})).toBeVisible();
+  await page.getByRole('navigation', {name: 'Main navigation'}).getByRole('link', {name: 'Employees', exact: true}).click(); await expect(page.getByRole('heading',{name:'Employees',exact:true})).toBeVisible();
   expect(errors).toEqual([]);
 });
 

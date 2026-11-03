@@ -1,0 +1,58 @@
+{
+  "backend": [
+    {
+      "before": "D:/projects/payroll-frontend/docs/design-system/evidence/final-cleanup/backend-tests.json",
+      "after": "D:/projects/payroll-backend/artifacts/contractor-management/backend-full-final.json",
+      "failures": [
+        "src/organization.spec.ts::Deployment organization display configuration uses the requested initial name when no customer name is configured",
+        "src/organization.spec.ts::Deployment organization display configuration reads the configured customer identity without changing component source or accounts",
+        "src/salary-components/salary-calculation.service.spec.ts::Salary calculation foundation resolves reversed dependencies and includes hidden deductions",
+        "src/salary-components/salary-calculation.service.spec.ts::Salary calculation foundation distinguishes fixed monthly and annual values",
+        "src/salary-components/salary-calculation.service.spec.ts::Salary calculation foundation rejects cycles, missing and inactive dependencies",
+        "src/salary-components/salary-calculation.service.spec.ts::Salary calculation foundation rejects invalid numbers and percentages and skips inactive outputs"
+      ],
+      "newFailures": [],
+      "nowPassing": []
+    },
+    {
+      "before": "D:/projects/payroll-frontend/docs/design-system/evidence/final-cleanup/backend-e2e-unrestricted.json",
+      "after": "D:/projects/payroll-backend/artifacts/contractor-management/backend-e2e.json",
+      "failures": [
+        "test/auth.e2e-spec.ts::Authentication and complete route audit (isolated Mongo database) discovers every registered route, allows only login publicly, and admits authenticated requests"
+      ],
+      "newFailures": [],
+      "nowPassing": [
+        "test/users.e2e-spec.ts::Administrator provisioning, authorization and user management rejects seven-character creation, reset and operator passwords"
+      ]
+    }
+  ],
+  "browser": {
+    "before": {
+      "startTime": "2026-11-03T09:23:55.637Z",
+      "duration": 650642.5730000001,
+      "expected": 122,
+      "skipped": 4,
+      "unexpected": 6,
+      "flaky": 0
+    },
+    "after": {
+      "startTime": "2026-11-03T12:16:53.046Z",
+      "duration": 481366.305,
+      "expected": 131,
+      "skipped": 4,
+      "unexpected": 6,
+      "flaky": 0
+    },
+    "failures": [
+      "final-ui.spec.ts::monthly CTC, icon actions, guide and exact payroll return context survive profile navigation and refresh",
+      "indian-format-search.spec.ts::Run Payroll KPIs, dynamic rows and Pay Check history use Indian grouping without changing numeric requests",
+      "indian-format-search.spec.ts::salary settings, statutory amounts and tax revision displays share Indian currency presentation",
+      "management-delete.spec.ts::employee delete confirmation cancels safely, reports errors, deletes once and refreshes selected rows",
+      "profile-payroll-ui.spec.ts::revisit a submitted month, save checkbox changes, and submit only unprocessed employees",
+      "ui-refinements.spec.ts::formula help opens with keyboard, explains MIN/MAX/IF and closes without changing the expression"
+    ],
+    "newFailures": [],
+    "nowPassing": []
+  },
+  "payrollSha256": "e81eda7421218e33625770cf5826db219e175fb91e7a9a2924b3a0ce2a6136ff"
+}

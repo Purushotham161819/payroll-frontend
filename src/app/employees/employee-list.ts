@@ -1,4 +1,5 @@
 import { NavigationContext } from '../shared/navigation-context';
+import { PsTabs, PEOPLE_TABS } from '../shared/ui/ps-tabs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { LifecycleDialog } from './lifecycle-dialog';
@@ -11,11 +12,12 @@ import { Employee } from './employee';
 import { EmployeeForm } from './employee-form';
 @Component({
   selector: 'app-employee-list',
-  imports: [CdkMenuModule, LifecycleDialog, EmployeeForm, PayrollGenerator, DeleteConfirmation, PsButton, PsIconButton, PsIcon, PsPageHeader, PsCard, PsCardTitle, PsCardSubtitle, PsCardActions, PsDataTable, PsFormField, PsFieldControl, PsStatusBadge, PsInrPipe, PsDatePipe, PsTooltip],
+  imports: [PsTabs, CdkMenuModule, LifecycleDialog, EmployeeForm, PayrollGenerator, DeleteConfirmation, PsButton, PsIconButton, PsIcon, PsPageHeader, PsCard, PsCardTitle, PsCardSubtitle, PsCardActions, PsDataTable, PsFormField, PsFieldControl, PsStatusBadge, PsInrPipe, PsDatePipe, PsTooltip],
   templateUrl: './employee-list.html',
   styleUrl: './employee-list.css',
 })
 export class EmployeeList implements OnInit {
+  readonly peopleTabs = PEOPLE_TABS;
   private readonly navigation = inject(NavigationContext);
   private restoreScroll = 0;
   openProfile(event: MouseEvent, id: string) {

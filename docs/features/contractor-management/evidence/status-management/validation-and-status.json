@@ -1,0 +1,166 @@
+{
+  "frontendUnits": {
+    "passed": 445,
+    "files": 52
+  },
+  "contractorBackend": {
+    "passed": 68,
+    "failed": 0,
+    "skipped": 0
+  },
+  "backend": {
+    "passed": 510,
+    "failed": 6,
+    "skipped": 15,
+    "failures": [
+      "src/organization.spec.ts::Deployment organization display configuration uses the requested initial name when no customer name is configured",
+      "src/organization.spec.ts::Deployment organization display configuration reads the configured customer identity without changing component source or accounts",
+      "src/salary-components/salary-calculation.service.spec.ts::Salary calculation foundation resolves reversed dependencies and includes hidden deductions",
+      "src/salary-components/salary-calculation.service.spec.ts::Salary calculation foundation distinguishes fixed monthly and annual values",
+      "src/salary-components/salary-calculation.service.spec.ts::Salary calculation foundation rejects cycles, missing and inactive dependencies",
+      "src/salary-components/salary-calculation.service.spec.ts::Salary calculation foundation rejects invalid numbers and percentages and skips inactive outputs"
+    ],
+    "newFailures": []
+  },
+  "browser": {
+    "startTime": "2026-11-03T15:49:04.826Z",
+    "duration": 578479.3,
+    "expected": 142,
+    "skipped": 4,
+    "unexpected": 8,
+    "flaky": 0,
+    "failures": [
+      "employees-design-system.spec.ts::Employees pilot renders the approved hierarchy, dimensions and display-only formatting",
+      "employees-design-system.spec.ts::responsive layout preserves every action and native CDK menu keyboard semantics",
+      "final-ui.spec.ts::monthly CTC, icon actions, guide and exact payroll return context survive profile navigation and refresh",
+      "indian-format-search.spec.ts::Run Payroll KPIs, dynamic rows and Pay Check history use Indian grouping without changing numeric requests",
+      "indian-format-search.spec.ts::salary settings, statutory amounts and tax revision displays share Indian currency presentation",
+      "management-delete.spec.ts::employee delete confirmation cancels safely, reports errors, deletes once and refreshes selected rows",
+      "profile-payroll-ui.spec.ts::revisit a submitted month, save checkbox changes, and submit only unprocessed employees",
+      "ui-refinements.spec.ts::formula help opens with keyboard, explains MIN/MAX/IF and closes without changing the expression"
+    ],
+    "additionalFailures": [
+      "employees-design-system.spec.ts::Employees pilot renders the approved hierarchy, dimensions and display-only formatting",
+      "employees-design-system.spec.ts::responsive layout preserves every action and native CDK menu keyboard semantics"
+    ],
+    "passingOnUnchangedRecheck": [
+      "employees-design-system.spec.ts::Employees pilot renders the approved hierarchy, dimensions and display-only formatting",
+      "employees-design-system.spec.ts::responsive layout preserves every action and native CDK menu keyboard semantics"
+    ],
+    "unresolvedNewFailures": []
+  },
+  "finalUi": {
+    "startTime": "2026-11-03T15:52:31.370Z",
+    "duration": 43246.187000000005,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "employeeRecheck": {
+    "startTime": "2026-11-03T15:54:20.877Z",
+    "duration": 7906.914000000001,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "payroll": {
+    "snapshots": 10,
+    "byteIdentical": true,
+    "sha256": "e81eda7421218e33625770cf5826db219e175fb91e7a9a2924b3a0ce2a6136ff"
+  },
+  "localDatabase": {
+    "transactionCapable": false,
+    "checkedAt": "2026-11-03T15:56:58.904Z",
+    "existingConfigurationChanged": false
+  },
+  "protection": [
+    {
+      "root": "D:/projects/payroll-backend",
+      "path": "src/app.module.ts",
+      "sha256": "1766149fd8adb14c37ca93cad519e55e90dbad26a2e33e7d514ae6e084deb47f",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-backend",
+      "path": "src/contractors/contractor-deductions.ts",
+      "sha256": "2e484bb4e0cdfc3b121ecd01a26715fcb1935a45674256050fd44571c6a5ddbe",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "e2e/authentication.spec.ts",
+      "sha256": "cf61af720d6aff9f77fa52b65683b6ed7108e058cc51751f762c803a32f33df7",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "e2e/employees-remediation.spec.ts",
+      "sha256": "954e9c2b2ead9aaf70496eb4ca8bbcbc31b5774e9c4798a5f4a52aaede2ad835",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "e2e/indian-format-search.spec.ts",
+      "sha256": "51eb6bc21465dec34e5ba9b786ac9372560dae9c043f7ca3f18e1753c28f47de",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "e2e/statutory-deductions.spec.ts",
+      "sha256": "8c9bf57cb852c437ccab0bf0471c1dfe554ca757eec4f21f07ae764abcd22c41",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/app.config.ts",
+      "sha256": "ca2360271d07acb54ee986168c5c018e64f7cb4d5852ad7d8f904282baaf2d79",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/employees/employee-list.html",
+      "sha256": "bb497821327145d892b2cd4054fc8534a3af160a6471d5172b255670ecb3c615",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/employees/employee-list.ts",
+      "sha256": "d8a82a4a41d0e8f4e35503e523e13b6bf0362a6942b202e69eb51e015cea720b",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/shared/settings-tabs.ts",
+      "sha256": "51d2c88d5c6e96aa69fbd5624c64ad6f28886c89bb073b0ed40221336cfc1090",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/contractors/contractor-deductions.ts",
+      "sha256": "0e4b485f28933e463ee0652a2ff080cced1a6d36a3e139b5f3c672263ba1abaa",
+      "unchanged": true
+    }
+  ],
+  "repositories": [
+    {
+      "root": "D:/projects/payroll-backend",
+      "branch": "main",
+      "head": "b5156be30cd479ad5d35fd9e6dfd5e0493eed759",
+      "staged": "",
+      "status": "M src/app.module.ts\n?? docs/features/CONTRACTOR_MANAGEMENT.md\n?? docs/features/CONTRACTOR_MANAGEMENT_IMPLEMENTATION_REPORT.md\n?? src/contractors/contractor-access.guard.ts\n?? src/contractors/contractor-deductions.ts\n?? src/contractors/contractor-payment.spec.ts\n?? src/contractors/contractor-payment.ts\n?? src/contractors/contractor-status.integration.spec.ts\n?? src/contractors/contractor.dto.ts\n?? src/contractors/contractor.schemas.ts\n?? src/contractors/contractors.controller.ts\n?? src/contractors/contractors.integration.spec.ts\n?? src/contractors/contractors.module.ts\n?? src/contractors/contractors.service.ts"
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "branch": "main",
+      "head": "4378dd2dd78b614095980216c546514041de7d87",
+      "staged": "",
+      "status": "M e2e/authentication.spec.ts\n M e2e/employees-remediation.spec.ts\n M e2e/indian-format-search.spec.ts\n M e2e/statutory-deductions.spec.ts\n M src/app/app.config.ts\n M src/app/employees/employee-list.html\n M src/app/employees/employee-list.ts\n M src/app/shared/settings-tabs.ts\n M src/app/shared/ui/ps-card.ts\n M src/app/shared/ui/ps-icon-button.spec.ts\n M src/app/shared/ui/ps-icon-button.ts\n?? docs/features/CONTRACTOR_MANAGEMENT.md\n?? docs/features/CONTRACTOR_MANAGEMENT_IMPLEMENTATION_REPORT.md\n?? docs/features/CONTRACTOR_MANAGEMENT_SCREENSHOTS.md\n?? docs/features/contractor-management/evidence/backend-build-final.log\n?? docs/features/contractor-management/evidence/backend-contractors-final.json\n?? docs/features/contractor-management/evidence/backend-e2e.json\n?? docs/features/contractor-management/evidence/backend-full-final.json\n?? docs/features/contractor-management/evidence/baseline-comparison.json\n?? docs/features/contractor-management/evidence/browser-focused-final.json\n?? docs/features/contractor-management/evidence/browser-full-final.json\n?? docs/features/contractor-management/evidence/continuation/continuation-backend-build.log\n?? docs/features/contractor-management/evidence/continuation/continuation-backend-e2e.json\n?? docs/features/contractor-management/evidence/continuation/continuation-backend-e2e.log\n?? docs/features/contractor-management/evidence/continuation/continuation-backend-full.json\n?? docs/features/contractor-management/evidence/continuation/continuation-backend-full.log\n?? docs/features/contractor-management/evidence/continuation/continuation-browser-full.json\n?? docs/features/contractor-management/evidence/continuation/continuation-browser-recheck.json\n?? docs/features/contractor-management/evidence/continuation/continuation-contractors.json\n?? docs/features/contractor-management/evidence/continuation/continuation-contractors.log\n?? docs/features/contractor-management/evidence/continuation/continuation-frontend-build-final.log\n?? docs/features/contractor-management/evidence/continuation/continuation-frontend-contractors.log\n?? docs/features/contractor-management/evidence/continuation/continuation-frontend-unit-final.log\n?? docs/features/contractor-management/evidence/continuation/continuation-frontend-unit.log\n?? docs/features/contractor-management/evidence/continuation/employee-payroll-comparison.json\n?? docs/features/contractor-management/evidence/continuation/validation-and-status.json\n?? docs/features/contractor-management/evidence/employee-payroll-comparison.json\n?? docs/features/contractor-management/evidence/file-inventory.json\n?? docs/features/contractor-management/evidence/frontend-build-final.log\n?? docs/features/contractor-management/evidence/frontend-unit-final.json\n?? docs/features/contractor-management/evidence/screenshot-manifest.json\n?? docs/features/contractor-management/evidence/status-management/active-payment-browser.json\n?? docs/features/contractor-management/evidence/status-management/backend-build-final.log\n?? docs/features/contractor-management/evidence/status-management/backend-contractors-final.json\n?? docs/features/contractor-management/evidence/status-management/backend-contractors-final.log\n?? docs/features/contractor-management/evidence/status-management/backend-full.json\n?? docs/features/contractor-management/evidence/status-management/backend-full.log\n?? docs/features/contractor-management/evidence/status-management/before-browser.json\n?? docs/features/contractor-management/evidence/status-management/browser-full.json\n?? docs/features/contractor-management/evidence/status-management/employee-recheck.json\n?? docs/features/contractor-management/evidence/status-management/final-ui-recheck.json\n?? docs/features/contractor-management/evidence/status-management/focused-browser.json\n?? docs/features/contractor-management/evidence/status-management/frontend-build-final.log\n?? docs/features/contractor-management/evidence/status-management/frontend-unit-final.log\n?? docs/features/contractor-management/evidence/status-management/local-capability.json\n?? docs/features/contractor-management/evidence/status-management/payroll-comparison.json\n?? docs/features/contractor-management/evidence/status-management/reference-recheck.json\n?? docs/features/contractor-management/evidence/status-management/validation-and-status.json\n?? docs/features/contractor-management/evidence/ui-refinements/backend-build.log\n?? docs/features/contractor-management/evidence/ui-refinements/backend-contractors.json\n?? docs/features/contractor-management/evidence/ui-refinements/backend-contractors.log\n?? docs/features/contractor-management/evidence/ui-refinements/backend-full.json\n?? docs/features/contractor-management/evidence/ui-refinements/backend-full.log\n?? docs/features/contractor-management/evidence/ui-refinements/before-browser.json\n?? docs/features/contractor-management/evidence/ui-refinements/browser-full.json\n?? docs/features/contractor-management/evidence/ui-refinements/final-layout.json\n?? docs/features/contractor-management/evidence/ui-refinements/focused-browser.json\n?? docs/features/contractor-management/evidence/ui-refinements/frontend-build-final.log\n?? docs/features/contractor-management/evidence/ui-refinements/frontend-unit-final.log\n?? docs/features/contractor-management/evidence/ui-refinements/payroll-comparison.json\n?? docs/features/contractor-management/evidence/ui-refinements/validation-and-status.json\n?? docs/features/contractor-management/screenshots/add-component-1280.png\n?? docs/features/contractor-management/screenshots/add-component-1440.png\n?? docs/features/contractor-management/screenshots/add-component-390.png\n?? docs/features/contractor-management/screenshots/add-component-768.png\n?? docs/features/contractor-management/screenshots/add-contractor-1280.png\n?? docs/features/contractor-management/screenshots/add-contractor-1440.png\n?? docs/features/contractor-management/screenshots/add-contractor-390.png\n?? docs/features/contractor-management/screenshots/add-contractor-768.png\n?? docs/features/contractor-management/screenshots/confirmation-1280.png\n?? docs/features/contractor-management/screenshots/confirmation-1440.png\n?? docs/features/contractor-management/screenshots/confirmation-390.png\n?? docs/features/contractor-management/screenshots/confirmation-768.png\n?? docs/features/contractor-management/screenshots/directory-1280.png\n?? docs/features/contractor-management/screenshots/directory-1440.png\n?? docs/features/contractor-management/screenshots/directory-390.png\n?? docs/features/contractor-management/screenshots/directory-768.png\n?? docs/features/contractor-management/screenshots/empty-directory.png\n?? docs/features/contractor-management/screenshots/empty-payments.png\n?? docs/features/contractor-management/screenshots/failed-submission.png\n?? docs/features/contractor-management/screenshots/general-payment-1280.png\n?? docs/features/contractor-management/screenshots/general-payment-1440.png\n?? docs/features/contractor-management/screenshots/general-payment-390.png\n?? docs/features/contractor-management/screenshots/general-payment-768.png\n?? docs/features/contractor-management/screenshots/immutable-history-after-settings-edit.png\n?? docs/features/contractor-management/screenshots/payment-detail-1280.png\n?? docs/features/contractor-management/screenshots/payment-detail-1440.png\n?? docs/features/contractor-management/screenshots/payment-detail-390.png\n?? docs/features/contractor-management/screenshots/payment-detail-768.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/assigned-deductions.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/confirmation-1280.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/confirmation-1440.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/confirmation-390.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/confirmation-768.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/deduction-settings.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/directory-1280.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/directory-1440.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/directory-390.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/directory-768.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/failed-submission.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/general-payment-1280.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/general-payment-1440.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/general-payment-390.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/general-payment-768.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/immutable-history.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/individual-payment-1280.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/individual-payment-1440.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/individual-payment-390.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/individual-payment-768.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/legacy-history.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/mixed-selection-gross-deductions-1280.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/mixed-selection-gross-deductions-1440.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/mixed-selection-gross-deductions-390.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/mixed-selection-gross-deductions-768.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/negative-net-validation.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-detail-1280.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-detail-1440.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-detail-390.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-detail-768.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-entry-1280.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-entry-1440.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-entry-390.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-entry-768.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payments-1280.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payments-1440.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payments-390.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payments-768.png\n?? docs/features/contractor-management/screenshots/payments-1280.png\n?? docs/features/contractor-management/screenshots/payments-1440.png\n?? docs/features/contractor-management/screenshots/payments-390.png\n?? docs/features/contractor-management/screenshots/payments-768.png\n?? docs/features/contractor-management/screenshots/persistent-browser-history.png\n?? docs/features/contractor-management/screenshots/profile-assignments-1280.png\n?? docs/features/contractor-management/screenshots/profile-assignments-1440.png\n?? docs/features/contractor-management/screenshots/profile-assignments-390.png\n?? docs/features/contractor-management/screenshots/profile-assignments-768.png\n?? docs/features/contractor-management/screenshots/row-payment-1280.png\n?? docs/features/contractor-management/screenshots/row-payment-1440.png\n?? docs/features/contractor-management/screenshots/row-payment-390.png\n?? docs/features/contractor-management/screenshots/row-payment-768.png\n?? docs/features/contractor-management/screenshots/settings-1280.png\n?? docs/features/contractor-management/screenshots/settings-1440.png\n?? docs/features/contractor-management/screenshots/settings-390.png\n?? docs/features/contractor-management/screenshots/settings-768.png\n?? docs/features/contractor-management/screenshots/status-management/after/delete-confirmation-1280.png\n?? docs/features/contractor-management/screenshots/status-management/after/delete-confirmation-1440.png\n?? docs/features/contractor-management/screenshots/status-management/after/delete-confirmation-390.png\n?? docs/features/contractor-management/screenshots/status-management/after/delete-confirmation-768.png\n?? docs/features/contractor-management/screenshots/status-management/after/directory-1280.png\n?? docs/features/contractor-management/screenshots/status-management/after/directory-1440.png\n?? docs/features/contractor-management/screenshots/status-management/after/directory-390.png\n?? docs/features/contractor-management/screenshots/status-management/after/directory-768.png\n?? docs/features/contractor-management/screenshots/status-management/after/filter-1280.png\n?? docs/features/contractor-management/screenshots/status-management/after/filter-1440.png\n?? docs/features/contractor-management/screenshots/status-management/after/filter-390.png\n?? docs/features/contractor-management/screenshots/status-management/after/filter-768.png\n?? docs/features/contractor-management/screenshots/status-management/after/inactive-payment-1280.png\n?? docs/features/contractor-management/screenshots/status-management/after/inactive-payment-1440.png\n?? docs/features/contractor-management/screenshots/status-management/after/inactive-payment-390.png\n?? docs/features/contractor-management/screenshots/status-management/after/inactive-payment-768.png\n?? docs/features/contractor-management/screenshots/status-management/after/inactive-profile-1280.png\n?? docs/features/contractor-management/screenshots/status-management/after/inactive-profile-1440.png\n?? docs/features/contractor-management/screenshots/status-management/after/inactive-profile-390.png\n?? docs/features/contractor-management/screenshots/status-management/after/inactive-profile-768.png\n?? docs/features/contractor-management/screenshots/status-management/after/kebab-1280.png\n?? docs/features/contractor-management/screenshots/status-management/after/kebab-1440.png\n?? docs/features/contractor-management/screenshots/status-management/after/kebab-390.png\n?? docs/features/contractor-management/screenshots/status-management/after/kebab-768.png\n?? docs/features/contractor-management/screenshots/status-management/after/payment-detail-1280.png\n?? docs/features/contractor-management/screenshots/status-management/after/payment-detail-1440.png\n?? docs/features/contractor-management/screenshots/status-management/after/payment-detail-390.png\n?? docs/features/contractor-management/screenshots/status-management/after/payment-detail-768.png\n?? docs/features/contractor-management/screenshots/status-management/after/payments-1280.png\n?? docs/features/contractor-management/screenshots/status-management/after/payments-1440.png\n?? docs/features/contractor-management/screenshots/status-management/after/payments-390.png\n?? docs/features/contractor-management/screenshots/status-management/after/payments-768.png\n?? docs/features/contractor-management/screenshots/status-management/after/payments-active-1440.png\n?? docs/features/contractor-management/screenshots/status-management/after/profile-1280.png\n?? docs/features/contractor-management/screenshots/status-management/after/profile-1440.png\n?? docs/features/contractor-management/screenshots/status-management/after/profile-390.png\n?? docs/features/contractor-management/screenshots/status-management/after/profile-768.png\n?? docs/features/contractor-management/screenshots/status-management/after/status-edit-1280.png\n?? docs/features/contractor-management/screenshots/status-management/after/status-edit-1440.png\n?? docs/features/contractor-management/screenshots/status-management/after/status-edit-390.png\n?? docs/features/contractor-management/screenshots/status-management/after/status-edit-768.png\n?? docs/features/contractor-management/screenshots/status-management/before/directory-1280.png\n?? docs/features/contractor-management/screenshots/status-management/before/directory-1440.png\n?? docs/features/contractor-management/screenshots/status-management/before/directory-390.png\n?? docs/features/contractor-management/screenshots/status-management/before/directory-768.png\n?? docs/features/contractor-management/screenshots/status-management/before/payment-detail-1280.png\n?? docs/features/contractor-management/screenshots/status-management/before/payment-detail-1440.png\n?? docs/features/contractor-management/screenshots/status-management/before/payment-detail-390.png\n?? docs/features/contractor-management/screenshots/status-management/before/payment-detail-768.png\n?? docs/features/contractor-management/screenshots/status-management/before/payments-1280.png\n?? docs/features/contractor-management/screenshots/status-management/before/payments-1440.png\n?? docs/features/contractor-management/screenshots/status-management/before/payments-390.png\n?? docs/features/contractor-management/screenshots/status-management/before/payments-768.png\n?? docs/features/contractor-management/screenshots/status-management/before/profile-1280.png\n?? docs/features/contractor-management/screenshots/status-management/before/profile-1440.png\n?? docs/features/contractor-management/screenshots/status-management/before/profile-390.png\n?? docs/features/contractor-management/screenshots/status-management/before/profile-768.png\n?? docs/features/contractor-management/screenshots/status-management/reference/employee-directory-1440.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/components-edit-1280.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/components-edit-1440.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/components-edit-390.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/components-edit-768.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/confirmation-1280.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/confirmation-1440.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/confirmation-390.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/confirmation-768.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/directory-1280.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/directory-1440.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/directory-390.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/directory-768.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/history-1280.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/history-1440.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/history-390.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/history-768.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/payment-1280.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/payment-1440.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/payment-390.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/payment-768.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/profile-1280.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/profile-1440.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/profile-390.png\n?? docs/features/contractor-management/screenshots/ui-refinements/after/profile-768.png\n?? docs/features/contractor-management/screenshots/ui-refinements/before/directory-1280.png\n?? docs/features/contractor-management/screenshots/ui-refinements/before/directory-1440.png\n?? docs/features/contractor-management/screenshots/ui-refinements/before/directory-390.png\n?? docs/features/contractor-management/screenshots/ui-refinements/before/directory-768.png\n?? docs/features/contractor-management/screenshots/ui-refinements/before/payment-1280.png\n?? docs/features/contractor-management/screenshots/ui-refinements/before/payment-1440.png\n?? docs/features/contractor-management/screenshots/ui-refinements/before/payment-390.png\n?? docs/features/contractor-management/screenshots/ui-refinements/before/payment-768.png\n?? docs/features/contractor-management/screenshots/ui-refinements/before/profile-1280.png\n?? docs/features/contractor-management/screenshots/ui-refinements/before/profile-1440.png\n?? docs/features/contractor-management/screenshots/ui-refinements/before/profile-390.png\n?? docs/features/contractor-management/screenshots/ui-refinements/before/profile-768.png\n?? e2e/contractor-management.spec.ts\n?? e2e/contractor-status.spec.ts\n?? e2e/contractor-ui-refinements.spec.ts\n?? src/app/contractors/contractor-api.ts\n?? src/app/contractors/contractor-deductions.ts\n?? src/app/contractors/contractor-directory.html\n?? src/app/contractors/contractor-directory.ts\n?? src/app/contractors/contractor-form.ts\n?? src/app/contractors/contractor-management.spec.ts\n?? src/app/contractors/contractor-payment-form.html\n?? src/app/contractors/contractor-payment-form.ts\n?? src/app/contractors/contractor-profile.html\n?? src/app/contractors/contractor-profile.ts\n?? src/app/contractors/contractor-settings.html\n?? src/app/contractors/contractor-settings.ts\n?? src/app/shared/ui/ps-action-menu.scss\n?? src/app/shared/ui/ps-dialog.scss\n?? src/app/shared/ui/ps-dialog.ts\n?? src/app/shared/ui/ps-feature-layout.scss\n?? src/app/shared/ui/ps-feature-layout.ts\n?? src/app/shared/ui/ps-kpi-card.ts\n?? src/app/shared/ui/ps-tabs.scss\n?? src/app/shared/ui/ps-tabs.ts"
+    }
+  ],
+  "screenshotLinks": {
+    "count": 105,
+    "missing": []
+  }
+}

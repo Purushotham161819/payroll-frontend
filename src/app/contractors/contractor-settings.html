@@ -1,0 +1,161 @@
+<ps-feature-layout
+  ><app-settings-tabs /><ps-page-header
+    title="Contractor Settings"
+    subtitle="Configure deductions calculated from manually entered Gross Pay."
+    ><button pageActions psButton icon="add" (click)="open()">Add Component</button></ps-page-header
+  >
+  @if (success()) {
+    <p class="notice success" role="status">{{ success() }}</p>
+  }
+  @if (error()) {
+    <p class="notice error" role="alert">
+      {{ error() }} <button psButton variant="secondary" (click)="load()">Retry</button>
+    </p>
+  }
+  <ps-card
+    ><span cardTitle>Contractor Payment Components</span
+    ><ps-data-table
+      label="Contractor payment components"
+      [loading]="loading()"
+      [empty]="!rows().length && !loading()"
+      emptyLabel="No contractor components configured."
+      ><table class="ps-table" aria-label="Contractor payment components">
+        <thead>
+          <tr>
+            <th>Component Name</th>
+            <th>Code</th>
+            <th>Classification</th>
+            <th>Configuration</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (c of rows(); track c._id) {
+            <tr>
+              <td>{{ c.name }}</td>
+              <td>{{ c.code }}</td>
+              <td>{{ label(c.classification) }}</td>
+              <td>
+                {{ c.calculationType }}
+                @if (c.calculationType === 'fixed') {
+                  {{ c.calculationValue | psInr }}
+                }
+                @if (c.calculationType === 'percentage') {
+                  {{ c.calculationValue }}%
+                }
+                @if (c.calculationType === 'formula') {
+                  {{ c.formula }}
+                }
+              </td>
+              <td><ps-status-badge [status]="c.status" /></td>
+              <td>
+                <button
+                  psIconButton
+                  action="edit"
+                  size="sm"
+                  [label]="'Edit component ' + c.name"
+                  (click)="open(c)"
+                ></button>
+              </td>
+            </tr>
+          }
+        </tbody></table></ps-data-table
+  ></ps-card>
+  @if (modal()) {
+    <ps-dialog
+      [title]="editing ? 'Edit Contractor Pay Component' : 'Add Contractor Pay Component'"
+      [busy]="busy()"
+      (closed)="modal.set(false)"
+      ><form #form="ngForm" (ngSubmit)="save(form)">
+        @if (formError()) {
+          <p class="notice error" role="alert">{{ formError() }}</p>
+        }
+        <p class="ps-muted">
+          Assigned active deductions are calculated automatically from Gross Pay. Earlier payment records remain unchanged.
+        </p>
+        <fieldset [disabled]="busy()">
+          <div class="ps-grid">
+            <ps-form-field label="Component Name" required errorText="Enter a name."
+              ><input
+                psFieldControl
+                name="name"
+                [(ngModel)]="draft.name"
+                required
+                maxlength="120"
+                pattern="[\s\S]*\S[\s\S]*" /></ps-form-field
+            ><ps-form-field
+              label="Component Code"
+              required
+              errorText="Use a letter followed by letters, numbers or underscores."
+              ><input
+                psFieldControl
+                name="code"
+                [(ngModel)]="draft.code"
+                required
+                maxlength="40"
+                pattern="[A-Za-z][A-Za-z0-9_]*" /></ps-form-field
+            ><ps-form-field label="Classification" required
+              ><select
+                psFieldControl
+                name="classification"
+                [(ngModel)]="draft.classification"
+                required
+              >
+                <option value="deduction">Deductions</option>
+              </select></ps-form-field
+            ><ps-form-field label="Status" required
+              ><select psFieldControl name="status" [(ngModel)]="draft.status" required>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select></ps-form-field
+            ><ps-form-field label="Calculation Type" required
+              ><select
+                psFieldControl
+                name="calculationType"
+                [(ngModel)]="draft.calculationType"
+                required
+              >
+                <option value="fixed">Fixed Amount</option>
+                <option value="percentage">Percentage</option>
+                <option value="formula">Formula</option>
+              </select></ps-form-field
+            >
+            @if (draft.calculationType === 'fixed' || draft.calculationType === 'percentage') {
+              <ps-form-field label="Configuration Value" required
+                ><input
+                  psFieldControl
+                  name="calculationValue"
+                  type="number"
+                  [(ngModel)]="draft.calculationValue"
+                  required
+                  min="0"
+                  [max]="draft.calculationType === 'percentage' ? 100 : 1000000000"
+                  step="0.01"
+              /></ps-form-field>
+            }
+            @if (draft.calculationType === 'formula') {
+              <ps-form-field label="Formula" required helper="Use grossPay, numbers, + - * /, parentheses and %. Example: grossPay * 5%.">
+                <textarea
+                  psFieldControl
+                  name="formula"
+                  [(ngModel)]="draft.formula"
+                  required
+                  maxlength="1024"
+                  pattern="[\s\S]*\S[\s\S]*"
+                ></textarea>
+              </ps-form-field>
+            }
+          </div>
+        </fieldset>
+        <footer class="ps-form-actions">
+          <button psButton variant="secondary" (click)="modal.set(false)" [disabled]="busy()">
+            Cancel</button
+          ><button psButton type="submit" [loading]="busy()" [disabled]="busy()">
+            Save Component
+          </button>
+        </footer>
+      </form></ps-dialog
+    >
+  }
+</ps-feature-layout>

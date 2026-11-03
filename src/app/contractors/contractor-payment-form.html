@@ -1,0 +1,255 @@
+<ps-dialog
+  [title]="
+    review() ? 'Confirm Payments' : initialIds().length ? 'Pay Contractor' : 'Pay Contractors'
+  "
+  [wide]="true"
+  [busy]="busy()"
+  (closed)="closed.emit()"
+>
+  @if (error()) {
+    <p class="notice error" role="alert">{{ error() }}</p>
+  }
+  @if (loading()) {
+    <p role="status">Loading contractors and assigned deductions...</p>
+  } @else if (review(); as draft) {
+    <div class="ps-stack">
+      <dl class="ps-summary">
+        <div>
+          <dt>Payment Date</dt>
+          <dd>{{ draft.paymentDate | psDate }}</dd>
+        </div>
+      </dl>
+      <div class="ps-compact-summary">
+        <ps-kpi-card
+          compact
+          label="Total Gross Payment"
+          [value]="totals(confirmation()).grossPay"
+        /><ps-kpi-card
+          compact
+          label="Total Net Payment"
+          [value]="totals(confirmation()).netPayment"
+        />
+      </div>
+      @for (r of confirmation(); track r.contractor._id) {
+        <section>
+          <h3>
+            {{ r.contractor.firstName }} {{ r.contractor.lastName }} ({{
+              r.contractor.contractorId
+            }})
+          </h3>
+          <dl class="ps-summary">
+            <div>
+              <dt>Description</dt>
+              <dd>{{ r.description }}</dd>
+            </div>
+            <div>
+              <dt>Gross Pay</dt>
+              <dd>{{ r.grossPay | psInr }}</dd>
+            </div>
+            <div>
+              <dt>Total Deductions</dt>
+              <dd>{{ r.totalDeductions | psInr }}</dd>
+            </div>
+            <div>
+              <dt>Net Payment</dt>
+              <dd>
+                <strong>{{ r.netPayment | psInr }}</strong>
+              </dd>
+            </div>
+          </dl>
+          @for (p of r.deductions; track p._id) {
+            <p>
+              {{ p.name }} — {{ p.calculationType }}
+              @if (p.calculationType === 'percentage') {
+                ({{ p.calculationValue }}%)
+              }
+              @if (p.calculationType === 'fixed') {
+                ({{ p.calculationValue | psInr }})
+              }
+              @if (p.calculationType === 'formula') {
+                ({{ p.formula }})
+              }
+              : <strong>{{ p.amount | psInr }}</strong>
+            </p>
+          }
+          @if (!r.deductions.length) {
+            <p class="ps-muted">
+              No active deduction components assigned. Total Deductions: {{ 0 | psInr }}
+            </p>
+          }
+        </section>
+      }
+      <p class="ps-muted">
+        Confirming records a separate payment for each selected contractor. It does not transfer
+        money or confirm a bank transfer.
+      </p>
+      <footer class="ps-form-actions">
+        <button psButton variant="secondary" (click)="back()" [disabled]="busy()">Cancel</button
+        ><button
+          psButton
+          data-confirm-payment
+          (click)="submit()"
+          [loading]="busy()"
+          [disabled]="busy()"
+        >
+          Confirm Payments
+        </button>
+      </footer>
+    </div>
+  } @else {
+    <form #form="ngForm" (ngSubmit)="prepare(form)">
+      <div class="ps-stack">
+        <div class="ps-compact-summary">
+          <ps-form-field
+            class="ps-compact-field"
+            label="Payment Date"
+            required
+            errorText="Enter a valid payment date."
+            ><input
+              psFieldControl
+              name="paymentDate"
+              type="date"
+              [(ngModel)]="paymentDate"
+              required
+              min="1900-01-01" /></ps-form-field
+          ><ps-kpi-card
+            compact
+            label="Total Gross Payment"
+            [value]="totals().grossPay"
+          /><ps-kpi-card compact label="Total Net Payment" [value]="totals().netPayment" />
+        </div>
+        <ps-data-table
+          label="Contractor payment selection"
+          [empty]="!rows().length"
+          emptyLabel="No contractors available."
+          ><table class="ps-table" aria-label="Contractor payment selection">
+            <thead>
+              <tr>
+                <th class="ps-selection-cell" scope="col">
+                  <ps-form-field
+                    label="Select all eligible contractors"
+                    layout="hidden-label"
+                    choice
+                    ><input
+                      psFieldControl
+                      type="checkbox"
+                      name="selectAll"
+                      [ngModel]="allSelected()"
+                      [indeterminate]="mixedSelected()"
+                      (ngModelChange)="toggleAll($event)"
+                      [disabled]="!eligible().length"
+                  /></ps-form-field>
+                </th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Gross Pay</th>
+                <th scope="col">Description</th>
+                <th scope="col">Deduction Components</th>
+                <th scope="col" class="num">Total Deductions</th>
+                <th scope="col" class="num">Net Payment</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (r of rows(); track r.contractor._id) {
+                <tr>
+                  <td>
+                    <ps-form-field
+                      [label]="'Select ' + r.contractor.firstName + ' ' + r.contractor.lastName"
+                      layout="hidden-label"
+                      choice
+                      ><input
+                        psFieldControl
+                        type="checkbox"
+                        [name]="'select-' + r.contractor._id"
+                        [ngModel]="selected().includes(r.contractor._id)"
+                        (ngModelChange)="toggle(r.contractor._id, $event)"
+                        [disabled]="!r.eligible"
+                    /></ps-form-field>
+                  </td>
+                  <td>{{ r.contractor.firstName }}</td>
+                  <td>{{ r.contractor.lastName }}</td>
+                  <td class="ps-input-cell">
+                    <ps-form-field
+                      class="ps-compact-field"
+                      [label]="
+                        'Gross Pay for ' + r.contractor.firstName + ' ' + r.contractor.lastName
+                      "
+                      layout="hidden-label"
+                      errorText="Enter a non-negative amount with at most two decimals."
+                      ><span fieldPrefix>&#8377;</span
+                      ><input
+                        psFieldControl
+                        type="number"
+                        [name]="'gross-' + r.contractor._id"
+                        [ngModelOptions]="{ standalone: true }"
+                        [(ngModel)]="gross[r.contractor._id]"
+                        min="0"
+                        max="1000000000"
+                        step="0.01"
+                        [required]="selected().includes(r.contractor._id)"
+                    /></ps-form-field>
+                  </td>
+                  <td class="ps-input-cell">
+                    <ps-form-field
+                      class="ps-compact-field"
+                      [label]="
+                        'Description for ' + r.contractor.firstName + ' ' + r.contractor.lastName
+                      "
+                      layout="hidden-label"
+                      errorText="Enter a description of at most 1000 characters."
+                      ><input
+                        psFieldControl
+                        type="text"
+                        [name]="'description-' + r.contractor._id"
+                        [ngModelOptions]="{ standalone: true }"
+                        [(ngModel)]="descriptions[r.contractor._id]"
+                        [required]="selected().includes(r.contractor._id)"
+                        maxlength="1000"
+                        pattern="[\s\S]*\S[\s\S]*"
+                    /></ps-form-field>
+                  </td>
+                  <td>
+                    <div class="ps-cell-stack">
+                      @for (p of r.deductions; track p._id) {
+                        <span>{{ p.name }}: {{ p.amount | psInr }}</span>
+                      }
+                      @if (r.grossPay === null && assigned(r.contractor).length) {
+                        @for (p of assigned(r.contractor); track p._id) {
+                          <span>{{ p.name }}: enter Gross Pay</span>
+                        }
+                      }
+                      @if (!assigned(r.contractor).length && !configurationError(r.contractor)) {
+                        <span class="ps-muted">No active deduction components assigned.</span>
+                      }
+                      @if (
+                        r.error &&
+                        (r.grossPay !== null ||
+                          selected().includes(r.contractor._id) ||
+                          !r.eligible)
+                      ) {
+                        <span class="ps-validation" role="status">{{ r.error }}</span>
+                      }
+                    </div>
+                  </td>
+                  <td class="num">{{ r.totalDeductions | psInr }}</td>
+                  <td class="num">{{ r.netPayment | psInr }}</td>
+                </tr>
+              }
+            </tbody>
+          </table></ps-data-table
+        >
+        <p class="ps-muted">
+          Only selected contractors contribute to the totals. Inactive components and earlier
+          earnings/allowances are not applied.
+        </p>
+      </div>
+      <footer class="ps-form-actions">
+        <button psButton variant="secondary" (click)="closed.emit()">Cancel</button>
+        @if (error()) {
+          <button psButton variant="secondary" (click)="load()">Reload Available Components</button>
+        }
+        <button psButton type="submit" data-review-payment [disabled]="!canSubmit()">Submit</button>
+      </footer>
+    </form>
+  }
+</ps-dialog>

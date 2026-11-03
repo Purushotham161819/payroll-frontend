@@ -16,7 +16,7 @@ test('actual global entry loads tokens and all shared action SVGs remain compact
   for (let visit = 0; visit < 2; visit++) {
     await expect(page.locator('tbody tr')).toHaveCount(24);
     expect(await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--icon-sm').trim())).toBe('16px');
-    await expect(page.getByRole('link', { name: 'Employees', exact: true })).toHaveCSS('font-weight', '600');
+    await expect(page.getByRole('navigation', {name: 'Main navigation'}).getByRole('link', {name: 'Employees', exact: true})).toHaveCSS('font-weight', '600');
     const sizes = await page.locator('ps-icon svg').evaluateAll(nodes => nodes.map(n => ({
       width: n.getBoundingClientRect().width, height: n.getBoundingClientRect().height,
       intrinsicWidth: n.getAttribute('width'), intrinsicHeight: n.getAttribute('height'),
@@ -28,7 +28,7 @@ test('actual global entry loads tokens and all shared action SVGs remain compact
     await expect(refresh).toHaveText(''); await refresh.focus();
     await expect(page.getByRole('tooltip')).toHaveText('Refresh List');
     await page.keyboard.press('Escape');
-    if (visit === 0) { await page.getByRole('link', { name: 'Settings', exact: true }).click(); await page.getByRole('link', { name: 'Employees', exact: true }).click(); }
+    if (visit === 0) { await page.getByRole('link', { name: 'Settings', exact: true }).click(); await page.getByRole('navigation', {name: 'Main navigation'}).getByRole('link', {name: 'Employees', exact: true}).click(); }
   }
   await page.evaluate(() => window.scrollTo(0, 700));
   await expect(page.locator('.sidebar .brand')).toBeInViewport();

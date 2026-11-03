@@ -1,0 +1,8 @@
+:host { display:block; }
+/* Reusable CDK action menu matching the approved Employee Directory menu. */
+.ps-action-menu { display:flex; flex-direction:column; width:max-content; max-width:100vw; padding:var(--space-1); background:var(--surface-card); border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-md); box-shadow:var(--shadow-popover); }
+.ps-action-menu button { display:flex; align-items:center; gap:var(--space-2); height:var(--control-height); min-height:var(--control-height); border:0; border-radius:var(--radius-sm); background:var(--surface-card); padding:0 var(--space-4); text-align:left; color:var(--ink); font:var(--type-button); cursor:pointer; }
+.ps-action-menu button:hover:not(:disabled),.ps-action-menu button:focus-visible { background:var(--surface-hover); outline:var(--focus-width) solid var(--focus-ring); outline-offset:calc(var(--focus-offset) * -1); }
+.ps-action-menu button.danger-item { color:var(--danger); }
+.ps-action-menu button:disabled { color:var(--ink-subtle); cursor:not-allowed; }
+.ps-action-menu p { max-width:var(--search-width); margin:var(--space-2) var(--space-4); color:var(--ink-muted); font:var(--type-helper); white-space:normal; }

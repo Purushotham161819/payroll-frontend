@@ -12,8 +12,8 @@ describe('PsIconButton', () => {
     expect(button.querySelector('svg')?.children.length).toBe(ACTION_ICONS[action].length);
     button.dispatchEvent(new FocusEvent('focusin', { bubbles: true })); f.changeDetectorRef.markForCheck(); f.detectChanges();
     const tip = document.querySelector('[role=tooltip]');
-    expect(tip?.textContent).toBe(action);
-    expect(button.getAttribute('aria-describedby')).toContain(tip?.id);
+    if(action === 'close') { expect(tip).toBeNull(); expect(button.getAttribute('aria-label')).toBe('close'); }
+    else { expect(tip?.textContent).toBe(action); expect(button.getAttribute('aria-describedby')).toContain(tip?.id); }
     f.destroy(); expect(document.querySelector('[role=tooltip]')).toBeNull();
   });
   it('supports small rows and focusable disabled-tooltip wrapper without activation', async () => {

@@ -1,0 +1,706 @@
+{
+  "backend": {
+    "passed": 501,
+    "failed": 6,
+    "skipped": 15,
+    "failures": [
+      "src/organization.spec.ts::Deployment organization display configuration uses the requested initial name when no customer name is configured",
+      "src/organization.spec.ts::Deployment organization display configuration reads the configured customer identity without changing component source or accounts",
+      "src/salary-components/salary-calculation.service.spec.ts::Salary calculation foundation resolves reversed dependencies and includes hidden deductions",
+      "src/salary-components/salary-calculation.service.spec.ts::Salary calculation foundation distinguishes fixed monthly and annual values",
+      "src/salary-components/salary-calculation.service.spec.ts::Salary calculation foundation rejects cycles, missing and inactive dependencies",
+      "src/salary-components/salary-calculation.service.spec.ts::Salary calculation foundation rejects invalid numbers and percentages and skips inactive outputs"
+    ],
+    "newFailures": []
+  },
+  "backendE2e": {
+    "passed": 49,
+    "failed": 1,
+    "skipped": 1,
+    "failures": [
+      "test/auth.e2e-spec.ts::Authentication and complete route audit (isolated Mongo database) discovers every registered route, allows only login publicly, and admits authenticated requests"
+    ],
+    "newFailures": []
+  },
+  "browser": {
+    "startTime": "2026-11-03T14:22:11.950Z",
+    "duration": 605132.588,
+    "expected": 133,
+    "skipped": 4,
+    "unexpected": 6,
+    "flaky": 0,
+    "failures": [
+      "final-ui.spec.ts::monthly CTC, icon actions, guide and exact payroll return context survive profile navigation and refresh",
+      "indian-format-search.spec.ts::Run Payroll KPIs, dynamic rows and Pay Check history use Indian grouping without changing numeric requests",
+      "indian-format-search.spec.ts::salary settings, statutory amounts and tax revision displays share Indian currency presentation",
+      "management-delete.spec.ts::employee delete confirmation cancels safely, reports errors, deletes once and refreshes selected rows",
+      "profile-payroll-ui.spec.ts::revisit a submitted month, save checkbox changes, and submit only unprocessed employees",
+      "ui-refinements.spec.ts::formula help opens with keyboard, explains MIN/MAX/IF and closes without changing the expression"
+    ],
+    "newFailures": []
+  },
+  "contractorBrowser": {
+    "startTime": "2026-11-03T14:24:13.736Z",
+    "duration": 83799.955,
+    "expected": 12,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "payroll": {
+    "snapshots": 10,
+    "byteIdentical": true,
+    "sha256": "e81eda7421218e33625770cf5826db219e175fb91e7a9a2924b3a0ce2a6136ff"
+  },
+  "continuationFiles": {
+    "backend": [
+      "docs/features/CONTRACTOR_MANAGEMENT.md",
+      "docs/features/CONTRACTOR_MANAGEMENT_IMPLEMENTATION_REPORT.md"
+    ],
+    "frontend": [
+      "src/app/contractors/contractor-profile.html",
+      "src/app/contractors/contractor-api.ts",
+      "e2e/contractor-management.spec.ts",
+      "docs/features/CONTRACTOR_MANAGEMENT.md",
+      "docs/features/CONTRACTOR_MANAGEMENT_IMPLEMENTATION_REPORT.md"
+    ],
+    "generated": [
+      "docs/features/contractor-management/screenshots/payment-enhancement-continuation/",
+      "docs/features/contractor-management/evidence/continuation/",
+      "artifacts/contractor-payment-enhancement/ in both repositories",
+      "artifacts/phase4g-run-payroll/calculations-continuation.json"
+    ]
+  },
+  "repositories": [
+    {
+      "root": "D:/projects/payroll-backend",
+      "branch": "main",
+      "head": "b5156be30cd479ad5d35fd9e6dfd5e0493eed759",
+      "status": "M src/app.module.ts\n?? docs/features/CONTRACTOR_MANAGEMENT.md\n?? docs/features/CONTRACTOR_MANAGEMENT_IMPLEMENTATION_REPORT.md\n?? src/contractors/contractor-access.guard.ts\n?? src/contractors/contractor-deductions.ts\n?? src/contractors/contractor-payment.spec.ts\n?? src/contractors/contractor-payment.ts\n?? src/contractors/contractor.dto.ts\n?? src/contractors/contractor.schemas.ts\n?? src/contractors/contractors.controller.ts\n?? src/contractors/contractors.integration.spec.ts\n?? src/contractors/contractors.module.ts\n?? src/contractors/contractors.service.ts",
+      "staged": "",
+      "files": [
+        {
+          "path": "src/app.module.ts",
+          "sha256": "1766149fd8adb14c37ca93cad519e55e90dbad26a2e33e7d514ae6e084deb47f"
+        },
+        {
+          "path": "docs/features/CONTRACTOR_MANAGEMENT.md",
+          "sha256": "264e1e3b9377b0092de3ceca24d7139b7ff7909fd41a215916c14f213b1c95b5"
+        },
+        {
+          "path": "docs/features/CONTRACTOR_MANAGEMENT_IMPLEMENTATION_REPORT.md",
+          "sha256": "a96b159943a712a6679c65000c820ddf59b486b050d2bd6bd19aeae333fa7c0f"
+        },
+        {
+          "path": "src/contractors/contractor-access.guard.ts",
+          "sha256": "397c0a0e03a60c4a7e570f1642810ed360d4d6c71de45bd7ba5a049c597cb9bb"
+        },
+        {
+          "path": "src/contractors/contractor-deductions.ts",
+          "sha256": "2e484bb4e0cdfc3b121ecd01a26715fcb1935a45674256050fd44571c6a5ddbe"
+        },
+        {
+          "path": "src/contractors/contractor-payment.spec.ts",
+          "sha256": "9e1c58aaa3ebebf0604736d6d59ac980453807ed3c55626f5a7cb3390e35fabc"
+        },
+        {
+          "path": "src/contractors/contractor-payment.ts",
+          "sha256": "8a520dc1f46f6089477917d610c36246bea4d991a0318bc02e2d087ef6ede004"
+        },
+        {
+          "path": "src/contractors/contractor.dto.ts",
+          "sha256": "53bba7b8257471b54c937f6ef6529e0295361af007532a19617c4651160ecbfd"
+        },
+        {
+          "path": "src/contractors/contractor.schemas.ts",
+          "sha256": "e19c0152154cecb00e3ede5fbc90e19aba15d620985ac22269b8e2a3a4145084"
+        },
+        {
+          "path": "src/contractors/contractors.controller.ts",
+          "sha256": "168c74fb300cfe0769985c819f4b3491aa8beea71650b93c6b39328b05780efe"
+        },
+        {
+          "path": "src/contractors/contractors.integration.spec.ts",
+          "sha256": "fc0160ecb57972fb288fa752dcc387762b79079ce30295f99079309d4dc0583c"
+        },
+        {
+          "path": "src/contractors/contractors.module.ts",
+          "sha256": "8d5a712a9d09d88912797cd4f947a73eea4d8990400ba52912ca21819dd04d66"
+        },
+        {
+          "path": "src/contractors/contractors.service.ts",
+          "sha256": "550e402461bffe46898ad57616b7efabbb079cf8296114d661f4292a2f03a556"
+        }
+      ]
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "branch": "main",
+      "head": "4378dd2dd78b614095980216c546514041de7d87",
+      "status": "M e2e/authentication.spec.ts\n M e2e/employees-remediation.spec.ts\n M e2e/indian-format-search.spec.ts\n M e2e/statutory-deductions.spec.ts\n M src/app/app.config.ts\n M src/app/employees/employee-list.html\n M src/app/employees/employee-list.ts\n M src/app/shared/settings-tabs.ts\n?? docs/features/CONTRACTOR_MANAGEMENT.md\n?? docs/features/CONTRACTOR_MANAGEMENT_IMPLEMENTATION_REPORT.md\n?? docs/features/CONTRACTOR_MANAGEMENT_SCREENSHOTS.md\n?? docs/features/contractor-management/evidence/backend-build-final.log\n?? docs/features/contractor-management/evidence/backend-contractors-final.json\n?? docs/features/contractor-management/evidence/backend-e2e.json\n?? docs/features/contractor-management/evidence/backend-full-final.json\n?? docs/features/contractor-management/evidence/baseline-comparison.json\n?? docs/features/contractor-management/evidence/browser-focused-final.json\n?? docs/features/contractor-management/evidence/browser-full-final.json\n?? docs/features/contractor-management/evidence/continuation/continuation-backend-build.log\n?? docs/features/contractor-management/evidence/continuation/continuation-backend-e2e.json\n?? docs/features/contractor-management/evidence/continuation/continuation-backend-e2e.log\n?? docs/features/contractor-management/evidence/continuation/continuation-backend-full.json\n?? docs/features/contractor-management/evidence/continuation/continuation-backend-full.log\n?? docs/features/contractor-management/evidence/continuation/continuation-browser-full.json\n?? docs/features/contractor-management/evidence/continuation/continuation-browser-recheck.json\n?? docs/features/contractor-management/evidence/continuation/continuation-contractors.json\n?? docs/features/contractor-management/evidence/continuation/continuation-contractors.log\n?? docs/features/contractor-management/evidence/continuation/continuation-frontend-build-final.log\n?? docs/features/contractor-management/evidence/continuation/continuation-frontend-contractors.log\n?? docs/features/contractor-management/evidence/continuation/continuation-frontend-unit-final.log\n?? docs/features/contractor-management/evidence/continuation/continuation-frontend-unit.log\n?? docs/features/contractor-management/evidence/continuation/employee-payroll-comparison.json\n?? docs/features/contractor-management/evidence/continuation/validation-and-status.json\n?? docs/features/contractor-management/evidence/employee-payroll-comparison.json\n?? docs/features/contractor-management/evidence/file-inventory.json\n?? docs/features/contractor-management/evidence/frontend-build-final.log\n?? docs/features/contractor-management/evidence/frontend-unit-final.json\n?? docs/features/contractor-management/evidence/screenshot-manifest.json\n?? docs/features/contractor-management/screenshots/add-component-1280.png\n?? docs/features/contractor-management/screenshots/add-component-1440.png\n?? docs/features/contractor-management/screenshots/add-component-390.png\n?? docs/features/contractor-management/screenshots/add-component-768.png\n?? docs/features/contractor-management/screenshots/add-contractor-1280.png\n?? docs/features/contractor-management/screenshots/add-contractor-1440.png\n?? docs/features/contractor-management/screenshots/add-contractor-390.png\n?? docs/features/contractor-management/screenshots/add-contractor-768.png\n?? docs/features/contractor-management/screenshots/confirmation-1280.png\n?? docs/features/contractor-management/screenshots/confirmation-1440.png\n?? docs/features/contractor-management/screenshots/confirmation-390.png\n?? docs/features/contractor-management/screenshots/confirmation-768.png\n?? docs/features/contractor-management/screenshots/directory-1280.png\n?? docs/features/contractor-management/screenshots/directory-1440.png\n?? docs/features/contractor-management/screenshots/directory-390.png\n?? docs/features/contractor-management/screenshots/directory-768.png\n?? docs/features/contractor-management/screenshots/empty-directory.png\n?? docs/features/contractor-management/screenshots/empty-payments.png\n?? docs/features/contractor-management/screenshots/failed-submission.png\n?? docs/features/contractor-management/screenshots/general-payment-1280.png\n?? docs/features/contractor-management/screenshots/general-payment-1440.png\n?? docs/features/contractor-management/screenshots/general-payment-390.png\n?? docs/features/contractor-management/screenshots/general-payment-768.png\n?? docs/features/contractor-management/screenshots/immutable-history-after-settings-edit.png\n?? docs/features/contractor-management/screenshots/payment-detail-1280.png\n?? docs/features/contractor-management/screenshots/payment-detail-1440.png\n?? docs/features/contractor-management/screenshots/payment-detail-390.png\n?? docs/features/contractor-management/screenshots/payment-detail-768.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/assigned-deductions.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/confirmation-1280.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/confirmation-1440.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/confirmation-390.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/confirmation-768.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/deduction-settings.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/directory-1280.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/directory-1440.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/directory-390.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/directory-768.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/failed-submission.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/general-payment-1280.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/general-payment-1440.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/general-payment-390.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/general-payment-768.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/immutable-history.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/individual-payment-1280.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/individual-payment-1440.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/individual-payment-390.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/individual-payment-768.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/legacy-history.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/mixed-selection-gross-deductions-1280.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/mixed-selection-gross-deductions-1440.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/mixed-selection-gross-deductions-390.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/mixed-selection-gross-deductions-768.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/negative-net-validation.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-detail-1280.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-detail-1440.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-detail-390.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-detail-768.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-entry-1280.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-entry-1440.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-entry-390.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-entry-768.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payments-1280.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payments-1440.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payments-390.png\n?? docs/features/contractor-management/screenshots/payment-enhancement-continuation/payments-768.png\n?? docs/features/contractor-management/screenshots/payments-1280.png\n?? docs/features/contractor-management/screenshots/payments-1440.png\n?? docs/features/contractor-management/screenshots/payments-390.png\n?? docs/features/contractor-management/screenshots/payments-768.png\n?? docs/features/contractor-management/screenshots/persistent-browser-history.png\n?? docs/features/contractor-management/screenshots/profile-assignments-1280.png\n?? docs/features/contractor-management/screenshots/profile-assignments-1440.png\n?? docs/features/contractor-management/screenshots/profile-assignments-390.png\n?? docs/features/contractor-management/screenshots/profile-assignments-768.png\n?? docs/features/contractor-management/screenshots/row-payment-1280.png\n?? docs/features/contractor-management/screenshots/row-payment-1440.png\n?? docs/features/contractor-management/screenshots/row-payment-390.png\n?? docs/features/contractor-management/screenshots/row-payment-768.png\n?? docs/features/contractor-management/screenshots/settings-1280.png\n?? docs/features/contractor-management/screenshots/settings-1440.png\n?? docs/features/contractor-management/screenshots/settings-390.png\n?? docs/features/contractor-management/screenshots/settings-768.png\n?? e2e/contractor-management.spec.ts\n?? src/app/contractors/contractor-api.ts\n?? src/app/contractors/contractor-deductions.ts\n?? src/app/contractors/contractor-directory.ts\n?? src/app/contractors/contractor-form.ts\n?? src/app/contractors/contractor-management.spec.ts\n?? src/app/contractors/contractor-payment-form.html\n?? src/app/contractors/contractor-payment-form.ts\n?? src/app/contractors/contractor-profile.html\n?? src/app/contractors/contractor-profile.ts\n?? src/app/contractors/contractor-settings.html\n?? src/app/contractors/contractor-settings.ts\n?? src/app/shared/ui/ps-dialog.scss\n?? src/app/shared/ui/ps-dialog.ts\n?? src/app/shared/ui/ps-feature-layout.scss\n?? src/app/shared/ui/ps-feature-layout.ts\n?? src/app/shared/ui/ps-kpi-card.ts\n?? src/app/shared/ui/ps-tabs.scss\n?? src/app/shared/ui/ps-tabs.ts",
+      "staged": "",
+      "files": [
+        {
+          "path": "e2e/authentication.spec.ts",
+          "sha256": "cf61af720d6aff9f77fa52b65683b6ed7108e058cc51751f762c803a32f33df7"
+        },
+        {
+          "path": "e2e/employees-remediation.spec.ts",
+          "sha256": "954e9c2b2ead9aaf70496eb4ca8bbcbc31b5774e9c4798a5f4a52aaede2ad835"
+        },
+        {
+          "path": "e2e/indian-format-search.spec.ts",
+          "sha256": "51eb6bc21465dec34e5ba9b786ac9372560dae9c043f7ca3f18e1753c28f47de"
+        },
+        {
+          "path": "e2e/statutory-deductions.spec.ts",
+          "sha256": "8c9bf57cb852c437ccab0bf0471c1dfe554ca757eec4f21f07ae764abcd22c41"
+        },
+        {
+          "path": "src/app/app.config.ts",
+          "sha256": "ca2360271d07acb54ee986168c5c018e64f7cb4d5852ad7d8f904282baaf2d79"
+        },
+        {
+          "path": "src/app/employees/employee-list.html",
+          "sha256": "bb497821327145d892b2cd4054fc8534a3af160a6471d5172b255670ecb3c615"
+        },
+        {
+          "path": "src/app/employees/employee-list.ts",
+          "sha256": "d8a82a4a41d0e8f4e35503e523e13b6bf0362a6942b202e69eb51e015cea720b"
+        },
+        {
+          "path": "src/app/shared/settings-tabs.ts",
+          "sha256": "51d2c88d5c6e96aa69fbd5624c64ad6f28886c89bb073b0ed40221336cfc1090"
+        },
+        {
+          "path": "docs/features/CONTRACTOR_MANAGEMENT.md",
+          "sha256": "668b147eb198f648bf7bb254c0b310c89870861167386c256c994e67aad160dd"
+        },
+        {
+          "path": "docs/features/CONTRACTOR_MANAGEMENT_IMPLEMENTATION_REPORT.md",
+          "sha256": "d36484777390ecba93dee43ca17e8e7ecc83b35303e6827377b5b8bdc647519f"
+        },
+        {
+          "path": "docs/features/CONTRACTOR_MANAGEMENT_SCREENSHOTS.md",
+          "sha256": "f4ebd491e72d6d2bd5207936a0857e7aab72f739979214f31365a262139188ec"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/backend-build-final.log",
+          "sha256": "97682ec999d8e213467a2092fa63f92a92998f5c54cd0360ae0a1aaf3d68e5ca"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/backend-contractors-final.json",
+          "sha256": "85c343d3c1bcf3eede36cbf780e5a261630f26b01d671a0c2c4b2424ca969e51"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/backend-e2e.json",
+          "sha256": "a48cea8e01eaf899f79cc839c7d8344326a0af5a8718a2bef29cf4d4cf02c4b4"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/backend-full-final.json",
+          "sha256": "f8437726296bd2c87bf5362a56698a8cf02886f10aeeac24875061fcbe8921b2"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/baseline-comparison.json",
+          "sha256": "9ad6a3073eaf8b037e48a4b1b40657a4b8528b61dcb9de2ac17a9879205bdc44"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/browser-focused-final.json",
+          "sha256": "bff3aed8f552727f870da6d2034fdce6e578d5b903d439e551f9d32d2e3557e2"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/browser-full-final.json",
+          "sha256": "1d96d11188ac9fe8f9b2a50a7d9c28ae4d9de3515c7302e38e32dbe0fb06dca1"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/continuation/continuation-backend-build.log",
+          "sha256": "97682ec999d8e213467a2092fa63f92a92998f5c54cd0360ae0a1aaf3d68e5ca"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/continuation/continuation-backend-e2e.json",
+          "sha256": "3ba4b11796e8bd5a676ab1187c7f769ceafba9c10432aa83cb35d47c4a1caf10"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/continuation/continuation-backend-e2e.log",
+          "sha256": "fb5945e5c6173f71110974d6242bcbe83dd906ed4517ed775ee83c1c1165f666"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/continuation/continuation-backend-full.json",
+          "sha256": "bc364b6761712b46fdaf80243dc350f4bf8ce18b8d59ad796fae4e23dcaeac03"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/continuation/continuation-backend-full.log",
+          "sha256": "74072578c6015a2defb300523f652841190481117cb52709f640e6631ac5f247"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/continuation/continuation-browser-full.json",
+          "sha256": "0c2e5e4e9bb33e4f27eda0032136978e7a5a43525589f9dae01658702d096f0f"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/continuation/continuation-browser-recheck.json",
+          "sha256": "4a17d9bd20d8da55e7f1de7e97534541d575484183c8020ae814f7d398b1adf5"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/continuation/continuation-contractors.json",
+          "sha256": "baeb60c7fb144974e932ac8aeb1422952e6122c2ba7f1aa55c0f6277bbef2225"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/continuation/continuation-contractors.log",
+          "sha256": "b013157b6790a083c2bac6126605b8d128e964e084698e84f76e0f30d3aff226"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/continuation/continuation-frontend-build-final.log",
+          "sha256": "0893f4a3f22fcb0bbcdccbf574c0c004dffc471cf72a6e0e37da18c68131ca9b"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/continuation/continuation-frontend-contractors.log",
+          "sha256": "37e0697a59c5417b925901060db56680c91d6001abc0823db115d365f48c14d1"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/continuation/continuation-frontend-unit-final.log",
+          "sha256": "2263deac43bcbf7b6ec9db89a9a09f7a6707b7ae6d14c7059ce379b798dd72fc"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/continuation/continuation-frontend-unit.log",
+          "sha256": "263bd7985fb5037858e011853c6b9f9a5a5a66bd6ad7dfacd60caff2dd3ec90d"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/continuation/employee-payroll-comparison.json",
+          "sha256": "e81eda7421218e33625770cf5826db219e175fb91e7a9a2924b3a0ce2a6136ff"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/continuation/validation-and-status.json",
+          "sha256": "40629c623d420961e7da6bbfe7cd10e15b801917689bd2a54d9b58baf3cad530"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/employee-payroll-comparison.json",
+          "sha256": "e81eda7421218e33625770cf5826db219e175fb91e7a9a2924b3a0ce2a6136ff"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/file-inventory.json",
+          "sha256": "905eae07429f5868fc52d0c9932b1dbec988b03a95dd874b8350a4e766c6a121"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/frontend-build-final.log",
+          "sha256": "7bad2d4f66e01d0a93c558de4856ad288ae9801a28eec77b94cb542fb8a76993"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/frontend-unit-final.json",
+          "sha256": "cd9c3c3e7f223129ca96832446d87babe3d919a701aed3243a3969b53da8576e"
+        },
+        {
+          "path": "docs/features/contractor-management/evidence/screenshot-manifest.json",
+          "sha256": "432eef48aa0794620455a4030d0e136e0c5ac558650fc6f1840e000663eec5cd"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/add-component-1280.png",
+          "sha256": "7b5942a20e0afbfcc901131c68562aced5f2bd543a5568ae8b30ec5344efc955"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/add-component-1440.png",
+          "sha256": "9f2db06fb7dba9cd94dac06b6336879134e88a16b57d137203e3a6ea850adb07"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/add-component-390.png",
+          "sha256": "440f1f2b6d4030322cfdea277a5cc1754393449446a480cab288248f8d6fadec"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/add-component-768.png",
+          "sha256": "19cdf40c64127cc3a2e27471af735fc65328eb94d1ac907e5bfb6cbd34000f06"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/add-contractor-1280.png",
+          "sha256": "ad48bf71449dffea863251ca2630c09d0101ee99ac6402c62dc2df80c5ea4636"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/add-contractor-1440.png",
+          "sha256": "58a72722e4de8d4472a207300bc15024acd834644d719a4ac1bfd058e40576a9"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/add-contractor-390.png",
+          "sha256": "763253e96ac7db6297a8f7b1d8858aef40b300701f1a14ca3a8cb36910c8572f"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/add-contractor-768.png",
+          "sha256": "29edf92435a1e5dd40cccb94cce02d5d68442c5b59ef37b7830ca456c3cbe7b0"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/confirmation-1280.png",
+          "sha256": "95b246110d39c0aa8c202701c0e32232029225cffce4daecac01271e949a1756"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/confirmation-1440.png",
+          "sha256": "c1a2eb75ce6990b4cd292aa0bea2be8f373127f0841d190432e49cd64baa2118"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/confirmation-390.png",
+          "sha256": "d5ed18c9770c3fe66906d8aa29596dde9ee8db1af2f095377d47cfb8ca810067"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/confirmation-768.png",
+          "sha256": "a8b52311c78c116aea67becde7c18a7e7b4d85439eaf62e8896a43eda17aafa6"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/directory-1280.png",
+          "sha256": "326c811695ab5f649d58c54952f19bcd4f38bf6452d2ae35fb627c3a8ef2063b"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/directory-1440.png",
+          "sha256": "5c3de6945c725b31a3fbd2eda9ed0fe4e621c994587ebd86bc30e64362f1d368"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/directory-390.png",
+          "sha256": "97a8a4fcf1bdaca28478379d0bf5a672b5a3ebf991b82ecf91451207c1256813"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/directory-768.png",
+          "sha256": "303ec340c5be8ade4cb1ed0cd0da571803a3697a1b901deefbe6b1737a47c466"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/empty-directory.png",
+          "sha256": "5d20277af70519dfcd4bdf4348b5fb095a353e50f50dba6de01917bd2d25be36"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/empty-payments.png",
+          "sha256": "2c5295663dfec6f78dcb253016c1b3f5aa8ceb5404e8ac533efbbef598648cd8"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/failed-submission.png",
+          "sha256": "92e8a5cfbd954e97d23edef1c48ab5ab38ba136ccf0c12f99745d0b2799f6b29"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/general-payment-1280.png",
+          "sha256": "be7a495d3ed160a760d5aa5d382942bb9b575e8d300ff0f94781419f3a38ea96"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/general-payment-1440.png",
+          "sha256": "9c1843072a719f3ea7f6677b6ec87f1c85406a3f6901c4f811ef3e4e007be529"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/general-payment-390.png",
+          "sha256": "b8d86f7cb92a97359540acdc6fc6a2afcadb8af0fd19ea307f4281843a758a5a"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/general-payment-768.png",
+          "sha256": "9471c06b12efe94ef2bba19e3617604564a8da8eb8ae9ca63b52a7637c698036"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/immutable-history-after-settings-edit.png",
+          "sha256": "af19afeaaa58518542057f1a6b099bb3528f4292b9f5db3f9959fb2e6ccd620d"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-detail-1280.png",
+          "sha256": "9724bde5690d00bc59f614036073ad2ff860f698959f5a7d287d29b7f02c7d73"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-detail-1440.png",
+          "sha256": "a98db772029732d3c53ae27bc11d0bcfc1edcf1b00ea63338a2da628c6e377c1"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-detail-390.png",
+          "sha256": "b48f50692eab80202c787e536fa768eddbfb04b99b8b5f7e12a35fcdc54d7ef5"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-detail-768.png",
+          "sha256": "443f695373ea04651c399667a22028ab05d6d4b380f214e928962abc0faf0c30"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/assigned-deductions.png",
+          "sha256": "68214994dc39d524bc89ef7ff345f70d490cdc0f13aebce7f4783b6270cad93e"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/confirmation-1280.png",
+          "sha256": "d7f30acd115d04ec661b39c57a0089759e609a78f006f03cacfa580e90d34697"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/confirmation-1440.png",
+          "sha256": "513b85571ad71c17892544cacab26a47ee830e396d9b73af014faeccb6a6d2f6"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/confirmation-390.png",
+          "sha256": "bc9266b1225be9867472a1925b32e05e145ac55ffbe6ba68ff7bb856748a717b"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/confirmation-768.png",
+          "sha256": "f1f10157dce566d61d03194a5b9c74407fef0e30f2485860078669bff95b1acb"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/deduction-settings.png",
+          "sha256": "97f77b3af616c1fcb7fead199929b4dc40f93885156c6d5015b08645ec638f7f"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/directory-1280.png",
+          "sha256": "7db02cce62937bf90d4990c191fe235c0604c5ccf6b023837f96265db5c8ac19"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/directory-1440.png",
+          "sha256": "84c897f1da568c0cbff639100ce358836fdc8fa964ea033ff00fa28b040bf697"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/directory-390.png",
+          "sha256": "a55e393a1add53cf51c689be029068ea03aaa743c66372873a47cbbe0c304998"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/directory-768.png",
+          "sha256": "10bd11984ba3afb0cbe633fcdeae667eb7ee2bc332f71fb17ddc0c476364f8c2"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/failed-submission.png",
+          "sha256": "f83c93fb1763e1dafc3fae8d20729009385e6ffaed85f71c071df81b24495fdc"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/general-payment-1280.png",
+          "sha256": "e95f0c53ae13c7b1de902fc0ab62b6156fa7713983ab6679529ffb758d5dd54a"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/general-payment-1440.png",
+          "sha256": "11f084f77573484b3e0cf444d49ea2cdb714c7161a85a704f35a0fcca9299b0e"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/general-payment-390.png",
+          "sha256": "7aa2616b4910feb3ab3dcdeadfc42d2b9ab07b3e86896cd2fcb4aa540278ae9a"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/general-payment-768.png",
+          "sha256": "4f4fe1d59f7d6b116bdf6ecc02caef981f4af96d40489d6c083e346d25d3bc80"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/immutable-history.png",
+          "sha256": "50d83ae4639b954b3120bf0e9616f63d3edb35fdc70c00237d88d404d55dbd73"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/individual-payment-1280.png",
+          "sha256": "235fd3cb66b84673ddfe1f115e2cabf95bd1a54af923fcf18fac062e46bbdfba"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/individual-payment-1440.png",
+          "sha256": "30d21197d54c95580cabd5c1ca916d67385beab2dc240296bb78a04fc7eaf139"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/individual-payment-390.png",
+          "sha256": "180a322c1605403437f6d2288c80c333fd0fd5f7c8da6fc05e070223133d647d"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/individual-payment-768.png",
+          "sha256": "2abf1f5d210238e02f76ff65e638e8124ea6c9eddb710ac45246f150c0a077aa"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/legacy-history.png",
+          "sha256": "e6ad8be8c3f475ba04b919d5463b02264a6b7d0409fc76fec79c068554920c91"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/mixed-selection-gross-deductions-1280.png",
+          "sha256": "790b06d2a58f8716930435e8fb1761e80f3f63a10f5857ecb80ae4153bfe4072"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/mixed-selection-gross-deductions-1440.png",
+          "sha256": "34dd00587ae648f5c187c465f41e06598d6d2dc60b70294f56462d7bbed81827"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/mixed-selection-gross-deductions-390.png",
+          "sha256": "57ecb295eae61d7f599d4f3a060824f36254aa917f4e7db2fef7dd951a90f71a"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/mixed-selection-gross-deductions-768.png",
+          "sha256": "184b8638199207a7f5dfa1db147cda446e3aed82266ac7d7f70177dc3f596e8d"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/negative-net-validation.png",
+          "sha256": "1d14f990dab8cea952be0a262ee3babf60f1092efdeeda1f041a1fcbabb14fdb"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-detail-1280.png",
+          "sha256": "da918e2d42641805f041385865d545aad18e12721e7d4290225b0ea9330127ac"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-detail-1440.png",
+          "sha256": "d40fd7353969eca04ed1e267c1ef0c7d88ea302c71d43bc2165b1c4d13a23e38"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-detail-390.png",
+          "sha256": "919e809b7f9eec806cd6ce900a1d9fbc496334fe5ba8d683caf0e84b1c8e8412"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-detail-768.png",
+          "sha256": "a78b6260d37722ffb5ec7045d3e0e09a2aeb2cbefc88417e38c19d75aed0f4d8"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-entry-1280.png",
+          "sha256": "4ef53918afe63d76b940df1e3997ce77539bf92cee68a4168070b5c4170af229"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-entry-1440.png",
+          "sha256": "d27061d398dce7b5beedaf17e3644d71e519045663659a09b9b40002836a331f"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-entry-390.png",
+          "sha256": "43a8f920daf8f445521314e65645f8f5e04f06d6b66f976f619c59a95cfe6ca7"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/payment-entry-768.png",
+          "sha256": "60e9d33368507a259705358d8d50b720ee513a48cd814e698a1b3699321d7740"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/payments-1280.png",
+          "sha256": "f32feb2b2ce388c71fd9f48ce16ec26cb1ef0f29015c4f3e7fc5859d5a392024"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/payments-1440.png",
+          "sha256": "2c3d2583626d597c3fa6be08637843abe02c4f9d1e78ec481b2e0183d92246bd"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/payments-390.png",
+          "sha256": "cd875fa33a91784e5c2c4c25b6283bbd7f1117d183cc128f36d4b1ae7d51b6b5"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payment-enhancement-continuation/payments-768.png",
+          "sha256": "9ec105a4b6d8a423e9d732c12356b9388abceb475c407717ac036bbcaa389576"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payments-1280.png",
+          "sha256": "c8c6a9f0ac1c54edd941707d94fd301f44c2a3659d9ca30ecc0881b6c4ca66f2"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payments-1440.png",
+          "sha256": "f517efdd645b1579928686068a34d17ab0f955a6804393e042b33cd20484ed08"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payments-390.png",
+          "sha256": "a63870fd9b1b2f0717217d4752038e7180c7705cb5e70e0977c7adefa8ab5e78"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/payments-768.png",
+          "sha256": "da065bf10d529c5b904482891d6e66931620bb59b1be8afe6efe6e470e0f9cf3"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/persistent-browser-history.png",
+          "sha256": "3aa073884987c1d76001cf9c83c98789743f061786c7ef796e6e0113701e35a0"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/profile-assignments-1280.png",
+          "sha256": "fe65bca848b5277c5818c8c5ee0f2d0340ad2e30c9ff4f2ba52a308083bd7c49"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/profile-assignments-1440.png",
+          "sha256": "84fe27fc72c11094273e37f7ded0ca57f0eac85ba96d980c0a23a32c4d01d532"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/profile-assignments-390.png",
+          "sha256": "f8e90e183ca4f62775cd45f593764f47f6d4ade754f78cb978080de4e6b59a10"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/profile-assignments-768.png",
+          "sha256": "6a4bff03638e4bb7ced96f9782ad20dfed99a63f555f567f32cadf6af97a3b15"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/row-payment-1280.png",
+          "sha256": "03171eca370c24c318232b4cca79e70b4a52907b0aa00b7ec3ab8603d79bfba5"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/row-payment-1440.png",
+          "sha256": "033e4e058cb412f417935f3abe8781e65a39585365177d4c2750beea2f0d614b"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/row-payment-390.png",
+          "sha256": "63e5f1a00577e4f1981319e8c4b6208086ded396e3e3c7014c0f6d4e7498523b"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/row-payment-768.png",
+          "sha256": "d4a9abc6386c3d6e966b0bb90ceed5a0556a902ddce363db83f9c1e594d82d5b"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/settings-1280.png",
+          "sha256": "ba00e9a00f55e388ed1b82caa410e5375152600a44b274a17ef44b3e0a3aeda7"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/settings-1440.png",
+          "sha256": "b59389193813b76d0e1f1ac08056c876406cf1e82bb323e5fb113f60a90909b1"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/settings-390.png",
+          "sha256": "d2adc470e22b6066bcdf84591a2eadfe8ee365bc976154359d1c049e09c9c947"
+        },
+        {
+          "path": "docs/features/contractor-management/screenshots/settings-768.png",
+          "sha256": "52f8b746a22791aa831539fb43b4fff81495003f799e36273b67a2ff58840726"
+        },
+        {
+          "path": "e2e/contractor-management.spec.ts",
+          "sha256": "eaf178ae04df00c12e50b0dcff69d367bd82d0b91c40c1a772218a840598d8d4"
+        },
+        {
+          "path": "src/app/contractors/contractor-api.ts",
+          "sha256": "9fad6f28fb29655b36acab64b860edcdb7886b12b1abecbac87a23dae6c1ede1"
+        },
+        {
+          "path": "src/app/contractors/contractor-deductions.ts",
+          "sha256": "0e4b485f28933e463ee0652a2ff080cced1a6d36a3e139b5f3c672263ba1abaa"
+        },
+        {
+          "path": "src/app/contractors/contractor-directory.ts",
+          "sha256": "c459304acf6cdc13a480658cf0fa268953ad07bff5109295ec8aae7236f826f8"
+        },
+        {
+          "path": "src/app/contractors/contractor-form.ts",
+          "sha256": "4ac18c764501effe1a6759e2918be821ca166a451a06ad148efe8ee87da0cf58"
+        },
+        {
+          "path": "src/app/contractors/contractor-management.spec.ts",
+          "sha256": "8b8900b49217dcd7669f90410dd7cabc8c5a61443c2a2596a0604fb504a05f2e"
+        },
+        {
+          "path": "src/app/contractors/contractor-payment-form.html",
+          "sha256": "d3b54cb2d0d09e8608f5bfab39ee592f0ef3c60ffdf19a319ab60360607f2b09"
+        },
+        {
+          "path": "src/app/contractors/contractor-payment-form.ts",
+          "sha256": "ebf00384759b07300e9c4f7738090e0ca66ae1c49e72d830cc38d413f6d141d4"
+        },
+        {
+          "path": "src/app/contractors/contractor-profile.html",
+          "sha256": "1e1dac38647b9c39b18820431093ab3beb1c1e2fce103a0f61ba16c10a721081"
+        },
+        {
+          "path": "src/app/contractors/contractor-profile.ts",
+          "sha256": "44624570c37e2124850e10a66d9b9114be731f316a5994566e128732c0212e65"
+        },
+        {
+          "path": "src/app/contractors/contractor-settings.html",
+          "sha256": "931229e8bee6d0c3c6fa4c29e1af3c5705a8d5cca0cdafcdc282e92b36dbddf7"
+        },
+        {
+          "path": "src/app/contractors/contractor-settings.ts",
+          "sha256": "af96895008b4428a73ae1b789d24d64c13e9b9ac35710d069b6f248a9445e011"
+        },
+        {
+          "path": "src/app/shared/ui/ps-dialog.scss",
+          "sha256": "5fb2f3730167b187a8b9912e7d42c2239bc81c0f9051c6108d30e022c3f80dca"
+        },
+        {
+          "path": "src/app/shared/ui/ps-dialog.ts",
+          "sha256": "ad45aa19dfd7ec665abd1094345abc9088711022e3097b95658cb7c7b1c37609"
+        },
+        {
+          "path": "src/app/shared/ui/ps-feature-layout.scss",
+          "sha256": "c400e7bc6ae7e127aa038f0ba08e443fdf7e14f39a2931ca44650445c24dd8a6"
+        },
+        {
+          "path": "src/app/shared/ui/ps-feature-layout.ts",
+          "sha256": "2c8361ab04d5b3239d784a31f5d816abc40425b3b6b0ab55cb193f3c408ce7d2"
+        },
+        {
+          "path": "src/app/shared/ui/ps-kpi-card.ts",
+          "sha256": "f513e18bebb6e62cc915f00712badbfdc522654804b0405f854b8df8814213ea"
+        },
+        {
+          "path": "src/app/shared/ui/ps-tabs.scss",
+          "sha256": "20644d7fe4277b979993ae2b68d6da53683fad583ecefc7d048cb33f79b802ff"
+        },
+        {
+          "path": "src/app/shared/ui/ps-tabs.ts",
+          "sha256": "7cdf743ddb60a757dac02a863a26d110d1ffdda7437f01c58e39abd8890842ef"
+        }
+      ]
+    }
+  ]
+}

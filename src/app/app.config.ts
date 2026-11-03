@@ -24,6 +24,9 @@ export const routes: Routes = [
   ] },
   { path: '', component: WorkspaceLayout, canActivateChild: [authenticated], children: [
     { path: '', component: EmployeeList },
+    { path: 'contractors', loadComponent: () => import('./contractors/contractor-directory').then(m => m.ContractorDirectory) },
+    { path: 'contractors/:id', loadComponent: () => import('./contractors/contractor-profile').then(m => m.ContractorProfile) },
+    { path: 'settings/contractors', canActivate: [administrator], loadComponent: () => import('./contractors/contractor-settings').then(m => m.ContractorSettings) },
     { path: 'payroll', loadChildren: () => import('./features/run-payroll/run-payroll.routes').then(m => m.RUN_PAYROLL_ROUTES) },
     { path: 'employees/:id', component: EmployeeProfile, canDeactivate: [(component: EmployeeProfile) => component.canLeave()] },
     { path: 'settings', component: Settings },

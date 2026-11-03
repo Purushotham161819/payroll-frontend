@@ -1,0 +1,366 @@
+{
+  "frontendUnit": {
+    "passed": 445,
+    "passedLogVerified": true
+  },
+  "backend": {
+    "passed": 510,
+    "failed": 6,
+    "skipped": 15,
+    "failures": [
+      "src/organization.spec.ts::Deployment organization display configuration uses the requested initial name when no customer name is configured",
+      "src/organization.spec.ts::Deployment organization display configuration reads the configured customer identity without changing component source or accounts",
+      "src/salary-components/salary-calculation.service.spec.ts::Salary calculation foundation resolves reversed dependencies and includes hidden deductions",
+      "src/salary-components/salary-calculation.service.spec.ts::Salary calculation foundation distinguishes fixed monthly and annual values",
+      "src/salary-components/salary-calculation.service.spec.ts::Salary calculation foundation rejects cycles, missing and inactive dependencies",
+      "src/salary-components/salary-calculation.service.spec.ts::Salary calculation foundation rejects invalid numbers and percentages and skips inactive outputs"
+    ],
+    "newFailures": []
+  },
+  "backendE2e": {
+    "passed": 49,
+    "failed": 1,
+    "skipped": 1,
+    "failures": [
+      "test/auth.e2e-spec.ts::Authentication and complete route audit (isolated Mongo database) discovers every registered route, allows only login publicly, and admits authenticated requests"
+    ],
+    "newFailures": []
+  },
+  "contractorBackend": {
+    "passed": 68,
+    "failed": 0,
+    "skipped": 0,
+    "failures": []
+  },
+  "browser": {
+    "startTime": "2026-11-03T16:09:09.698Z",
+    "duration": 646162.7679999999,
+    "expected": 144,
+    "skipped": 4,
+    "unexpected": 6,
+    "flaky": 0,
+    "failures": [
+      "final-ui.spec.ts::monthly CTC, icon actions, guide and exact payroll return context survive profile navigation and refresh",
+      "indian-format-search.spec.ts::Run Payroll KPIs, dynamic rows and Pay Check history use Indian grouping without changing numeric requests",
+      "indian-format-search.spec.ts::salary settings, statutory amounts and tax revision displays share Indian currency presentation",
+      "management-delete.spec.ts::employee delete confirmation cancels safely, reports errors, deletes once and refreshes selected rows",
+      "profile-payroll-ui.spec.ts::revisit a submitted month, save checkbox changes, and submit only unprocessed employees",
+      "ui-refinements.spec.ts::formula help opens with keyboard, explains MIN/MAX/IF and closes without changing the expression"
+    ],
+    "newFailures": []
+  },
+  "contractorBrowser": {
+    "startTime": "2026-11-03T16:12:34.677Z",
+    "duration": 135818.42299999998,
+    "expected": 22,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "payroll": {
+    "snapshots": 10,
+    "byteIdentical": true,
+    "sha256": "e81eda7421218e33625770cf5826db219e175fb91e7a9a2924b3a0ce2a6136ff"
+  },
+  "sourceProtection": [
+    {
+      "root": "D:/projects/payroll-backend",
+      "path": "src/app.module.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-backend",
+      "path": "src/contractors/contractor-access.guard.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-backend",
+      "path": "src/contractors/contractor-deductions.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-backend",
+      "path": "src/contractors/contractor-payment.spec.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-backend",
+      "path": "src/contractors/contractor-payment.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-backend",
+      "path": "src/contractors/contractor-status.integration.spec.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-backend",
+      "path": "src/contractors/contractor.dto.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-backend",
+      "path": "src/contractors/contractor.schemas.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-backend",
+      "path": "src/contractors/contractors.controller.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-backend",
+      "path": "src/contractors/contractors.integration.spec.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-backend",
+      "path": "src/contractors/contractors.module.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-backend",
+      "path": "src/contractors/contractors.service.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "e2e/authentication.spec.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "e2e/employees-remediation.spec.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "e2e/indian-format-search.spec.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "e2e/statutory-deductions.spec.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/app.config.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/employees/employee-list.html",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/employees/employee-list.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/shared/settings-tabs.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/shared/ui/ps-card.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/shared/ui/ps-icon-button.spec.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/shared/ui/ps-icon-button.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "e2e/contractor-management.spec.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "e2e/contractor-ui-refinements.spec.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/contractors/contractor-api.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/contractors/contractor-deductions.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/contractors/contractor-directory.html",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/contractors/contractor-directory.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/contractors/contractor-form.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/contractors/contractor-management.spec.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/contractors/contractor-payment-form.html",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/contractors/contractor-payment-form.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/contractors/contractor-profile.html",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/contractors/contractor-profile.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/contractors/contractor-settings.html",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/contractors/contractor-settings.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/shared/ui/ps-action-menu.scss",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/shared/ui/ps-dialog.scss",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/shared/ui/ps-dialog.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/shared/ui/ps-feature-layout.scss",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/shared/ui/ps-feature-layout.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/shared/ui/ps-kpi-card.ts",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/shared/ui/ps-tabs.scss",
+      "unchanged": true
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "src/app/shared/ui/ps-tabs.ts",
+      "unchanged": true
+    }
+  ],
+  "cleanup": [
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "artifacts/contractor-ui-refinements/update-payment.cjs",
+      "size": 3511,
+      "sha256": "6f5e36f25a03c722130575816f0333036261b5210f0fad2f4b442be0666f67f3",
+      "reason": "Obsolete one-time source transformation created during this session; not referenced by application, tests, build configuration or documentation; not a reproduction/check script."
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "artifacts/contractor-ui-refinements/update-tests.cjs",
+      "size": 1602,
+      "sha256": "aa09950a3b8a6c854fa9694366d3505ca469896b343817aa78843319c88b94e8",
+      "reason": "Obsolete one-time source transformation created during this session; not referenced by application, tests, build configuration or documentation; not a reproduction/check script."
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "artifacts/contractor-status/update-directory.cjs",
+      "size": 1844,
+      "sha256": "2811294394a731a53c0e7fc30708f82a1b39e49229f0773e4b120fd7c9fa2cda",
+      "reason": "Obsolete one-time source transformation created during this session; not referenced by application, tests, build configuration or documentation; not a reproduction/check script."
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "artifacts/contractor-status/update-modal.cjs",
+      "size": 2587,
+      "sha256": "7da1f627f7bd0ecab72026246f60f91891f9a0798a5a446930787acec03d4abc",
+      "reason": "Obsolete one-time source transformation created during this session; not referenced by application, tests, build configuration or documentation; not a reproduction/check script."
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "path": "artifacts/contractor-status/update-tests.cjs",
+      "size": 2215,
+      "sha256": "382baa26e47c640e734be824a14556b7d5dd24f2b50ef1d089e34f0a07ad3188",
+      "reason": "Obsolete one-time source transformation created during this session; not referenced by application, tests, build configuration or documentation; not a reproduction/check script."
+    }
+  ],
+  "security": [
+    {
+      "root": "D:/projects/payroll-backend",
+      "mode": "working-tree",
+      "fileCount": 14,
+      "extensions": {
+        ".ts": 12,
+        ".md": 2
+      },
+      "findings": [],
+      "emailDomains": [
+        "example.test"
+      ],
+      "deletedTracked": ""
+    },
+    {
+      "root": "D:/projects/payroll-frontend",
+      "mode": "working-tree",
+      "fileCount": 271,
+      "extensions": {
+        ".ts": 25,
+        ".html": 5,
+        ".md": 3,
+        ".log": 20,
+        ".json": 37,
+        ".png": 177,
+        ".scss": 4
+      },
+      "findings": [],
+      "emailDomains": [
+        "department.example.test",
+        "example.com",
+        "example.test"
+      ],
+      "deletedTracked": ""
+    }
+  ]
+}

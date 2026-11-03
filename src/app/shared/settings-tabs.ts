@@ -35,6 +35,9 @@ import { Auth } from '../auth/auth';
           >Tax Configuration</a
         >
       }
+      @if (auth.user()?.role === 'admin') {
+        <a routerLink="/settings/contractors" routerLinkActive="selected" ariaCurrentWhenActive="page">Contractor Settings</a>
+      }
     </nav>`,
   styles: [
     `

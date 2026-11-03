@@ -1,0 +1,30 @@
+dialog {
+  box-sizing: border-box;
+  width: min(calc(var(--search-width) * 2 + var(--space-12)), calc(100% - var(--space-8)));
+  max-height: calc(100dvh - var(--space-12));
+  padding: var(--space-6);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  background: var(--surface-card);
+  color: var(--ink);
+  font: var(--type-body);
+  box-shadow: var(--shadow-dialog);
+  overflow: auto;
+}
+dialog::backdrop {
+  background: color-mix(in srgb, var(--brand-900), transparent);
+}
+dialog.wide {
+  width: min(var(--content-max), calc(100% - var(--space-8)));
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+h2 {
+  font: var(--type-card-title);
+  margin: 0;
+}

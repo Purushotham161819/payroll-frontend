@@ -59,7 +59,7 @@ test('User Management uses the shared users icon with existing navigation states
   await link.hover();await expect(icon).toBeVisible();await link.click();
   await expect(page.getByRole('heading',{name:'User Management',exact:true})).toBeVisible();
   await expect(link).toHaveClass(/nav-active/);await expect(link).toHaveAttribute('aria-current','page');
-  await page.getByRole('link',{name:'Employees',exact:true}).click();await page.getByRole('searchbox').fill('Mira');
+  await page.getByRole('navigation', {name: 'Main navigation'}).getByRole('link', {name: 'Employees', exact: true}).click();await page.getByRole('searchbox').fill('Mira');
   await page.screenshot({path:'test-results/indian-format-search-desktop.png',fullPage:true});
   await page.setViewportSize({width:390,height:844});
   await expect(page.getByRole('searchbox')).toBeInViewport();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

@@ -1,0 +1,368 @@
+<ps-feature-layout
+  ><div class="ps-stack">
+    <a psButton variant="ghost" icon="back" routerLink="/contractors">Back to Contractors</a>
+    @if (error()) {
+      <p class="notice error" role="alert">
+        {{ error() }} <button psButton variant="secondary" (click)="load()">Reload</button>
+      </p>
+    }
+    @if (success()) {
+      <p class="notice success" role="status">{{ success() }}</p>
+    }
+    @if (loading()) {
+      <p role="status">Loading contractor...</p>
+    } @else if (contractor(); as c) {
+      <ps-page-header
+        [title]="c.firstName + ' ' + c.lastName"
+        [subtitle]="c.contractorId"
+      >
+        @if (tab() === 'payments') {
+          <button pageActions psButton (click)="paying.set(true)" [disabled]="c.status === 'Inactive'">
+            Pay Contractor
+          </button>
+        }
+      </ps-page-header><ps-tabs
+        label="Contractor profile"
+        prefix="contractor"
+        [items]="tabs"
+        [active]="tab()"
+        (activeChange)="changeTab($event)"
+      />
+      @if (tab() === 'details') {
+        <section
+          role="tabpanel"
+          id="contractor-details-panel"
+          aria-labelledby="contractor-details-tab"
+          class="ps-balanced-cards ps-equal-cards"
+        >
+          <ps-card
+            ><span cardTitle>Contractor Details</span
+            ><button
+              cardActions
+              psIconButton
+              action="edit"
+              size="sm"
+              label="Edit Contractor Details"
+              (click)="editing.set(true)"
+            ></button>
+            <dl class="ps-summary">
+              <div>
+                <dt>Contractor ID</dt>
+                <dd>{{ c.contractorId }}</dd>
+              </div>
+              <div>
+                <dt>First Name</dt>
+                <dd>{{ c.firstName }}</dd>
+              </div>
+              <div>
+                <dt>Last Name</dt>
+                <dd>{{ c.lastName }}</dd>
+              </div>
+              <div>
+                <dt>Email</dt>
+                <dd>{{ c.email }}</dd>
+              </div>
+              <div>
+                <div class="ps-actions">
+                  <dt>Contractor Status</dt>
+                  @if (auth.user()?.role === 'admin' && !editingStatus()) {
+                    <button
+                      psIconButton
+                      action="edit"
+                      size="sm"
+                      label="Edit Contractor Status"
+                      (click)="editStatus()"
+                      [disabled]="busy()"
+                    ></button>
+                  }
+                </div>
+                <dd>
+                  @if (editingStatus()) {
+                    <ps-form-field label="Contractor Status" layout="hidden-label"
+                      ><select psFieldControl name="contractorStatus" [(ngModel)]="statusDraft">
+                        <option>Active</option>
+                        <option>Inactive</option>
+                      </select></ps-form-field
+                    >
+                    <div class="ps-form-actions">
+                      <button
+                        psButton
+                        variant="secondary"
+                        (click)="editingStatus.set(false)"
+                        [disabled]="busy()"
+                      >
+                        Cancel Status</button
+                      ><button
+                        psButton
+                        (click)="saveStatus()"
+                        [loading]="busy()"
+                        [disabled]="busy()"
+                      >
+                        Save Status
+                      </button>
+                    </div>
+                  } @else {
+                    <ps-status-badge [status]="c.status || 'Active'" />
+                  }
+                </dd>
+              </div></dl></ps-card
+          ><ps-card
+            ><span cardTitle>Contractor Payment Components</span
+            ><button
+              cardActions
+              psIconButton
+              action="edit"
+              size="sm"
+              label="Edit Contractor Payment Components"
+              (click)="editAssignments()"
+              [disabled]="busy() || editingAssignments()"
+            ></button
+            ><span cardSubtitle
+              >Select deductions for this contractor. Active assigned rules calculate automatically
+              from Gross Pay.</span
+            >
+            <div class="ps-stack">
+              @for (p of available(); track p._id) {
+                <div class="ps-grid">
+                  <ps-form-field [label]="p.name + ' — ' + label(p.classification)" choice
+                    ><input
+                      psFieldControl
+                      type="checkbox"
+                      [name]="p._id"
+                      [ngModel]="selected().includes(p._id)"
+                      (ngModelChange)="toggle(p._id, $event)"
+                      [disabled]="
+                        !editingAssignments() ||
+                        busy() ||
+                        ((p.status !== 'active' || !!configurationError(p)) &&
+                          !selected().includes(p._id))
+                      "
+                  /></ps-form-field>
+                  <div>
+                    <ps-status-badge [status]="p.status" />
+                    @if (configurationError(p)) {
+                      <p class="ps-validation">{{ configurationError(p) }}</p>
+                    }
+                    <p class="ps-muted">
+                      {{ p.calculationType }}
+                      @if (p.calculationType === 'fixed') {
+                        — {{ p.calculationValue | psInr }}
+                      }
+                      @if (p.calculationType === 'percentage') {
+                        — {{ p.calculationValue }}%
+                      }
+                      @if (p.formula) {
+                        — {{ p.formula }}
+                      }
+                    </p>
+                  </div>
+                </div>
+              }
+              @if (!available().length) {
+                <p>
+                  No available contractor components. Ask an administrator to configure Contractor
+                  Settings.
+                </p>
+              }
+            </div>
+            @if (editingAssignments()) {
+              <div cardFooter class="ps-actions">
+                <button
+                  psButton
+                  variant="secondary"
+                  (click)="cancelAssignments()"
+                  [disabled]="busy()"
+                >
+                  Cancel</button
+                ><button
+                  psButton
+                  (click)="saveAssignments()"
+                  [loading]="busy()"
+                  [disabled]="busy()"
+                >
+                  Save Components
+                </button>
+              </div>
+            }
+          </ps-card>
+        </section>
+      } @else {
+        <section
+          role="tabpanel"
+          id="contractor-payments-panel"
+          aria-labelledby="contractor-payments-tab"
+        >
+          <ps-card
+            ><span cardTitle>Payments</span
+            ><span cardSubtitle>Recorded payments; records do not confirm bank transfers.</span>
+            @if (c.status === 'Inactive') {
+              <p class="ps-inline-notice">Inactive contractors cannot receive new payments.</p>
+            }
+            <ps-data-table
+              label="Contractor payments"
+              [empty]="!payments().length"
+              emptyLabel="No contractor payments recorded."
+              ><table class="ps-table" aria-label="Contractor payments">
+                <thead>
+                  <tr>
+                    <th>Payment ID</th>
+                    <th>Payment Date</th>
+                    <th>Description</th>
+                    <th class="num">Gross Pay</th>
+                    <th class="num">Total Deductions</th>
+                    <th class="num">Net Payment</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (p of payments(); track p.paymentId) {
+                    <tr>
+                      <td>{{ p.paymentId }}</td>
+                      <td>{{ p.paymentDate | psDate }}</td>
+                      <td>{{ p.description }}</td>
+                      <td class="num">
+                        @if (p.grossPay != null) {
+                          {{ p.grossPay | psInr }}
+                        } @else {
+                          <span class="ps-muted">Not recorded</span>
+                        }
+                      </td>
+                      <td class="num">{{ p.totalDeductions | psInr }}</td>
+                      <td class="num">{{ p.netPayment | psInr }}</td>
+                      <td>
+                        <button
+                          psIconButton
+                          action="view"
+                          size="sm"
+                          [label]="'View payment ' + p.paymentId"
+                          (click)="detail.set(p)"
+                        ></button>
+                      </td>
+                    </tr>
+                  }
+                </tbody></table></ps-data-table
+          ></ps-card>
+        </section>
+      }
+      @if (editing()) {
+        <app-contractor-form
+          [contractor]="c"
+          (cancelled)="editing.set(false)"
+          (saved)="saved($event)"
+        />
+      }
+      @if (paying()) {
+        <app-contractor-payment-form
+          [initialIds]="[c._id]"
+          (closed)="paying.set(false)"
+          (recorded)="paymentRecorded()"
+        />
+      }
+    }
+    @if (detail(); as p) {
+      <ps-dialog [title]="'Payment ' + p.paymentId" (closed)="detail.set(null)">
+        <div class="ps-stack">
+          <dl class="ps-summary ps-summary-pairs">
+            <div>
+              <dt>Contractor First Name</dt>
+              <dd>{{ p.firstName }}</dd>
+            </div>
+            <div>
+              <dt>Contractor Last Name</dt>
+              <dd>{{ p.lastName }}</dd>
+            </div>
+            <div>
+              <dt>Contractor ID</dt>
+              <dd>{{ p.contractorCode }}</dd>
+            </div>
+            <div>
+              <dt>Payment Date</dt>
+              <dd>{{ p.paymentDate | psDate }}</dd>
+            </div>
+            <div class="ps-full">
+              <dt>Description</dt>
+              <dd>{{ p.description }}</dd>
+            </div>
+          </dl>
+          <dl class="ps-summary ps-summary-compact">
+            <div>
+              <dt>Gross Pay</dt>
+              <dd>
+                @if (p.grossPay != null) {
+                  {{ p.grossPay | psInr }}
+                } @else {
+                  Not recorded (earlier component payment)
+                }
+              </dd>
+            </div>
+            <div>
+              <dt>Total Deductions</dt>
+              <dd>{{ p.totalDeductions | psInr }}</dd>
+            </div>
+            <div class="ps-net-summary">
+              <dt>Net Payment</dt>
+              <dd>
+                <strong>{{ p.netPayment | psInr }}</strong>
+              </dd>
+            </div>
+            @if (p.calculationVersion !== 2) {
+              <div>
+                <dt>Total Earnings</dt>
+                <dd>{{ p.totalEarnings | psInr }}</dd>
+              </div>
+              <div>
+                <dt>Total Allowances</dt>
+                <dd>{{ p.totalAllowances | psInr }}</dd>
+              </div>
+            }
+          </dl>
+          <section aria-label="Deductions">
+            <h3>Deductions</h3>
+            @if (p.components.length) {
+              <ps-data-table label="Saved payment components" [naturalWidth]="true"
+                ><table class="ps-table ps-table--compact" aria-label="Saved payment components">
+                  <thead>
+                    <tr>
+                      <th>Component</th>
+                      <th>Details</th>
+                      <th class="num">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (line of p.components; track line.componentId) {
+                      <tr>
+                        <td>{{ line.name }}</td>
+                        <td>
+                          {{ label(line.classification) }}
+                          @if (p.calculationVersion === 2) {
+                            <span class="ps-muted"
+                              >({{ line.calculationType }}
+                              @if (line.calculationType === 'percentage') {
+                                {{ line.calculationValue }}% of Gross Pay
+                              }
+                              @if (line.calculationType === 'fixed') {
+                                {{ line.calculationValue | psInr }}
+                              }
+                              @if (line.calculationType === 'formula') {
+                                {{ line.formula }}
+                              }
+                              )</span
+                            >
+                          }
+                        </td>
+                        <td class="num">{{ line.amount | psInr }}</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table></ps-data-table
+              >
+            } @else {
+              <p class="ps-muted">No deductions recorded.</p>
+            }
+          </section>
+          <p class="ps-muted">Finalized record. Component settings cannot change this payment.</p>
+        </div>
+      </ps-dialog>
+    }
+  </div>
+</ps-feature-layout>
