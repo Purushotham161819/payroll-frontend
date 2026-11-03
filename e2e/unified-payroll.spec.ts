@@ -1,3 +1,4 @@
+import {selectPeriod,expectPeriod} from './select-period';
 import { test, expect } from './authenticated-test';
 import { jsPDF } from 'jspdf';
 test('one payroll table restores period dates, scopes annual/monthly KPIs and protects paid and submitted rows', async ({
@@ -141,11 +142,11 @@ test('one payroll table restores period dates, scopes annual/monthly KPIs and pr
   await expect(page.locator('details')).toHaveCount(0);
   await expect(page.getByText('Previously submitted payroll', { exact: true })).toHaveCount(0);
   const table = page.getByRole('table', { name: 'Employee payroll', exact: true });
-  await expect(table.getByRole('columnheader')).toHaveCount(9);
+  await expect(table.getByRole('columnheader')).toHaveCount(10);
   await expect(table.locator('tbody tr')).toHaveCount(4);
   await expect(page.getByLabel('Payment Date', { exact: true })).toHaveValue(firstDate);
   await expect(page.getByLabel('Total Payroll Cost', { exact: true })).toContainText('8,333.33');
-  await expect(page.getByLabel('Total NET Pay', { exact: true })).toContainText('95.00');
+  await expect(page.getByLabel('Total NET Pay', { exact: true })).toContainText('95');
   await expect(
     table.getByRole('checkbox', { name: 'Pending Example already submitted' }),
   ).toBeDisabled();
@@ -160,8 +161,8 @@ test('one payroll table restores period dates, scopes annual/monthly KPIs and pr
   await expect(page.getByRole('button', { name: 'Submit', exact: true })).toBeDisabled();
   await page.getByRole('button', { name: 'Save', exact: true }).click();
   await table.getByRole('checkbox', { name: 'Select all eligible employees' }).check();
-  await expect(page.getByLabel('Total Payroll Cost', { exact: true })).toContainText('25,000.00');
-  await expect(page.getByLabel('Total NET Pay', { exact: true })).toContainText('190.00');
+  await expect(page.getByLabel('Total Payroll Cost', { exact: true })).toContainText('25,000');
+  await expect(page.getByLabel('Total NET Pay', { exact: true })).toContainText('190');
   await page.getByRole('button', { name: 'Save', exact: true }).click();
   await table.getByRole('checkbox', { name: 'Include Ada Example in payroll' }).uncheck();
   await expect(page.getByLabel('Total Payroll Cost', { exact: true })).toContainText('16,666.67');
@@ -175,19 +176,19 @@ test('one payroll table restores period dates, scopes annual/monthly KPIs and pr
     table.getByRole('checkbox', { name: 'Include Ada Example in payroll' }),
   ).not.toBeChecked();
   const writesBeforeSwitch = previewWrites;
-  await page.getByLabel('Pay Period', { exact: true }).selectOption(second);
+  await selectPeriod(page.getByLabel('Pay Period',{exact:true}),second);
   await expect(page.getByLabel('Payment Date', { exact: true })).toHaveValue(secondDate);
   await expect(page.getByLabel('Total Payroll Cost', { exact: true })).toContainText('8,333.33');
   await expect(
     table.getByRole('checkbox', { name: 'Include Pending Example in payroll' }),
   ).toBeEnabled();
-  await page.getByLabel('Pay Period', { exact: true }).selectOption(first);
+  await selectPeriod(page.getByLabel('Pay Period',{exact:true}),first);
   await expect(page.getByLabel('Payment Date', { exact: true })).toHaveValue(updatedDate);
   expect(previewWrites).toBe(writesBeforeSwitch);
   const pending = table
     .getByRole('row')
     .filter({ has: page.getByRole('link', { name: 'Pending', exact: true }) });
-  await expect(pending).toContainText('10,000.00');
+  await expect(pending).toContainText('10,000');
   await pending.getByRole('button', { name: 'View Pay Check', exact: true }).click();
   const viewer = page.getByRole('dialog', { name: 'Historical Pay Check' });
   await expect(viewer.locator('iframe')).toHaveAttribute('src', /^blob:/);

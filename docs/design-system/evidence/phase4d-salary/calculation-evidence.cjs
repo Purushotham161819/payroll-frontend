@@ -1,0 +1,9 @@
+const fs=require('fs');
+const {annualPayroll}=require('D:/projects/payroll-backend/src/payroll-generator/annual-payroll.ts');
+const {SalaryCalculationService}=require('D:/projects/payroll-backend/src/payroll-generator/salary-calculation.service.ts');
+const engine=new SalaryCalculationService();
+const components=['BASIC','DA','RA'].map((code,i)=>({_id:code,code,category:'earning',calculationBaseType:'annual_ctc',calculationType:'percentage',calculationValue:[40,10,15][i],showInPayslip:true,status:'active'}));
+const rates={wageCap:180000,annualEsiCeilingLimit:252000,isEpfCeilingApplicable:true,epsEmployerContributionPercentage:8.33,epfEmployerContributionPercentage:3.67,esiEmployerContributionPercentage:3.25,epfEmployeeContributionPercentage:12,esiEmployeeContributionPercentage:0.75};
+const cases=[{name:'eligible',ctc:180000,components,rates},{name:'above-esi-ceiling',ctc:1200000,components,rates},{name:'decimal-ctc',ctc:1255000.5,components,rates},{name:'allowance-and-formula',ctc:1200000,components:[...components,{_id:'BONUS',code:'BONUS',category:'allowance',calculationBaseType:'annual_ctc',calculationType:'fixed',calculationValue:12000,fixedAmountPeriod:'annual',showInPayslip:true,status:'active'},{_id:'DEDUCTION',code:'DEDUCTION',category:'deduction',calculationBaseType:'annual_ctc',calculationType:'formula',formula:'annualCtc * 1%',calculationValue:null,showInPayslip:true,status:'active'}],rates}];
+const evidence=cases.map(c=>({name:c.name,input:c,annual:annualPayroll(c.ctc,c.components,c.rates),projections:[1,3,6,12].map(months=>({months,result:engine.calculateProjection(c.ctc,c.components,c.rates,months)}))}));
+const file='D:/projects/payroll-frontend/artifacts/phase4d-salary/calculations-'+process.argv[2]+'.json';fs.writeFileSync(file,JSON.stringify(evidence,null,2));console.log(file);

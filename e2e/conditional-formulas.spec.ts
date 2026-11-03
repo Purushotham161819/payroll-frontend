@@ -9,15 +9,15 @@ test('advanced IF formulas save and edit using stable keys',async({page})=>{
   return r.fulfill({json:saved?[...core,saved]:core});
  });
  await page.route('**/salary-components/formula-variables',r=>r.fulfill({json:metadata}));
- await page.goto('/settings');await page.getByRole('button',{name:'+ Add Salary Component',exact:true}).click();
- await page.getByLabel('Component Name',{exact:true}).fill('Conditional ESI');await page.getByLabel('Component Code',{exact:true}).fill('CONDITIONAL_ESI');
+ await page.goto('/settings');await page.getByRole('button',{name:'Add Salary Component',exact:true}).click();
+ await page.getByRole('textbox',{name:'Component Name',exact:true}).fill('Conditional ESI');await page.getByRole('textbox',{name:'Component Code',exact:true}).fill('CONDITIONAL_ESI');
  await page.getByRole('combobox',{name:/Component Category/}).selectOption('deduction');await page.getByRole('combobox',{name:/Calculation Type/}).selectOption('formula');
  await expect(page.getByRole('button',{name:'Build IF / ELSE',exact:true})).toHaveCount(0);
  const formula='IF(annualComplianceWageBase <= annualEsiCeilingLimit, annualComplianceWageBase * esiEmployeeContributionRate, 0)';
- await page.getByLabel('Annual Formula',{exact:true}).fill(formula);
- await expect(page.getByLabel('Annual Formula',{exact:true})).toHaveValue(formula);
- await page.getByRole('button',{name:'Save Component',exact:true}).click();await expect(page.getByRole('dialog')).toHaveCount(0);expect(saved.formula).toBe(formula);
- await page.getByRole('row').filter({has:page.getByRole('cell',{name:'CONDITIONAL_ESI',exact:true})}).getByRole('button',{name:'Edit',exact:true}).click();await expect(page.getByLabel('Annual Formula',{exact:true})).toHaveValue(formula);
+ await page.getByRole('textbox',{name:'Annual Formula',exact:true}).fill(formula);
+ await expect(page.getByRole('textbox',{name:'Annual Formula',exact:true})).toHaveValue(formula);
+ await page.getByRole('button',{name:'Save',exact:true}).click();await expect(page.getByRole('dialog')).toHaveCount(0);expect(saved.formula).toBe(formula);
+ await page.getByRole('row').filter({has:page.getByRole('cell',{name:'CONDITIONAL_ESI',exact:true})}).getByRole('button',{name:/^Edit component /,exact:false}).click();await expect(page.getByRole('textbox',{name:'Annual Formula',exact:true})).toHaveValue(formula);
  await page.setViewportSize({width:390,height:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 for(const [index,saved] of cases.entries())for(const period of ['Annual','Monthly'])test(`${period}: IF true/false case ${index}, ordered PDF amounts and totals`,async({page})=>{

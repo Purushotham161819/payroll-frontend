@@ -1,3 +1,4 @@
+import { PsNativeSelect } from '../shared/ui/ps-native-select';
 import { ProfileTabs, ProfileTab } from './profile-tabs';
 import { EmploymentHistory } from './employment-history';
 import { PayChecks } from './pay-checks';
@@ -29,7 +30,7 @@ export function realDate(control: AbstractControl) {
 }
 @Component({
   selector: 'app-employee-form',
-  imports: [ReactiveFormsModule, PayChecks, ProfileTabs, EmploymentHistory],
+  imports: [PsNativeSelect, ReactiveFormsModule, PayChecks, ProfileTabs, EmploymentHistory],
   templateUrl: './employee-form.html',
   styleUrl: './employee-form.css',
 })

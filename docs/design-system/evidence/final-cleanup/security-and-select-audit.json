@@ -1,0 +1,99 @@
+{
+  "filesScanned": 154,
+  "findings": [],
+  "selectCount": 23,
+  "select": [
+    {
+      "file": "src/app/employees/employee-form.html",
+      "tag": "<select psSelectMenu class=\"ps-select\" id=\"payFrequency\" formControlName=\"payFrequency\">"
+    },
+    {
+      "file": "src/app/employees/employee-list.html",
+      "tag": "<select psFieldControl id=\"employee-status\" [value]=\"statusFilter()\" (change)=\"changeFilter($any($event.target).value)\">"
+    },
+    {
+      "file": "src/app/employees/lifecycle-dialog.ts",
+      "tag": "<select psSelectMenu class=\"ps-select\" id=\"termination-reason\" name=\"reason\" [(ngModel)]=\"reason\" required [disabled]=\"busy()\">"
+    },
+    {
+      "file": "src/app/features/run-payroll/run-payroll.component.html",
+      "tag": "<ps-select psFieldControl id=\"pay-period\" [options]=\"months\" [(ngModel)]=\"period\" (change)=\"changePeriod()\" [disabled]=\"busy()\" />"
+    },
+    {
+      "file": "src/app/features/tax-management/employee-tax.html",
+      "tag": "<select\n                psFieldControl\n                id=\"employee-tax-financial-year\"\n                aria-describedby=\"employee-tax-financial-year-help\"\n                [ngModel]=\"yearCode\"\n                [ngModelOptions]=\"{ standalone: true }\"\n                (ngModelChange)=\"selectYear($event)\"\n                [disabled]=\"busy() || yearLocked()\"\n              >"
+    },
+    {
+      "file": "src/app/features/tax-management/employee-tax.html",
+      "tag": "<select\n        psFieldControl\n        [ngModel]=\"targetYear\"\n        (ngModelChange)=\"selectTargetYear($event)\"\n        [disabled]=\"busy()\"\n      >"
+    },
+    {
+      "file": "src/app/features/tax-management/tax-configuration.html",
+      "tag": "<select psFieldControl id=\"tax-field-7\"\n            name=\"yearCode\"\n            [disabled]=\"!!editingTables()['slabs'] || !!editingTables()['surcharge']\"\n            [(ngModel)]=\"yearCode\"\n            (ngModelChange)=\"selectYear()\"\n            required\n          >"
+    },
+    {
+      "file": "src/app/features/tax-management/tax-configuration.html",
+      "tag": "<select psFieldControl id=\"tax-field-8\"\n            name=\"regime\"\n            [disabled]=\"!!editingTables()['slabs'] || !!editingTables()['surcharge']\"\n            [(ngModel)]=\"regime\"\n          >"
+    },
+    {
+      "file": "src/app/features/tax-management/tax-configuration.html",
+      "tag": "<select psFieldControl id=\"tax-field-16\" name=\"incomeRounding\" [(ngModel)]=\"incomeRounding\">"
+    },
+    {
+      "file": "src/app/features/tax-management/tax-configuration.html",
+      "tag": "<select psFieldControl id=\"tax-field-17\" name=\"liabilityRounding\" [(ngModel)]=\"liabilityRounding\">"
+    },
+    {
+      "file": "src/app/features/tax-management/tax-configuration.html",
+      "tag": "<select psFieldControl [id]=\"'tax-' + ('type' + i)\" [name]=\"'type' + i\" [(ngModel)]=\"m.type\" required>"
+    },
+    {
+      "file": "src/app/features/tax-management/tax-configuration.html",
+      "tag": "<select psFieldControl [id]=\"'tax-' + ('partialMode' + i)\"\n                        [name]=\"'partialMode' + i\"\n                        [(ngModel)]=\"m.partialMode\"\n                      >"
+    },
+    {
+      "file": "src/app/payroll/payroll-generator.html",
+      "tag": "<select psSelectMenu class=\"ps-select\" id=\"report-type\" name=\"reportType\" [(ngModel)]=\"reportType\" [disabled]=\"busy()\">"
+    },
+    {
+      "file": "src/app/payroll/payroll-generator.html",
+      "tag": "<select psSelectMenu class=\"ps-select\" id=\"payroll-month\" name=\"payrollMonth\" [(ngModel)]=\"selected\" required [disabled]=\"busy()\">"
+    },
+    {
+      "file": "src/app/platform/platform.html",
+      "tag": "<select psSelectMenu class=\"ps-select\" name=\"role\" [(ngModel)]=\"role\">"
+    },
+    {
+      "file": "src/app/settings/organization-settings.html",
+      "tag": "<select psFieldControl id=\"country\" name=\"country\" [(ngModel)]=\"draft.country\" required [disabled]=\"!editing()\" autocomplete=\"country-name\" #country=\"ngModel\">"
+    },
+    {
+      "file": "src/app/settings/settings.html",
+      "tag": "<select psFieldControl id=\"component-category\" name=\"category\" [disabled]=\"locked()\" [(ngModel)]=\"draft.category\" required>"
+    },
+    {
+      "file": "src/app/settings/settings.html",
+      "tag": "<select psFieldControl id=\"component-status\" name=\"status\" [disabled]=\"locked()\" [(ngModel)]=\"draft.status\" required>"
+    },
+    {
+      "file": "src/app/settings/settings.html",
+      "tag": "<select psFieldControl id=\"component-base\" name=\"base\" [ngModel]=\"selectedBase()\" (ngModelChange)=\"setBase($event)\">"
+    },
+    {
+      "file": "src/app/settings/settings.html",
+      "tag": "<select psFieldControl id=\"component-type\" name=\"type\" [disabled]=\"locked()\" [(ngModel)]=\"draft.calculationType\" (ngModelChange)=\"calculationTypeChanged()\" required>"
+    },
+    {
+      "file": "src/app/settings/settings.html",
+      "tag": "<select psFieldControl id=\"formula-variable\" name=\"variableToInsert\" [(ngModel)]=\"variableToInsert\" [disabled]=\"formulaVariablesLoading()\">"
+    },
+    {
+      "file": "src/app/settings/settings.html",
+      "tag": "<select psFieldControl id=\"component-period\" name=\"period\" [(ngModel)]=\"draft.fixedAmountPeriod\" required>"
+    },
+    {
+      "file": "src/app/users/users.html",
+      "tag": "<select psFieldControl id=\"user-role\" name=\"role\" [(ngModel)]=\"role\" [disabled]=\"busy() || selected()?.id === auth.user()?.id\">"
+    }
+  ]
+}

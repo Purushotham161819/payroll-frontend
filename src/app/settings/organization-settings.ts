@@ -1,4 +1,4 @@
-import { ActionIcon } from '../shared/action-icon';
+import { PsButton, PsIconButton, PsPageHeader, PsCard, PsCardTitle, PsCardSubtitle, PsCardActions, PsCardFooter, PsFormField, PsFieldControl } from '../shared/ui';
 import { SettingsTabs } from '../shared/settings-tabs';
 import { Component, OnInit, inject, signal, HostListener } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -30,7 +30,7 @@ const emptyAddress = (): OrganizationAddress => ({
 });
 @Component({
   selector: 'app-organization-settings',
-  imports: [ActionIcon, SettingsTabs, FormsModule],
+  imports: [SettingsTabs, FormsModule, PsButton, PsIconButton, PsPageHeader, PsCard, PsCardTitle, PsCardSubtitle, PsCardActions, PsCardFooter, PsFormField, PsFieldControl],
   templateUrl: './organization-settings.html',
   styleUrl: './organization-settings.css',
 })

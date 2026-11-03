@@ -1,0 +1,13 @@
+{
+  "AGENTS.md": "dfc9335046ae1756ed80715882d90a6236f6e0f281dad120dacec57606f39510",
+  "docs/design-system/CODEX_PROMPTS.md": "0346cca9424f1c9cbc254dd14fb92aea9b17323a2530227a3e4443b5c7f6d566",
+  "docs/design-system/PAYSTREAM_DESIGN_SYSTEM.md": "36bd0db5f5a8642c944b59322ed22bd445c146759a09179e631bf14dcbebd789",
+  "docs/design-system/PHASE_4G_REPORT.md": "99f9a84c73a7a15bb251a3e2d14d8e38ced1245680dd66090f20eaf8866ace02",
+  "docs/design-system/PHASE_4H_REPORT.md": "bd0cfaccc8bcc77bd0e32446bf01eaeea272ee12ae334100bb4b89604ce7c28a",
+  "docs/design-system/PayStream-Component-Library.md": "6e4c981d43aebd1db7ee76702e7d27278888ac7fbd015a81dcd2a1eb75b57ba0",
+  "e2e/employee-details-design-system.spec.ts": "60462e9aa007c8062eda9e093553244522e837ec6c9001376dfb13a5760bdba6",
+  "e2e/pay-checks-design-system.spec.ts": "246987a343f545d8d6f154bb215ce8fce56677eef0434f69be7318244890df64",
+  "src/app/employees/pay-checks.css": "1845b57bbd27c3a9d8d00240e88bbbe0345ba23402464d32de29d927f961f54f",
+  "src/app/employees/pay-checks.html": "659c9ff3e3820987b17f6136f7cbd37085142874a1f251771579fe70697ccc8d",
+  "src/app/employees/pay-checks.ts": "011b41ef30a3ca4eac92f60da84ad43750a26b1b5c9f0d21c3861ce9b4f16fa8"
+}

@@ -1,0 +1,29 @@
+{
+  "before": {
+    "startTime": "2026-11-02T21:40:38.112Z",
+    "duration": 463480.932,
+    "expected": 118,
+    "skipped": 4,
+    "unexpected": 6,
+    "flaky": 0
+  },
+  "after": {
+    "startTime": "2026-11-02T22:15:02.789Z",
+    "duration": 419462.49600000004,
+    "expected": 122,
+    "skipped": 4,
+    "unexpected": 6,
+    "flaky": 0
+  },
+  "newFailures": [],
+  "resolvedFailures": [],
+  "sameBaselineFailures": true,
+  "failures": [
+    "final-ui.spec.ts::monthly CTC, icon actions, guide and exact payroll return context survive profile navigation and refresh",
+    "indian-format-search.spec.ts::Run Payroll KPIs, dynamic rows and Pay Check history use Indian grouping without changing numeric requests",
+    "indian-format-search.spec.ts::salary settings, statutory amounts and tax revision displays share Indian currency presentation",
+    "management-delete.spec.ts::employee delete confirmation cancels safely, reports errors, deletes once and refreshes selected rows",
+    "profile-payroll-ui.spec.ts::revisit a submitted month, save checkbox changes, and submit only unprocessed employees",
+    "ui-refinements.spec.ts::formula help opens with keyboard, explains MIN/MAX/IF and closes without changing the expression"
+  ]
+}

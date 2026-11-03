@@ -1,0 +1,232 @@
+[
+  {
+    "file": "src/app/employees/employee-list.html",
+    "line": 21,
+    "tag": "select",
+    "id": "employee-status",
+    "sharedField": true,
+    "attributes": "psFieldControl id=\"employee-status\" [value]=\"statusFilter()\" (change)=\"changeFilter($any($event.target).value)\"",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/employees/employee-form.html",
+    "line": 143,
+    "tag": "select",
+    "id": "payFrequency",
+    "sharedField": false,
+    "attributes": "class=\"ps-select\" id=\"payFrequency\" formControlName=\"payFrequency\"",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/employees/lifecycle-dialog.ts",
+    "line": 35,
+    "tag": "select",
+    "id": "termination-reason",
+    "sharedField": false,
+    "attributes": "class=\"ps-select\" id=\"termination-reason\" name=\"reason\" [(ngModel)]=\"reason\" required [disabled]=\"busy()\"",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/platform/platform.html",
+    "line": 300,
+    "tag": "select",
+    "id": "role",
+    "sharedField": false,
+    "attributes": "class=\"ps-select\" name=\"role\" [(ngModel)]=\"role\"",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/payroll/payroll-generator.html",
+    "line": 8,
+    "tag": "select",
+    "id": "report-type",
+    "sharedField": false,
+    "attributes": "class=\"ps-select\" id=\"report-type\" name=\"reportType\" [(ngModel)]=\"reportType\" [disabled]=\"busy()\"",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/payroll/payroll-generator.html",
+    "line": 9,
+    "tag": "select",
+    "id": "payroll-month",
+    "sharedField": false,
+    "attributes": "class=\"ps-select\" id=\"payroll-month\" name=\"payrollMonth\" [(ngModel)]=\"selected\" required [disabled]=\"busy()\"",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/users/users.html",
+    "line": 47,
+    "tag": "select",
+    "id": "user-role",
+    "sharedField": true,
+    "attributes": "psFieldControl id=\"user-role\" name=\"role\" [(ngModel)]=\"role\" [disabled]=\"busy() || selected()?.id === auth.user()?.id\"",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/settings/organization-settings.html",
+    "line": 57,
+    "tag": "select",
+    "id": "country",
+    "sharedField": true,
+    "attributes": "psFieldControl id=\"country\" name=\"country\" [(ngModel)]=\"draft.country\" required [disabled]=\"!editing()\" autocomplete=\"country-name\" #country=\"ngModel\"",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/settings/settings.html",
+    "line": 14,
+    "tag": "select",
+    "id": "component-category",
+    "sharedField": true,
+    "attributes": "psFieldControl id=\"component-category\" name=\"category\" [disabled]=\"locked()\" [(ngModel)]=\"draft.category\" required",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/settings/settings.html",
+    "line": 15,
+    "tag": "select",
+    "id": "component-status",
+    "sharedField": true,
+    "attributes": "psFieldControl id=\"component-status\" name=\"status\" [disabled]=\"locked()\" [(ngModel)]=\"draft.status\" required",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/settings/settings.html",
+    "line": 16,
+    "tag": "select",
+    "id": "component-base",
+    "sharedField": true,
+    "attributes": "psFieldControl id=\"component-base\" name=\"base\" [ngModel]=\"selectedBase()\" (ngModelChange)=\"setBase($event)\"",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/settings/settings.html",
+    "line": 17,
+    "tag": "select",
+    "id": "component-type",
+    "sharedField": true,
+    "attributes": "psFieldControl id=\"component-type\" name=\"type\" [disabled]=\"locked()\" [(ngModel)]=\"draft.calculationType\" (ngModelChange)=\"calculationTypeChanged()\" required",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/settings/settings.html",
+    "line": 28,
+    "tag": "select",
+    "id": "formula-variable",
+    "sharedField": true,
+    "attributes": "psFieldControl id=\"formula-variable\" name=\"variableToInsert\" [(ngModel)]=\"variableToInsert\" [disabled]=\"formulaVariablesLoading()\"",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/settings/settings.html",
+    "line": 36,
+    "tag": "select",
+    "id": "component-period",
+    "sharedField": true,
+    "attributes": "psFieldControl id=\"component-period\" name=\"period\" [(ngModel)]=\"draft.fixedAmountPeriod\" required",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/features/tax-management/tax-configuration.html",
+    "line": 170,
+    "tag": "select",
+    "id": "tax-field-7",
+    "sharedField": true,
+    "attributes": "psFieldControl id=\"tax-field-7\" name=\"yearCode\" [disabled]=\"!!editingTables()['slabs'] || !!editingTables()['surcharge']\" [(ngModel)]=\"yearCode\" (ngModelChange)=\"selectYear()\" required",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/features/tax-management/tax-configuration.html",
+    "line": 182,
+    "tag": "select",
+    "id": "tax-field-8",
+    "sharedField": true,
+    "attributes": "psFieldControl id=\"tax-field-8\" name=\"regime\" [disabled]=\"!!editingTables()['slabs'] || !!editingTables()['surcharge']\" [(ngModel)]=\"regime\"",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/features/tax-management/tax-configuration.html",
+    "line": 242,
+    "tag": "select",
+    "id": "tax-field-16",
+    "sharedField": true,
+    "attributes": "psFieldControl id=\"tax-field-16\" name=\"incomeRounding\" [(ngModel)]=\"incomeRounding\"",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/features/tax-management/tax-configuration.html",
+    "line": 246,
+    "tag": "select",
+    "id": "tax-field-17",
+    "sharedField": true,
+    "attributes": "psFieldControl id=\"tax-field-17\" name=\"liabilityRounding\" [(ngModel)]=\"liabilityRounding\"",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/features/tax-management/tax-configuration.html",
+    "line": 515,
+    "tag": "select",
+    "id": "dynamic identifier",
+    "sharedField": true,
+    "attributes": "psFieldControl [id]=\"'tax-' + ('type' + i)\" [name]=\"'type' + i\" [(ngModel)]=\"m.type\" required",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/features/tax-management/tax-configuration.html",
+    "line": 539,
+    "tag": "select",
+    "id": "dynamic identifier",
+    "sharedField": true,
+    "attributes": "psFieldControl [id]=\"'tax-' + ('partialMode' + i)\" [name]=\"'partialMode' + i\" [(ngModel)]=\"m.partialMode\"",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/features/tax-management/employee-tax.html",
+    "line": 107,
+    "tag": "select",
+    "id": "employee-tax-financial-year",
+    "sharedField": true,
+    "attributes": "psFieldControl id=\"employee-tax-financial-year\" aria-describedby=\"employee-tax-financial-year-help\" [ngModel]=\"yearCode\" [ngModelOptions]=\"{ standalone: true }\" (ngModelChange)=\"selectYear($event)\" [disabled]=\"busy() || yearLocked()\"",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/features/tax-management/employee-tax.html",
+    "line": 734,
+    "tag": "select",
+    "id": "dynamic identifier",
+    "sharedField": true,
+    "attributes": "psFieldControl [ngModel]=\"targetYear\" (ngModelChange)=\"selectTargetYear($event)\" [disabled]=\"busy()\"",
+    "enhanced": true,
+    "exception": null
+  },
+  {
+    "file": "src/app/features/run-payroll/run-payroll.component.html",
+    "line": 36,
+    "tag": "ps-select",
+    "id": "pay-period",
+    "sharedField": true,
+    "attributes": "psFieldControl id=\"pay-period\" [options]=\"months\" [(ngModel)]=\"period\" (change)=\"changePeriod()\" [disabled]=\"busy()\" /",
+    "enhanced": true,
+    "exception": null
+  }
+]

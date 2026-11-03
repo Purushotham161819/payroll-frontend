@@ -1,96 +1,87 @@
-﻿<div class="eyebrow">PEOPLE MANAGEMENT</div>
-<div class="page-heading">
-  <div>
-    <h1>Employees</h1>
-    <p>Your people, organized in one place.</p>
+<ps-page-header eyebrow="PEOPLE MANAGEMENT" title="Employees" subtitle="Your people, organized in one place.">
+  <div pageActions class="heading-actions">
+    <app-payroll-generator />
+    <button psButton variant="secondary" (click)="runPayroll()">Run Payroll</button>
+    <button id="add-employee" psButton icon="add" (click)="add()">Add Employee</button>
   </div>
-  <div class="heading-actions">
-    <button id="add-employee" class="primary" (click)="add()"><span aria-hidden="true">＋</span> Add Employee</button
-    ><app-payroll-generator />
-    <button class="primary" (click)="runPayroll()">Run Payroll</button>
-  </div>
-</div>
+</ps-page-header>
 @if (success()) {
   <div class="notice success" role="status">{{ success() }}</div>
 }
 @if (showForm()) {
   <app-employee-form [employee]="editing()" (saved)="added()" (cancelled)="showForm.set(false)" />
 }
-<section class="directory" aria-labelledby="directory-title">
-  <div class="directory-heading">
-    <div>
-      <h2 id="directory-title">Employee directory</h2>
-      <p>Details for every member of your team.</p>
+<ps-card class="directory" role="region" aria-labelledby="directory-title">
+  <span cardTitle id="directory-title">Employee directory</span>
+  <span cardSubtitle>Details for every member of your team.</span>
+  <button cardActions psIconButton action="refresh" size="sm" label="Refresh List" (click)="load()" [disabled]="loading()"></button>
+  <ps-data-table label="Employee directory table" [loading]="loading()" loadingLabel="Loading employees…">
+  <div tableToolbar class="directory-toolbar">
+    <ps-form-field label="Employee Status" layout="inline" controlId="employee-status">
+      <select psFieldControl id="employee-status" [value]="statusFilter()" (change)="changeFilter($any($event.target).value)">
+        <option>All</option><option>Active</option><option>Terminated</option>
+      </select>
+    </ps-form-field>
+    <div class="employee-search">
+      <ps-form-field label="Search employees" layout="hidden-label" controlId="employee-search">
+        <ps-icon fieldPrefix action="search" />
+        <input psFieldControl #employeeSearch id="employee-search" type="search" placeholder="Search employees..." autocomplete="off" [value]="searchTerm()" (input)="searchTerm.set($any($event.target).value)" />
+        @if (searchTerm()) {
+          <button fieldSuffix psIconButton action="close" size="sm" label="Clear employee search" (click)="searchTerm.set(''); employeeSearch.focus()"></button>
+        }
+      </ps-form-field>
     </div>
-    <button class="secondary" (click)="load()" [disabled]="loading()">Refresh list</button>
-  </div>
-  <div class="directory-toolbar">
-  <div class="status-filter"><label for="employee-status">Employee Status</label>
-    <select id="employee-status" [value]="statusFilter()" (change)="changeFilter($any($event.target).value)">
-      <option>All</option><option>Active</option><option>Terminated</option>
-    </select>
-  </div>
-  <div class="employee-search">
-    <label class="sr-only" for="employee-search">Search employees</label>
-    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m16 16 4 4" /></svg>
-    <input #employeeSearch id="employee-search" type="search" placeholder="Search employees..." autocomplete="off" [value]="searchTerm()" (input)="searchTerm.set($any($event.target).value)" />
-    @if (searchTerm()) {
-      <button type="button" class="clear-search" aria-label="Clear employee search" title="Clear employee search" (click)="searchTerm.set(''); employeeSearch.focus()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6" /></svg></button>
-    }
-  </div>
   </div>
   @if (error()) {
     <div class="notice error" role="alert">
-      {{ error() }} <button class="secondary" (click)="load()">Retry</button>
+      {{ error() }} <button psButton variant="secondary" (click)="load()">Retry</button>
     </div>
   }
-  @if (loading()) {
-    <div class="state" role="status">Loading employees…</div>
-  } @else if (!error() && employees().length === 0) {
+  @if (!loading() && !error() && employees().length === 0) {
     <div class="state">
-      <span class="empty-icon" aria-hidden="true">▤</span>
+      <ps-icon action="search" />
       <h3>No employees found.</h3>
       <p>{{ searchTerm().trim() ? 'No employees match your search. Try a different name or Employee ID.' : 'No employees match the selected status.' }}</p>
-      <button class="secondary" (click)="add()">Add Employee</button>
+      <button psButton variant="secondary" (click)="add()">Add Employee</button>
     </div>
-  } @else if (!error()) {
-    <div class="table-scroll" tabindex="0" role="region" aria-label="Employee directory table">
-      <table>
+  } @else if (!loading() && !error()) {
+      <table class="ps-table">
         <caption class="sr-only">
           Saved employee records
         </caption>
         <thead>
           <tr>
-            <th>Employee ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Date of Birth</th>
-            <th>Hire Date</th>
-            <th class="number">Annual CTC</th>
-            <th>Pay Frequency</th>
-            <th>Status</th><th>Actions</th>
-            <th>Created Date</th>
+            <th scope="col">Employee ID</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Date of Birth</th>
+            <th scope="col">Hire Date</th>
+            <th scope="col" class="number num">Annual CTC</th>
+            <th scope="col">Pay Frequency</th>
+            <th scope="col">Status</th>
+            <th scope="col">Created Date</th><th scope="col" class="act">Actions</th>
           </tr>
         </thead>
         <tbody>
           @for (employee of employees(); track employee._id) {
             <tr>
-              <td class="employee-id">{{ employee.employeeId || 'ID pending' }}</td>
+              <td class="employee-id id">{{ employee.employeeId || 'ID pending' }}</td>
               <td class="name"><a [href]="profileUrl(employee._id)" (click)="openProfile($event, employee._id)">{{ employee.firstName }}</a></td>
               <td><a [href]="profileUrl(employee._id)" (click)="openProfile($event, employee._id)">{{ employee.lastName }}</a></td>
-              <td>{{ employee.email || 'Not provided' }}</td>
-              <td>{{ employee.dateOfBirth | date: 'dd MMM yyyy' : 'UTC' }}</td>
-              <td>{{ employee.hireDate | date: 'dd MMM yyyy' : 'UTC' }}</td>
-              <td class="number">{{ employee.annualCtc | number: '1.2-2' }}</td>
+              <td><span class="email-text" [psTooltip]="employee.email || 'Not provided'">{{ employee.email || 'Not provided' }}</span></td>
+              <td>{{ employee.dateOfBirth | psDate: 'UTC' }}</td>
+              <td>{{ employee.hireDate | psDate: 'UTC' }}</td>
+              <td class="number num">{{ employee.annualCtc | psInr }}</td>
               <td>{{ employee.payFrequency || 'Monthly' }}</td>
-              <td>{{ employee.status || 'Active' }}</td>
-              <td>
-                <button type="button" class="secondary" [cdkMenuTriggerFor]="actions" [attr.aria-label]="'Actions for '+employee.firstName+' '+employee.lastName" [disabled]="deletingBusy()">&#8942;</button>
+              <td><ps-status-badge [status]="employee.status || 'Active'" /></td>
+              <td>{{ employee.createdAt ? (employee.createdAt | psDate) : 'Not available' }}</td>
+              <td class="act">
+                <button psIconButton action="more" size="sm" [cdkMenuTriggerFor]="actions" [label]="'Actions for '+employee.firstName+' '+employee.lastName" [disabled]="deletingBusy()"></button>
                 <ng-template #actions>
                   <div cdkMenu class="employee-actions">
-                    <button cdkMenuItem (cdkMenuItemTriggered)="edit(employee)" [attr.aria-label]="'Edit employee '+employee.firstName+' '+employee.lastName">Edit</button>
-                    <button cdkMenuItem (cdkMenuItemTriggered)="requestDelete(employee)" [attr.aria-label]="'Delete employee '+employee.firstName+' '+employee.lastName">Delete</button>
+                    <button cdkMenuItem (cdkMenuItemTriggered)="edit(employee)" [attr.aria-label]="'Edit employee '+employee.firstName+' '+employee.lastName"><ps-icon action="edit" />Edit</button>
+                    <button class="danger-item" cdkMenuItem (cdkMenuItemTriggered)="requestDelete(employee)" [attr.aria-label]="'Delete employee '+employee.firstName+' '+employee.lastName"><ps-icon action="delete" />Delete</button>
                     @if ((employee.status || 'Active') === 'Active') {
                       <button cdkMenuItem (cdkMenuItemTriggered)="lifecycle.set({employee, action: 'Terminate'})">Terminate</button>
                     } @else {
@@ -100,21 +91,16 @@
                   </div>
                 </ng-template>
               </td>
-              <td>
-                {{
-                  employee.createdAt ? (employee.createdAt | date: 'dd MMM yyyy') : 'Not available'
-                }}
-              </td>
             </tr>
           }
         </tbody>
       </table>
-    </div>
-    <div class="table-footer">
+  }
+    <div tableFooter class="table-footer" [hidden]="loading() || !!error() || employees().length === 0">
       <span>{{ employees().length }} employee{{ employees().length === 1 ? '' : 's' }}</span>
     </div>
-  }
-</section>
+  </ps-data-table>
+</ps-card>
 <p class="footnote">Employee details are stored in your connected payroll database.</p>
 
 @if(deleting();as employee){<app-delete-confirmation title="Delete employee" [description]="'Permanently delete '+employee.firstName+' '+employee.lastName+' ('+employee.email+')? This cannot be undone.'" [busy]="deletingBusy()" [error]="deleteError()" fallbackFocusId="add-employee" (cancelled)="deleting.set(null)" (confirmed)="confirmDelete()"/>}

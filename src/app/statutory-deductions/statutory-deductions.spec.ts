@@ -25,7 +25,7 @@ describe('Statutory deduction settings form', () => {
     expect(inputs.length).toBe(5); expect(inputs.every(i => i.value === '')).toBe(true);
     const form = fixture.nativeElement.querySelector('form');
     form.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true})); fixture.detectChanges();
-    expect(fixture.nativeElement.querySelectorAll('.invalid').length).toBe(4);
+    expect(fixture.nativeElement.querySelectorAll('.ps-field-error .error-text').length).toBe(4);
     for (const [input,value] of [[inputs[0],'-1'],[inputs[2],'101']] as const) { input.value=value; input.dispatchEvent(new Event('input')); }
     await fixture.whenStable(); fixture.detectChanges();
     form.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));
@@ -35,7 +35,7 @@ describe('Statutory deduction settings form', () => {
     const {fixture,http} = await setup({...values, annualEsiCeilingLimit: 250000.25});
     expect(fixture.nativeElement.textContent).toContain('Annual EPF Ceiling Limit');
     expect(fixture.nativeElement.textContent).toContain('Annual ESI Wage Ceiling Limit');
-    expect(fixture.nativeElement.textContent).toContain('\u20b915,000.00');
+    expect(fixture.nativeElement.textContent).toContain('\u20b915,000');
     expect(fixture.nativeElement.textContent).toContain('\u20b92,50,000.25');
     const esi: HTMLInputElement = fixture.nativeElement.querySelector('#annualEsiCeilingLimit');
     esi.value='300000.75'; esi.dispatchEvent(new Event('input')); await fixture.whenStable();

@@ -1,19 +1,20 @@
 import { Component, input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Employee } from './employee';
+import { PsDatePipe, PsStatusBadge } from '../shared/ui';
 @Component({
   selector: 'app-employment-history',
   host: { '[class.embedded]': 'embedded()' },
-  imports: [DatePipe],
+  imports: [DatePipe, PsDatePipe, PsStatusBadge],
   template: ` <div class="history-heading">
       @if (!embedded()) {
         <h2>Employment History</h2>
       }
-      <span>{{ employee().status || 'Active' }}</span>
+      <ps-status-badge [status]="employee().status || 'Active'" />
     </div>
-    <p>Original hire date: {{ employee().hireDate | date: 'longDate' : 'UTC' }}</p>
+    <p>Original hire date: {{ employee().hireDate | psDate: 'UTC' }}</p>
     @if (employee().rehireDate) {
-      <p>Latest rehire: {{ employee().rehireDate | date: 'longDate' : 'UTC' }}</p>
+      <p>Latest rehire: {{ employee().rehireDate | psDate: 'UTC' }}</p>
     }
     @if (!employee().employmentHistory?.length) {
       <p role="status">No employment history records have been recorded.</p>
@@ -25,10 +26,10 @@ import { Employee } from './employee';
             <article>
               <h3>Employment period {{ $index + 1 }}</h3>
               <p class="dates">
-                {{ period.startDate | date: 'longDate' : 'UTC' }} &ndash;
+                {{ period.startDate | psDate: 'UTC' }} &ndash;
                 {{
                   period.endDate
-                    ? (period.endDate | date: 'longDate' : 'UTC')
+                    ? (period.endDate | psDate: 'UTC')
                     : employee().status === 'Terminated'
                       ? 'End date not recorded'
                       : 'Present'
@@ -36,11 +37,7 @@ import { Employee } from './employee';
               </p>
               <dl>
                 <dt>Status</dt>
-                <dd>
-                  {{
-                    period.endDate || employee().status === 'Terminated' ? 'Terminated' : 'Active'
-                  }}
-                </dd>
+                <dd><ps-status-badge [status]="period.endDate || employee().status === 'Terminated' ? 'Terminated' : 'Active'" /></dd>
                 @if (period.terminationReason) {
                   <dt>Termination reason</dt>
                   <dd>{{ period.terminationReason }}</dd>
@@ -51,11 +48,11 @@ import { Employee } from './employee';
                 }
                 @if (period.recordedAt) {
                   <dt>Period recorded</dt>
-                  <dd>{{ period.recordedAt | date: 'medium' }}</dd>
+                  <dd>{{ period.recordedAt | psDate }} {{ period.recordedAt | date: 'mediumTime' }}</dd>
                 }
                 @if (period.terminatedAt) {
                   <dt>Termination recorded</dt>
-                  <dd>{{ period.terminatedAt | date: 'medium' }}</dd>
+                  <dd>{{ period.terminatedAt | psDate }} {{ period.terminatedAt | date: 'mediumTime' }}</dd>
                 }
               </dl>
             </article>
@@ -63,94 +60,7 @@ import { Employee } from './employee';
         }
       </ol>
     }`,
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-      :host(.embedded) p {
-        margin: 6px 0;
-      }
-      :host(.embedded) .timeline {
-        margin: 10px 0 0;
-        gap: 10px;
-      }
-      :host(.embedded) article {
-        padding: 12px 16px;
-      }
-      :host(.embedded) h3 {
-        margin-bottom: 6px;
-      }
-      :host(.embedded) dl {
-        margin: 8px 0 0;
-        gap: 6px 10px;
-      }
-      .history-heading {
-        display: flex;
-        gap: 16px;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .history-heading h2 {
-        font-size: 18px;
-      }
-      .history-heading span {
-        background: #edf5ef;
-        color: #20583f;
-        border-radius: 16px;
-        padding: 5px 12px;
-        font-size: 13px;
-      }
-      .timeline {
-        list-style: none;
-        padding: 0;
-        display: grid;
-        gap: 16px;
-      }
-      article {
-        padding: 20px;
-        border: 1px solid #dce6df;
-        border-left: 3px solid #50846a;
-        border-radius: 10px;
-        background: white;
-      }
-      h3 {
-        font-size: 15px;
-        margin: 0 0 10px;
-      }
-      .dates {
-        font-weight: 500;
-      }
-      p,
-      dd {
-        font-size: 14px;
-        line-height: 1.5;
-        overflow-wrap: anywhere;
-      }
-      dl {
-        display: grid;
-        grid-template-columns: minmax(120px, 180px) 1fr;
-        gap: 10px;
-        margin-bottom: 0;
-      }
-      dt {
-        color: #64746a;
-        font-size: 13px;
-      }
-      dd {
-        margin: 0;
-      }
-      @media (max-width: 500px) {
-        dl {
-          grid-template-columns: 1fr;
-          gap: 6px;
-        }
-        dd {
-          margin-bottom: 8px;
-        }
-      }
-    `,
-  ],
+  styleUrl: './employment-history.css',
 })
 export class EmploymentHistory {
   readonly employee = input.required<Employee>();

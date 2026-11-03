@@ -43,9 +43,9 @@ test('stored TDS overlay, icon actions, unchanged PDF bytes and monthly spacing 
   await page.goto('/employees/' + id + '?tab=checks');
   const rows = page.locator('app-pay-checks tbody tr');
   await expect(rows).toHaveCount(3);
-  await expect(rows.nth(0)).toContainText('November 2026');
-  await expect(rows.nth(1)).toContainText('October 2026');
-  await expect(rows.nth(2)).toContainText('September 2026');
+  await expect(rows.nth(0)).toContainText('Nov 2026');
+  await expect(rows.nth(1)).toContainText('Oct 2026');
+  await expect(rows.nth(2)).toContainText('Sep 2026');
   await expect(page.locator('app-pay-checks tbody')).not.toContainText('Income Tax / TDS:');
   for (const name of ['View Pay Check', 'Download Pay Check PDF']) {
     const button = rows.first().getByRole('button', { name, exact: true });
@@ -78,7 +78,7 @@ test('stored TDS overlay, icon actions, unchanged PDF bytes and monthly spacing 
   expect(pdfReads).toBe(0);
   await page.keyboard.press('Escape');
   await rows.first().getByRole('button', { name: 'View Pay Check', exact: true }).click();
-  const viewer = page.getByRole('dialog', { name: 'Pay Check - November 2026', exact: true });
+  const viewer = page.getByRole('dialog', { name: 'Pay Check - Nov 2026', exact: true });
   await expect(viewer.locator('iframe')).toHaveAttribute('src', /^blob:/);
   const viewed = await viewer
     .locator('iframe')
@@ -96,13 +96,8 @@ test('stored TDS overlay, icon actions, unchanged PDF bytes and monthly spacing 
   const fs = await import('node:fs');
   expect(fs.readFileSync((await downloaded.path())!)).toEqual(bytes);
   expect(pdfReads).toBe(2);
-  expect(
-    await rows
-      .first()
-      .locator('td')
-      .first()
-      .evaluate((el) => getComputedStyle(el).paddingTop),
-  ).toBe('18px');
+  expect(await rows.first().evaluate(el => el.getBoundingClientRect().height)).toBeCloseTo(56, 2);
+  await expect(rows.first().locator('td').nth(5)).toHaveText('\u20b950,000');
   await page.setViewportSize({ width: 390, height: 844 });
   await trigger.scrollIntoViewIfNeeded();
   await trigger.click();

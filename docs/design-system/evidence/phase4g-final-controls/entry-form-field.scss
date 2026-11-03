@@ -1,0 +1,79 @@
+:host{display:flex;flex-direction:column;gap:var(--space-2);color:var(--ink);font:var(--type-body)}label{display:inline-flex;align-items:center;gap:var(--space-1);font:var(--type-label)}.required,.error-text{color:var(--danger)}p{margin:0;font:var(--type-helper);color:var(--ink-muted)}.info{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:var(--radius-sm);min-height:var(--icon-sm);padding:0;background:transparent;color:var(--ink-subtle);box-shadow:var(--shadow-none)}.info:focus-visible{outline:var(--focus-width) solid var(--focus-ring);outline-offset:var(--focus-offset)}
+:host ::ng-deep [psFieldControl]{box-sizing:border-box;width:100%;height:var(--control-height);padding:0 var(--space-3);border:var(--border-width) solid var(--border-control);border-radius:var(--radius-md);background:var(--surface-card);color:var(--ink);font:var(--type-control)}
+:host ::ng-deep [psFieldControl]:hover:not(:disabled){border-color:var(--border-control-hover)}
+:host ::ng-deep [psFieldControl]:focus-visible{outline:var(--focus-width) solid var(--focus-ring);outline-offset:var(--focus-offset)}
+:host ::ng-deep [psFieldControl]:disabled{border-color:var(--border-subtle);background:var(--surface-sunken);color:var(--ink-subtle);cursor:not-allowed}
+:host ::ng-deep [psFieldControl]::placeholder{color:var(--ink-subtle)}
+:host(.ps-field-error) ::ng-deep [psFieldControl]{border-color:var(--danger)}
+:host ::ng-deep textarea[psFieldControl]{height:auto;min-height:calc(var(--type-control-line-height) * 3 + var(--space-4));padding:var(--space-2) var(--space-3);resize:vertical}
+:host ::ng-deep input[psFieldControl][type=number],:host ::ng-deep input[psFieldControl][psInrInput]{text-align:right;font-variant-numeric:tabular-nums}
+:host(.choice){display:grid;grid-template-columns:auto 1fr;align-items:center;column-gap:var(--space-2)}:host(.choice) label{grid-column:2;grid-row:1}:host(.choice) .control{grid-column:1;grid-row:1}:host(.choice) p{grid-column:1 / -1}
+:host ::ng-deep input[psFieldControl][type=checkbox],:host ::ng-deep input[psFieldControl][type=radio]{appearance:none;width:var(--choice-size);height:var(--choice-size);margin:0;padding:0;display:inline-grid;place-content:center;accent-color:var(--brand-700);cursor:pointer}
+:host ::ng-deep input[psFieldControl][type=checkbox]{border-radius:var(--radius-sm)}:host ::ng-deep input[psFieldControl][type=radio]{border-radius:var(--radius-round)}
+:host ::ng-deep input[psFieldControl][type=checkbox]:checked{background:var(--brand-700);border-color:var(--brand-700)}
+:host ::ng-deep input[psFieldControl][type=checkbox]:checked::after{content:"";box-sizing:content-box;width:var(--tick-width);height:var(--tick-height);border:solid var(--ink-on-brand);border-width:0 var(--focus-width) var(--focus-width) 0;transform:rotate(45deg)}
+:host ::ng-deep input[psFieldControl][type=radio]:checked{border-color:var(--brand-700)}:host ::ng-deep input[psFieldControl][type=radio]:checked::after{content:"";width:var(--choice-dot);height:var(--choice-dot);background:var(--brand-700);border-radius:var(--radius-round)}
+:host ::ng-deep input[psFieldControl][role=switch]{width:var(--toggle-width);height:var(--toggle-height);border-radius:var(--toggle-radius);background:var(--surface-sunken);position:relative;display:block}
+:host ::ng-deep input[psFieldControl][role=switch]::after{content:"";position:absolute;top:var(--badge-padding-block);left:var(--badge-padding-block);width:var(--toggle-knob);height:var(--toggle-knob);border:0;border-radius:var(--radius-round);background:var(--ink-subtle);transform:none}
+:host ::ng-deep input[psFieldControl][role=switch]:checked::after{left:calc(var(--toggle-width) - var(--toggle-knob) - var(--space-1));background:var(--ink-on-brand);width:var(--toggle-knob);height:var(--toggle-knob);border:0;transform:none}
+:host ::ng-deep input[psFieldControl][type]:disabled{border-color:var(--border-subtle);background:var(--surface-sunken);color:var(--ink-subtle);cursor:not-allowed}
+:host(.inline){flex-direction:row;align-items:center;gap:var(--space-3)}
+.sr-label{position:absolute;width:var(--border-width);height:var(--border-width);padding:0;margin:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.control{position:relative;min-width:0}.prefix,.suffix{position:absolute;top:50%;transform:translateY(-50%);display:inline-flex;align-items:center;color:var(--ink-muted)}.prefix{left:var(--space-3);pointer-events:none}.suffix{right:var(--space-1)}.prefix:empty,.suffix:empty{display:none}
+:host ::ng-deep .control:has(.prefix:not(:empty)) [psFieldControl]{padding-inline-start:calc(var(--space-3) + var(--icon-sm) + var(--space-2))}
+:host ::ng-deep .control:has(.suffix:not(:empty)) [psFieldControl]{padding-inline-end:var(--space-12)}
+:host ::ng-deep .control:has(.suffix:not(:empty)) input[type=search][psFieldControl]::-webkit-search-cancel-button{appearance:none}
+
+/* Optional compact controls use existing dimensions; default forms stay 40px. */
+:host(.compact) { width:100%; max-width:var(--search-width); }
+:host(.compact) ::ng-deep :is(input,select)[psFieldControl]:not([type=checkbox]):not([type=radio]) { height:var(--icon-button-sm); }
+:host ::ng-deep input[type=date][psFieldControl]::-webkit-datetime-edit { padding:0; }
+
+/* One trailing chevron, outside native backgrounds and OS decoration. */
+:host ::ng-deep select[psFieldControl]:not([multiple]) { appearance:none; padding-inline-end:var(--space-8); }
+:host ::ng-deep .control:has(> select[psFieldControl]:not([multiple]))::after { content:""; position:absolute; pointer-events:none; inset-inline-end:var(--space-3); top:50%; width:var(--choice-dot); height:var(--choice-dot); border-inline-end:var(--border-width) solid var(--ink-muted); border-block-end:var(--border-width) solid var(--ink-muted); transform:translateY(-75%) rotate(45deg); }
+
+/* Progressive enhancement of the native picker, not a replacement widget. */
+@supports (appearance:base-select) {
+  :host ::ng-deep select[psFieldControl]:not([multiple]),
+  :host ::ng-deep select[psFieldControl]:not([multiple])::picker(select) { appearance:base-select; }
+  :host ::ng-deep select[psFieldControl]::picker-icon { display:none; }
+  :host ::ng-deep select[psFieldControl]::picker(select) {
+    padding:var(--space-1);
+    margin-block:var(--space-1);
+    max-inline-size:calc(100vw - var(--space-8));
+    max-block-size:min(calc(var(--control-height) * 8),calc(100dvh - var(--space-8)));
+    overflow:auto;
+    border:var(--border-width) solid var(--border-control);
+    border-radius:var(--radius-md);
+    background:var(--surface-card);
+    color:var(--ink);
+    font:var(--type-control);
+    box-shadow:var(--shadow-popover);
+  }
+  :host ::ng-deep select[psFieldControl] option {
+    display:flex;
+    align-items:center;
+    gap:var(--space-2);
+    min-block-size:var(--control-height);
+    padding:var(--space-2) var(--space-3);
+    border-radius:var(--radius-sm);
+    white-space:normal;
+    overflow-wrap:anywhere;
+    font:var(--type-control);
+  }
+  :host ::ng-deep select[psFieldControl] option:checked { background:var(--neutral-bg); color:var(--ink); font-weight:var(--font-weight-semibold); }
+  :host ::ng-deep select[psFieldControl] option:hover { background:var(--surface-hover); }
+  :host ::ng-deep select[psFieldControl] option:focus-visible { outline:var(--focus-width) solid var(--focus-ring); outline-offset:calc(-1 * var(--focus-width)); }
+  :host ::ng-deep select[psFieldControl] option::checkmark { color:var(--brand-700); }
+}
+
+/* Preserve recognizable marks after disabled-field and global box-sizing rules. */
+:host ::ng-deep input[psFieldControl][type=checkbox]:not([role=switch]):indeterminate { background:var(--brand-700); border-color:var(--brand-700); }
+:host ::ng-deep input[psFieldControl][type=checkbox]:not([role=switch]):indeterminate::after { content:""; display:block; width:var(--space-2); height:var(--focus-width); border:0; background:var(--ink-on-brand); transform:none; }
+:host ::ng-deep input[psFieldControl][type=checkbox]:not([role=switch]):disabled:is(:checked,:indeterminate) { background:var(--ink-subtle); border-color:var(--ink-subtle); }
+:host(.choice):has(.sr-label) { grid-template-columns:minmax(0,1fr); justify-items:center; }
+@media (forced-colors:active) {
+  :host ::ng-deep input[psFieldControl]:is([type=checkbox],[type=radio]):not([role=switch]) { appearance:auto; forced-color-adjust:auto; }
+  :host ::ng-deep input[psFieldControl]:is([type=checkbox],[type=radio]):not([role=switch])::after { content:none; }
+}

@@ -26,3 +26,16 @@
 }
 
 nav .nav-icon{width:16px;height:16px;flex:none;margin-top:2px}
+
+/* Shared shell visual correction from the approved Employees reference.
+   Existing routes, bindings and responsive navigation remain intact. */
+.workspace{background:var(--surface-page);color:var(--ink)}
+.sidebar{width:var(--sidebar-width);background:var(--brand-900);color:var(--ink-on-dark)}
+.brand-mark{box-sizing:border-box;width:var(--space-12);height:var(--space-12);padding:0;display:grid;place-items:center}
+.sidebar nav a{font:var(--type-nav);white-space:nowrap}
+.sidebar nav a.nav-active{background:var(--brand-800);color:var(--lime-300);border-color:var(--border-on-dark);font-weight:var(--font-weight-semibold)}
+.topbar{min-height:var(--topbar-height);background:var(--surface-card);border-color:var(--border-subtle)}
+main{max-width:var(--content-max);padding:var(--space-12) var(--space-8)}
+@media(max-width:800px){.sidebar{width:100%}main{padding:var(--space-6) var(--space-4)}.topbar{min-height:var(--control-height)}}
+
+@media(min-width:801px){.sidebar{position:sticky;top:0;height:100vh;align-self:flex-start}}

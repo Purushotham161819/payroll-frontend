@@ -80,9 +80,9 @@ describe('Dynamic tax component workflow regression', () => {
     }
     for(const mapping of page.mappings){
       const labels=Array.from(form.querySelectorAll('label'));
-      const reference=labels.find(l=>l.textContent?.includes(mapping.name+' — legal reference'))!.querySelector('input')!;
+      const reference=labels.find(l=>l.textContent?.includes(mapping.name+' — legal reference'))!.closest('ps-form-field')!.querySelector('input')!;
       reference.value='Test-only approved fixture';reference.dispatchEvent(new Event('input',{bubbles:true}));
-      const select=labels.find(l=>l.textContent?.includes(mapping.name+' — taxability treatment'))!.querySelector('select')!;
+      const select=labels.find(l=>l.textContent?.includes(mapping.name+' — taxability treatment'))!.closest('ps-form-field')!.querySelector('select')!;
       select.value='taxable';select.dispatchEvent(new Event('change',{bubbles:true}));
     }
     const checkbox=form.querySelector('[name=employerReviewed]') as HTMLInputElement;checkbox.checked=true;checkbox.dispatchEvent(new Event('change',{bubbles:true}));

@@ -1,0 +1,92 @@
+ M angular.json
+ M e2e/branding.spec.ts
+ M e2e/conditional-formulas.spec.ts
+ M e2e/final-ui.spec.ts
+ M e2e/formula-components.spec.ts
+ M e2e/indian-format-search.spec.ts
+ M e2e/management-delete.spec.ts
+ M e2e/mandatory-components.spec.ts
+ M e2e/pay-check-details.spec.ts
+ M e2e/payroll-ui-refinements.spec.ts
+ M e2e/profile-payroll-ui.spec.ts
+ M e2e/run-payroll.spec.ts
+ M e2e/settings-ui.spec.ts
+ M e2e/settings.spec.ts
+ M e2e/statutory-deductions.spec.ts
+ M e2e/tds-widgets.spec.ts
+ M e2e/unified-payroll.spec.ts
+ M e2e/user-management.spec.ts
+ M src/app/app.css
+ M src/app/app.html
+ M src/app/app.ts
+ M src/app/employees/employee-form.html
+ M src/app/employees/employee-list.css
+ M src/app/employees/employee-list.html
+ M src/app/employees/employee-list.ts
+ M src/app/employees/employee-profile.css
+ M src/app/employees/employee-profile.html
+ M src/app/employees/employee-profile.ts
+ M src/app/employees/employment-history.ts
+ M src/app/employees/lifecycle-dialog.ts
+ M src/app/employees/pay-checks.css
+ M src/app/employees/pay-checks.spec.ts
+ M src/app/employees/pay-checks.ts
+ M src/app/employees/profile-card.ts
+ M src/app/employees/profile-enhancements.spec.ts
+ M src/app/employees/profile-tabs.ts
+ M src/app/features/run-payroll/components/payroll-guide.ts
+ M src/app/features/run-payroll/run-payroll.component.css
+ M src/app/features/run-payroll/run-payroll.component.html
+ M src/app/features/run-payroll/run-payroll.component.ts
+ M src/app/features/run-payroll/unified-payroll.spec.ts
+ M src/app/features/tax-management/employee-tax-workflow.spec.ts
+ M src/app/features/tax-management/employee-tax.css
+ M src/app/features/tax-management/employee-tax.html
+ M src/app/features/tax-management/employee-tax.ts
+ M src/app/features/tax-management/tax-component-workflow.spec.ts
+ M src/app/features/tax-management/tax-configuration.css
+ M src/app/features/tax-management/tax-configuration.html
+ M src/app/features/tax-management/tax-configuration.ts
+ M src/app/payroll/payroll-generator.html
+ M src/app/payroll/payroll-generator.ts
+ M src/app/platform/platform.html
+ M src/app/settings/organization-settings.css
+ M src/app/settings/organization-settings.html
+ M src/app/settings/organization-settings.ts
+ M src/app/settings/settings.css
+ M src/app/settings/settings.html
+ M src/app/settings/settings.ts
+ M src/app/shared/navigation-context.spec.ts
+ M src/app/shared/navigation-context.ts
+ M src/app/statutory-deductions/statutory-deductions.css
+ M src/app/statutory-deductions/statutory-deductions.html
+ M src/app/statutory-deductions/statutory-deductions.spec.ts
+ M src/app/statutory-deductions/statutory-deductions.ts
+ M src/app/users/users.css
+ M src/app/users/users.html
+ M src/app/users/users.ts
+ M src/styles.css
+?? AGENTS.md
+?? docs/design-system/
+?? e2e/dropdown-evidence.ts
+?? e2e/employee-details-design-system.spec.ts
+?? e2e/employee-directory-return.spec.ts
+?? e2e/employee-tax-design-system.spec.ts
+?? e2e/employees-design-system.spec.ts
+?? e2e/employees-remediation.spec.ts
+?? e2e/organization-design-system.spec.ts
+?? e2e/run-payroll-design-system.spec.ts
+?? e2e/run-payroll-warning-design-system.spec.ts
+?? e2e/salary-design-system.spec.ts
+?? e2e/select-period.ts
+?? e2e/shared-controls-product.spec.ts
+?? e2e/shared-controls-remediation.spec.ts
+?? e2e/tax-design-system.spec.ts
+?? e2e/users-design-system.spec.ts
+?? src/app/employees/employee-list-pilot.spec.ts
+?? src/app/employees/employment-history.css
+?? src/app/employees/pay-checks.html
+?? src/app/employees/profile-tabs.css
+?? src/app/shared/ui/
+?? src/styles.scss
+?? src/styles/

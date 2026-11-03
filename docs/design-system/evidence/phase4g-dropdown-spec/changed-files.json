@@ -1,0 +1,110 @@
+[
+  {
+    "path": "docs/design-system/PAYSTREAM_DESIGN_SYSTEM.md",
+    "created": false
+  },
+  {
+    "path": "docs/design-system/PayStream-Component-Library.md",
+    "created": false
+  },
+  {
+    "path": "e2e/dropdown-evidence.ts",
+    "created": true
+  },
+  {
+    "path": "e2e/run-payroll-design-system.spec.ts",
+    "created": false
+  },
+  {
+    "path": "e2e/select-period.ts",
+    "created": true
+  },
+  {
+    "path": "e2e/shared-controls-product.spec.ts",
+    "created": false
+  },
+  {
+    "path": "e2e/shared-controls-remediation.spec.ts",
+    "created": false
+  },
+  {
+    "path": "src/app/shared/ui/action-icons.ts",
+    "created": false
+  },
+  {
+    "path": "src/app/shared/ui/index.ts",
+    "created": false
+  },
+  {
+    "path": "src/app/shared/ui/ps-form-field.scss",
+    "created": false
+  },
+  {
+    "path": "src/app/shared/ui/ps-form-field.ts",
+    "created": false
+  },
+  {
+    "path": "src/app/shared/ui/ps-select.spec.ts",
+    "created": true
+  },
+  {
+    "path": "src/app/shared/ui/ps-select.ts",
+    "created": true
+  },
+  {
+    "path": "src/styles/paystream-select.css",
+    "created": true
+  },
+  {
+    "path": "src/styles/paystream-tokens.css",
+    "created": false
+  },
+  {
+    "path": "e2e/final-ui.spec.ts",
+    "created": false
+  },
+  {
+    "path": "e2e/run-payroll.spec.ts",
+    "created": false
+  },
+  {
+    "path": "e2e/unified-payroll.spec.ts",
+    "created": false
+  },
+  {
+    "path": "src/app/employees/employee-form.html",
+    "created": false
+  },
+  {
+    "path": "src/app/employees/lifecycle-dialog.ts",
+    "created": false
+  },
+  {
+    "path": "src/app/features/run-payroll/run-payroll.component.html",
+    "created": false
+  },
+  {
+    "path": "src/app/features/run-payroll/run-payroll.component.ts",
+    "created": false
+  },
+  {
+    "path": "src/app/features/tax-management/employee-tax.css",
+    "created": false
+  },
+  {
+    "path": "src/app/payroll/payroll-generator.html",
+    "created": false
+  },
+  {
+    "path": "src/app/platform/platform.html",
+    "created": false
+  },
+  {
+    "path": "src/styles.css",
+    "created": false
+  },
+  {
+    "path": "docs/design-system/PHASE_4G_REPORT.md",
+    "created": false
+  }
+]

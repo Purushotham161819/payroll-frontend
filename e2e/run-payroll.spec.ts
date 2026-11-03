@@ -103,7 +103,7 @@ test('launch payroll, reopen and edit a saved draft, submit, and download histor
   await page.getByLabel('Employee Status', { exact: true }).selectOption('All');
   await run.click();
   await expect(page.getByRole('heading', { name: 'Run Payroll', exact: true })).toBeVisible();
-  await expect(page.getByLabel('Pay Period').locator('option')).toHaveCount(12);
+  await page.getByLabel('Pay Period',{exact:true}).click(); await expect(page.getByRole('option')).toHaveCount(12); await page.keyboard.press('Escape');
   await expect(page.getByRole('link', { name: 'Ada', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Submit', exact: true })).toBeDisabled();
   await page.getByLabel('Payment Date', { exact: true }).fill(`${year}-12-28`);
@@ -126,7 +126,7 @@ test('launch payroll, reopen and edit a saved draft, submit, and download histor
   ).not.toBeChecked();
   await expect(
     page.getByRole('table', { name: 'Employee payroll' }).getByRole('row').last(),
-  ).toContainText('95.00');
+  ).toContainText('95');
   await page.getByRole('button', { name: 'Save', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Submit', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: 'Submit', exact: true }).click();

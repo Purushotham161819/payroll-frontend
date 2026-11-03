@@ -1,8 +1,23 @@
+import {
+  PsButton,
+  PsIconButton,
+  PsIcon,
+  PsPageHeader,
+  PsCard,
+  PsCardTitle,
+  PsCardFooter,
+  PsDataTable,
+  PsFormField,
+  PsSelect,
+  PsFieldControl,
+  PsStatusBadge,
+  PsInrPipe,
+  PsDatePipe,
+} from '../../shared/ui';
 import { CdkOverlayOrigin, ConnectedPosition, OverlayModule } from '@angular/cdk/overlay';
 import { A11yModule } from '@angular/cdk/a11y';
 import { PayrollGuide } from './components/payroll-guide';
 import { NavigationContext, EmployeeOrigin } from '../../shared/navigation-context';
-import { ActionIcon } from '../../shared/action-icon';
 import { Location } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -18,7 +33,7 @@ import {
   DestroyRef,
   computed,
 } from '@angular/core';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { FormsModule } from '@angular/forms';
@@ -30,7 +45,28 @@ type PayrollRow = Pick<PayCheck, 'employeeId' | 'firstName' | 'lastName'> &
   Partial<PayCheck> & { historical: boolean; selectable: boolean; validationMessage?: string };
 @Component({
   selector: 'app-run-payroll',
-  imports: [CurrencyPipe, DatePipe, FormsModule, RouterLink, ActionIcon, PayrollGuide, OverlayModule, A11yModule],
+  imports: [
+    PsButton,
+    PsIconButton,
+    PsIcon,
+    PsPageHeader,
+    PsCard,
+    PsCardTitle,
+    PsCardFooter,
+    PsDataTable,
+    PsFormField,
+    PsSelect,
+    PsFieldControl,
+    PsStatusBadge,
+    PsInrPipe,
+    PsDatePipe,
+    DatePipe,
+    FormsModule,
+    RouterLink,
+    PayrollGuide,
+    OverlayModule,
+    A11yModule,
+  ],
   templateUrl: './run-payroll.component.html',
   styleUrl: './run-payroll.component.css',
 })
@@ -46,7 +82,7 @@ export class RunPayroll implements OnInit, OnDestroy {
     : 'Active';
   private readonly navigation = inject(NavigationContext);
   private readonly location = inject(Location);
-  private readonly tableScroll = viewChild<ElementRef<HTMLElement>>('payrollTableScroll');
+  private readonly tableScroll = viewChild<PsDataTable>('payrollTableScroll');
   private contextKey: string = crypto.randomUUID();
   private scrollFrame?: number;
   readonly refreshing = signal(false);

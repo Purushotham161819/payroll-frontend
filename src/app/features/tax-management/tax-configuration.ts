@@ -11,12 +11,12 @@ import {
   HostListener,
 } from '@angular/core';
 import { FormsModule, NgForm, AbstractControl } from '@angular/forms';
-import { DatePipe, CurrencyPipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
+import { PsButton, PsIconButton, PsPageHeader, PsCard, PsCardTitle, PsCardSubtitle, PsCardActions, PsCardFooter, PsDataTable, PsFormField, PsFieldControl, PsStatusBadge, PsDatePipe, PsInrPipe } from '../../shared/ui';
 import { firstValueFrom } from 'rxjs';
 import { SalaryComponentService } from '../../settings/settings';
 import { apiError } from '../../employees/employee.service';
 import { TaxApi } from './tax-api';
-import { ActionIcon } from '../../shared/action-icon';
 type TaxSection = 'master' | 'slabs' | 'surcharge' | 'taxability';
 const sectionKeys: Record<TaxSection, string[]> = {
   master: [
@@ -39,9 +39,9 @@ const sectionKeys: Record<TaxSection, string[]> = {
 
 @Component({
   selector: 'app-tax-configuration',
-  imports: [SettingsTabs, FormsModule, DatePipe, CurrencyPipe, ActionIcon],
+  imports: [SettingsTabs, FormsModule, DatePipe, PsButton, PsIconButton, PsPageHeader, PsCard, PsCardTitle, PsCardSubtitle, PsCardActions, PsCardFooter, PsDataTable, PsFormField, PsFieldControl, PsStatusBadge, PsDatePipe, PsInrPipe],
   templateUrl: './tax-configuration.html',
-  styleUrls: ['./tax-management.css', './tax-configuration.css'],
+  styleUrls: ['./tax-configuration.css'],
 })
 export class TaxConfiguration implements OnInit {
   private readonly api = inject(TaxApi);

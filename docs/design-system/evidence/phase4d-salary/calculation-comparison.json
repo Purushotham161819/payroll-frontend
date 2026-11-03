@@ -1,0 +1,12 @@
+{
+  "identical": true,
+  "beforeSha256": "f59932aa3177a2309b5f69ee6720881d95acf9184c3667aa8115b5f2ed6e8809",
+  "afterSha256": "f59932aa3177a2309b5f69ee6720881d95acf9184c3667aa8115b5f2ed6e8809",
+  "configurations": 4,
+  "projectionsPerConfiguration": [
+    1,
+    3,
+    6,
+    12
+  ]
+}

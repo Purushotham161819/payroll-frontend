@@ -54,7 +54,10 @@ test('directory launch, row warnings, compact popover, name links and refresh re
   const bounds=await popup.boundingBox();
   expect(bounds!.width).toBeLessThanOrEqual(340);
   expect(bounds!.height).toBeLessThan(220);
-  expect(Math.abs(bounds!.y-(iconBox!.y+iconBox!.height))).toBeLessThan(10);
+  const openedIconBox=await warning.boundingBox();
+  const belowGap=Math.abs(bounds!.y-(openedIconBox!.y+openedIconBox!.height));
+  const aboveGap=Math.abs(openedIconBox!.y-(bounds!.y+bounds!.height));
+  expect(Math.min(belowGap,aboveGap)).toBeLessThan(10);
   await page.screenshot({path:'test-results/payroll-refinements-desktop.png',fullPage:true});
   await page.keyboard.press('Escape');
   await expect(popup).toHaveCount(0);
@@ -66,7 +69,7 @@ test('directory launch, row warnings, compact popover, name links and refresh re
   await expect(popup).toHaveCount(0);
   await expect(warning).toBeFocused();
   const refresh=page.getByRole('button',{name:'Refresh Payroll',exact:true});
-  await expect(refresh).toHaveAttribute('title','Refresh Payroll');
+  await expect(refresh).toHaveAttribute('aria-label','Refresh Payroll');
   const before=reads;hold=true;
   await refresh.click();
   await expect(refresh).toBeDisabled();

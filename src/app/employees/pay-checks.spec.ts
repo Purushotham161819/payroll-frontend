@@ -40,8 +40,8 @@ describe('Pay Check presentation of stored TDS and PDF actions', () => {
     const { fixture, page } = await setup();
     const rows = fixture.nativeElement.querySelectorAll('tbody tr');
     expect(rows).toHaveLength(3);
-    expect(rows[0].textContent).toContain('November 2026');
-    expect(rows[1].textContent).toContain('October 2026');
+    expect(rows[0].textContent).toContain('Nov 2026');
+    expect(rows[1].textContent).toContain('Oct 2026');
     expect(fixture.nativeElement.textContent).not.toContain('Income Tax / TDS:');
     const buttons = rows[0].querySelectorAll('button');
     expect([...buttons].map((button: any) => button.getAttribute('aria-label'))).toEqual([

@@ -1,315 +1,213 @@
 :host {
   display: block;
+  min-width: 0;
+  color: var(--ink);
+  font: var(--type-body);
 }
 .tax-intro h2 {
-  margin: 0 0 6px;
+  font: var(--type-card-title);
+  margin: 0 0 var(--space-2);
 }
 .tax-intro p {
-  font-size: 13px;
-  margin: 0 0 20px;
+  font: var(--type-card-subtitle);
+  color: var(--ink-muted);
+  margin: 0 0 var(--space-6);
 }
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 18px;
-  margin-bottom: 20px;
-}
-
-.card-header p {
-  margin: 0;
-  font-size: 13px;
+.tax-card {
+  margin: 0 0 var(--space-6);
+  min-width: 0;
 }
 .header-actions,
 .card-actions {
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+  align-items: center;
   justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-3);
 }
-.header-actions button,
-.card-actions button {
-  margin: 0;
+.calculation-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 var(--space-5);
 }
-.card-actions {
-  margin-top: 20px;
+.summary,
+.calculation-metadata {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-5) var(--space-6);
+  padding: 0;
+  margin: 0 0 var(--space-6);
 }
-.summary {
-  padding: 16px;
-  background: #f5f7f2;
-  border-radius: 7px;
-  margin: 18px 0;
+.summary > div,
+.calculation-metadata > div {
+  min-width: 0;
 }
-.summary dt {
-  font-size: 12px;
+dt {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--ink-muted);
+  font: var(--type-label);
 }
-.summary dd {
-  font-size: 15px;
+dd {
+  margin: var(--space-2) 0 0;
+  font: var(--type-body);
+  font-weight: var(--font-weight-medium);
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
 }
-.fields label {
-  margin: 0;
+dt label {
+  font: inherit;
+}
+.calculation-metadata {
+  border-bottom: var(--border-width) solid var(--border-subtle);
+  padding-bottom: var(--space-5);
 }
 .fields {
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-5);
+  margin: var(--space-5) 0;
+}
+.fields > * {
+  min-width: 0;
 }
 .checks {
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
-.readonly input:disabled,
-.readonly select:disabled,
-input[readonly],
-select:disabled {
-  background: #f3f5f0;
-  color: #52624f;
-}
-input[readonly] {
-  cursor: default;
-}
-table {
-  font-size: 13px;
-}
-th {
-  font-size: 12px;
-  background: #edf2e9;
-}
-th,
-td {
-  padding: 13px 12px;
-  vertical-align: top;
-}
-.table-wrap {
-  overflow: auto;
-  border: 1px solid #e1e7de;
-  border-radius: 7px;
-}
-td:first-child {
-  min-width: 150px;
-}
-td small {
-  display: block;
-  color: #65756b;
-  margin-top: 5px;
-}
-.empty {
-  padding: 20px;
-  background: #f5f7f2;
-  border-radius: 6px;
-}
-.muted {
-  overflow-wrap: anywhere;
-}
-.notice.info {
-  background: #f0f4ec;
-  color: #40563d;
-}
-button:focus-visible,
-a:focus-visible,
-.table-wrap:focus-visible {
-  outline: 2px solid #28644a;
-  outline-offset: 3px;
-}
-dialog {
-  width: min(520px, calc(100% - 28px));
-  box-sizing: border-box;
-  border: 1px solid #dce4da;
-  border-radius: 12px;
-  padding: 25px;
-  color: #20372c;
-}
-dialog::backdrop {
-  background: #102c2a99;
-}
-[hidden] {
-  display: none !important;
-}
-@media (max-width: 650px) {
-  .tax-card {
-    padding: 16px;
-  }
-  .card-header {
-    flex-wrap: wrap;
-  }
-  .fields,
-  .checks {
-    grid-template-columns: 1fr;
-  }
-  .header-actions {
-    justify-content: flex-start;
-  }
-  .card-actions button {
-    flex: 1 1 auto;
-  }
-  .summary {
-    padding: 12px;
-  }
-}
-
-.review-note {
-  width: min(100%, 560px);
-}
-.review-note textarea {
-  min-height: 56px;
-  resize: vertical;
-}
-
-.employment-card .card-header {
-  align-items: center;
-  margin-bottom: 12px;
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
 }
 .scenario-options {
   display: grid;
-  gap: 8px;
+  gap: var(--space-3);
 }
-.scenario-options .check,
-.checks .check {
-  display: grid;
-  grid-template-columns: 18px minmax(0, 1fr);
-  align-items: start;
-  gap: 10px;
-  margin: 5px 0;
-  line-height: 1.5;
+h4 {
+  font: var(--type-card-title);
+  margin: var(--space-6) 0 var(--space-4);
 }
-.check input {
-  margin: 3px 0 0;
-  width: 16px;
-  height: 16px;
-  flex: none;
-}
-.checks {
-  gap: 12px 20px;
-}
-.summary > div {
-  min-width: 0;
-}
-.summary dd {
+p {
   overflow-wrap: anywhere;
 }
-.header-actions .icon-button {
+.muted,
+small {
+  color: var(--ink-muted);
+  font: var(--type-helper);
+}
+.notice {
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+}
+.notice.error {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+.notice.success {
+  background: var(--success-bg);
+  color: var(--success);
+}
+.notice.info {
+  background: var(--info-bg);
+  color: var(--info);
+}
+.info-trigger {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin: 0;
-  width: 36px;
-  height: 36px;
-  min-height: 36px;
-  padding: 8px;
-}
-@media (max-width: 650px) {
-  .review-note {
-    width: 100%;
-  }
-
-}
-
-.employment-card .card-header {
-  flex-wrap: nowrap;
-  align-items: flex-start;
-}
-.employment-card .header-actions {
-  flex: 0 0 auto;
-}
-
-.tax-card {
-  background: white;
-  border: 1px solid #dce6df;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px #1c3b2910;
-  padding: 22px;
-}
-.card-header h3 {
-  font-size: 15px;
-  font-weight: 650;
-  margin: 0;
-  color: #294d3b;
-}
-.calculation-toolbar {
-  margin: 0 0 20px;
-}
-.calculation-toolbar button {
-  margin: 0;
-}
-.profile-summary {
-  background: transparent;
+  border: 0;
   padding: 0;
-  margin: 0;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px 24px;
+  min-height: var(--icon-sm);
+  background: transparent;
+  color: var(--ink-subtle);
+  cursor: pointer;
+  flex: none;
+  border-radius: var(--radius-sm);
 }
-.profile-summary dt,
-.calculation-metadata dt {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: #6a7a70;
+.info-trigger:focus-visible,
+summary:focus-visible {
+  outline: var(--focus-width) solid var(--focus-ring);
+  outline-offset: var(--focus-offset);
 }
-.profile-summary dt label {
-  margin: 0;
-  font: inherit;
+.profile-summary input {
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--control-height);
+  border: var(--border-width) solid var(--border-control);
+  border-radius: var(--radius-md);
+  padding: 0 var(--space-3);
+  color: var(--ink);
+  background: var(--surface-card);
+  font: var(--type-control);
 }
-.profile-summary dd {
-  margin: 7px 0 0;
-  font-size: 14px;
-  font-weight: 500;
-  color: #203d2d;
+.profile-summary input[readonly] {
+  background-color: var(--surface-sunken);
+  color: var(--ink-subtle);
+  border-color: var(--border-subtle);
 }
-.profile-summary fieldset {
-  margin: 0;
+.review-note {
+  max-width: calc(var(--search-width) * 2);
 }
-.profile-summary input,
-.profile-summary select {
-  font-size: 14px;
-  max-width: 280px;
+textarea {
+  min-height: var(--space-12);
+  height: auto;
+  resize: vertical;
 }
-.employment-card {
-  margin: 20px 0;
-}
-.employment-card .card-header h3 {
-  flex: 1;
-  min-width: 0;
-}
-.employment-card .header-actions {
-  flex-wrap: nowrap;
-}
-.calculation-metadata {
-  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
-  gap: 16px 22px;
-  margin: 18px 0 22px;
-  padding: 0 0 18px;
-  border-bottom: 1px solid #e4ebe6;
-}
-.calculation-metadata dd {
-  margin: 7px 0 0;
-  font-size: 13px;
-  font-weight: 500;
-  overflow-wrap: anywhere;
+ps-data-table {
+  max-width: 100%;
 }
 .sr-only {
   position: absolute;
-  width: 1px;
-  height: 1px;
+  width: var(--border-width);
+  height: var(--border-width);
   padding: 0;
-  margin: -1px;
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
-  border: 0;
+}
+dialog {
+  box-sizing: border-box;
+  width: calc(var(--search-width) * 2);
+  max-width: calc(100vw - var(--space-8));
+  max-height: calc(100dvh - var(--space-8));
+  overflow: auto;
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  background: var(--surface-card);
+  color: var(--ink);
+  font: var(--type-body);
+  box-shadow: var(--shadow-dialog);
+}
+dialog::backdrop {
+  background: var(--brand-900);
+  opacity: 0.6;
+}
+dialog h3 {
+  font: var(--type-card-title);
+  margin: 0 0 var(--space-4);
 }
 @media (max-width: 850px) {
-  .profile-summary {
+  .summary,
+  .calculation-metadata,
+  .fields {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 @media (max-width: 600px) {
-  .profile-summary {
+  .summary,
+  .calculation-metadata,
+  .fields {
     grid-template-columns: minmax(0, 1fr);
   }
-  .tax-card {
-    padding: 18px;
-  }
-  .card-header {
-    flex-wrap: nowrap;
-    gap: 10px;
+  .header-actions {
+    flex-direction: column;
+    align-items: flex-end;
   }
 }
+
+.tds-total dd { font:var(--type-card-title); }
+.saved-amount { font-variant-numeric:tabular-nums; }

@@ -1,3 +1,4 @@
+import { PsNativeSelect } from '../shared/ui/ps-native-select';
 import { Component, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -26,7 +27,7 @@ interface Page<T> {
 }
 @Component({
   selector: 'app-platform',
-  imports: [FormsModule, DatePipe, RouterLink],
+  imports: [PsNativeSelect, FormsModule, DatePipe, RouterLink],
   templateUrl: './platform.html',
   styleUrl: './platform.css',
 })

@@ -1,0 +1,290 @@
+[
+  {
+    "file": "before-employee-tax-employee-tax-financial-year-1280.json",
+    "equal": true
+  },
+  {
+    "file": "before-employee-tax-employee-tax-financial-year-1440.json",
+    "equal": true
+  },
+  {
+    "file": "before-employee-tax-employee-tax-financial-year-390.json",
+    "equal": true
+  },
+  {
+    "file": "before-employee-tax-employee-tax-financial-year-768.json",
+    "equal": true
+  },
+  {
+    "file": "before-employees-employee-status-1280.json",
+    "equal": true
+  },
+  {
+    "file": "before-employees-employee-status-1440.json",
+    "equal": true
+  },
+  {
+    "file": "before-employees-employee-status-390.json",
+    "equal": true
+  },
+  {
+    "file": "before-employees-employee-status-768.json",
+    "equal": true
+  },
+  {
+    "file": "before-organization-country-1280.json",
+    "equal": true
+  },
+  {
+    "file": "before-organization-country-1440.json",
+    "equal": true
+  },
+  {
+    "file": "before-organization-country-390.json",
+    "equal": true
+  },
+  {
+    "file": "before-organization-country-768.json",
+    "equal": true
+  },
+  {
+    "file": "before-payroll-pay-period-1280.json",
+    "equal": true
+  },
+  {
+    "file": "before-payroll-pay-period-1440.json",
+    "equal": true
+  },
+  {
+    "file": "before-payroll-pay-period-390.json",
+    "equal": true
+  },
+  {
+    "file": "before-payroll-pay-period-768.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-add-component-base-1280.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-add-component-base-1440.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-add-component-base-390.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-add-component-base-768.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-add-component-category-1280.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-add-component-category-1440.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-add-component-category-390.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-add-component-category-768.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-add-component-status-1280.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-add-component-status-1440.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-add-component-status-390.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-add-component-status-768.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-add-component-type-1280.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-add-component-type-1440.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-add-component-type-390.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-add-component-type-768.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-formula-component-category-1280.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-formula-component-category-1440.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-formula-component-category-390.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-formula-component-category-768.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-formula-component-status-1280.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-formula-component-status-1440.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-formula-component-status-390.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-formula-component-status-768.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-formula-component-type-1280.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-formula-component-type-1440.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-formula-component-type-390.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-formula-component-type-768.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-formula-formula-variable-1280.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-formula-formula-variable-1440.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-formula-formula-variable-390.json",
+    "equal": true
+  },
+  {
+    "file": "before-salary-formula-formula-variable-768.json",
+    "equal": true
+  },
+  {
+    "file": "before-tax-tax-field-16-1280.json",
+    "equal": true
+  },
+  {
+    "file": "before-tax-tax-field-16-1440.json",
+    "equal": true
+  },
+  {
+    "file": "before-tax-tax-field-16-390.json",
+    "equal": true
+  },
+  {
+    "file": "before-tax-tax-field-16-768.json",
+    "equal": true
+  },
+  {
+    "file": "before-tax-tax-field-17-1280.json",
+    "equal": true
+  },
+  {
+    "file": "before-tax-tax-field-17-1440.json",
+    "equal": true
+  },
+  {
+    "file": "before-tax-tax-field-17-390.json",
+    "equal": true
+  },
+  {
+    "file": "before-tax-tax-field-17-768.json",
+    "equal": true
+  },
+  {
+    "file": "before-tax-tax-field-7-1280.json",
+    "equal": true
+  },
+  {
+    "file": "before-tax-tax-field-7-1440.json",
+    "equal": true
+  },
+  {
+    "file": "before-tax-tax-field-7-390.json",
+    "equal": true
+  },
+  {
+    "file": "before-tax-tax-field-7-768.json",
+    "equal": true
+  },
+  {
+    "file": "before-tax-tax-field-8-1280.json",
+    "equal": true
+  },
+  {
+    "file": "before-tax-tax-field-8-1440.json",
+    "equal": true
+  },
+  {
+    "file": "before-tax-tax-field-8-390.json",
+    "equal": true
+  },
+  {
+    "file": "before-tax-tax-field-8-768.json",
+    "equal": true
+  },
+  {
+    "file": "before-tax-tax-type0-1280.json",
+    "equal": true
+  },
+  {
+    "file": "before-tax-tax-type0-1440.json",
+    "equal": true
+  },
+  {
+    "file": "before-tax-tax-type0-390.json",
+    "equal": true
+  },
+  {
+    "file": "before-tax-tax-type0-768.json",
+    "equal": true
+  },
+  {
+    "file": "before-users-user-role-1280.json",
+    "equal": true
+  },
+  {
+    "file": "before-users-user-role-1440.json",
+    "equal": true
+  },
+  {
+    "file": "before-users-user-role-390.json",
+    "equal": true
+  },
+  {
+    "file": "before-users-user-role-768.json",
+    "equal": true
+  }
+]

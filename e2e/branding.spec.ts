@@ -9,9 +9,9 @@ test('PayStream branding, dynamic customer name, responsive header and logout',a
  await page.route('http://localhost:3000/salary-components',r=>r.fulfill({json:[]}));
  await page.goto('/');
  const brand=page.getByRole('link',{name:'PayStream, An Excelhire Product home',exact:true});
- await expect(brand).toBeVisible();await expect(brand).toContainText('PayStream,');await expect(brand).toContainText('An Excelhire Product');
+ await expect(brand).toBeVisible();await expect(brand.locator('.product-name')).toHaveText('PayStream');await expect(brand).toContainText('An Excelhire Product');
  await expect(page.locator('.organization-name')).toHaveText(name);await expect(page.getByRole('button',{name:'Sign out',exact:true})).toHaveCount(1);
- name='Example Customer Organization';await page.reload();await expect(page.locator('.organization-name')).toHaveText(name);await expect(brand).toContainText('PayStream,');
+ name='Example Customer Organization';await page.reload();await expect(page.locator('.organization-name')).toHaveText(name);await expect(brand.locator('.product-name')).toHaveText('PayStream');
  await page.getByRole('link',{name:'Settings',exact:true}).click();await expect(page.locator('.organization-name')).toHaveText(name);
  name='A very long customer organization name with regional divisions and subsidiaries '.repeat(5);await page.reload();
  await expect(page.locator('.organization-name')).toHaveAttribute('title',name.trim());

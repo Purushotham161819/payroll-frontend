@@ -24,7 +24,7 @@ test('search composes with status, makes no keystroke requests, preserves employ
   await expect(page.locator('tbody tr')).toHaveCount(5);
   await page.getByLabel('Employee Status',{exact:true}).selectOption('All');
   await expect(page.locator('tbody tr')).toHaveCount(6);
-  for(let i=0;i<values.length;i++)await expect(page.locator('td.number').nth(i)).toHaveText(grouped[i]);
+  for(let i=0;i<values.length;i++)await expect(page.locator('td.number').nth(i)).toHaveText('\u20b9' + grouped[i].replace(/\.00$/, ''));
   const search=page.getByRole('searchbox',{name:'Search employees'}),before=state.reads;
   for(const text of ['EMP001','ada','LOVE','Ada Lovelace','  aDA   loveLace  ']){
     await search.fill(text);await expect(page.locator('tbody tr')).toHaveCount(1);await expect(page.locator('tbody')).toContainText('Ada');
@@ -44,7 +44,7 @@ test('search composes with status, makes no keystroke requests, preserves employ
   await editor.getByLabel('Annual CTC',{exact:true}).fill('1500000.75');
   await editor.getByRole('button',{name:'Save employee',exact:true}).click();await expect(editor).toHaveCount(0);
   expect(state.edited.annualCtc).toBe(1500000.75);
-  await expect(page.locator('td.number')).toHaveText('15,00,000.75');
+  await expect(page.locator('td.number')).toHaveText('\u20b915,00,000.75');
   await page.getByRole('link',{name:'Lovelace',exact:true}).click();
   await expect(page.getByRole('heading',{name:'Ada Lovelace',exact:true})).toBeVisible();
   await expect(page.locator('.amount')).toHaveText(currency(1500000.75));

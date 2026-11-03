@@ -1,6 +1,7 @@
 import { PRODUCT_BRAND } from '../branding';
 import { Component, ElementRef, inject, signal, viewChild } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { CdkMenuModule } from '@angular/cdk/menu';
+import { PsButton, PsIconButton, PsIcon, PsPageHeader, PsCard, PsCardTitle, PsCardActions, PsDataTable, PsFormField, PsFieldControl, PsStatusBadge, PsDatePipe, PsTooltip } from '../shared/ui';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
@@ -9,7 +10,7 @@ import { environment } from '../../environments/environment';
 
 export interface ManagedUser { id: string; email: string; role: 'admin' | 'user'; active: boolean; createdAt: string; }
 @Component({
-  selector: 'app-user-management', imports: [FormsModule, DatePipe],
+  selector: 'app-user-management', imports: [FormsModule, CdkMenuModule, PsButton, PsIconButton, PsIcon, PsPageHeader, PsCard, PsCardTitle, PsCardActions, PsDataTable, PsFormField, PsFieldControl, PsStatusBadge, PsDatePipe, PsTooltip],
   templateUrl: './users.html', styleUrl: './users.css',
 })
 export class UserManagement {

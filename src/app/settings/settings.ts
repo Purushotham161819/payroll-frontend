@@ -1,4 +1,5 @@
-import { ActionIcon } from '../shared/action-icon';
+import { CdkMenuModule } from '@angular/cdk/menu';
+import { PsButton, PsIconButton, PsIcon, PsPageHeader, PsCard, PsCardTitle, PsDataTable, PsFormField, PsFieldControl, PsStatusBadge, PsTooltip, PsInrPipe } from '../shared/ui';
 import { SettingsTabs } from '../shared/settings-tabs';
 import { Auth } from '../auth/auth';
 import { DeleteConfirmation } from '../shared/delete-confirmation';
@@ -40,7 +41,7 @@ export class SalaryComponentService {
   remove(id:string){return this.http.delete<{message:string;deletedId:string}>(this.url+'/'+encodeURIComponent(id));}
   status(id: string, status: string) { return this.http.patch(this.url + '/' + id + '/status', { status }); }
 }
-@Component({ selector: 'app-settings', imports: [ActionIcon, SettingsTabs, CommonModule, FormsModule, DeleteConfirmation], templateUrl: './settings.html', styleUrl: './settings.css' })
+@Component({ selector: 'app-settings', imports: [SettingsTabs, CommonModule, FormsModule, DeleteConfirmation, CdkMenuModule, PsButton, PsIconButton, PsIcon, PsPageHeader, PsCard, PsCardTitle, PsDataTable, PsFormField, PsFieldControl, PsStatusBadge, PsTooltip, PsInrPipe], templateUrl: './settings.html', styleUrl: './settings.css' })
 export class Settings implements OnInit {
   readonly taxAuth = inject(Auth);
   private service = inject(SalaryComponentService);

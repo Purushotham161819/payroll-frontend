@@ -95,7 +95,7 @@ describe('Employee profile presentation and historical PDF viewer', () => {
     const back = element.querySelector<HTMLAnchorElement>('[aria-label="Back to Employees"]')!;
     expect(back.getAttribute('href')).toContain('status=All');
     expect(back.title).toBe('Back to Employees');
-    expect(back.textContent?.trim()).toBe('');
+    expect(back.textContent?.trim()).toBe('Back to Employees');
     expect(element.querySelectorAll('app-employment-history li').length).toBe(2);
     expect(element.textContent).toContain('Retirement');
     expect(element.textContent).toContain('Original period');

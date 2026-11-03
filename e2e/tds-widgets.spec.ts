@@ -274,7 +274,7 @@ test('TDS widgets preserve versioned saves, explicit calculation, year restricti
   expect(JSON.stringify(savedCalculation)).toBe(original);
   const breakdown = page.getByRole('region', { name: 'Saved Annual Tax Breakdown', exact: true });
   await expect(breakdown.locator('.calculation-metadata')).toContainText('saved-revision-17');
-  await expect(breakdown).toContainText('₹24,000.00');
+  await expect(breakdown).toContainText('₹24,000');
   await breakdown.getByRole('button', { name: 'About Configuration Version' }).focus();
   await expect(page.getByRole('tooltip')).toContainText('saved-revision-17');
   await page.keyboard.press('Escape');

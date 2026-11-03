@@ -1,3 +1,4 @@
+import { PsButton, PsPageHeader, PsCard, PsCardTitle, PsFormField, PsFieldControl, PsInrPipe } from '../shared/ui';
 import { SettingsTabs } from '../shared/settings-tabs';
 import { Auth } from '../auth/auth';
 import { Component, Injectable, OnInit, inject, signal } from '@angular/core';
@@ -28,7 +29,7 @@ export class StatutoryDeductionsApi {
   }
 }
 
-@Component({selector: 'app-statutory-deductions', imports: [SettingsTabs, FormsModule], templateUrl: './statutory-deductions.html', styleUrl: './statutory-deductions.css'})
+@Component({selector: 'app-statutory-deductions', imports: [SettingsTabs, FormsModule, PsButton, PsPageHeader, PsCard, PsCardTitle, PsFormField, PsFieldControl, PsInrPipe], templateUrl: './statutory-deductions.html', styleUrl: './statutory-deductions.css'})
 export class StatutoryDeductionsPage implements OnInit {
   readonly taxAuth = inject(Auth);
   private api = inject(StatutoryDeductionsApi);

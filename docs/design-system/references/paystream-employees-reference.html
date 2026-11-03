@@ -1,0 +1,496 @@
+<title>PayStream Employees Reference</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: PayStream shell (fixed sidebar + top bar + centred content), reference-only controls above it.
+   Single light theme by design — PayStream ships light only (Design System v1.1). Every value below is a v1.1 token. */
+:root {
+  --brand-900: #12292b;
+  --brand-800: #1b3a35;
+  --brand-700: #1f4a3a;
+  --brand-600: #2b5e4a;
+  --lime-300: #c6eba6;
+  --surface-page: #f4f6f2;
+  --surface-card: #ffffff;
+  --surface-sunken: #f6f8f5;
+  --surface-hover: #f1f5ef;
+  --ink: #16261f;
+  --ink-muted: #5b6660;
+  --ink-subtle: #66716a;
+  --ink-on-dark: #e4ece6;
+  --ink-on-dark-muted: #9fb2a8;
+  --ink-on-brand: #ffffff;
+  --border-subtle: #e3e8e2;
+  --border-control: #86918a;
+  --border-control-hover: #66716a;
+  --border-on-dark: #2c4a44;
+  --focus-ring: #2b7a5b;
+  --success: #1e6b40;
+  --success-bg: #e3f2e8;
+  --warning: #7d5200;
+  --warning-bg: #fbf0d6;
+  --danger: #b42318;
+  --danger-bg: #fdecea;
+  --info: #1d5a9e;
+  --info-bg: #e8f0fa;
+  --neutral-bg: #eef1ed;
+  --success-border: #bcd9c6;
+  --warning-border: #efd9a6;
+  --danger-border: #f3c3be;
+  --info-border: #c3d6ee;
+  --neutral-border: #d7ddd8;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --control-height: 40px;
+  --icon-button-sm: 32px;
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --table-header-height: 44px;
+  --table-row-height: 56px;
+  --table-row-compact: 44px;
+  --sidebar-width: 248px;
+  --topbar-height: 72px;
+  --content-max: 1440px;
+  --shadow-none: none;
+  --shadow-popover: 0 8px 24px rgba(18, 41, 43, 0.14);
+  --shadow-dialog: 0 16px 48px rgba(18, 41, 43, 0.20);
+  color-scheme: light;
+}
+.ps-text-page-title { font: 700 34px/40px var(--font-sans); letter-spacing: -0.02em; }
+.ps-text-eyebrow { font: 700 11px/16px var(--font-sans); letter-spacing: 0.16em; }
+.ps-text-page-subtitle { font: 400 14px/20px var(--font-sans); }
+.ps-text-card-title { font: 600 16px/24px var(--font-sans); }
+.ps-text-card-subtitle { font: 400 13px/20px var(--font-sans); }
+.ps-text-body { font: 400 14px/20px var(--font-sans); }
+.ps-text-label { font: 500 13px/20px var(--font-sans); }
+.ps-text-control { font: 400 14px/20px var(--font-sans); }
+.ps-text-button { font: 600 13px/20px var(--font-sans); }
+.ps-text-helper { font: 400 12px/16px var(--font-sans); }
+.ps-text-nav { font: 500 15px/22px var(--font-sans); }
+.ps-text-table-header { font: 600 11px/16px var(--font-sans); letter-spacing: 0.06em; }
+.ps-text-table-cell { font: 400 13px/20px var(--font-sans); }
+.ps-text-table-id { font: 500 12px/16px var(--font-mono); }
+/* ===== PayStream component styles (identical to _ps-components.scss) ===== */
+/* PayStream reference component styles — every value is a token. */
+body { margin: 0; font-family: var(--font-sans); color: var(--ink); background: var(--surface-page); }
+.ps-ico { width: var(--icon-sm); height: var(--icon-sm); fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.ps-ico--md { width: var(--icon-md); height: var(--icon-md); }
+
+/* Button */
+.ps-btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); height: var(--control-height); padding: 0 var(--space-4); border-radius: var(--radius-md); border: 1px solid transparent; font: 600 13px/20px var(--font-sans); cursor: pointer; white-space: nowrap; }
+.ps-btn:focus-visible, .ps-icon-btn:focus-visible, .ps-input:focus-visible, .ps-select:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.ps-btn--primary { background: var(--brand-700); color: var(--ink-on-brand); }
+.ps-btn--primary:hover { background: var(--brand-600); }
+.ps-btn--secondary { background: var(--surface-card); color: var(--ink); border-color: var(--border-control); }
+.ps-btn--secondary:hover { background: var(--surface-hover); }
+.ps-btn--ghost { background: transparent; color: var(--ink); }
+.ps-btn--ghost:hover { background: var(--surface-hover); }
+.ps-btn--danger { background: var(--danger); color: var(--ink-on-brand); }
+.ps-btn[disabled] { background: var(--neutral-bg); color: var(--ink-subtle); border-color: var(--border-subtle); cursor: not-allowed; }
+
+/* Icon button */
+.ps-icon-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; width: var(--control-height); height: var(--control-height); border-radius: var(--radius-md); border: 0; background: transparent; color: var(--ink-muted); cursor: pointer; }
+.ps-icon-btn--sm { width: var(--icon-button-sm); height: var(--icon-button-sm); }
+.ps-icon-btn:hover { background: var(--surface-hover); color: var(--ink); }
+
+/* Tooltip */
+.ps-tooltip { display: inline-block; padding: var(--space-1) var(--space-2); background: var(--brand-900); color: var(--ink-on-dark); border-radius: var(--radius-sm); font: 400 12px/16px var(--font-sans); white-space: nowrap; }
+.ps-tip-wrap { position: relative; display: inline-flex; }
+.ps-tip-wrap > .ps-tooltip { position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); }
+
+/* Page header */
+.ps-page-header { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-6); }
+.ps-eyebrow { font: 700 11px/16px var(--font-sans); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-subtle); margin: 0 0 var(--space-2); }
+.ps-page-title { font: 700 34px/40px var(--font-sans); letter-spacing: -.02em; margin: 0; color: var(--ink); }
+.ps-page-subtitle { font: 400 14px/20px var(--font-sans); color: var(--ink-muted); margin: var(--space-2) 0 0; }
+.ps-actions { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+
+/* Card */
+.ps-card { background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); }
+.ps-card__header { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-4); padding: var(--space-6) var(--space-6) 0; }
+.ps-card__title { font: 600 16px/24px var(--font-sans); margin: 0; }
+.ps-card__subtitle { font: 400 13px/20px var(--font-sans); color: var(--ink-muted); margin: 2px 0 0; }
+.ps-card__body { padding: var(--space-6); }
+.ps-card__footer { display: flex; justify-content: flex-end; gap: var(--space-3); padding: var(--space-4) var(--space-6); border-top: 1px solid var(--border-subtle); }
+
+/* Form field */
+.ps-field { display: flex; flex-direction: column; gap: var(--space-2); }
+.ps-label { display: inline-flex; align-items: center; gap: var(--space-1); font: 500 13px/20px var(--font-sans); color: var(--ink); }
+.ps-req { color: var(--danger); }
+.ps-label .ps-ico { color: var(--ink-subtle); }
+.ps-input, .ps-select { box-sizing: border-box; height: var(--control-height); padding: 0 var(--space-3); border: 1px solid var(--border-control); border-radius: var(--radius-md); background: var(--surface-card); color: var(--ink); font: 400 14px/20px var(--font-sans); }
+.ps-input::placeholder { color: var(--ink-subtle); }
+.ps-select { appearance: none; padding-right: var(--space-8); background-image: linear-gradient(45deg, transparent 50%, var(--ink-muted) 50%), linear-gradient(135deg, var(--ink-muted) 50%, transparent 50%); background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%; background-size: 5px 5px; background-repeat: no-repeat; }
+.ps-input:hover, .ps-select:hover { border-color: var(--border-control-hover); }
+.ps-input[disabled], .ps-select[disabled] { background-color: var(--surface-sunken); color: var(--ink-subtle); border-color: var(--border-subtle); cursor: not-allowed; }
+/* Currency input: fixed ₹ prefix, right-aligned figures */
+.ps-money { position: relative; display: flex; }
+.ps-money__sym { position: absolute; left: var(--space-3); top: 50%; transform: translateY(-50%); color: var(--ink-muted); font: 400 14px/20px var(--font-sans); pointer-events: none; }
+.ps-money .ps-input { width: 100%; padding-left: 28px; text-align: right; font-variant-numeric: tabular-nums; }
+/* Choice controls — same border token as fields */
+.ps-choice { display: inline-flex; align-items: center; gap: var(--space-2); font: 400 14px/20px var(--font-sans); color: var(--ink); cursor: pointer; }
+.ps-check, .ps-radio { appearance: none; margin: 0; width: 18px; height: 18px; flex: none; border: 1px solid var(--border-control); background: var(--surface-card); display: inline-grid; place-items: center; cursor: pointer; }
+.ps-check { border-radius: var(--radius-sm); }
+.ps-radio { border-radius: 50%; }
+.ps-check:hover, .ps-radio:hover { border-color: var(--border-control-hover); }
+.ps-check:focus-visible, .ps-radio:focus-visible, .ps-toggle:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.ps-check:checked { background: var(--brand-700); border-color: var(--brand-700); }
+.ps-check:checked::after { content: ""; width: 5px; height: 9px; border: solid var(--ink-on-brand); border-width: 0 2px 2px 0; transform: translateY(-1px) rotate(45deg); }
+.ps-radio:checked { border-color: var(--brand-700); }
+.ps-radio:checked::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--brand-700); }
+.ps-check:disabled, .ps-radio:disabled { border-color: var(--border-subtle); background: var(--surface-sunken); cursor: not-allowed; }
+.ps-toggle { appearance: none; margin: 0; position: relative; width: 36px; height: 20px; border-radius: 10px; border: 1px solid var(--border-control); background: var(--surface-sunken); cursor: pointer; }
+.ps-toggle::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: var(--ink-subtle); transition: left .15s; }
+.ps-toggle:checked { background: var(--brand-700); border-color: var(--brand-700); }
+.ps-toggle:checked::after { left: 18px; background: var(--ink-on-brand); }
+.ps-field--error .ps-input { border-color: var(--danger); }
+.ps-helper { font: 400 12px/16px var(--font-sans); color: var(--ink-muted); }
+.ps-field--error .ps-helper { color: var(--danger); }
+.ps-filter { display: inline-flex; align-items: center; gap: var(--space-2); }
+
+/* Search */
+.ps-search { position: relative; display: inline-flex; align-items: center; }
+.ps-search .ps-ico { position: absolute; left: var(--space-3); color: var(--ink-subtle); }
+.ps-search .ps-input { padding-left: 36px; width: 320px; }
+
+/* Table */
+.ps-toolbar { display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); padding: var(--space-6); }
+.ps-table-wrap { overflow-x: auto; }
+.ps-table { width: 100%; border-collapse: collapse; font: 400 13px/20px var(--font-sans); }
+.ps-table th, .ps-table td { white-space: nowrap; }
+.ps-table th { height: var(--table-header-height); padding: 0 var(--space-4); background: var(--surface-sunken); color: var(--ink-subtle); font: 600 11px/16px var(--font-sans); letter-spacing: .06em; text-transform: uppercase; text-align: left; border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); }
+.ps-table td { height: var(--table-row-height); padding: 0 var(--space-4); border-bottom: 1px solid var(--border-subtle); color: var(--ink); }
+.ps-table--compact td { height: var(--table-row-compact); }
+.ps-table tbody tr:hover { background: var(--surface-hover); }
+.ps-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+.ps-table .act { text-align: right; width: 64px; }
+.ps-table .id { font: 500 12px/16px var(--font-mono); color: var(--ink-muted); }
+.ps-table .name { font-weight: 600; }
+.ps-table-footer { display: flex; justify-content: space-between; align-items: center; padding: var(--space-3) var(--space-6); color: var(--ink-muted); font: 400 13px/20px var(--font-sans); }
+
+/* Badge */
+.ps-badge { display: inline-flex; align-items: center; gap: var(--space-1); box-sizing: border-box; height: 22px; padding: 2px var(--space-2); border: 1px solid transparent; border-radius: var(--radius-sm); font: 600 12px/16px var(--font-sans); white-space: nowrap; }
+.ps-badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.ps-badge--success { background: var(--success-bg); color: var(--success); border-color: var(--success-border); }
+.ps-badge--info { background: var(--info-bg); color: var(--info); border-color: var(--info-border); }
+.ps-badge--warning { background: var(--warning-bg); color: var(--warning); border-color: var(--warning-border); }
+.ps-badge--danger { background: var(--danger-bg); color: var(--danger); border-color: var(--danger-border); }
+.ps-badge--neutral { background: var(--neutral-bg); color: var(--ink-muted); border-color: var(--neutral-border); }
+
+/* Sidebar */
+.ps-nav { width: var(--sidebar-width); background: var(--brand-900); color: var(--ink-on-dark); padding: var(--space-6) var(--space-4); box-sizing: border-box; }
+.ps-brand { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-8); }
+.ps-brand__tile { width: 48px; height: 48px; border-radius: var(--radius-xl); background: var(--lime-300); color: var(--brand-900); display: grid; place-items: center; font: 800 22px/1 var(--font-sans); }
+.ps-brand__name { font: 700 17px/22px var(--font-sans); color: var(--ink-on-brand); }
+.ps-brand__sub { font: 400 11px/16px var(--font-sans); color: var(--ink-on-dark-muted); }
+.ps-nav__section { font: 700 10px/16px var(--font-sans); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-on-dark-muted); padding: 0 var(--space-3); margin-bottom: var(--space-2); }
+.ps-nav__item { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); border-radius: var(--radius-lg); border: 1px solid transparent; font: 500 15px/22px var(--font-sans); color: var(--ink-on-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ps-nav__item--active { background: var(--brand-800); border-color: var(--border-on-dark); color: var(--lime-300); font-weight: 600; }
+
+
+/* ===== Employees screen layout ===== */
+html, body { background: var(--surface-page); }
+.ps-shell { display: grid; grid-template-columns: var(--sidebar-width) minmax(0, 1fr); min-height: 100vh; background: var(--surface-page); }
+.ps-nav { position: sticky; top: 0; height: 100vh; }
+.ps-nav__list { display: flex; flex-direction: column; gap: var(--space-1); }
+.ps-nav__item { text-decoration: none; cursor: pointer; }
+.ps-nav__item:not(.ps-nav__item--active):hover { background: var(--brand-800); }
+.ps-nav__item:focus-visible { outline: 2px solid var(--lime-300); outline-offset: 2px; }
+.ps-main { min-width: 0; display: flex; flex-direction: column; }
+.ps-topbar { height: var(--topbar-height); background: var(--surface-card); border-bottom: 1px solid var(--border-subtle); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--space-4); padding-left: max(var(--space-8), env(safe-area-inset-left, 0px)); padding-right: max(var(--space-8), env(safe-area-inset-right, 0px)); }
+.ps-topbar__crumb { font: 400 13px/20px var(--font-sans); color: var(--ink-muted); }
+.ps-topbar__org { font: 600 15px/22px var(--font-sans); color: var(--ink); text-align: center; }
+.ps-topbar__end { display: flex; justify-content: flex-end; }
+.ps-topbar__brand { display: none; }
+.ps-content { width: 100%; max-width: var(--content-max); margin: 0 auto; box-sizing: border-box; padding-block: var(--space-12); padding-left: max(var(--space-8), env(safe-area-inset-left, 0px)); padding-right: max(var(--space-8), env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: var(--space-8); }
+.ps-table { min-width: 1180px; }
+.ps-table td.email { color: var(--ink-muted); }
+.ps-row-menu { position: relative; display: inline-block; }
+.ps-menu { position: fixed; z-index: 5; min-width: 184px; padding: var(--space-1); background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); box-shadow: var(--shadow-popover); text-align: left; }
+.ps-menu button { display: flex; align-items: center; gap: var(--space-2); width: 100%; height: 36px; padding: 0 var(--space-3); border: 0; border-radius: var(--radius-sm); background: transparent; font: 400 14px/20px var(--font-sans); color: var(--ink); cursor: pointer; }
+.ps-menu button:hover, .ps-menu button:focus-visible { background: var(--surface-hover); outline: none; }
+.ps-menu .danger { color: var(--danger); }
+.ps-menu hr { border: 0; border-top: 1px solid var(--border-subtle); margin: var(--space-1) 0; }
+.ps-row-menu .ps-tooltip { position: absolute; bottom: calc(100% + 6px); right: 0; opacity: 0; pointer-events: none; transition: opacity .12s; }
+.ps-row-menu:hover .ps-tooltip, .ps-row-menu .ps-icon-btn:focus-visible + .ps-tooltip { opacity: 1; }
+.ps-row-menu.open .ps-tooltip { opacity: 0; }
+.ps-skel { display: block; height: 12px; border-radius: var(--radius-sm); background: linear-gradient(90deg, var(--neutral-bg), var(--surface-sunken), var(--neutral-bg)); background-size: 200% 100%; animation: shimmer 1.4s linear infinite; }
+@keyframes shimmer { to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .ps-skel { animation: none; } }
+.ps-empty { padding: var(--space-12) var(--space-6); display: flex; flex-direction: column; align-items: center; gap: var(--space-2); text-align: center; }
+.ps-empty__icon { width: 40px; height: 40px; border-radius: 50%; background: var(--surface-sunken); color: var(--ink-subtle); display: grid; place-items: center; }
+.ps-empty__title { font: 600 16px/24px var(--font-sans); margin: var(--space-2) 0 0; }
+.ps-empty__text { font: 400 13px/20px var(--font-sans); color: var(--ink-muted); margin: 0 0 var(--space-2); }
+.ps-alert { display: flex; align-items: center; gap: var(--space-3); margin: 0 var(--space-6) var(--space-4); padding: var(--space-3) var(--space-4); border: 1px solid var(--danger-border); background: var(--danger-bg); color: var(--danger); border-radius: var(--radius-lg); font: 400 14px/20px var(--font-sans); }
+.ps-alert p { margin: 0; flex: 1; color: var(--ink); }
+.ps-alert strong { color: var(--danger); }
+.ps-pager { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.ps-pager .ps-select { height: 32px; }
+
+/* state visibility */
+[data-state="default"] .st-loading, [data-state="default"] .st-empty, [data-state="default"] .st-error,
+[data-state="menu"] .st-loading, [data-state="menu"] .st-empty, [data-state="menu"] .st-error,
+[data-state="loading"] .st-rows, [data-state="loading"] .st-empty, [data-state="loading"] .st-error,
+[data-state="empty"] .st-rows, [data-state="empty"] .st-loading, [data-state="empty"] .st-error, [data-state="empty"] .st-table, [data-state="empty"] .ps-table-footer,
+[data-state="error"] .st-loading, [data-state="error"] .st-empty, [data-state="error"] .st-rows, [data-state="error"] .ps-table-footer { display: none; }
+[data-state="loading"] .ps-table-footer { visibility: hidden; }
+
+/* ===== Reference-only chrome (NOT part of the PayStream UI) ===== */
+.ref { background: var(--surface-card); border-bottom: 1px dashed var(--info-border); padding-block: var(--space-3); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-6); font: 400 13px/20px var(--font-sans); color: var(--ink-muted); }
+.ref__tag { font: 700 11px/16px var(--font-sans); letter-spacing: .12em; text-transform: uppercase; color: var(--info); background: var(--info-bg); border: 1px solid var(--info-border); padding: 2px var(--space-2); border-radius: var(--radius-sm); }
+.ref__group { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+.ref__seg { display: inline-flex; border: 1px solid var(--border-control); border-radius: var(--radius-md); overflow: hidden; }
+.ref__seg button { border: 0; background: var(--surface-card); padding: 6px 12px; font: 500 13px/20px var(--font-sans); color: var(--ink); cursor: pointer; }
+.ref__seg button + button { border-left: 1px solid var(--border-subtle); }
+.ref__seg button[aria-pressed="true"] { background: var(--info-bg); color: var(--info); font-weight: 600; }
+.ref__seg button:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; }
+.anno { display: none; position: absolute; z-index: 4; font: 600 10.5px/14px var(--font-mono); color: var(--info); background: var(--info-bg); border: 1px solid var(--info-border); border-radius: var(--radius-sm); padding: 1px 6px; white-space: nowrap; pointer-events: none; }
+.annotate .anno { display: inline-block; }
+.annotate .has-anno { outline: 1px dashed var(--info-border); outline-offset: 3px; }
+.has-anno { position: relative; }
+.spec { width: 100%; min-width: 0; max-width: var(--content-max); margin: 0 auto; box-sizing: border-box; padding-block: 0 var(--space-12); padding-left: max(var(--space-8), env(safe-area-inset-left, 0px)); padding-right: max(var(--space-8), env(safe-area-inset-right, 0px)); }
+.spec h2 { font: 600 16px/24px var(--font-sans); margin: 0 0 var(--space-1); }
+.spec > p { margin: 0 0 var(--space-4); color: var(--ink-muted); font: 400 13px/20px var(--font-sans); }
+.spec .ps-card { overflow-x: auto; }
+.spec table { width: 100%; min-width: 760px; border-collapse: collapse; font: 400 13px/20px var(--font-sans); }
+.spec th { text-align: left; background: var(--surface-sunken); color: var(--ink-subtle); font: 600 11px/16px var(--font-sans); letter-spacing: .06em; text-transform: uppercase; padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border-subtle); }
+.spec td { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border-subtle); vertical-align: top; }
+.spec code { font: 500 12px/16px var(--font-mono); color: var(--brand-700); }
+
+@media (max-width: 900px) {
+  .ps-shell { grid-template-columns: minmax(0, 1fr); }
+  .ps-nav { display: none; }
+  .ps-topbar { grid-template-columns: 1fr auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .ps-topbar__crumb, .ps-topbar__org { display: none; }
+  .ps-topbar__brand { display: flex; align-items: center; gap: var(--space-2); font: 700 15px/22px var(--font-sans); color: var(--ink); }
+  .ps-topbar__brand .ps-brand__tile { width: 32px; height: 32px; font-size: 15px; border-radius: var(--radius-lg); }
+  .ps-content, .spec { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .ps-page-header { flex-direction: column; }
+  .ps-toolbar { flex-direction: column; align-items: stretch; padding-inline: var(--space-4); }
+  .ps-search, .ps-search .ps-input { width: 100%; }
+  .ps-card__header { padding-inline: var(--space-4); }
+  .ps-table-footer { flex-direction: column; align-items: flex-start; gap: var(--space-2); padding-inline: var(--space-4); }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
+  </defs>
+</svg>
+
+<div class="ref" data-ref-only>
+  <span class="ref__tag">Codex reference · not product UI</span>
+  <div class="ref__group" role="group" aria-label="Screen state">
+    <span>State</span>
+    <div class="ref__seg" id="stateSeg">
+      <button type="button" data-set="default" aria-pressed="true">Default</button>
+      <button type="button" data-set="menu" aria-pressed="false">Menu open</button>
+      <button type="button" data-set="loading" aria-pressed="false">Loading</button>
+      <button type="button" data-set="empty" aria-pressed="false">Empty</button>
+      <button type="button" data-set="error" aria-pressed="false">Error</button>
+    </div>
+  </div>
+  <div class="ref__group">
+    <div class="ref__seg"><button type="button" id="annoBtn" aria-pressed="false">Show spec annotations</button></div>
+  </div>
+  <span>Design System v1.1 · font = existing app font (DS-001)</span>
+</div>
+
+<div class="ps-shell">
+  <nav class="ps-nav" aria-label="Main">
+    <div class="ps-brand"><div class="ps-brand__tile">P</div><div><div class="ps-brand__name">PayStream</div><div class="ps-brand__sub">An Excelhire Product</div></div></div>
+    <div class="ps-nav__section">Workspace</div>
+    <div class="ps-nav__list">
+      <a class="ps-nav__item ps-nav__item--active has-anno" aria-current="page" tabindex="0"><svg class="ps-ico ps-ico--md"><use href="#i-users"/></svg>Employees<span class="anno" style="left:8px;top:-14px">active: brand-800 · lime-300 · 600</span></a>
+      <a class="ps-nav__item" tabindex="0"><svg class="ps-ico ps-ico--md"><use href="#i-settings"/></svg>Settings</a>
+      <a class="ps-nav__item" tabindex="0"><svg class="ps-ico ps-ico--md"><use href="#i-user"/></svg>User Management</a>
+    </div>
+  </nav>
+
+  <div class="ps-main">
+    <header class="ps-topbar">
+      <span class="ps-topbar__crumb has-anno">People Management<span class="anno" style="left:0;top:-16px">same name as eyebrow (DS-010)</span></span>
+      <span class="ps-topbar__brand"><span class="ps-brand__tile">P</span>PayStream</span>
+      <span class="ps-topbar__org">Excelhire LLC</span>
+      <span class="ps-topbar__end"><button class="ps-btn ps-btn--secondary" type="button">Sign out</button></span>
+    </header>
+
+    <main class="ps-content">
+      <div class="ps-page-header">
+        <div class="has-anno">
+          <span class="anno" style="left:0;top:-18px">ps-page-header · eyebrow 11/16 · page-title 34/40 700 · subtitle 14/20</span>
+          <p class="ps-eyebrow">People Management</p>
+          <h1 class="ps-page-title">Employees</h1>
+          <p class="ps-page-subtitle">Your people, organized in one place.</p>
+        </div>
+        <div class="ps-actions has-anno">
+          <span class="anno" style="right:0;top:-18px">space-3 gaps · one primary, rightmost (DS-005) · existing handlers</span>
+          <button class="ps-btn ps-btn--secondary" type="button">Generate Payroll</button>
+          <button class="ps-btn ps-btn--secondary" type="button">Run Payroll</button>
+          <button class="ps-btn ps-btn--primary" type="button"><svg class="ps-ico"><use href="#i-plus"/></svg>Add Employee</button>
+        </div>
+      </div>
+
+      <section class="ps-card has-anno" id="dir" data-state="default" aria-labelledby="dirTitle">
+        <span class="anno" style="left:12px;top:-10px">ps-card · surface-card · border-subtle · radius-xl 12 · no shadow</span>
+        <div class="ps-card__header">
+          <div><h2 class="ps-card__title" id="dirTitle">Employee directory</h2><p class="ps-card__subtitle">Details for every member of your team.</p></div>
+          <button class="ps-btn ps-btn--secondary has-anno" type="button" id="refreshBtn"><svg class="ps-ico"><use href="#i-refresh"/></svg>Refresh List<span class="anno" style="right:0;top:-18px">secondary · rotate-cw · same handler</span></button>
+        </div>
+
+        <div class="ps-toolbar">
+          <span class="ps-filter has-anno"><label class="ps-label" for="statusFilter">Employee Status</label><select id="statusFilter" class="ps-select"><option>Active</option><option>Inactive</option><option>All</option></select><span class="anno" style="left:0;top:-18px">inline label (EX-002) · 40px · border-control</span></span>
+          <span class="ps-search has-anno"><svg class="ps-ico"><use href="#i-search"/></svg><input id="empSearch" class="ps-input" placeholder="Search employees…" aria-label="Search employees"><span class="anno" style="right:0;top:-18px">320px · 40px · leading search icon</span></span>
+        </div>
+
+        <div class="ps-alert st-error" role="alert"><svg class="ps-ico"><use href="#i-alert"/></svg><p><strong>Couldn't load employees.</strong> Check your connection and try again.</p><button class="ps-btn ps-btn--secondary" type="button">Retry</button></div>
+
+        <div class="ps-table-wrap st-table">
+          <table class="ps-table">
+            <thead><tr>
+              <th>Employee ID</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Date of Birth</th><th>Hire Date</th><th class="num">Annual CTC</th><th>Pay Frequency</th><th>Status</th><th>Created Date</th><th class="act">Actions</th>
+            </tr></thead>
+            <tbody class="st-rows" id="rows"></tbody>
+            <tbody class="st-loading" id="skel"></tbody>
+          </table>
+        </div>
+
+        <div class="ps-empty st-empty">
+          <div class="ps-empty__icon"><svg class="ps-ico ps-ico--md"><use href="#i-search"/></svg></div>
+          <p class="ps-empty__title">No employees match these filters</p>
+          <p class="ps-empty__text">Try another status or clear the search.</p>
+          <button class="ps-btn ps-btn--ghost" type="button">Clear filters</button>
+        </div>
+
+        <div class="ps-table-footer has-anno">
+          <span class="anno" style="left:24px;top:-12px">only if pagination already exists — do not add logic</span>
+          <span>Showing 1–6 of 6</span>
+          <span class="ps-pager"><label class="ps-label" for="pageSize">Rows per page</label><select id="pageSize" class="ps-select"><option>25</option><option>50</option><option>100</option></select><button class="ps-btn ps-btn--secondary" type="button" disabled>Previous</button><button class="ps-btn ps-btn--secondary" type="button" disabled>Next</button></span>
+        </div>
+      </section>
+    </main>
+
+    <section class="spec" aria-labelledby="specTitle">
+      <h2 id="specTitle">Implementation map</h2>
+      <p>Each region of the screen, the shared component that renders it, and what must stay unchanged.</p>
+      <div class="ps-card">
+        <table>
+          <thead><tr><th>Region</th><th>Angular component</th><th>Key tokens / sizes</th><th>Keep unchanged</th></tr></thead>
+          <tbody>
+            <tr><td>Sidebar</td><td><code>ps-sidebar-nav</code> (existing nav)</td><td><code>sidebar-width</code> 248 · <code>brand-900</code> · active <code>brand-800</code> + <code>lime-300</code></td><td>Routes, nav items, permissions</td></tr>
+            <tr><td>Top bar</td><td>Existing header, restyled</td><td><code>topbar-height</code> 72 · <code>border-subtle</code> bottom</td><td>Sign out handler, org name binding</td></tr>
+            <tr><td>Page header</td><td><code>ps-page-header</code> + <code>psButton</code></td><td>Generate Payroll, Run Payroll = secondary; Add Employee = primary, rightmost</td><td>All three click handlers and routes</td></tr>
+            <tr><td>Card header</td><td><code>ps-card</code></td><td><code>card-title</code> 16/24 600 · padding <code>space-6</code></td><td>Refresh handler</td></tr>
+            <tr><td>Toolbar</td><td><code>ps-select</code>, search input</td><td><code>control-height</code> 40 · <code>border-control</code> · search 320px</td><td>Filter and search bindings and logic</td></tr>
+            <tr><td>Table</td><td>Existing table + <code>.ps-table</code></td><td>Header 44 · rows 56 · IDs mono 12 · name 600 · CTC right, tabular</td><td>Data source, sorting, column data</td></tr>
+            <tr><td>Annual CTC</td><td><code>psInr</code> pipe</td><td><code>₹14,00,000</code> · paise only when non-zero</td><td>The numeric value from the API</td></tr>
+            <tr><td>Dates</td><td><code>psDate</code> pipe</td><td><code>dd MMM yyyy</code>, 3-letter months</td><td>Stored date values</td></tr>
+            <tr><td>Status</td><td><code>ps-status-badge</code></td><td>Active → success tone</td><td>Backend status values</td></tr>
+            <tr><td>Actions</td><td><code>ps-icon-button</code> sm + existing menu</td><td>Last column, right, 64px · 32px ghost kebab · tooltip "More actions"</td><td>Menu items, their handlers and visibility rules</td></tr>
+            <tr><td>Loading / empty / error</td><td>Card states</td><td>Skeleton rows at 56px · ghost Clear filters · danger alert + Retry</td><td>When each state triggers</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+(function () {
+  var rows = [
+    ["EMP001","Hemanth","Korra","heamanth@excelhire.us","15 Oct 1998","10 Jun 2025","₹14,00,000"],
+    ["EMP002","Naga Jyothi","Sreeramaneni","nagajyothi@excelhire.us","12 Jun 1997","04 Feb 2025","₹2,64,000"],
+    ["EMP003","Sravani","Karumanchi","sravani@excelhire.us","10 Sep 2026","25 Aug 2026","₹3,00,000"],
+    ["EMP004","Saichandu","Suraparaju","saichandu@excelhire.us","15 Sep 2026","13 Oct 2026","₹3,43,632"],
+    ["EMP005","Krishna Kumar","Tummala","krishna@excelhire.us","12 Oct 2026","30 Sep 2026","₹2,76,000"],
+    ["EMP006","Bhuvaneswari","Thalluri","bhuvaneswari@excelhire.us","30 Sep 2026","21 Sep 2026","₹6,00,000"]
+  ];
+  var tb = document.getElementById('rows');
+  rows.forEach(function (r, i) {
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td class="id">' + r[0] + '</td><td class="name">' + r[1] + '</td><td>' + r[2] + '</td><td class="email">' + r[3] + '</td>' +
+      '<td>' + r[4] + '</td><td>' + r[5] + '</td><td class="num">' + r[6] + '</td><td>Monthly</td>' +
+      '<td><span class="ps-badge ps-badge--success">Active</span></td><td>30 Oct 2026</td>' +
+      '<td class="act"><span class="ps-row-menu' + (i === 0 ? ' has-anno' : '') + '">' +
+        (i === 0 ? '<span class="anno" style="right:0;top:-20px">ps-icon-button sm 32 · ghost · aria-label</span>' : '') +
+        '<button class="ps-icon-btn ps-icon-btn--sm" type="button" aria-label="More actions for ' + r[1] + ' ' + r[2] + '" aria-haspopup="menu" aria-expanded="false"><svg class="ps-ico"><use href="#i-more"/></svg></button>' +
+        '<span class="ps-tooltip" role="tooltip">More actions</span>' +
+        '<div class="ps-menu" role="menu" hidden>' +
+          '<button type="button" role="menuitem"><svg class="ps-ico"><use href="#i-eye"/></svg>View Details</button>' +
+          '<button type="button" role="menuitem"><svg class="ps-ico"><use href="#i-pencil"/></svg>Edit</button>' +
+          '<hr><button type="button" role="menuitem" class="danger">Deactivate</button>' +
+        '</div></span></td>';
+    tb.appendChild(tr);
+  });
+  var sk = document.getElementById('skel');
+  for (var s = 0; s < 8; s++) {
+    var tr = document.createElement('tr'), html = '';
+    [44, 70, 80, 150, 70, 70, 70, 56, 52, 70, 24].forEach(function (w, c) {
+      html += '<td' + (c === 6 || c === 10 ? ' class="' + (c === 6 ? 'num' : 'act') + '"' : '') + '><span class="ps-skel" style="width:' + w + 'px;' + (c === 6 || c === 10 ? 'margin-left:auto' : '') + '"></span></td>';
+    });
+    tr.innerHTML = html; sk.appendChild(tr);
+  }
+
+  var card = document.getElementById('dir');
+  function closeMenus() {
+    document.querySelectorAll('.ps-row-menu').forEach(function (m) {
+      m.classList.remove('open'); m.querySelector('.ps-menu').hidden = true;
+      m.querySelector('.ps-icon-btn').setAttribute('aria-expanded', 'false');
+    });
+  }
+  function openMenu(wrap) {
+    closeMenus(); wrap.classList.add('open');
+    var menu = wrap.querySelector('.ps-menu'); menu.hidden = false;
+    var r = wrap.querySelector('.ps-icon-btn').getBoundingClientRect();
+    menu.style.top = (r.bottom + 4) + 'px';
+    menu.style.left = Math.max(8, r.right - menu.offsetWidth) + 'px';
+    wrap.querySelector('.ps-icon-btn').setAttribute('aria-expanded', 'true');
+  }
+  function setState(st) {
+    card.setAttribute('data-state', st);
+    document.querySelectorAll('#stateSeg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.set === st)); });
+    closeMenus();
+    if (st === 'menu') { var w = document.querySelector('.ps-table-wrap'); w.scrollLeft = w.scrollWidth; setTimeout(function () { openMenu(document.querySelector('.ps-row-menu')); }, 60); }
+  }
+  document.getElementById('stateSeg').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (b) setState(b.dataset.set);
+  });
+  tb.addEventListener('click', function (e) {
+    var btn = e.target.closest('.ps-icon-btn'); if (!btn) return;
+    e.stopPropagation();
+    var wrap = btn.parentElement;
+    if (wrap.classList.contains('open')) closeMenus(); else openMenu(wrap);
+  });
+  document.addEventListener('click', function (e) { if (!e.target.closest('.ps-menu') && !e.target.closest('.ref')) closeMenus(); });
+  window.addEventListener('scroll', closeMenus, true);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenus(); });
+  var annoBtn = document.getElementById('annoBtn');
+  annoBtn.addEventListener('click', function () {
+    var on = document.body.classList.toggle('annotate');
+    annoBtn.setAttribute('aria-pressed', String(on));
+    annoBtn.textContent = on ? 'Hide spec annotations' : 'Show spec annotations';
+  });
+})();
+</script>

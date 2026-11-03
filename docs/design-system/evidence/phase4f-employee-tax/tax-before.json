@@ -1,0 +1,1126 @@
+[
+  {
+    "name": "rebate",
+    "financialYear": "SYNTHETIC_FY",
+    "regime": "new",
+    "rules": {
+      "ruleVersion": "salary-only-v1",
+      "standardDeduction": 75000,
+      "rebateLimit": 1200000,
+      "maximumRebate": 60000,
+      "rebateMarginalRelief": true,
+      "cessPercentage": 4,
+      "surcharge": [
+        {
+          "threshold": 5000000,
+          "rate": 10
+        },
+        {
+          "threshold": 10000000,
+          "rate": 15
+        },
+        {
+          "threshold": 20000000,
+          "rate": 25
+        }
+      ],
+      "surchargeMarginalRelief": true,
+      "incomeRounding": "nearest-ten-ignore-paise",
+      "liabilityRounding": "nearest-ten-ignore-paise",
+      "minimumAge": 0,
+      "maximumAge": null,
+      "employerContributionsReviewed": true,
+      "legalReferences": [
+        "https://www.incometax.gov.in/test-fixture"
+      ],
+      "reviewNote": "Synthetic regression fixture only",
+      "slabs": [
+        {
+          "from": 0,
+          "to": 400000,
+          "rate": 0
+        },
+        {
+          "from": 400000,
+          "to": 800000,
+          "rate": 5
+        },
+        {
+          "from": 800000,
+          "to": 1200000,
+          "rate": 10
+        },
+        {
+          "from": 1200000,
+          "to": 1600000,
+          "rate": 15
+        },
+        {
+          "from": 1600000,
+          "to": 2000000,
+          "rate": 20
+        },
+        {
+          "from": 2000000,
+          "to": 2400000,
+          "rate": 25
+        },
+        {
+          "from": 2400000,
+          "to": null,
+          "rate": 30
+        }
+      ],
+      "mappings": [
+        {
+          "componentId": "salary",
+          "type": "taxable",
+          "legalReference": "Synthetic fixture"
+        }
+      ]
+    },
+    "input": {
+      "annual": {
+        "annualCtc": 1012000,
+        "annualGrossWages": 1000000
+      },
+      "components": [
+        {
+          "componentId": "salary",
+          "code": "SALARY",
+          "category": "earning",
+          "annual": 1000000
+        }
+      ]
+    },
+    "result": {
+      "annualCtc": 1012000,
+      "annualGrossWages": 1000000,
+      "currentEmployerGrossWages": 1000000,
+      "previousEmployerGrossWages": 0,
+      "previousEmployerExemptWages": 0,
+      "taxableComponents": [
+        {
+          "componentId": "salary",
+          "code": "SALARY",
+          "category": "earning",
+          "annual": 1000000,
+          "treatment": "taxable",
+          "exempt": 0,
+          "taxable": 1000000,
+          "legalReference": "Synthetic fixture"
+        }
+      ],
+      "residualTaxableGross": 0,
+      "exemptions": 0,
+      "totalTaxableSalary": 1000000,
+      "standardDeduction": 75000,
+      "otherAdjustments": 0,
+      "taxableIncome": 925000,
+      "slabs": [
+        {
+          "from": 0,
+          "to": 400000,
+          "rate": 0,
+          "taxableAmount": 400000,
+          "tax": 0
+        },
+        {
+          "from": 400000,
+          "to": 800000,
+          "rate": 5,
+          "taxableAmount": 400000,
+          "tax": 20000
+        },
+        {
+          "from": 800000,
+          "to": 1200000,
+          "rate": 10,
+          "taxableAmount": 125000,
+          "tax": 12500
+        },
+        {
+          "from": 1200000,
+          "to": 1600000,
+          "rate": 15,
+          "taxableAmount": 0,
+          "tax": 0
+        },
+        {
+          "from": 1600000,
+          "to": 2000000,
+          "rate": 20,
+          "taxableAmount": 0,
+          "tax": 0
+        },
+        {
+          "from": 2000000,
+          "to": 2400000,
+          "rate": 25,
+          "taxableAmount": 0,
+          "tax": 0
+        },
+        {
+          "from": 2400000,
+          "to": null,
+          "rate": 30,
+          "taxableAmount": 0,
+          "tax": 0
+        }
+      ],
+      "taxBeforeRebate": 32500,
+      "rebate": 32500,
+      "rebateMarginalRelief": 0,
+      "surcharge": 0,
+      "surchargeMarginalRelief": 0,
+      "marginalRelief": 0,
+      "cess": 0,
+      "annualEstimatedTax": 0,
+      "annualTds": 0,
+      "monthlyTds": 0,
+      "allocation": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "allocationRule": "12 monthly checks; floor to paise for first 11, residual in final check"
+    },
+    "monthly": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "remainingPeriods": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "name": "above-rebate",
+    "financialYear": "SYNTHETIC_FY",
+    "regime": "new",
+    "rules": {
+      "ruleVersion": "salary-only-v1",
+      "standardDeduction": 75000,
+      "rebateLimit": 1200000,
+      "maximumRebate": 60000,
+      "rebateMarginalRelief": true,
+      "cessPercentage": 4,
+      "surcharge": [
+        {
+          "threshold": 5000000,
+          "rate": 10
+        },
+        {
+          "threshold": 10000000,
+          "rate": 15
+        },
+        {
+          "threshold": 20000000,
+          "rate": 25
+        }
+      ],
+      "surchargeMarginalRelief": true,
+      "incomeRounding": "nearest-ten-ignore-paise",
+      "liabilityRounding": "nearest-ten-ignore-paise",
+      "minimumAge": 0,
+      "maximumAge": null,
+      "employerContributionsReviewed": true,
+      "legalReferences": [
+        "https://www.incometax.gov.in/test-fixture"
+      ],
+      "reviewNote": "Synthetic regression fixture only",
+      "slabs": [
+        {
+          "from": 0,
+          "to": 400000,
+          "rate": 0
+        },
+        {
+          "from": 400000,
+          "to": 800000,
+          "rate": 5
+        },
+        {
+          "from": 800000,
+          "to": 1200000,
+          "rate": 10
+        },
+        {
+          "from": 1200000,
+          "to": 1600000,
+          "rate": 15
+        },
+        {
+          "from": 1600000,
+          "to": 2000000,
+          "rate": 20
+        },
+        {
+          "from": 2000000,
+          "to": 2400000,
+          "rate": 25
+        },
+        {
+          "from": 2400000,
+          "to": null,
+          "rate": 30
+        }
+      ],
+      "mappings": [
+        {
+          "componentId": "salary",
+          "type": "taxable",
+          "legalReference": "Synthetic fixture"
+        }
+      ]
+    },
+    "input": {
+      "annual": {
+        "annualCtc": 1512000,
+        "annualGrossWages": 1500000
+      },
+      "components": [
+        {
+          "componentId": "salary",
+          "code": "SALARY",
+          "category": "earning",
+          "annual": 1500000
+        }
+      ]
+    },
+    "result": {
+      "annualCtc": 1512000,
+      "annualGrossWages": 1500000,
+      "currentEmployerGrossWages": 1500000,
+      "previousEmployerGrossWages": 0,
+      "previousEmployerExemptWages": 0,
+      "taxableComponents": [
+        {
+          "componentId": "salary",
+          "code": "SALARY",
+          "category": "earning",
+          "annual": 1500000,
+          "treatment": "taxable",
+          "exempt": 0,
+          "taxable": 1500000,
+          "legalReference": "Synthetic fixture"
+        }
+      ],
+      "residualTaxableGross": 0,
+      "exemptions": 0,
+      "totalTaxableSalary": 1500000,
+      "standardDeduction": 75000,
+      "otherAdjustments": 0,
+      "taxableIncome": 1425000,
+      "slabs": [
+        {
+          "from": 0,
+          "to": 400000,
+          "rate": 0,
+          "taxableAmount": 400000,
+          "tax": 0
+        },
+        {
+          "from": 400000,
+          "to": 800000,
+          "rate": 5,
+          "taxableAmount": 400000,
+          "tax": 20000
+        },
+        {
+          "from": 800000,
+          "to": 1200000,
+          "rate": 10,
+          "taxableAmount": 400000,
+          "tax": 40000
+        },
+        {
+          "from": 1200000,
+          "to": 1600000,
+          "rate": 15,
+          "taxableAmount": 225000,
+          "tax": 33750
+        },
+        {
+          "from": 1600000,
+          "to": 2000000,
+          "rate": 20,
+          "taxableAmount": 0,
+          "tax": 0
+        },
+        {
+          "from": 2000000,
+          "to": 2400000,
+          "rate": 25,
+          "taxableAmount": 0,
+          "tax": 0
+        },
+        {
+          "from": 2400000,
+          "to": null,
+          "rate": 30,
+          "taxableAmount": 0,
+          "tax": 0
+        }
+      ],
+      "taxBeforeRebate": 93750,
+      "rebate": 0,
+      "rebateMarginalRelief": 0,
+      "surcharge": 0,
+      "surchargeMarginalRelief": 0,
+      "marginalRelief": 0,
+      "cess": 3750,
+      "annualEstimatedTax": 97500,
+      "annualTds": 97500,
+      "monthlyTds": 8125,
+      "allocation": [
+        8125,
+        8125,
+        8125,
+        8125,
+        8125,
+        8125,
+        8125,
+        8125,
+        8125,
+        8125,
+        8125,
+        8125
+      ],
+      "allocationRule": "12 monthly checks; floor to paise for first 11, residual in final check"
+    },
+    "monthly": [
+      8125,
+      8125,
+      8125,
+      8125,
+      8125,
+      8125,
+      8125,
+      8125,
+      8125,
+      8125,
+      8125,
+      8125
+    ],
+    "remainingPeriods": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      16250,
+      16250,
+      16250,
+      16250,
+      16250,
+      16250
+    ]
+  },
+  {
+    "name": "surcharge-boundary",
+    "financialYear": "SYNTHETIC_FY",
+    "regime": "new",
+    "rules": {
+      "ruleVersion": "salary-only-v1",
+      "standardDeduction": 75000,
+      "rebateLimit": 1200000,
+      "maximumRebate": 60000,
+      "rebateMarginalRelief": true,
+      "cessPercentage": 4,
+      "surcharge": [
+        {
+          "threshold": 5000000,
+          "rate": 10
+        },
+        {
+          "threshold": 10000000,
+          "rate": 15
+        },
+        {
+          "threshold": 20000000,
+          "rate": 25
+        }
+      ],
+      "surchargeMarginalRelief": true,
+      "incomeRounding": "nearest-ten-ignore-paise",
+      "liabilityRounding": "nearest-ten-ignore-paise",
+      "minimumAge": 0,
+      "maximumAge": null,
+      "employerContributionsReviewed": true,
+      "legalReferences": [
+        "https://www.incometax.gov.in/test-fixture"
+      ],
+      "reviewNote": "Synthetic regression fixture only",
+      "slabs": [
+        {
+          "from": 0,
+          "to": 400000,
+          "rate": 0
+        },
+        {
+          "from": 400000,
+          "to": 800000,
+          "rate": 5
+        },
+        {
+          "from": 800000,
+          "to": 1200000,
+          "rate": 10
+        },
+        {
+          "from": 1200000,
+          "to": 1600000,
+          "rate": 15
+        },
+        {
+          "from": 1600000,
+          "to": 2000000,
+          "rate": 20
+        },
+        {
+          "from": 2000000,
+          "to": 2400000,
+          "rate": 25
+        },
+        {
+          "from": 2400000,
+          "to": null,
+          "rate": 30
+        }
+      ],
+      "mappings": [
+        {
+          "componentId": "salary",
+          "type": "taxable",
+          "legalReference": "Synthetic fixture"
+        }
+      ]
+    },
+    "input": {
+      "annual": {
+        "annualCtc": 5087001,
+        "annualGrossWages": 5075001
+      },
+      "components": [
+        {
+          "componentId": "salary",
+          "code": "SALARY",
+          "category": "earning",
+          "annual": 5075001
+        }
+      ]
+    },
+    "result": {
+      "annualCtc": 5087001,
+      "annualGrossWages": 5075001,
+      "currentEmployerGrossWages": 5075001,
+      "previousEmployerGrossWages": 0,
+      "previousEmployerExemptWages": 0,
+      "taxableComponents": [
+        {
+          "componentId": "salary",
+          "code": "SALARY",
+          "category": "earning",
+          "annual": 5075001,
+          "treatment": "taxable",
+          "exempt": 0,
+          "taxable": 5075001,
+          "legalReference": "Synthetic fixture"
+        }
+      ],
+      "residualTaxableGross": 0,
+      "exemptions": 0,
+      "totalTaxableSalary": 5075001,
+      "standardDeduction": 75000,
+      "otherAdjustments": 0,
+      "taxableIncome": 5000000,
+      "slabs": [
+        {
+          "from": 0,
+          "to": 400000,
+          "rate": 0,
+          "taxableAmount": 400000,
+          "tax": 0
+        },
+        {
+          "from": 400000,
+          "to": 800000,
+          "rate": 5,
+          "taxableAmount": 400000,
+          "tax": 20000
+        },
+        {
+          "from": 800000,
+          "to": 1200000,
+          "rate": 10,
+          "taxableAmount": 400000,
+          "tax": 40000
+        },
+        {
+          "from": 1200000,
+          "to": 1600000,
+          "rate": 15,
+          "taxableAmount": 400000,
+          "tax": 60000
+        },
+        {
+          "from": 1600000,
+          "to": 2000000,
+          "rate": 20,
+          "taxableAmount": 400000,
+          "tax": 80000
+        },
+        {
+          "from": 2000000,
+          "to": 2400000,
+          "rate": 25,
+          "taxableAmount": 400000,
+          "tax": 100000
+        },
+        {
+          "from": 2400000,
+          "to": null,
+          "rate": 30,
+          "taxableAmount": 2600000,
+          "tax": 780000
+        }
+      ],
+      "taxBeforeRebate": 1080000,
+      "rebate": 0,
+      "rebateMarginalRelief": 0,
+      "surcharge": 0,
+      "surchargeMarginalRelief": 0,
+      "marginalRelief": 0,
+      "cess": 43200,
+      "annualEstimatedTax": 1123200,
+      "annualTds": 1123200,
+      "monthlyTds": 93600,
+      "allocation": [
+        93600,
+        93600,
+        93600,
+        93600,
+        93600,
+        93600,
+        93600,
+        93600,
+        93600,
+        93600,
+        93600,
+        93600
+      ],
+      "allocationRule": "12 monthly checks; floor to paise for first 11, residual in final check"
+    },
+    "monthly": [
+      93600,
+      93600,
+      93600,
+      93600,
+      93600,
+      93600,
+      93600,
+      93600,
+      93600,
+      93600,
+      93600,
+      93600
+    ],
+    "remainingPeriods": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      187200,
+      187200,
+      187200,
+      187200,
+      187200,
+      187200
+    ]
+  },
+  {
+    "name": "high-income",
+    "financialYear": "SYNTHETIC_FY",
+    "regime": "new",
+    "rules": {
+      "ruleVersion": "salary-only-v1",
+      "standardDeduction": 75000,
+      "rebateLimit": 1200000,
+      "maximumRebate": 60000,
+      "rebateMarginalRelief": true,
+      "cessPercentage": 4,
+      "surcharge": [
+        {
+          "threshold": 5000000,
+          "rate": 10
+        },
+        {
+          "threshold": 10000000,
+          "rate": 15
+        },
+        {
+          "threshold": 20000000,
+          "rate": 25
+        }
+      ],
+      "surchargeMarginalRelief": true,
+      "incomeRounding": "nearest-ten-ignore-paise",
+      "liabilityRounding": "nearest-ten-ignore-paise",
+      "minimumAge": 0,
+      "maximumAge": null,
+      "employerContributionsReviewed": true,
+      "legalReferences": [
+        "https://www.incometax.gov.in/test-fixture"
+      ],
+      "reviewNote": "Synthetic regression fixture only",
+      "slabs": [
+        {
+          "from": 0,
+          "to": 400000,
+          "rate": 0
+        },
+        {
+          "from": 400000,
+          "to": 800000,
+          "rate": 5
+        },
+        {
+          "from": 800000,
+          "to": 1200000,
+          "rate": 10
+        },
+        {
+          "from": 1200000,
+          "to": 1600000,
+          "rate": 15
+        },
+        {
+          "from": 1600000,
+          "to": 2000000,
+          "rate": 20
+        },
+        {
+          "from": 2000000,
+          "to": 2400000,
+          "rate": 25
+        },
+        {
+          "from": 2400000,
+          "to": null,
+          "rate": 30
+        }
+      ],
+      "mappings": [
+        {
+          "componentId": "salary",
+          "type": "taxable",
+          "legalReference": "Synthetic fixture"
+        }
+      ]
+    },
+    "input": {
+      "annual": {
+        "annualCtc": 22012000,
+        "annualGrossWages": 22000000
+      },
+      "components": [
+        {
+          "componentId": "salary",
+          "code": "SALARY",
+          "category": "earning",
+          "annual": 22000000
+        }
+      ]
+    },
+    "result": {
+      "annualCtc": 22012000,
+      "annualGrossWages": 22000000,
+      "currentEmployerGrossWages": 22000000,
+      "previousEmployerGrossWages": 0,
+      "previousEmployerExemptWages": 0,
+      "taxableComponents": [
+        {
+          "componentId": "salary",
+          "code": "SALARY",
+          "category": "earning",
+          "annual": 22000000,
+          "treatment": "taxable",
+          "exempt": 0,
+          "taxable": 22000000,
+          "legalReference": "Synthetic fixture"
+        }
+      ],
+      "residualTaxableGross": 0,
+      "exemptions": 0,
+      "totalTaxableSalary": 22000000,
+      "standardDeduction": 75000,
+      "otherAdjustments": 0,
+      "taxableIncome": 21925000,
+      "slabs": [
+        {
+          "from": 0,
+          "to": 400000,
+          "rate": 0,
+          "taxableAmount": 400000,
+          "tax": 0
+        },
+        {
+          "from": 400000,
+          "to": 800000,
+          "rate": 5,
+          "taxableAmount": 400000,
+          "tax": 20000
+        },
+        {
+          "from": 800000,
+          "to": 1200000,
+          "rate": 10,
+          "taxableAmount": 400000,
+          "tax": 40000
+        },
+        {
+          "from": 1200000,
+          "to": 1600000,
+          "rate": 15,
+          "taxableAmount": 400000,
+          "tax": 60000
+        },
+        {
+          "from": 1600000,
+          "to": 2000000,
+          "rate": 20,
+          "taxableAmount": 400000,
+          "tax": 80000
+        },
+        {
+          "from": 2000000,
+          "to": 2400000,
+          "rate": 25,
+          "taxableAmount": 400000,
+          "tax": 100000
+        },
+        {
+          "from": 2400000,
+          "to": null,
+          "rate": 30,
+          "taxableAmount": 19525000,
+          "tax": 5857500
+        }
+      ],
+      "taxBeforeRebate": 6157500,
+      "rebate": 0,
+      "rebateMarginalRelief": 0,
+      "surcharge": 1539375,
+      "surchargeMarginalRelief": 0,
+      "marginalRelief": 0,
+      "cess": 307875,
+      "annualEstimatedTax": 8004750,
+      "annualTds": 8004750,
+      "monthlyTds": 667062.5,
+      "allocation": [
+        667062.5,
+        667062.5,
+        667062.5,
+        667062.5,
+        667062.5,
+        667062.5,
+        667062.5,
+        667062.5,
+        667062.5,
+        667062.5,
+        667062.5,
+        667062.5
+      ],
+      "allocationRule": "12 monthly checks; floor to paise for first 11, residual in final check"
+    },
+    "monthly": [
+      667062.5,
+      667062.5,
+      667062.5,
+      667062.5,
+      667062.5,
+      667062.5,
+      667062.5,
+      667062.5,
+      667062.5,
+      667062.5,
+      667062.5,
+      667062.5
+    ],
+    "remainingPeriods": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1334125,
+      1334125,
+      1334125,
+      1334125,
+      1334125,
+      1334125
+    ]
+  },
+  {
+    "name": "previous-employer",
+    "financialYear": "SYNTHETIC_FY",
+    "regime": "new",
+    "rules": {
+      "ruleVersion": "salary-only-v1",
+      "standardDeduction": 75000,
+      "rebateLimit": 1200000,
+      "maximumRebate": 60000,
+      "rebateMarginalRelief": true,
+      "cessPercentage": 4,
+      "surcharge": [
+        {
+          "threshold": 5000000,
+          "rate": 10
+        },
+        {
+          "threshold": 10000000,
+          "rate": 15
+        },
+        {
+          "threshold": 20000000,
+          "rate": 25
+        }
+      ],
+      "surchargeMarginalRelief": true,
+      "incomeRounding": "nearest-ten-ignore-paise",
+      "liabilityRounding": "nearest-ten-ignore-paise",
+      "minimumAge": 0,
+      "maximumAge": null,
+      "employerContributionsReviewed": true,
+      "legalReferences": [
+        "https://www.incometax.gov.in/test-fixture"
+      ],
+      "reviewNote": "Synthetic regression fixture only",
+      "slabs": [
+        {
+          "from": 0,
+          "to": 400000,
+          "rate": 0
+        },
+        {
+          "from": 400000,
+          "to": 800000,
+          "rate": 5
+        },
+        {
+          "from": 800000,
+          "to": 1200000,
+          "rate": 10
+        },
+        {
+          "from": 1200000,
+          "to": 1600000,
+          "rate": 15
+        },
+        {
+          "from": 1600000,
+          "to": 2000000,
+          "rate": 20
+        },
+        {
+          "from": 2000000,
+          "to": 2400000,
+          "rate": 25
+        },
+        {
+          "from": 2400000,
+          "to": null,
+          "rate": 30
+        }
+      ],
+      "mappings": [
+        {
+          "componentId": "salary",
+          "type": "taxable",
+          "legalReference": "Synthetic fixture"
+        }
+      ]
+    },
+    "input": {
+      "annual": {
+        "annualCtc": 912000,
+        "annualGrossWages": 900000
+      },
+      "components": [
+        {
+          "componentId": "salary",
+          "code": "SALARY",
+          "category": "earning",
+          "annual": 900000
+        }
+      ],
+      "previousEmployer": {
+        "grossWages": 600000,
+        "exemptWages": 50000
+      }
+    },
+    "result": {
+      "annualCtc": 912000,
+      "annualGrossWages": 1500000,
+      "currentEmployerGrossWages": 900000,
+      "previousEmployerGrossWages": 600000,
+      "previousEmployerExemptWages": 50000,
+      "taxableComponents": [
+        {
+          "componentId": "salary",
+          "code": "SALARY",
+          "category": "earning",
+          "annual": 900000,
+          "treatment": "taxable",
+          "exempt": 0,
+          "taxable": 900000,
+          "legalReference": "Synthetic fixture"
+        }
+      ],
+      "residualTaxableGross": 600000,
+      "exemptions": 50000,
+      "totalTaxableSalary": 1450000,
+      "standardDeduction": 75000,
+      "otherAdjustments": 0,
+      "taxableIncome": 1375000,
+      "slabs": [
+        {
+          "from": 0,
+          "to": 400000,
+          "rate": 0,
+          "taxableAmount": 400000,
+          "tax": 0
+        },
+        {
+          "from": 400000,
+          "to": 800000,
+          "rate": 5,
+          "taxableAmount": 400000,
+          "tax": 20000
+        },
+        {
+          "from": 800000,
+          "to": 1200000,
+          "rate": 10,
+          "taxableAmount": 400000,
+          "tax": 40000
+        },
+        {
+          "from": 1200000,
+          "to": 1600000,
+          "rate": 15,
+          "taxableAmount": 175000,
+          "tax": 26250
+        },
+        {
+          "from": 1600000,
+          "to": 2000000,
+          "rate": 20,
+          "taxableAmount": 0,
+          "tax": 0
+        },
+        {
+          "from": 2000000,
+          "to": 2400000,
+          "rate": 25,
+          "taxableAmount": 0,
+          "tax": 0
+        },
+        {
+          "from": 2400000,
+          "to": null,
+          "rate": 30,
+          "taxableAmount": 0,
+          "tax": 0
+        }
+      ],
+      "taxBeforeRebate": 86250,
+      "rebate": 0,
+      "rebateMarginalRelief": 0,
+      "surcharge": 0,
+      "surchargeMarginalRelief": 0,
+      "marginalRelief": 0,
+      "cess": 3450,
+      "annualEstimatedTax": 89700,
+      "annualTds": 89700,
+      "monthlyTds": 7475,
+      "allocation": [
+        7475,
+        7475,
+        7475,
+        7475,
+        7475,
+        7475,
+        7475,
+        7475,
+        7475,
+        7475,
+        7475,
+        7475
+      ],
+      "allocationRule": "12 monthly checks; floor to paise for first 11, residual in final check"
+    },
+    "monthly": [
+      7475,
+      7475,
+      7475,
+      7475,
+      7475,
+      7475,
+      7475,
+      7475,
+      7475,
+      7475,
+      7475,
+      7475
+    ],
+    "remainingPeriods": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      14950,
+      14950,
+      14950,
+      14950,
+      14950,
+      14950
+    ]
+  }
+]

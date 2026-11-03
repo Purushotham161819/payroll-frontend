@@ -13,14 +13,13 @@ import {
   HostListener,
   viewChild,
 } from '@angular/core';
-import { DatePipe, CurrencyPipe } from '@angular/common';
+import { PsButton, PsIconButton, PsPageHeader, PsStatusBadge, PsFormField, PsFieldControl, PsCardFooter, PsInrPipe, PsDatePipe } from '../shared/ui';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { EmployeeService, apiError } from './employee.service';
 import { Employee, contactNumberPattern } from './employee';
 import { realDate } from './employee-form';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActionIcon } from '../shared/action-icon';
 import { COUNTRIES } from '../settings/countries';
 import { PayChecks } from './pay-checks';
 import { ProfileTabs, ProfileTab } from './profile-tabs';
@@ -32,9 +31,7 @@ import { Organization } from '../organization';
   imports: [
     RouterLink,
     ReactiveFormsModule,
-    ActionIcon,
-    DatePipe,
-    CurrencyPipe,
+    PsButton, PsIconButton, PsPageHeader, PsStatusBadge, PsFormField, PsFieldControl, PsCardFooter, PsInrPipe, PsDatePipe,
     PayChecks,
     ProfileTabs,
     ProfileCard,

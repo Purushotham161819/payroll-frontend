@@ -9,8 +9,9 @@
   @if (summary()) {
     <div class="calculation-toolbar">
       <button
+        psButton
+        variant="primary"
         type="button"
-        class="primary"
         (click)="calculate(form)"
         [disabled]="!canCalculate(form)"
         [title]="
@@ -31,127 +32,160 @@
   }
   @if (error()) {
     <p role="alert" class="notice error">
-      {{ error() }} <button type="button" (click)="load()" [disabled]="busy()">Retry</button>
+      {{ error() }}
+      <button psButton variant="secondary" type="button" (click)="load()" [disabled]="busy()">
+        Retry
+      </button>
     </p>
   }
   @if (message()) {
     <p role="status" class="notice success">{{ message() }}</p>
   }
   @if (summary(); as s) {
-    <section
+    <ps-card
+      role="region"
       class="tax-card profile-card"
       aria-labelledby="employee-tax-profile"
       [class.readonly]="!editing()"
     >
-      <header class="card-header">
-        <h3 id="employee-tax-profile">Employee Tax Profile</h3>
-        @if (s.profile && !editing()) {
-          <div class="header-actions">
-            <button
-              type="button"
-              class="icon-button"
-              (click)="openYearChange()"
-              [disabled]="busy()"
-              title="Change Financial Year"
-              aria-label="Change Financial Year"
-            >
-              <app-action-icon name="calendar" />
-            </button>
-            <button
-              type="button"
-              class="icon-button"
-              (click)="edit()"
-              [disabled]="busy()"
-              title="Edit Tax Profile"
-              aria-label="Edit Tax Profile"
-            >
-              <app-action-icon name="edit" />
-            </button>
-          </div>
-        }
-      </header>
+      <span cardTitle id="employee-tax-profile">Employee Tax Profile</span>
+      @if (s.profile && !editing()) {
+        <div cardActions class="header-actions">
+          <button
+            psButton
+            variant="secondary"
+            type="button"
+            (click)="openYearChange()"
+            [disabled]="busy()"
+            title="Change Financial Year"
+            aria-label="Change Financial Year"
+          >
+            Change Financial Year
+          </button>
+          <button
+            psIconButton
+            action="edit"
+            size="sm"
+            type="button"
+            (click)="edit()"
+            [disabled]="busy()"
+            label="Edit Tax Profile"
+            aria-label="Edit Tax Profile"
+          ></button>
+        </div>
+      }
+
       <dl class="summary profile-summary">
         <div>
           <dt>
             Saved / Read-only status
-            <app-information-tip
-              label="About profile status"
-              text="Saved profiles are read-only until Edit is selected. Saving updates the profile; calculations are run separately."
-            />
+            <button
+              type="button"
+              class="info-trigger"
+              aria-label="About profile status"
+              psTooltip="Saved profiles are read-only until Edit is selected. Saving updates the profile; calculations are run separately."
+            >
+              <ps-icon action="info" />
+            </button>
           </dt>
-          <dd>{{ editing() ? 'Editing' : 'Saved · Read-only' }}</dd>
+          <dd><ps-status-badge [status]="editing() ? 'Editing' : 'Saved · Read-only'" /></dd>
         </div>
         <div>
           <dt>
             <label for="employee-tax-financial-year">Financial year</label>
-            <app-information-tip
-              label="About Financial Year"
-              text="The profile applies to this configured financial year. A saved year is locked; use Change Financial Year to review another year."
-            />
+            <button
+              type="button"
+              class="info-trigger"
+              aria-label="About Financial Year"
+              psTooltip="The profile applies to this configured financial year. A saved year is locked; use Change Financial Year to review another year."
+            >
+              <ps-icon action="info" />
+            </button>
           </dt>
           <dd>
-            <select
-              id="employee-tax-financial-year"
-              aria-describedby="employee-tax-financial-year-help"
-              [ngModel]="yearCode"
-              [ngModelOptions]="{ standalone: true }"
-              (ngModelChange)="selectYear($event)"
-              [disabled]="busy() || yearLocked()"
+            <ps-form-field label="Financial year" layout="hidden-label"
+              ><select
+                psFieldControl
+                id="employee-tax-financial-year"
+                aria-describedby="employee-tax-financial-year-help"
+                [ngModel]="yearCode"
+                [ngModelOptions]="{ standalone: true }"
+                (ngModelChange)="selectYear($event)"
+                [disabled]="busy() || yearLocked()"
+              >
+                @for (year of years(); track year.code) {
+                  <option [value]="year.code">{{ year.name }}</option>
+                }
+              </select></ps-form-field
             >
-              @for (year of years(); track year.code) {
-                <option [value]="year.code">{{ year.name }}</option>
-              }
-            </select>
           </dd>
         </div>
         <div>
           <dt>
             Annual CTC
-            <app-information-tip
-              label="About Annual CTC"
-              text="The employee annual CTC used by the payroll system. This value is read-only here."
-            />
+            <button
+              type="button"
+              class="info-trigger"
+              aria-label="About Annual CTC"
+              psTooltip="The employee annual CTC used by the payroll system. This value is read-only here."
+            >
+              <ps-icon action="info" />
+            </button>
           </dt>
-          <dd>{{ s.annualCtc | currency: 'INR' }}</dd>
+          <dd>{{ s.annualCtc | psInr }}</dd>
         </div>
         <div>
           <dt>
             Payroll frequency
-            <app-information-tip
-              label="About Payroll Frequency"
-              text="The employee configured payroll frequency, as supplied by the payroll system."
-            />
+            <button
+              type="button"
+              class="info-trigger"
+              aria-label="About Payroll Frequency"
+              psTooltip="The employee configured payroll frequency, as supplied by the payroll system."
+            >
+              <ps-icon action="info" />
+            </button>
           </dt>
           <dd>{{ s.payrollFrequency }}</dd>
         </div>
         <div>
           <dt>
             Calculation status
-            <app-information-tip
-              label="About Calculation Status"
-              text="Only a current saved calculation marked Calculated is deducted in payroll. Changes may require a new explicit calculation."
-            />
+            <button
+              type="button"
+              class="info-trigger"
+              aria-label="About Calculation Status"
+              psTooltip="Only a current saved calculation marked Calculated is deducted in payroll. Changes may require a new explicit calculation."
+            >
+              <ps-icon action="info" />
+            </button>
           </dt>
-          <dd>{{ s.calculationStatusLabel }}</dd>
+          <dd><ps-status-badge [status]="s.calculationStatusLabel" /></dd>
         </div>
         <div>
           <dt>
             <label for="employee-tax-regime">Tax regime</label>
-            <app-information-tip
-              label="About Tax Regime"
-              text="Automatically derived from the Tax Configuration associated with the selected financial year; it cannot be overridden here."
-            />
+            <button
+              type="button"
+              class="info-trigger"
+              aria-label="About Tax Regime"
+              psTooltip="Automatically derived from the Tax Configuration associated with the selected financial year; it cannot be overridden here."
+            >
+              <ps-icon action="info" />
+            </button>
           </dt>
           <dd>
             <fieldset [disabled]="busy() || !editing()">
-              <input
-                id="employee-tax-regime"
-                name="regime"
-                [value]="regimeLabel()"
-                readonly
-                aria-readonly="true"
-                aria-label="Tax regime"
-              />
+              <ps-form-field label="Tax regime" layout="hidden-label"
+                ><input
+                  psFieldControl
+                  id="employee-tax-regime"
+                  name="regime"
+                  [value]="regimeLabel()"
+                  readonly
+                  aria-readonly="true"
+                  aria-label="Tax regime"
+              /></ps-form-field>
             </fieldset>
           </dd>
         </div>
@@ -197,50 +231,29 @@
           returns to the previous year. Other years and calculation history are preserved.
         </p>
       }
-    </section>
-    <section
+    </ps-card>
+    <ps-card
+      role="region"
       class="tax-card employment-card"
       [class.readonly]="!editing()"
       aria-labelledby="employment-heading"
     >
-      <header class="card-header">
-        <h3 id="employment-heading">Employment During Current Financial Year</h3>
-        <div class="header-actions">
-          @if (!editing() && s.profile) {
-            <button
-              type="button"
-              class="icon-button"
-              title="Edit Employment Profile"
-              aria-label="Edit Employment Profile"
-              (click)="edit()"
-              [disabled]="busy()"
-            >
-              <app-action-icon name="edit" />
-            </button>
-          }
-          @if (editing()) {
-            <button
-              type="submit"
-              class="icon-button"
-              title="Save Tax Profile"
-              aria-label="Save Tax Profile"
-              [disabled]="!canSave(form)"
-            >
-              <app-action-icon name="save" />
-            </button>
-            <button
-              type="button"
-              class="icon-button"
-              title="Cancel Employment Profile"
-              aria-label="Cancel Employment Profile"
-              (click)="cancel()"
-              [disabled]="busy()"
-            >
-              <app-action-icon name="close" />
-            </button>
-          }
-        </div>
-      </header>
+      <span cardTitle id="employment-heading">Employment During Current Financial Year</span>
+      <div cardActions class="header-actions">
+        @if (!editing() && s.profile) {
+          <button
+            psIconButton
+            action="edit"
+            size="sm"
+            type="button"
+            label="Edit Employment Profile"
+            aria-label="Edit Employment Profile"
+            (click)="edit()"
+            [disabled]="busy()"
+          ></button>
+        }
+      </div>
+
       @if (viewingCalculation(); as calculation) {
         @if (calculation.snapshot.inputs?.projection; as p) {
           @let r = calculation.snapshot.result;
@@ -248,19 +261,19 @@
           <dl class="summary employment-summary">
             <div>
               <dt>Annual CTC</dt>
-              <dd>{{ p.annualCtc | currency: 'INR' }}</dd>
+              <dd>{{ p.annualCtc | psInr }}</dd>
             </div>
             <div>
               <dt>Financial year start</dt>
-              <dd>{{ p.financialYearStartDate | date }}</dd>
+              <dd>{{ p.financialYearStartDate | psDate }}</dd>
             </div>
             <div>
               <dt>Employee hire date</dt>
-              <dd>{{ p.hireDate | date }}</dd>
+              <dd>{{ p.hireDate | psDate }}</dd>
             </div>
             <div>
               <dt>Current employment start</dt>
-              <dd>{{ p.employmentStartDate | date }}</dd>
+              <dd>{{ p.employmentStartDate | psDate }}</dd>
             </div>
             <div>
               <dt>Eligible employment months</dt>
@@ -268,51 +281,57 @@
             </div>
             <div>
               <dt>Pro-rated Annual CTC</dt>
-              <dd>{{ p.salary.annual.annualCtc | currency: 'INR' }}</dd>
+              <dd>{{ p.salary.annual.annualCtc | psInr }}</dd>
             </div>
             <div>
               <dt>Current employer projected gross earnings</dt>
-              <dd>{{ r.currentEmployerGrossWages | currency: 'INR' }}</dd>
+              <dd>{{ r.currentEmployerGrossWages | psInr }}</dd>
             </div>
             @if (p.employmentScenario === 'job_change') {
               <div>
                 <dt>Previous employer gross wages</dt>
-                <dd>{{ p.previousEmployerGrossWages | currency: 'INR' }}</dd>
+                <dd>{{ p.previousEmployerGrossWages | psInr }}</dd>
               </div>
               <div>
                 <dt>Previous employer verified exempt wages</dt>
-                <dd>{{ p.previousEmployerExemptWages | currency: 'INR' }}</dd>
+                <dd>{{ p.previousEmployerExemptWages | psInr }}</dd>
               </div>
               <div>
                 <dt>Previous employer TDS credit</dt>
-                <dd>{{ r.previousEmployerTdsCredit | currency: 'INR' }}</dd>
+                <dd>{{ r.previousEmployerTdsCredit | psInr }}</dd>
               </div>
             }
           </dl>
         }
       }
       <fieldset [disabled]="busy() || !editing()">
-        <div class="scenario-options">
-          <label class="check"
+        <div
+          class="scenario-options"
+          role="radiogroup"
+          aria-label="Employment during current financial year"
+        >
+          <ps-form-field
+            label="This is the employee's first job in the current Financial Year."
+            [choice]="true"
             ><input
+              psFieldControl
               type="radio"
               name="employmentScenario"
               value="first_job"
               [(ngModel)]="profile.employmentScenario"
               (ngModelChange)="employmentScenarioChanged()"
-            />
-            This is the employee's first job in the current Financial Year.</label
-          >
-          <label class="check"
+          /></ps-form-field>
+          <ps-form-field
+            label="The employee has changed jobs during the current Financial Year."
+            [choice]="true"
             ><input
+              psFieldControl
               type="radio"
               name="employmentScenario"
               value="job_change"
               [(ngModel)]="profile.employmentScenario"
               (ngModelChange)="employmentScenarioChanged()"
-            />
-            The employee has changed jobs during the current Financial Year.</label
-          >
+          /></ps-form-field>
           <p class="muted">
             Select a scenario for a mid-year projection. The joining month and financial year end
             month are included.
@@ -320,9 +339,18 @@
         </div>
         @if (profile.employmentScenario === 'job_change') {
           <div class="fields">
-            <label
-              >Previous Employer Gross Wages Received (INR)
-              <input
+            <ps-form-field
+              label="Previous Employer Gross Wages Received (INR)"
+              required
+              helper="Total gross salary wages received during this financial year before joining the current employer. Enter gross wages, not CTC."
+            >
+              @if (!editing()) {
+                <span class="saved-amount">{{ profile.previousEmployerGrossWages | psInr }}</span>
+              }
+              <span fieldPrefix aria-hidden="true" [style.display]="!editing() ? 'none' : null">&#8377;</span
+              ><input
+                psFieldControl
+                [style.display]="!editing() ? 'none' : null"
                 name="previousEmployerGrossWages"
                 type="number"
                 min="0"
@@ -331,14 +359,19 @@
                 required
                 [(ngModel)]="profile.previousEmployerGrossWages"
               />
-              <small
-                >Total gross salary wages received during this financial year before joining the
-                current employer. Enter gross wages, not CTC.</small
-              >
-            </label>
-            <label
-              >Previous Employer Exempt Wages (INR)
-              <input
+            </ps-form-field>
+            <ps-form-field
+              label="Previous Employer Exempt Wages (INR)"
+              required
+              helper="Documented exemptions included in the previous gross wages. Exclude standard deduction; it is applied once to combined salary."
+            >
+              @if (!editing()) {
+                <span class="saved-amount">{{ profile.previousEmployerExemptWages | psInr }}</span>
+              }
+              <span fieldPrefix aria-hidden="true" [style.display]="!editing() ? 'none' : null">&#8377;</span
+              ><input
+                psFieldControl
+                [style.display]="!editing() ? 'none' : null"
                 name="previousEmployerExemptWages"
                 type="number"
                 min="0"
@@ -347,14 +380,19 @@
                 required
                 [(ngModel)]="profile.previousEmployerExemptWages"
               />
-              <small
-                >Documented exemptions included in the previous gross wages. Exclude standard
-                deduction; it is applied once to combined salary.</small
-              >
-            </label>
-            <label
-              >Previous Employer Total TDS Deducted (INR)
-              <input
+            </ps-form-field>
+            <ps-form-field
+              label="Previous Employer Total TDS Deducted (INR)"
+              required
+              helper="Total income tax already deducted by the previous employer in this financial year. This is a tax credit."
+            >
+              @if (!editing()) {
+                <span class="saved-amount">{{ profile.previousEmployerTds | psInr }}</span>
+              }
+              <span fieldPrefix aria-hidden="true" [style.display]="!editing() ? 'none' : null">&#8377;</span
+              ><input
+                psFieldControl
+                [style.display]="!editing() ? 'none' : null"
                 name="previousEmployerTds"
                 type="number"
                 min="0"
@@ -363,20 +401,16 @@
                 required
                 [(ngModel)]="profile.previousEmployerTds"
               />
-              <small
-                >Total income tax already deducted by the previous employer in this financial year.
-                This is a tax credit.</small
-              >
-            </label>
+            </ps-form-field>
           </div>
-          <label class="check"
+          <ps-form-field label="Documented previous-employer exemptions verified" [choice]="true"
             ><input
+              psFieldControl
               name="previousEmployerExemptionsVerified"
               type="checkbox"
               [required]="(profile.previousEmployerExemptWages ?? 0) > 0"
               [(ngModel)]="profile.previousEmployerExemptionsVerified"
-            />Documented previous-employer exemptions verified</label
-          >
+          /></ps-form-field>
           <small
             >Verification is required when Previous Employer Exempt Wages is greater than zero.
             Enter zero when there are no exempt wages.</small
@@ -393,89 +427,120 @@
         }
         <h4>Eligibility and confirmations</h4>
         <div class="fields checks">
-          <label class="check"
-            ><input name="applicable" type="checkbox" [(ngModel)]="profile.tdsApplicable" />TDS
-            applicable</label
-          >
-          <label class="check"
-            ><input name="resident" type="checkbox" [(ngModel)]="profile.resident" />Confirmed
-            Indian tax resident</label
-          >
-          <label class="check"
-            ><input name="salaryOnly" type="checkbox" [(ngModel)]="profile.salaryOnly" />Salary-only
-            income</label
-          >
-          <label class="check"
-            ><input name="pan" type="checkbox" [(ngModel)]="profile.panOperative" />PAN operative
-            and verified</label
-          >
-          <label class="check"
+          <ps-form-field label="TDS applicable" [choice]="true"
             ><input
+              psFieldControl
+              name="applicable"
+              type="checkbox"
+              [(ngModel)]="profile.tdsApplicable"
+          /></ps-form-field>
+          <ps-form-field label="Confirmed Indian tax resident" [choice]="true"
+            ><input psFieldControl name="resident" type="checkbox" [(ngModel)]="profile.resident"
+          /></ps-form-field>
+          <ps-form-field label="Salary-only income" [choice]="true"
+            ><input
+              psFieldControl
+              name="salaryOnly"
+              type="checkbox"
+              [(ngModel)]="profile.salaryOnly"
+          /></ps-form-field>
+          <ps-form-field label="PAN operative and verified" [choice]="true"
+            ><input psFieldControl name="pan" type="checkbox" [(ngModel)]="profile.panOperative"
+          /></ps-form-field>
+          <ps-form-field
+            label="Full-year employment confirmed (required only without an employment scenario)"
+            [choice]="true"
+            ><input
+              psFieldControl
               name="fullYear"
               type="checkbox"
               [(ngModel)]="profile.fullYearEmployment"
-            />Full-year employment confirmed (required only without an employment scenario)</label
-          >
-          <label class="check"
+          /></ps-form-field>
+          <ps-form-field label="Documented exemption conditions verified" [choice]="true"
             ><input
+              psFieldControl
               name="exemptions"
               type="checkbox"
               [(ngModel)]="profile.exemptionConditionsConfirmed"
-            />Documented exemption conditions verified</label
-          >
+          /></ps-form-field>
         </div>
       </fieldset>
 
       <fieldset [disabled]="busy() || !editing()">
-        <label class="review-note"
-          >Reason / review note<textarea
+        <ps-form-field label="Reason / review note">
+          <textarea
+            psFieldControl
             rows="2"
             name="reason"
             [(ngModel)]="profile.reason"
             [required]="!profile.tdsApplicable"
             maxlength="1000"
           ></textarea>
-        </label>
+        </ps-form-field>
       </fieldset>
       @if (editing()) {
         @if (!hasProfileChanges()) {
           <p class="muted">No unsaved changes.</p>
         }
       }
-    </section>
-    <section class="tax-card" aria-labelledby="annual-tax-breakdown">
-      <header class="card-header">
-        <div>
-          <h3 id="annual-tax-breakdown">Saved Annual Tax Breakdown</h3>
-          <p>
-            Saved calculation details. The current calculation status is shown in the profile above.
-          </p>
+      @if (editing()) {
+        <div cardFooter class="card-actions">
+          <button
+            psButton
+            variant="secondary"
+            type="button"
+            title="Cancel Employment Profile"
+            aria-label="Cancel Employment Profile"
+            (click)="cancel()"
+            [disabled]="busy()"
+          >
+            Cancel
+          </button>
+          <button
+            psButton
+            variant="primary"
+            type="submit"
+            title="Save Tax Profile"
+            aria-label="Save Tax Profile"
+            [disabled]="!canSave(form)"
+          >
+            Save
+          </button>
         </div>
-        @if (s.latest) {
-          <div class="header-actions">
-            <button
-              type="button"
-              class="icon-button"
-              title="View Calculation History"
-              aria-label="View Calculation History"
-              (click)="loadHistory()"
-              [disabled]="busy()"
-            >
-              <app-action-icon name="history" />
-            </button>
-            <button
-              type="button"
-              class="icon-button"
-              title="View Tax Slabs"
-              aria-label="View Tax Slabs"
-              (click)="detailModal.set('slabs')"
-              [disabled]="busy() || !viewingCalculation()"
-            >
-              <app-action-icon name="table" />
-            </button>
-          </div>
-        }
-      </header>
+      }
+    </ps-card>
+    <ps-card role="region" class="tax-card" aria-labelledby="annual-tax-breakdown">
+      <span cardTitle id="annual-tax-breakdown">Saved Annual Tax Breakdown</span
+      ><span cardSubtitle>
+        Saved calculation details. The current calculation status is shown in the profile above.
+      </span>
+      @if (s.latest) {
+        <div cardActions class="header-actions">
+          <button
+            psButton
+            variant="secondary"
+            type="button"
+            title="View Calculation History"
+            aria-label="View Calculation History"
+            (click)="loadHistory()"
+            [disabled]="busy()"
+          >
+            View Calculation History
+          </button>
+          <button
+            psButton
+            variant="secondary"
+            type="button"
+            title="View Tax Slabs"
+            aria-label="View Tax Slabs"
+            (click)="detailModal.set('slabs')"
+            [disabled]="busy() || !viewingCalculation()"
+          >
+            View Tax Slabs
+          </button>
+        </div>
+      }
+
       @if (viewingCalculation(); as calculation) {
         @let r = calculation.snapshot.result;
         <dl class="calculation-metadata">
@@ -489,17 +554,23 @@
           </div>
           <div>
             <dt>Last calculated</dt>
-            <dd>{{ calculation.createdAt | date: 'medium' }}</dd>
+            <dd>
+              {{ calculation.createdAt | psDate }} {{ calculation.createdAt | date: 'HH:mm:ss' }}
+            </dd>
           </div>
           <div>
             <dt>
               Configuration version
-              <app-information-tip
-                label="About Configuration Version"
-                text="The saved Tax Configuration revision used for this calculation: {{
+              <button
+                type="button"
+                class="info-trigger"
+                aria-label="About Configuration Version"
+                psTooltip="The saved Tax Configuration revision used for this calculation: {{
                   calculation.snapshot.configurationVersion
                 }}. Historical results retain their original revision."
-              />
+              >
+                <ps-icon action="info" />
+              </button>
             </dt>
             <dd>{{ calculation.snapshot.configurationVersion }}</dd>
           </div>
@@ -512,15 +583,15 @@
           <dl class="summary">
             <div>
               <dt>Estimated total annual tax liability</dt>
-              <dd>{{ r.annualEstimatedTax | currency: 'INR' }}</dd>
+              <dd>{{ r.annualEstimatedTax | psInr }}</dd>
             </div>
             <div>
               <dt>Submitted current employer TDS at calculation</dt>
-              <dd>{{ r.currentEmployerSubmittedTds | currency: 'INR' }}</dd>
+              <dd>{{ r.currentEmployerSubmittedTds | psInr }}</dd>
             </div>
             <div>
               <dt>Remaining annual TDS at calculation</dt>
-              <dd>{{ r.remainingAnnualTds | currency: 'INR' }}</dd>
+              <dd>{{ r.remainingAnnualTds | psInr }}</dd>
             </div>
             <div>
               <dt>Remaining eligible payroll periods at calculation</dt>
@@ -528,7 +599,7 @@
             </div>
             <div>
               <dt>Excess tax credit for review</dt>
-              <dd>{{ r.excessTaxCredit | currency: 'INR' }}</dd>
+              <dd>{{ r.excessTaxCredit | psInr }}</dd>
             </div>
           </dl>
           @for (warning of r.warnings; track warning) {
@@ -538,59 +609,58 @@
         <dl class="summary">
           <div>
             <dt>Estimated total annual gross wages</dt>
-            <dd>{{ r.annualGrossWages | currency: 'INR' }}</dd>
+            <dd>{{ r.annualGrossWages | psInr }}</dd>
           </div>
           <div>
             <dt>Taxable salary</dt>
-            <dd>{{ r.totalTaxableSalary | currency: 'INR' }}</dd>
+            <dd>{{ r.totalTaxableSalary | psInr }}</dd>
           </div>
           <div>
             <dt>Standard deduction</dt>
-            <dd>{{ r.standardDeduction | currency: 'INR' }}</dd>
+            <dd>{{ r.standardDeduction | psInr }}</dd>
           </div>
           <div>
             <dt>Taxable income</dt>
-            <dd>{{ r.taxableIncome | currency: 'INR' }}</dd>
+            <dd>{{ r.taxableIncome | psInr }}</dd>
           </div>
           <div>
             <dt>Tax before rebate</dt>
-            <dd>{{ r.taxBeforeRebate | currency: 'INR' }}</dd>
+            <dd>{{ r.taxBeforeRebate | psInr }}</dd>
           </div>
           <div>
             <dt>Rebate</dt>
-            <dd>{{ r.rebate | currency: 'INR' }}</dd>
+            <dd>{{ r.rebate | psInr }}</dd>
           </div>
           <div>
             <dt>Surcharge</dt>
-            <dd>{{ r.surcharge | currency: 'INR' }}</dd>
+            <dd>{{ r.surcharge | psInr }}</dd>
           </div>
           <div>
             <dt>Marginal relief</dt>
-            <dd>{{ r.marginalRelief | currency: 'INR' }}</dd>
+            <dd>{{ r.marginalRelief | psInr }}</dd>
           </div>
           <div>
             <dt>Cess</dt>
-            <dd>{{ r.cess | currency: 'INR' }}</dd>
+            <dd>{{ r.cess | psInr }}</dd>
           </div>
-          <div>
-            <dt>Current employer annual TDS liability</dt>
-            <dd>{{ r.annualTds | currency: 'INR' }}</dd>
+          <div class="tds-total"><dt>Current employer annual TDS liability</dt>
+            <dd>{{ r.annualTds | psInr }}</dd>
           </div>
           <div>
             <dt>Monthly TDS (remaining eligible checks)</dt>
-            <dd>{{ r.monthlyTds | currency: 'INR' }}</dd>
+            <dd>{{ r.monthlyTds | psInr }}</dd>
           </div>
           <div>
             <dt>Final-month TDS</dt>
-            <dd>{{ r.allocation[11] | currency: 'INR' }}</dd>
+            <dd>{{ r.allocation[11] | psInr }}</dd>
           </div>
           <div>
             <dt>Submitted TDS allocations</dt>
-            <dd>{{ s.submittedTds | currency: 'INR' }}</dd>
+            <dd>{{ s.submittedTds | psInr }}</dd>
           </div>
           <div>
             <dt>Remaining estimated allocation</dt>
-            <dd>{{ s.remainingEstimatedTds | currency: 'INR' }}</dd>
+            <dd>{{ s.remainingEstimatedTds | psInr }}</dd>
           </div>
         </dl>
         <p>{{ s.withholdingStatus }}</p>
@@ -601,27 +671,24 @@
       } @else {
         <p class="empty">No saved calculation for this financial year.</p>
       }
-    </section>
-    <section class="tax-card" aria-labelledby="salary-taxability-breakdown">
-      <header class="card-header">
-        <div>
-          <h3 id="salary-taxability-breakdown">Salary Taxability Breakdown</h3>
-          <p>
-            Existing Payroll Generator components and saved taxability amounts. Salary formulas
-            remain unchanged.
-          </p>
-        </div>
-      </header>
-      <div class="table-wrap" tabindex="0" role="region" aria-label="Salary taxability breakdown">
-        <table>
+    </ps-card>
+    <ps-card role="region" class="tax-card" aria-labelledby="salary-taxability-breakdown">
+      <span cardTitle id="salary-taxability-breakdown">Salary Taxability Breakdown</span
+      ><span cardSubtitle>
+        Existing Payroll Generator components and saved taxability amounts. Salary formulas remain
+        unchanged.
+      </span>
+
+      <ps-data-table label="Salary taxability breakdown">
+        <table class="ps-table">
           <thead>
             <tr>
-              <th>Salary Component</th>
-              <th>Component Code</th>
-              <th>Taxability</th>
-              <th>Annual Value</th>
-              <th>Exempt</th>
-              <th>Taxable</th>
+              <th scope="col">Salary Component</th>
+              <th scope="col">Component Code</th>
+              <th scope="col">Taxability</th>
+              <th scope="col">Annual Value</th>
+              <th scope="col">Exempt</th>
+              <th scope="col">Taxable</th>
             </tr>
           </thead>
           <tbody>
@@ -630,9 +697,9 @@
                 <td>{{ row.name }}</td>
                 <td>{{ row.code }}</td>
                 <td>{{ row.type }}</td>
-                <td>{{ row.annual === null ? '—' : (row.annual | currency: 'INR') }}</td>
-                <td>{{ row.exempt === null ? '—' : (row.exempt | currency: 'INR') }}</td>
-                <td>{{ row.taxable === null ? '—' : (row.taxable | currency: 'INR') }}</td>
+                <td class="num">{{ row.annual === null ? '—' : (row.annual | psInr) }}</td>
+                <td class="num">{{ row.exempt === null ? '—' : (row.exempt | psInr) }}</td>
+                <td class="num">{{ row.taxable === null ? '—' : (row.taxable | psInr) }}</td>
               </tr>
             } @empty {
               <tr>
@@ -640,13 +707,13 @@
               </tr>
             }
           </tbody>
-        </table>
-      </div>
+        </table></ps-data-table
+      >
       <p class="muted">
         Salary components may represent overlapping wage bases. Tax starts from existing Gross Wages
         and applies reviewed exemptions once.
       </p>
-    </section>
+    </ps-card>
   } @else if (!busy() && !years().length) {
     <p class="empty">
       No financial years available. Configure a financial year under Settings → Tax Configuration.
@@ -663,8 +730,9 @@
       Open another year's employee tax profile. Existing profiles, tax calculations and finalized
       payroll records will be retained.
     </p>
-    <label
-      >Financial year<select
+    <ps-form-field label="Financial year"
+      ><select
+        psFieldControl
         [ngModel]="targetYear"
         (ngModelChange)="selectTargetYear($event)"
         [disabled]="busy()"
@@ -673,7 +741,7 @@
         @for (year of years(); track year.code) {
           <option [value]="year.code">{{ year.name }}</option>
         }
-      </select></label
+      </select></ps-form-field
     >
     @if (yearPreview(); as preview) {
       <p>
@@ -695,10 +763,18 @@
       preserves the original profile.
     </p>
     <footer class="card-actions">
-      <button type="button" (click)="closeYearChange()" [disabled]="busy()">Cancel</button
-      ><button
+      <button
+        psButton
+        variant="secondary"
         type="button"
-        class="primary"
+        (click)="closeYearChange()"
+        [disabled]="busy()"
+      >
+        Cancel</button
+      ><button
+        psButton
+        variant="primary"
+        type="button"
         (click)="confirmYearChange()"
         [disabled]="!canConfirmYearChange()"
       >
@@ -716,24 +792,24 @@
     @if (error()) {
       <p role="alert">{{ error() }}</p>
     }
-    <div class="table-wrap">
-      <table>
+    <ps-data-table label="Saved tax calculations">
+      <table class="ps-table">
         <thead>
           <tr>
-            <th>Calculation Date</th>
-            <th>Financial Year</th>
-            <th>Tax Regime</th>
-            <th>Employment Scenario</th>
-            <th>Estimated Annual Tax</th>
-            <th>Remaining Annual TDS</th>
-            <th>Saved Status</th>
-            <th>Actions</th>
+            <th scope="col">Calculation Date</th>
+            <th scope="col">Financial Year</th>
+            <th scope="col">Tax Regime</th>
+            <th scope="col">Employment Scenario</th>
+            <th scope="col">Estimated Annual Tax</th>
+            <th scope="col">Remaining Annual TDS</th>
+            <th scope="col">Saved Status</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
           @for (item of history(); track item._id) {
             <tr>
-              <td>{{ item.createdAt | date: 'medium' }}</td>
+              <td>{{ item.createdAt | psDate }} {{ item.createdAt | date: 'HH:mm:ss' }}</td>
               <td>{{ item.snapshot.yearCode }}</td>
               <td>{{ item.snapshot.regime }}</td>
               <td>
@@ -745,17 +821,22 @@
                       : 'Not recorded'
                 }}
               </td>
-              <td>{{ item.snapshot.result.annualEstimatedTax | currency: 'INR' }}</td>
-              <td>
+              <td class="num">{{ item.snapshot.result.annualEstimatedTax | psInr }}</td>
+              <td class="num">
                 {{
                   item.snapshot.result.remainingAnnualTds == null
                     ? 'Not recorded'
-                    : (item.snapshot.result.remainingAnnualTds | currency: 'INR')
+                    : (item.snapshot.result.remainingAnnualTds | psInr)
                 }}
               </td>
-              <td>{{ item.snapshot.status }}</td>
+              <td><ps-status-badge [status]="item.snapshot.status" /></td>
               <td>
-                <button type="button" (click)="viewingCalculation.set(item); detailModal.set(null)">
+                <button
+                  psButton
+                  variant="secondary"
+                  type="button"
+                  (click)="viewingCalculation.set(item); detailModal.set(null)"
+                >
                   View breakdown
                 </button>
               </td>
@@ -768,8 +849,8 @@
             }
           }
         </tbody>
-      </table>
-    </div>
+      </table></ps-data-table
+    >
     <p class="muted">
       Status is recorded at calculation time. Current payroll eligibility is shown in the Employee
       Tax Profile.
@@ -784,29 +865,29 @@
       {{ viewingCalculation().snapshot.regime }} regime. Configuration:
       {{ viewingCalculation().snapshot.configurationVersion }}
     </p>
-    <div class="table-wrap">
-      <table>
+    <ps-data-table label="Saved calculation tax slabs">
+      <table class="ps-table">
         <thead>
           <tr>
-            <th>Slab from</th>
-            <th>Slab to</th>
-            <th>Rate</th>
-            <th>Taxable amount</th>
-            <th>Tax</th>
+            <th scope="col">Slab from</th>
+            <th scope="col">Slab to</th>
+            <th scope="col">Rate</th>
+            <th scope="col">Taxable amount</th>
+            <th scope="col">Tax</th>
           </tr>
         </thead>
         <tbody>
           @for (slab of r.slabs; track slab.from) {
             <tr>
-              <td>{{ slab.from | currency: 'INR' }}</td>
-              <td>{{ slab.to === null ? 'Unlimited' : (slab.to | currency: 'INR') }}</td>
+              <td class="num">{{ slab.from | psInr }}</td>
+              <td class="num">{{ slab.to === null ? 'Unlimited' : (slab.to | psInr) }}</td>
               <td>{{ slab.rate }}%</td>
-              <td>{{ slab.taxableAmount | currency: 'INR' }}</td>
-              <td>{{ slab.tax | currency: 'INR' }}</td>
+              <td class="num">{{ slab.taxableAmount | psInr }}</td>
+              <td class="num">{{ slab.tax | psInr }}</td>
             </tr>
           }
         </tbody>
-      </table>
-    </div>
+      </table></ps-data-table
+    >
   </app-detail-dialog>
 }

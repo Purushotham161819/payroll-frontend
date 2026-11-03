@@ -1,0 +1,28 @@
+{
+  "stats": {
+    "startTime": "2026-11-03T09:23:55.637Z",
+    "duration": 650642.5730000001,
+    "expected": 122,
+    "skipped": 4,
+    "unexpected": 6,
+    "flaky": 0
+  },
+  "baselineFailures": [
+    "final-ui.spec.ts::monthly CTC, icon actions, guide and exact payroll return context survive profile navigation and refresh",
+    "indian-format-search.spec.ts::Run Payroll KPIs, dynamic rows and Pay Check history use Indian grouping without changing numeric requests",
+    "indian-format-search.spec.ts::salary settings, statutory amounts and tax revision displays share Indian currency presentation",
+    "management-delete.spec.ts::employee delete confirmation cancels safely, reports errors, deletes once and refreshes selected rows",
+    "profile-payroll-ui.spec.ts::revisit a submitted month, save checkbox changes, and submit only unprocessed employees",
+    "ui-refinements.spec.ts::formula help opens with keyboard, explains MIN/MAX/IF and closes without changing the expression"
+  ],
+  "currentFailures": [
+    "final-ui.spec.ts::monthly CTC, icon actions, guide and exact payroll return context survive profile navigation and refresh",
+    "indian-format-search.spec.ts::Run Payroll KPIs, dynamic rows and Pay Check history use Indian grouping without changing numeric requests",
+    "indian-format-search.spec.ts::salary settings, statutory amounts and tax revision displays share Indian currency presentation",
+    "management-delete.spec.ts::employee delete confirmation cancels safely, reports errors, deletes once and refreshes selected rows",
+    "profile-payroll-ui.spec.ts::revisit a submitted month, save checkbox changes, and submit only unprocessed employees",
+    "ui-refinements.spec.ts::formula help opens with keyboard, explains MIN/MAX/IF and closes without changing the expression"
+  ],
+  "newFailures": [],
+  "resolvedFailures": []
+}

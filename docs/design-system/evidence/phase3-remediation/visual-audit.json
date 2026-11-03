@@ -1,0 +1,134 @@
+{
+  "tokenIconSize": "16px",
+  "tableMinimum": "1180px",
+  "icons": [
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    },
+    {
+      "width": 16,
+      "height": 16
+    }
+  ],
+  "headers": [
+    "Employee ID",
+    "First Name",
+    "Last Name",
+    "Email",
+    "Date of Birth",
+    "Hire Date",
+    "Annual CTC",
+    "Pay Frequency",
+    "Status",
+    "Created Date",
+    "Actions"
+  ],
+  "rowHeight": 56,
+  "headerHeight": 44,
+  "sidebarTop": 0,
+  "sidebarWidth": 248,
+  "scrollY": 700,
+  "documentWidth": 1440,
+  "viewport": 1440
+}

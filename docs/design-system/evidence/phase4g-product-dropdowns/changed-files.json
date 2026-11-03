@@ -1,0 +1,90 @@
+[
+  {
+    "path": "docs/design-system/PAYSTREAM_DESIGN_SYSTEM.md",
+    "created": false
+  },
+  {
+    "path": "docs/design-system/PayStream-Component-Library.md",
+    "created": false
+  },
+  {
+    "path": "e2e/employee-tax-design-system.spec.ts",
+    "created": false
+  },
+  {
+    "path": "e2e/organization-design-system.spec.ts",
+    "created": false
+  },
+  {
+    "path": "e2e/product-dropdown-evidence.ts",
+    "created": true
+  },
+  {
+    "path": "e2e/salary-design-system.spec.ts",
+    "created": false
+  },
+  {
+    "path": "e2e/shared-controls-product.spec.ts",
+    "created": false
+  },
+  {
+    "path": "e2e/shared-controls-remediation.spec.ts",
+    "created": false
+  },
+  {
+    "path": "e2e/tax-design-system.spec.ts",
+    "created": false
+  },
+  {
+    "path": "e2e/users-design-system.spec.ts",
+    "created": false
+  },
+  {
+    "path": "src/app/shared/ui/ps-form-field.ts",
+    "created": false
+  },
+  {
+    "path": "src/app/shared/ui/ps-native-select.spec.ts",
+    "created": true
+  },
+  {
+    "path": "src/app/shared/ui/ps-native-select.ts",
+    "created": true
+  },
+  {
+    "path": "src/app/shared/ui/ps-select.ts",
+    "created": false
+  },
+  {
+    "path": "src/app/employees/employee-form.html",
+    "created": false
+  },
+  {
+    "path": "src/app/employees/employee-form.ts",
+    "created": false
+  },
+  {
+    "path": "src/app/employees/lifecycle-dialog.ts",
+    "created": false
+  },
+  {
+    "path": "src/app/payroll/payroll-generator.html",
+    "created": false
+  },
+  {
+    "path": "src/app/payroll/payroll-generator.ts",
+    "created": false
+  },
+  {
+    "path": "src/app/platform/platform.html",
+    "created": false
+  },
+  {
+    "path": "src/app/platform/platform.ts",
+    "created": false
+  },
+  {
+    "path": "docs/design-system/PHASE_4G_REPORT.md",
+    "created": false
+  }
+]

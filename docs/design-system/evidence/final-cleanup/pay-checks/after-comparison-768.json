@@ -1,0 +1,53 @@
+{
+  "records": [
+    {
+      "id": "immutable-check-0",
+      "employeeId": "507f1f77bcf86cd799439011",
+      "firstName": "Ada",
+      "lastName": "Example",
+      "period": "2026-11",
+      "paymentDate": "2026-11-28",
+      "payFrequency": "Monthly",
+      "grossPay": 200000,
+      "employerContributions": 10000,
+      "deductions": 150000,
+      "netPay": 50000,
+      "paymentStatus": "Payment Pending",
+      "tds": 123456.78
+    },
+    {
+      "id": "immutable-check-1",
+      "employeeId": "507f1f77bcf86cd799439011",
+      "firstName": "Ada",
+      "lastName": "Example",
+      "period": "2026-10",
+      "paymentDate": "2026-10-28",
+      "payFrequency": "Monthly",
+      "grossPay": 200000,
+      "employerContributions": 10000,
+      "deductions": 150000,
+      "netPay": 50000,
+      "paymentStatus": "Paid",
+      "tds": 0
+    },
+    {
+      "id": "immutable-check-2",
+      "employeeId": "507f1f77bcf86cd799439011",
+      "firstName": "Ada",
+      "lastName": "Example",
+      "period": "2026-09",
+      "paymentDate": "2026-09-28",
+      "payFrequency": "Monthly",
+      "grossPay": 200000,
+      "employerContributions": 10000,
+      "deductions": 150000,
+      "netPay": 50000,
+      "paymentStatus": "Paid"
+    }
+  ],
+  "viewedPdfSha256": "a5b6455bd03724242c99c1a911dcc58afe51a7aa826c317250bdb9427bf3064e",
+  "downloadedPdfSha256": "a5b6455bd03724242c99c1a911dcc58afe51a7aa826c317250bdb9427bf3064e",
+  "storedPdfSha256": "a5b6455bd03724242c99c1a911dcc58afe51a7aa826c317250bdb9427bf3064e",
+  "focusReturned": true,
+  "writes": 0
+}

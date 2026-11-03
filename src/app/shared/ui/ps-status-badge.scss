@@ -1,0 +1,6 @@
+:host{display:inline-flex;align-items:center;gap:var(--space-1);box-sizing:border-box;min-height:var(--badge-height);padding:var(--badge-padding-block) var(--space-2);border:var(--border-width) solid var(--status-neutral-border);border-radius:var(--radius-sm);font:var(--type-helper);font-weight:var(--font-weight-semibold);white-space:nowrap;color:var(--status-neutral-text);background:var(--status-neutral-bg)}
+:host::before{content:"";width:var(--badge-dot);height:var(--badge-dot);border-radius:var(--radius-round);background:currentColor;flex:none}
+:host([data-tone=success]){color:var(--status-success-text);background:var(--status-success-bg);border-color:var(--status-success-border)}
+:host([data-tone=info]){color:var(--status-info-text);background:var(--status-info-bg);border-color:var(--status-info-border)}
+:host([data-tone=warning]){color:var(--status-warning-text);background:var(--status-warning-bg);border-color:var(--status-warning-border)}
+:host([data-tone=danger]){color:var(--status-error-text);background:var(--status-error-bg);border-color:var(--status-error-border)}

@@ -297,7 +297,7 @@
       }
       @if (mode !== 'customer' && mode !== 'password') {
         <label
-          >Role<select name="role" [(ngModel)]="role">
+          >Role<select psSelectMenu class="ps-select" name="role" [(ngModel)]="role">
             <option value="admin">Organization admin</option>
             <option value="user">Organization user</option>
           </select></label

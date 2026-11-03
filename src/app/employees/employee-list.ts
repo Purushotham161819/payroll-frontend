@@ -5,13 +5,13 @@ import { LifecycleDialog } from './lifecycle-dialog';
 import { DeleteConfirmation } from '../shared/delete-confirmation';
 ﻿import { PayrollGenerator } from '../payroll/payroll-generator';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { DatePipe, DecimalPipe } from '@angular/common';
+import { PsButton, PsIconButton, PsIcon, PsPageHeader, PsCard, PsCardTitle, PsCardSubtitle, PsCardActions, PsDataTable, PsFormField, PsFieldControl, PsStatusBadge, PsInrPipe, PsDatePipe, PsTooltip } from '../shared/ui';
 import { EmployeeService, apiError } from './employee.service';
 import { Employee } from './employee';
 import { EmployeeForm } from './employee-form';
 @Component({
   selector: 'app-employee-list',
-  imports: [CdkMenuModule, LifecycleDialog, DatePipe, DecimalPipe, EmployeeForm, PayrollGenerator, DeleteConfirmation],
+  imports: [CdkMenuModule, LifecycleDialog, EmployeeForm, PayrollGenerator, DeleteConfirmation, PsButton, PsIconButton, PsIcon, PsPageHeader, PsCard, PsCardTitle, PsCardSubtitle, PsCardActions, PsDataTable, PsFormField, PsFieldControl, PsStatusBadge, PsInrPipe, PsDatePipe, PsTooltip],
   templateUrl: './employee-list.html',
   styleUrl: './employee-list.css',
 })
@@ -20,7 +20,7 @@ export class EmployeeList implements OnInit {
   private restoreScroll = 0;
   openProfile(event: MouseEvent, id: string) {
     if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || !this.router) return;
-    event.preventDefault(); const origin = this.navigation.listOrigin(this.statusFilter(), window.scrollY);
+    event.preventDefault(); const origin = this.navigation.listOrigin(this.statusFilter(), window.scrollY, this.searchTerm());
     void this.router.navigate(['/employees', id], { queryParams: { returnStatus: this.statusFilter() }, state: origin ? { employeeOrigin: origin } : {} });
   }
   private readonly router = inject(Router, { optional: true });
@@ -65,6 +65,7 @@ export class EmployeeList implements OnInit {
   readonly showForm = signal(false);
   ngOnInit() {
     this.restoreScroll = this.navigation.listScroll(window.history.state);
+    this.searchTerm.set(this.navigation.listSearch(window.history.state));
     const filter = this.route?.snapshot.queryParamMap.get('status');
     if (filter && ['Active', 'Terminated', 'All'].includes(filter)) this.statusFilter.set(filter);
     this.load();

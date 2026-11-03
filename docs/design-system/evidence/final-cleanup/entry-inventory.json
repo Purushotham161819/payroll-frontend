@@ -1,0 +1,943 @@
+{
+  "branch": "main",
+  "head": "051ec5a88822095ed17588551adf77b9cb85fda4",
+  "originMain": "051ec5a88822095ed17588551adf77b9cb85fda4",
+  "staged": "",
+  "tracked": [
+    "angular.json",
+    "e2e/branding.spec.ts",
+    "e2e/conditional-formulas.spec.ts",
+    "e2e/final-ui.spec.ts",
+    "e2e/formula-components.spec.ts",
+    "e2e/indian-format-search.spec.ts",
+    "e2e/management-delete.spec.ts",
+    "e2e/mandatory-components.spec.ts",
+    "e2e/pay-check-details.spec.ts",
+    "e2e/payroll-ui-refinements.spec.ts",
+    "e2e/profile-payroll-ui.spec.ts",
+    "e2e/run-payroll.spec.ts",
+    "e2e/settings-ui.spec.ts",
+    "e2e/settings.spec.ts",
+    "e2e/statutory-deductions.spec.ts",
+    "e2e/tds-widgets.spec.ts",
+    "e2e/unified-payroll.spec.ts",
+    "e2e/user-management.spec.ts",
+    "src/app/app.css",
+    "src/app/app.html",
+    "src/app/app.ts",
+    "src/app/employees/employee-form.html",
+    "src/app/employees/employee-form.ts",
+    "src/app/employees/employee-list.css",
+    "src/app/employees/employee-list.html",
+    "src/app/employees/employee-list.ts",
+    "src/app/employees/employee-profile.css",
+    "src/app/employees/employee-profile.html",
+    "src/app/employees/employee-profile.ts",
+    "src/app/employees/employment-history.ts",
+    "src/app/employees/lifecycle-dialog.ts",
+    "src/app/employees/pay-checks.css",
+    "src/app/employees/pay-checks.spec.ts",
+    "src/app/employees/pay-checks.ts",
+    "src/app/employees/profile-card.ts",
+    "src/app/employees/profile-enhancements.spec.ts",
+    "src/app/employees/profile-tabs.ts",
+    "src/app/features/run-payroll/components/payroll-guide.ts",
+    "src/app/features/run-payroll/run-payroll.component.css",
+    "src/app/features/run-payroll/run-payroll.component.html",
+    "src/app/features/run-payroll/run-payroll.component.ts",
+    "src/app/features/run-payroll/unified-payroll.spec.ts",
+    "src/app/features/tax-management/employee-tax-workflow.spec.ts",
+    "src/app/features/tax-management/employee-tax.css",
+    "src/app/features/tax-management/employee-tax.html",
+    "src/app/features/tax-management/employee-tax.ts",
+    "src/app/features/tax-management/tax-component-workflow.spec.ts",
+    "src/app/features/tax-management/tax-configuration.css",
+    "src/app/features/tax-management/tax-configuration.html",
+    "src/app/features/tax-management/tax-configuration.ts",
+    "src/app/payroll/payroll-generator.html",
+    "src/app/payroll/payroll-generator.ts",
+    "src/app/platform/platform.html",
+    "src/app/platform/platform.ts",
+    "src/app/settings/organization-settings.css",
+    "src/app/settings/organization-settings.html",
+    "src/app/settings/organization-settings.ts",
+    "src/app/settings/settings.css",
+    "src/app/settings/settings.html",
+    "src/app/settings/settings.ts",
+    "src/app/shared/navigation-context.spec.ts",
+    "src/app/shared/navigation-context.ts",
+    "src/app/statutory-deductions/statutory-deductions.css",
+    "src/app/statutory-deductions/statutory-deductions.html",
+    "src/app/statutory-deductions/statutory-deductions.spec.ts",
+    "src/app/statutory-deductions/statutory-deductions.ts",
+    "src/app/users/users.css",
+    "src/app/users/users.html",
+    "src/app/users/users.ts",
+    "src/styles.css"
+  ],
+  "untracked": [
+    "AGENTS.md",
+    "docs/design-system/CODEX_PROMPTS.md",
+    "docs/design-system/PAYSTREAM_DESIGN_SYSTEM.md",
+    "docs/design-system/PHASE_1_REPORT.md",
+    "docs/design-system/PHASE_2A_REPORT.md",
+    "docs/design-system/PHASE_2B_REPORT.md",
+    "docs/design-system/PHASE_3_REMEDIATION_REPORT.md",
+    "docs/design-system/PHASE_3_REPORT.md",
+    "docs/design-system/PHASE_4A_REPORT.md",
+    "docs/design-system/PHASE_4B_REPORT.md",
+    "docs/design-system/PHASE_4C_REPORT.md",
+    "docs/design-system/PHASE_4D_REPORT.md",
+    "docs/design-system/PHASE_4E_REPORT.md",
+    "docs/design-system/PHASE_4F_REPORT.md",
+    "docs/design-system/PHASE_4G_REPORT.md",
+    "docs/design-system/PHASE_4H_REPORT.md",
+    "docs/design-system/PayStream-Component-Library.md",
+    "docs/design-system/references/paystream-employees-reference.html",
+    "e2e/dropdown-evidence.ts",
+    "e2e/employee-details-design-system.spec.ts",
+    "e2e/employee-directory-return.spec.ts",
+    "e2e/employee-tax-design-system.spec.ts",
+    "e2e/employees-design-system.spec.ts",
+    "e2e/employees-remediation.spec.ts",
+    "e2e/organization-design-system.spec.ts",
+    "e2e/pay-checks-design-system.spec.ts",
+    "e2e/product-dropdown-evidence.ts",
+    "e2e/run-payroll-design-system.spec.ts",
+    "e2e/run-payroll-warning-design-system.spec.ts",
+    "e2e/salary-design-system.spec.ts",
+    "e2e/select-period.ts",
+    "e2e/shared-controls-product.spec.ts",
+    "e2e/shared-controls-remediation.spec.ts",
+    "e2e/tax-design-system.spec.ts",
+    "e2e/users-design-system.spec.ts",
+    "src/app/employees/employee-list-pilot.spec.ts",
+    "src/app/employees/employment-history.css",
+    "src/app/employees/pay-checks.html",
+    "src/app/employees/profile-tabs.css",
+    "src/app/shared/ui/LUCIDE-LICENSE.txt",
+    "src/app/shared/ui/action-icons.ts",
+    "src/app/shared/ui/index.ts",
+    "src/app/shared/ui/pipes/inr-format.ts",
+    "src/app/shared/ui/pipes/ps-date.pipe.spec.ts",
+    "src/app/shared/ui/pipes/ps-date.pipe.ts",
+    "src/app/shared/ui/pipes/ps-inr-input.directive.spec.ts",
+    "src/app/shared/ui/pipes/ps-inr-input.directive.ts",
+    "src/app/shared/ui/pipes/ps-inr.pipe.spec.ts",
+    "src/app/shared/ui/pipes/ps-inr.pipe.ts",
+    "src/app/shared/ui/ps-button.scss",
+    "src/app/shared/ui/ps-button.spec.ts",
+    "src/app/shared/ui/ps-button.ts",
+    "src/app/shared/ui/ps-card.spec.ts",
+    "src/app/shared/ui/ps-card.ts",
+    "src/app/shared/ui/ps-data-table.scss",
+    "src/app/shared/ui/ps-data-table.spec.ts",
+    "src/app/shared/ui/ps-data-table.ts",
+    "src/app/shared/ui/ps-form-field.scss",
+    "src/app/shared/ui/ps-form-field.spec.ts",
+    "src/app/shared/ui/ps-form-field.ts",
+    "src/app/shared/ui/ps-icon-button.spec.ts",
+    "src/app/shared/ui/ps-icon-button.ts",
+    "src/app/shared/ui/ps-icon.ts",
+    "src/app/shared/ui/ps-native-select.spec.ts",
+    "src/app/shared/ui/ps-native-select.ts",
+    "src/app/shared/ui/ps-page-header.scss",
+    "src/app/shared/ui/ps-page-header.spec.ts",
+    "src/app/shared/ui/ps-page-header.ts",
+    "src/app/shared/ui/ps-select.spec.ts",
+    "src/app/shared/ui/ps-select.ts",
+    "src/app/shared/ui/ps-sidebar-nav.scss",
+    "src/app/shared/ui/ps-sidebar-nav.spec.ts",
+    "src/app/shared/ui/ps-sidebar-nav.ts",
+    "src/app/shared/ui/ps-status-badge.scss",
+    "src/app/shared/ui/ps-status-badge.spec.ts",
+    "src/app/shared/ui/ps-status-badge.ts",
+    "src/app/shared/ui/ps-tooltip.spec.ts",
+    "src/app/shared/ui/ps-tooltip.ts",
+    "src/styles.scss",
+    "src/styles/_breakpoints.scss",
+    "src/styles/_ps-components.scss",
+    "src/styles/_tokens.scss",
+    "src/styles/paystream-select.css",
+    "src/styles/paystream-tokens.css"
+  ],
+  "ignoredGroups": [
+    ".angular/",
+    "artifacts/",
+    "dist/",
+    "node_modules/",
+    "test-results/"
+  ],
+  "classification": [
+    {
+      "file": "angular.json",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/branding.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/conditional-formulas.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/final-ui.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/formula-components.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/indian-format-search.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/management-delete.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/mandatory-components.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/pay-check-details.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/payroll-ui-refinements.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/profile-payroll-ui.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/run-payroll.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/settings-ui.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/settings.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/statutory-deductions.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/tds-widgets.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/unified-payroll.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/user-management.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/app.css",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/app.html",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/app.ts",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/employees/employee-form.html",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/employees/employee-form.ts",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/employees/employee-list.css",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/employees/employee-list.html",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/employees/employee-list.ts",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/employees/employee-profile.css",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/employees/employee-profile.html",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/employees/employee-profile.ts",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/employees/employment-history.ts",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/employees/lifecycle-dialog.ts",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/employees/pay-checks.css",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/employees/pay-checks.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/employees/pay-checks.ts",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/employees/profile-card.ts",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/employees/profile-enhancements.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/employees/profile-tabs.ts",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/features/run-payroll/components/payroll-guide.ts",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/features/run-payroll/run-payroll.component.css",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/features/run-payroll/run-payroll.component.html",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/features/run-payroll/run-payroll.component.ts",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/features/run-payroll/unified-payroll.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/features/tax-management/employee-tax-workflow.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/features/tax-management/employee-tax.css",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/features/tax-management/employee-tax.html",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/features/tax-management/employee-tax.ts",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/features/tax-management/tax-component-workflow.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/features/tax-management/tax-configuration.css",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/features/tax-management/tax-configuration.html",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/features/tax-management/tax-configuration.ts",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/payroll/payroll-generator.html",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/payroll/payroll-generator.ts",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/platform/platform.html",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/platform/platform.ts",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/settings/organization-settings.css",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/settings/organization-settings.html",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/settings/organization-settings.ts",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/settings/settings.css",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/settings/settings.html",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/settings/settings.ts",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/navigation-context.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/navigation-context.ts",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/statutory-deductions/statutory-deductions.css",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/statutory-deductions/statutory-deductions.html",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/statutory-deductions/statutory-deductions.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/statutory-deductions/statutory-deductions.ts",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/users/users.css",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/users/users.html",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/users/users.ts",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/styles.css",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "AGENTS.md",
+      "category": "Required documentation and phase reports",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "docs/design-system/CODEX_PROMPTS.md",
+      "category": "Required documentation and phase reports",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "docs/design-system/PAYSTREAM_DESIGN_SYSTEM.md",
+      "category": "Required documentation and phase reports",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "docs/design-system/PHASE_1_REPORT.md",
+      "category": "Required documentation and phase reports",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "docs/design-system/PHASE_2A_REPORT.md",
+      "category": "Required documentation and phase reports",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "docs/design-system/PHASE_2B_REPORT.md",
+      "category": "Required documentation and phase reports",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "docs/design-system/PHASE_3_REMEDIATION_REPORT.md",
+      "category": "Required documentation and phase reports",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "docs/design-system/PHASE_3_REPORT.md",
+      "category": "Required documentation and phase reports",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "docs/design-system/PHASE_4A_REPORT.md",
+      "category": "Required documentation and phase reports",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "docs/design-system/PHASE_4B_REPORT.md",
+      "category": "Required documentation and phase reports",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "docs/design-system/PHASE_4C_REPORT.md",
+      "category": "Required documentation and phase reports",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "docs/design-system/PHASE_4D_REPORT.md",
+      "category": "Required documentation and phase reports",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "docs/design-system/PHASE_4E_REPORT.md",
+      "category": "Required documentation and phase reports",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "docs/design-system/PHASE_4F_REPORT.md",
+      "category": "Required documentation and phase reports",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "docs/design-system/PHASE_4G_REPORT.md",
+      "category": "Required documentation and phase reports",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "docs/design-system/PHASE_4H_REPORT.md",
+      "category": "Required documentation and phase reports",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "docs/design-system/PayStream-Component-Library.md",
+      "category": "Required documentation and phase reports",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "docs/design-system/references/paystream-employees-reference.html",
+      "category": "Required design-system assets and screenshots",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/dropdown-evidence.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/employee-details-design-system.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/employee-directory-return.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/employee-tax-design-system.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/employees-design-system.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/employees-remediation.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/organization-design-system.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/pay-checks-design-system.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/product-dropdown-evidence.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/run-payroll-design-system.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/run-payroll-warning-design-system.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/salary-design-system.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/select-period.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/shared-controls-product.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/shared-controls-remediation.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/tax-design-system.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "e2e/users-design-system.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/employees/employee-list-pilot.spec.ts",
+      "category": "Required tests",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/employees/employment-history.css",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/employees/pay-checks.html",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/employees/profile-tabs.css",
+      "category": "Required application source changes",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/LUCIDE-LICENSE.txt",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/action-icons.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/index.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/pipes/inr-format.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/pipes/ps-date.pipe.spec.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/pipes/ps-date.pipe.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/pipes/ps-inr-input.directive.spec.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/pipes/ps-inr-input.directive.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/pipes/ps-inr.pipe.spec.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/pipes/ps-inr.pipe.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-button.scss",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-button.spec.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-button.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-card.spec.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-card.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-data-table.scss",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-data-table.spec.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-data-table.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-form-field.scss",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-form-field.spec.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-form-field.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-icon-button.spec.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-icon-button.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-icon.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-native-select.spec.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-native-select.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-page-header.scss",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-page-header.spec.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-page-header.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-select.spec.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-select.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-sidebar-nav.scss",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-sidebar-nav.spec.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-sidebar-nav.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-status-badge.scss",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-status-badge.spec.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-status-badge.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-tooltip.spec.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/app/shared/ui/ps-tooltip.ts",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/styles.scss",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/styles/_breakpoints.scss",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/styles/_ps-components.scss",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/styles/_tokens.scss",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/styles/paystream-select.css",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    },
+    {
+      "file": "src/styles/paystream-tokens.css",
+      "category": "Required shared components and design tokens",
+      "basis": "Completed phase inventory; reviewed against HEAD and retained phase reports."
+    }
+  ]
+}

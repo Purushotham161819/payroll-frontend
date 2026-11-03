@@ -1,0 +1,162 @@
+@if (error()) {
+  <p role="alert" class="notice error">{{ error() }}</p>
+}
+@if (busy()) {
+  <p role="status" class="pdf-loading">Loading pay check PDF...</p>
+}
+<ps-card role="region" aria-label="Pay check history"
+  ><span cardTitle>Pay Checks</span><span cardSubtitle>Finalized payroll history and stored payslips.</span
+  ><ps-data-table
+    naturalWidth
+    label="Employee pay checks"
+    [loading]="loading()"
+    loadingLabel="Loading pay checks..."
+    [empty]="!loading() && !checks().length"
+    emptyLabel="No finalized pay checks available."
+  >
+    <table class="ps-table" aria-label="Employee pay checks">
+      <thead>
+        <tr>
+          <th scope="col">Pay Period</th>
+          <th scope="col">Payment Date</th>
+          <th scope="col" class="num">Gross Pay</th>
+          <th scope="col" class="num">Employer<br />Contributions</th>
+          <th scope="col" class="num">Deductions</th>
+          <th scope="col" class="num">Net Pay</th>
+          <th scope="col">Payment<br />Status</th>
+          <th scope="col" class="act">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (check of checks(); track check.period) {
+          <tr>
+            <td>{{ check.period | psDate }}</td>
+            <td>{{ check.paymentDate | psDate: 'UTC' }}</td>
+            <td class="num">{{ check.grossPay | psInr }}</td>
+            <td class="num">{{ check.employerContributions | psInr }}</td>
+            <td class="num">
+              <span class="deduction-amount"
+                >{{ check.deductions | psInr }}
+                <button
+                  type="button"
+                  class="tds-trigger"
+                  title="View TDS details"
+                  aria-label="View TDS details"
+                  aria-haspopup="dialog"
+                  [attr.aria-expanded]="tdsCheck() === check"
+                  [attr.aria-controls]="tdsCheck() === check ? tdsId : null"
+                  cdkOverlayOrigin
+                  #tdsOrigin="cdkOverlayOrigin"
+                  (click)="toggleTds(check, tdsOrigin)"
+                  (keydown.escape)="closeTds()"
+                  psIconButton
+                  action="info"
+                  size="sm"
+                  label="View TDS details"
+                ></button>
+              </span>
+            </td>
+            <td class="num">{{ check.netPay | psInr }}</td>
+            <td><ps-status-badge [status]="check.paymentStatus || '—'" /></td>
+            <td class="act">
+              <div class="check-actions">
+                <button
+                  type="button"
+                  title="View Pay Check"
+                  aria-label="View Pay Check"
+                  (click)="view(check)"
+                  [disabled]="busy()"
+                  psIconButton
+                  action="view"
+                  size="sm"
+                  label="View Pay Check"
+                ></button>
+                <button
+                  type="button"
+                  title="Download Pay Check PDF"
+                  aria-label="Download Pay Check PDF"
+                  (click)="download(check)"
+                  [disabled]="busy()"
+                  psIconButton
+                  action="download"
+                  size="sm"
+                  label="Download Pay Check PDF"
+                ></button>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          @if (!loading()) {
+            <tr>
+              <td colspan="8">No finalized pay checks available.</td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </ps-data-table></ps-card
+>
+<p class="payment-note">
+  Payment dates are expected dates. Payment Pending does not confirm a transfer.
+</p>
+@if (pdfSource()) {
+  <dialog #viewer class="pdf-viewer" aria-labelledby="pdf-title" (cancel)="closeViewer($event)">
+    <header>
+      <div><h2 id="pdf-title">Pay Check - {{ viewing()?.period | psDate }}</h2><p class="viewer-note">Stored finalized payslip</p></div>
+      <button
+        psIconButton
+        action="close"
+        size="sm"
+        label="Close pay check viewer"
+        aria-label="Close pay check viewer"
+        (click)="closeViewer()"
+      ></button>
+    </header>
+    <iframe [src]="pdfSource()" title="Employee payslip PDF"></iframe>
+    <footer>
+      <p class="viewer-note">Download the existing PDF document.</p>
+      <button
+        type="button"
+        title="Download Pay Check PDF"
+        aria-label="Download Pay Check PDF"
+        (click)="download(viewing()!)"
+        [disabled]="busy()"
+        psIconButton
+        action="download"
+        size="sm"
+        label="Download Pay Check PDF"
+      ></button>
+    </footer>
+  </dialog>
+}
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="tdsOrigin!"
+  [cdkConnectedOverlayOpen]="!!tdsCheck()"
+  [cdkConnectedOverlayPositions]="tdsPositions"
+  [cdkConnectedOverlayPush]="true"
+  [cdkConnectedOverlayViewportMargin]="8"
+  (overlayOutsideClick)="outsideTds($event)"
+  (overlayKeydown)="$event.key === 'Escape' && closeTds()"
+  (detach)="closeTds()"
+>
+  @if (tdsCheck(); as check) {
+    <section
+      class="tds-popover"
+      role="dialog"
+      [id]="tdsId"
+      [attr.aria-labelledby]="tdsId + '-title'"
+      [attr.aria-describedby]="tdsId + '-value'"
+    >
+      <strong [id]="tdsId + '-title'">Income Tax / TDS</strong>
+      <span class="tds-period">{{ check.period | psDate }}</span>
+      <p [id]="tdsId + '-value'">
+        @if (storedTds(check) !== null) {
+          {{ storedTds(check) | psInr }}
+        } @else {
+          TDS was not recorded for this pay check.
+        }
+      </p>
+    </section>
+  }
+</ng-template>

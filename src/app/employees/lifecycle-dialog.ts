@@ -1,3 +1,4 @@
+import { PsNativeSelect } from '../shared/ui/ps-native-select';
 import { AfterViewInit, Component, ElementRef, OnDestroy, inject, input, output, signal, viewChild } from '@angular/core';
 import { DatePipe, DOCUMENT } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -5,7 +6,7 @@ import { Employee, terminationReasons } from './employee';
 import { EmployeeService, apiError } from './employee.service';
 
 @Component({
-  selector: 'app-lifecycle-dialog', imports: [FormsModule, DatePipe],
+  selector: 'app-lifecycle-dialog', imports: [PsNativeSelect, FormsModule, DatePipe],
   template: `
     <dialog #dialog aria-labelledby="lifecycle-title" (cancel)="cancel($event)">
       <h2 id="lifecycle-title">{{ action() === 'History' ? 'Employment history' : action() + ' employee' }}</h2>
@@ -28,11 +29,11 @@ import { EmployeeService, apiError } from './employee.service';
         <form (ngSubmit)="submit()" #form="ngForm">
           @if (action() === 'Rehire') { <p>Previous termination: {{ previousEnd() | date:'dd MMM yyyy':'UTC' }}</p> }
           <label for="lifecycle-date">{{ action() === 'Terminate' ? 'Termination Date' : 'Rehire Date' }}</label>
-          <input id="lifecycle-date" name="date" type="date" [(ngModel)]="date" required [min]="minimumDate()" [max]="today" [disabled]="busy()" autofocus>
+          <input id="lifecycle-date" name="date" type="date" class="ps-date" [(ngModel)]="date" required [min]="minimumDate()" [max]="today" [disabled]="busy()" autofocus>
           <p>Dates use America/Chicago. Future dates are not supported.</p>
           @if (action() === 'Terminate') {
             <label for="termination-reason">Termination Reason</label>
-            <select id="termination-reason" name="reason" [(ngModel)]="reason" required [disabled]="busy()">
+            <select psSelectMenu class="ps-select" id="termination-reason" name="reason" [(ngModel)]="reason" required [disabled]="busy()">
               <option value="" disabled>Select a reason</option>
               @for (option of reasons; track option) { <option [value]="option">{{ option }}</option> }
             </select>

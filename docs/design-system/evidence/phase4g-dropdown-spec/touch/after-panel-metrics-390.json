@@ -1,0 +1,44 @@
+{
+  "field": {
+    "x": 16,
+    "y": 444,
+    "width": 358,
+    "height": 40,
+    "top": 444,
+    "right": 374,
+    "bottom": 484,
+    "left": 16
+  },
+  "arrow": {
+    "x": 345,
+    "y": 456,
+    "width": 16,
+    "height": 16,
+    "top": 456,
+    "right": 361,
+    "bottom": 472,
+    "left": 345
+  },
+  "arrowInsideBorder": 12,
+  "verticalOffset": 0,
+  "valueArrowGap": 8,
+  "padding": "0px 36px 0px 12px",
+  "panel": {
+    "x": 16,
+    "y": 488,
+    "width": 358,
+    "height": 296,
+    "top": 488,
+    "right": 374,
+    "bottom": 784,
+    "left": 16
+  },
+  "optionHeight": 44,
+  "optionTextOffset": 13,
+  "maxHeight": "296px",
+  "shadow": "rgba(18, 41, 43, 0.14) 0px 8px 24px 0px",
+  "scrollbarWidth": "auto",
+  "webkitScrollbarWidth": "6px",
+  "scrollHeight": 536,
+  "clientHeight": 294
+}

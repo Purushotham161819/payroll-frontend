@@ -1,118 +1,114 @@
+:host {
+  display: block;
+  color: var(--ink);
+  font: var(--type-body);
+}
 .check-actions {
   display: flex;
-  gap: 8px;
+  gap: var(--space-2);
+  align-items: center;
+  justify-content: flex-end;
+}
+.deduction-amount {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.tds-trigger {
+  flex: none;
+}
+.payment-note {
+  margin: var(--space-4) 0 0;
+  color: var(--ink-muted);
+  font: var(--type-helper);
+}
+.pdf-loading {
+  margin: 0 0 var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+  color: var(--ink-muted);
+  font: var(--type-helper);
+}
+.notice {
+  margin: 0 0 var(--space-4);
+  padding: var(--space-4);
+  border: var(--border-width) solid var(--danger-border);
+  border-radius: var(--radius-md);
+  background: var(--danger-bg);
+  color: var(--danger);
+  font: var(--type-body);
 }
 .pdf-viewer {
-  width: min(1000px, calc(100vw - 32px));
-  max-height: 92dvh;
-  padding: 18px;
-  border: 1px solid #c7d9cd;
-  border-radius: 12px;
-  background: white;
-  color: #203d2d;
-  box-shadow: 0 20px 80px #102c2a44;
+  box-sizing: border-box;
+  width: min(var(--content-max), calc(100vw - var(--space-8)));
+  max-height: calc(100dvh - var(--space-8));
+  padding: var(--space-6);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  background: var(--surface-card);
+  color: var(--ink);
+  box-shadow: var(--shadow-dialog);
 }
 .pdf-viewer::backdrop {
-  background: #102c2a99;
+  background: var(--brand-900);
+  opacity: 0.6;
 }
 .pdf-viewer header {
   display: flex;
-  gap: 16px;
+  gap: var(--space-4);
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: var(--space-4);
 }
 .pdf-viewer h2 {
-  font-size: 17px;
+  font: var(--type-card-title);
   margin: 0;
 }
 .pdf-viewer iframe {
   display: block;
   width: 100%;
   height: 65dvh;
-  border: 1px solid #dce6df;
-  border-radius: 6px;
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-md);
 }
 .pdf-viewer footer {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 14px;
-}
-
-.table-scroll {
-  overflow: auto;
-  margin-top: 20px;
-}
-table {
-  border-collapse: collapse;
-  width: 100%;
-  background: white;
-}
-th,
-td {
-  padding: 14px;
-  text-align: left;
-  border-bottom: 1px solid #dce6df;
-  white-space: nowrap;
-}
-thead,
-tfoot {
-  background: #eef5f0;
-}
-.notice {
-  padding: 14px;
-  border-radius: 8px;
-}
-.error {
-  background: #fff0ed;
-  color: #8b3026;
-}
-button:disabled {
-  opacity: 0.5;
-  cursor: default;
-}
-
-tbody td {
-  padding: 18px 14px;
-  vertical-align: middle;
-}
-tbody tr + tr td {
-  border-top: 1px solid #e4ebe6;
-}
-.deduction-amount {
-  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-3);
+  justify-content: space-between;
+  margin-top: var(--space-4);
 }
-.tds-trigger {
-  flex: none;
+.viewer-note {
+  margin: var(--space-1) 0 0;
+  font: var(--type-helper);
+  color: var(--ink-muted);
 }
-.check-actions {
-  align-items: center;
-}
+.pdf-viewer footer .viewer-note { margin: 0; }
 .tds-popover {
   box-sizing: border-box;
-  width: min(280px, calc(100vw - 32px));
-  padding: 14px 16px;
-  border: 1px solid #dce6df;
-  border-radius: 8px;
-  background: white;
-  color: #203d2d;
-  box-shadow: 0 8px 28px #102c2a26;
-  font-size: 13px;
+  width: min(var(--tooltip-max), calc(100vw - var(--space-8)));
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--surface-card);
+  color: var(--ink);
+  box-shadow: var(--shadow-popover);
+  font: var(--type-body);
 }
 .tds-period {
   display: block;
-  margin-top: 5px;
-  font-size: 12px;
-  color: #64746a;
+  margin-top: var(--space-1);
+  font: var(--type-helper);
+  color: var(--ink-muted);
 }
 .tds-popover p {
-  margin: 10px 0 0;
-  line-height: 1.5;
+  margin: var(--space-3) 0 0;
+  font: var(--type-card-title);
+  font-variant-numeric: tabular-nums;
   overflow-wrap: anywhere;
 }
-.icon-button:focus-visible {
-  outline: 2px solid #28644a;
-  outline-offset: 3px;
+@media (max-width: 640px) {
+  .pdf-viewer { padding: var(--space-4); }
 }

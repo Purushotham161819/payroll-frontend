@@ -1,0 +1,360 @@
+<header class="payroll-heading">
+  <a
+    class="back-arrow"
+    routerLink="/"
+    [queryParams]="{ status: returnStatus }"
+    aria-label="Back to Employees"
+    title="Back to Employees"
+    ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 5-7 7 7 7M5 12h14" /></svg
+  ></a>
+  <div>
+    <div class="eyebrow">PAYROLL</div>
+    <h1>{{ confirmationPage ? 'Payroll Submitted Successfully' : 'Run Payroll' }}</h1>
+  </div>
+</header>
+@if (error()) {
+  <p class="notice error" role="alert">{{ error() }}</p>
+}
+@if (message()) {
+  <p class="notice success" role="status">{{ message() }}</p>
+}
+<section
+  class="summary-grid"
+  aria-label="Payroll period, payment date and KPIs"
+  [attr.aria-busy]="busy() || selectionPending()"
+>
+  <div class="summary-field">
+    <label for="pay-period">Pay Period</label>
+    @if (confirmationPage) {
+      <input id="pay-period" [value]="period + '-01' | date: 'MMMM yyyy' : 'UTC'" readonly />
+    } @else {
+      <select id="pay-period" [(ngModel)]="period" (change)="changePeriod()" [disabled]="busy()">
+        @for (month of months; track month.value) {
+          <option [value]="month.value">{{ month.label }}</option>
+        }
+      </select>
+    }
+  </div>
+  <div class="summary-field">
+    <label for="payment-date">Payment Date</label
+    ><input
+      id="payment-date"
+      type="date"
+      [(ngModel)]="paymentDate"
+      (ngModelChange)="paymentDateChanged()"
+      [disabled]="busy() || confirmationPage"
+    /><small>Expected payment date</small>
+  </div>
+  <article class="kpi" aria-label="Total Payroll Cost">
+    <h2>Total Payroll Cost</h2>
+    <strong>{{
+      !totalsAvailable() || run()?.totalPayrollCost === null ? '—' : (run()?.totalPayrollCost ?? 0 | currency: 'INR')
+    }}</strong
+    ><small>Monthly CTC</small>
+  </article>
+  <article class="kpi" aria-label="Employer Contributions">
+    <h2>Employer Contributions</h2>
+    <strong>{{ totalsAvailable() ? (run()?.totals?.employerContributions ?? 0 | currency: 'INR') : 'Unavailable' }}</strong
+    ><small>Monthly</small>
+  </article>
+  <article class="kpi" aria-label="Total Employee Deductions">
+    <h2>Total Employee Deductions</h2>
+    <strong>{{ totalsAvailable() ? (run()?.totals?.deductions ?? 0 | currency: 'INR') : 'Unavailable' }}</strong
+    ><small>Monthly</small>
+  </article>
+  <article class="kpi net" aria-label="Total NET Pay">
+    <h2>Total NET Pay</h2>
+    <strong>{{ totalsAvailable() ? (run()?.totals?.netPay ?? 0 | currency: 'INR') : 'Unavailable' }}</strong
+    ><small>Monthly</small>
+  </article>
+</section>
+<app-payroll-guide [submitted]="confirmationPage" />
+@if (busy() || selectionPending()) {
+  <p class="loading" role="status">Updating payroll...</p>
+}
+@if (run(); as payroll) {
+  @if (hasReviewIssues()) {
+    <p class="review-summary" role="status">Payroll needs review. Save and Submit are blocked for this selection. Review the warning icons in the employee rows.</p>
+  }
+  @if (confirmationPage) {
+    <section class="submission-meta" aria-label="Payroll submission summary">
+      <strong>{{ payroll.organizationName }}</strong
+      ><span>Submission Date: {{ payroll.submittedAt | date: 'medium' }}</span
+      ><span>Total Employees Processed: {{ payroll.checks.length }}</span>
+      <p>
+        Payment Pending - submission does not confirm disbursement. This submission is finalized.
+      </p>
+    </section>
+  } @else {
+    @if (payroll.stale) {
+      <p class="notice error" role="alert">
+        Saved calculation inputs changed. Recalculate, review and save before submitting.
+        {{ payroll.warning }}
+      </p>
+    }
+    @if (allFinalized()) {
+      <p class="notice info">
+        All employees shown have already been submitted. Their historical payroll is read-only and
+        cannot be processed again.
+      </p>
+    }
+    @if (!selected().size && selectableRows().length) {
+      <p class="selection-help">Select eligible employees in the table to prepare payroll.</p>
+    }
+    <div class="preview-meta">
+      <span>{{ selected().size }} selected &middot; Draft version {{ payroll.version }}</span
+      ><button class="icon-button" (click)="recalculate()" [disabled]="busy()" title="Refresh Payroll" aria-label="Refresh Payroll" [attr.aria-busy]="refreshing()"><app-action-icon name="refresh" [class.spinning]="refreshing()" /></button>
+    </div>
+  }
+  <div #payrollTableScroll class="table-scroll" tabindex="0" role="region" aria-label="Employee payroll table">
+    <table aria-label="Employee payroll">
+      <thead>
+        <tr>
+          <th class="selection-cell">
+            <input
+              type="checkbox"
+              aria-label="Select all eligible employees"
+              [checked]="allSelected()"
+              [indeterminate]="someSelected()"
+              [disabled]="busy() || confirmationPage || !selectableRows().length"
+              (change)="toggleAll($any($event.target).checked)"
+            />
+          </th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th class="money">Monthly CTC</th>
+          <th class="money">Employer Contributions</th>
+          <th class="money">TDS</th>
+          <th class="money">Deductions</th>
+          <th class="money">NET Pay</th>
+          <th>Payment Status</th>
+          <th>Pay Check</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of unifiedRows(); track row.employeeId) {
+          <tr
+            [class.historical-row]="row.historical"
+            [class.selected-row]="!row.historical && selected().has(row.employeeId)"
+          >
+            <td>
+              <input
+                type="checkbox"
+                [attr.aria-label]="
+                  row.historical
+                    ? row.firstName + ' ' + row.lastName + ' already submitted'
+                    : 'Include ' + row.firstName + ' ' + row.lastName + ' in payroll'
+                "
+                [checked]="row.historical || selected().has(row.employeeId)"
+                [disabled]="
+                  busy() ||
+                  confirmationPage ||
+                  row.historical ||
+                  (!row.selectable && !selected().has(row.employeeId))
+                "
+                [title]="
+                  row.historical
+                    ? 'Finalized payroll cannot be submitted again.'
+                    : row.selectable
+                      ? 'Include in current draft'
+                      : 'Employee is not eligible for this period.'
+                "
+                (change)="toggle(row.employeeId, $any($event.target).checked)"
+              />
+            </td>
+            <td class="first-name-cell"><span class="employee-name">@if (employeeWarnings(row).length) {
+                <button type="button" class="icon-button warning-trigger" cdkOverlayOrigin #warningOrigin="cdkOverlayOrigin" title="Employee requires attention" aria-haspopup="dialog" [attr.aria-expanded]="warningEmployee()?.employeeId === row.employeeId" [attr.aria-label]="'Employee requires attention: ' + row.firstName + ' ' + row.lastName" (click)="openWarnings(row, warningOrigin)"><app-action-icon name="warning" /></button>
+              }
+              <a
+                [href]="employeeHref(row.employeeId)"
+                (click)="openEmployee($event, row.employeeId)"
+                >{{ row.firstName }}</a
+              ></span>
+            </td>
+            <td>
+              <a
+                [href]="employeeHref(row.employeeId)"
+                (click)="openEmployee($event, row.employeeId)"
+                >{{ row.lastName }}</a
+              >
+            </td>
+            <td class="money">
+              {{ row.monthlyCtc == null ? '—' : (row.monthlyCtc | currency: 'INR') }}
+            </td>
+            <td class="money">
+              {{
+                row.employerContributions == null
+                  ? '—'
+                  : (row.employerContributions | currency: 'INR')
+              }}
+            </td>
+            <td class="money">
+              {{ row.tds ?? 0 | currency: 'INR' }}
+
+            </td>
+            <td class="money">
+              {{ otherDeductions(row) == null ? '—' : (otherDeductions(row) | currency: 'INR') }}
+            </td>
+            <td class="money">{{ row.netPay == null ? '—' : (row.netPay | currency: 'INR') }}</td>
+            <td>
+              <span
+                class="status-badge"
+                [class.finalized]="row.historical"
+                [class.paid]="row.paymentStatus === 'Paid'"
+                >{{ rowStatus(row) }}</span
+              >
+
+              @if (row.historical && row.paymentStatus !== 'Paid') {
+                <small class="payment-detail">{{ row.paymentStatus }}</small>
+              }
+            </td>
+            <td>
+              @if (row.pdfUrl) {
+                <div class="check-actions">
+                  <button
+                    class="icon-button" title="View Pay Check" aria-label="View Pay Check"
+                    (click)="viewPayCheck(row.employeeId)"
+                    [disabled]="busy()"
+                  >
+                    <app-action-icon name="eye" /></button
+                  ><button
+                    class="icon-button" title="Download Pay Check" aria-label="Download Pay Check"
+                    (click)="download(row.employeeId)"
+                    [disabled]="busy()"
+                  >
+                    <app-action-icon name="download" />
+                  </button>
+                </div>
+              } @else {
+                <span class="muted">Not available</span>
+              }
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="10" class="empty">
+              No eligible employees or payroll records for this period.
+            </td>
+          </tr>
+        }
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="3">
+            {{ confirmationPage ? 'Submission totals' : hasReviewIssues() ? 'Calculated employees subtotal' : 'Selected draft totals' }}
+          </th>
+          <td class="money">
+            {{
+              !totalsAvailable() || payroll.totalPayrollCost === null
+                ? '—'
+                : (payroll.totalPayrollCost ?? 0 | currency: 'INR')
+            }}
+          </td>
+          <td class="money">{{ totalsAvailable() ? (payroll.totals.employerContributions | currency: 'INR') : 'Unavailable' }}</td>
+          <td class="money">{{ totalsAvailable() ? (tdsTotal() | currency: 'INR') : 'Unavailable' }}</td>
+          <td class="money">{{ totalsAvailable() ? (otherDeductionsTotal() | currency: 'INR') : 'Unavailable' }}</td>
+          <td class="money">{{ totalsAvailable() ? (payroll.totals.netPay | currency: 'INR') : 'Unavailable' }}</td>
+          <td colspan="2"></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  @if (!confirmationPage) {
+    <div class="actions">
+      <button
+        class="secondary"
+        (click)="save()"
+        [disabled]="
+          busy() ||
+          hasReviewIssues() || payroll.stale ||
+          selectionChanged() ||
+          !payroll.inputHash ||
+          (!payroll.checks.length && !payroll.version)
+        "
+      >
+        Save</button
+      ><button
+        class="primary"
+        (click)="openConfirmation()"
+        [disabled]="
+          busy() ||
+          hasReviewIssues() || dirty() ||
+          payroll.stale ||
+          selectionChanged() ||
+          !payroll.version ||
+          !payroll.checks.length ||
+          !paymentDate
+        "
+      >
+        Submit
+      </button>
+    </div>
+    @if (dirty()) {
+      <p class="selection-help">Save the reviewed selection and Payment Date before submitting.</p>
+    }
+    @if (confirm()) {
+      <dialog
+        #confirmationDialog
+        (cancel)="cancelConfirmation($event)"
+        aria-labelledby="confirmation-title"
+        class="confirmation"
+      >
+        <h2 id="confirmation-title">
+          Submit payroll for {{ payroll.period + '-01' | date: 'MMMM yyyy' : 'UTC' }}?
+        </h2>
+        <p>
+          Generate payroll and payslips for {{ payroll.checks.length }} selected, unprocessed
+          employees. Historical payroll remains unchanged.
+        </p>
+        <p>
+          Payment Date: <strong>{{ paymentDate | date: 'longDate' : 'UTC' }}</strong>
+        </p>
+        <div class="actions">
+          <button class="secondary" (click)="cancelConfirmation()" [disabled]="busy()">
+            Cancel</button
+          ><button class="primary" (click)="submit()" [disabled]="busy() || !paymentDate">
+            Confirm submission
+          </button>
+        </div>
+      </dialog>
+    }
+  }
+}
+@if (pdfSource()) {
+  <dialog #pdfViewer class="pdf-viewer" aria-labelledby="pdf-title" (cancel)="closePdf($event)">
+    <header>
+      <h2 id="pdf-title">Historical Pay Check</h2>
+      <button class="secondary" (click)="closePdf()" aria-label="Close pay check viewer">
+        Close
+      </button>
+    </header>
+    <iframe [src]="pdfSource()" title="Employee payslip PDF"></iframe>
+    <footer>
+      <button class="secondary" (click)="download(viewingId())" [disabled]="busy()">
+        Download PDF
+      </button>
+    </footer>
+  </dialog>
+}
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="warningOrigin!"
+  [cdkConnectedOverlayOpen]="!!warningEmployee()"
+  [cdkConnectedOverlayPositions]="warningPositions"
+  [cdkConnectedOverlayPush]="true"
+  [cdkConnectedOverlayViewportMargin]="8"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  (backdropClick)="closeWarnings()"
+  (overlayOutsideClick)="closeWarnings()"
+  (overlayKeydown)="$event.key === 'Escape' && closeWarnings()"
+  (detach)="closeWarnings()"
+>
+  @if (warningEmployee(); as employee) {
+    <section class="warning-popover" role="dialog" aria-labelledby="employee-warning-title" cdkTrapFocus [cdkTrapFocusAutoCapture]="true">
+      <header><strong id="employee-warning-title">{{ employee.firstName }} {{ employee.lastName }}</strong><button type="button" class="icon-button" aria-label="Close employee warnings" title="Close employee warnings" cdkFocusInitial (click)="closeWarnings()"><app-action-icon name="close" /></button></header>
+      <ul>@for (warning of employeeWarnings(employee); track warning) { <li>{{ warning }}</li> }</ul>
+    </section>
+  }
+</ng-template>

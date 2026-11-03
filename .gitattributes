@@ -1,0 +1,4 @@
+# Preserve archived evidence hashes on every platform.
+docs/design-system/evidence/** -text
+docs/design-system/evidence/**/*.pdf binary
+docs/design-system/evidence/**/*.png binary

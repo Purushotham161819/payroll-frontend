@@ -76,8 +76,8 @@ describe('Employee TDS profile editing and year locking', () => {
   it('presents separate widgets with all profile facts and one Calculate action above them', async () => {
     const { fixture } = await setup(true);
     const el = fixture.nativeElement as HTMLElement;
-    const profile = el.querySelector('#employee-tax-profile')!.closest('section')!;
-    const employment = el.querySelector('#employment-heading')!.closest('section')!;
+    const profile = el.querySelector('#employee-tax-profile')!.closest('ps-card')!;
+    const employment = el.querySelector('#employment-heading')!.closest('ps-card')!;
     expect(profile.contains(employment)).toBe(false);
     expect(profile.parentElement).toBe(employment.parentElement);
     expect([...profile.querySelectorAll('dt')].map((x) => x.textContent?.trim())).toEqual([
@@ -728,7 +728,7 @@ describe('Employee TDS profile editing and year locking', () => {
     page.configuration.set({ revisions: [{ id: 'latest', rules: { slabs: [{ rate: 99 }] } }] });
     fixture.detectChanges();
     expect(
-      fixture.nativeElement.querySelector('section[aria-labelledby=annual-tax-breakdown] table'),
+      fixture.nativeElement.querySelector('[aria-labelledby=annual-tax-breakdown] table'),
     ).toBeNull();
     const loading = page.loadHistory();
     http.expectOne(url + '/history').flush([saved]);

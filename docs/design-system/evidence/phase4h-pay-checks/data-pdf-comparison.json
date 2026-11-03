@@ -1,0 +1,38 @@
+[
+  {
+    "width": 1440,
+    "dataIdentical": true,
+    "viewedPdfIdentical": true,
+    "downloadedPdfIdentical": true,
+    "beforeFocusReturned": false,
+    "afterFocusReturned": true,
+    "writes": 0
+  },
+  {
+    "width": 1280,
+    "dataIdentical": true,
+    "viewedPdfIdentical": true,
+    "downloadedPdfIdentical": true,
+    "beforeFocusReturned": false,
+    "afterFocusReturned": true,
+    "writes": 0
+  },
+  {
+    "width": 768,
+    "dataIdentical": true,
+    "viewedPdfIdentical": true,
+    "downloadedPdfIdentical": true,
+    "beforeFocusReturned": false,
+    "afterFocusReturned": true,
+    "writes": 0
+  },
+  {
+    "width": 390,
+    "dataIdentical": true,
+    "viewedPdfIdentical": true,
+    "downloadedPdfIdentical": true,
+    "beforeFocusReturned": false,
+    "afterFocusReturned": true,
+    "writes": 0
+  }
+]

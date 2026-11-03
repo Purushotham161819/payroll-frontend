@@ -1,0 +1,21 @@
+{
+  "rowHeight": 56,
+  "headerHeight": 44,
+  "scrollClientWidth": 966,
+  "scrollWidth": 966,
+  "numericAlignment": "right",
+  "buttons": [
+    {
+      "width": 32,
+      "height": 32
+    },
+    {
+      "width": 32,
+      "height": 32
+    },
+    {
+      "width": 32,
+      "height": 32
+    }
+  ]
+}

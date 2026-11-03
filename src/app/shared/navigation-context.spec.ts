@@ -21,6 +21,24 @@ describe('Account-scoped internal navigation context', () => {
     service.setScope('user:two:ORG000002'); expect(service.memory(value)).toBeUndefined(); expect(service.origin({ employeeOrigin: value })).toBeNull();
     service.setScope(value.scope); expect(service.memory(value)).toBeUndefined(); service.remember(value, { run: {} as any, candidates: [] }); service.setScope(null); expect(service.memory(value)).toBeUndefined();
   });
+  it('restores exact directory text only within the owning account and accepts legacy empty state', () => {
+    const service = TestBed.inject(NavigationContext); service.setScope(origin().scope);
+    for (const text of ['', '  Ada  ', 'Example']) {
+      const value = service.listOrigin('All', 400, text)!;
+      const state = service.backState(value);
+      expect(service.listSearch(state)).toBe(text);
+      expect(service.listScroll(state)).toBe(400);
+      expect(service.origin({ employeeOrigin: value })).toEqual(value);
+      expect(value.url).toBe('/?status=All');
+      service.setScope('user:two:ORG000002');
+      expect(service.listSearch(state)).toBe('');
+      expect(service.listScroll(state)).toBe(0);
+      service.setScope(origin().scope);
+    }
+    expect(service.listSearch(null)).toBe('');
+    expect(service.listSearch({ employeeListReturn: { scope: origin().scope, searchText: 123 } })).toBe('');
+    expect(service.listSearch(service.backState(service.listOrigin('Active', 0)!))).toBe('');
+  });
   it('preserves only validated Employees filter and scroll context', () => {
     const service = TestBed.inject(NavigationContext); service.setScope(origin().scope); const value = service.listOrigin('All', 400)!;
     expect(service.origin({ employeeOrigin: value })?.url).toBe('/?status=All'); expect(service.listScroll(service.backState(value))).toBe(400);

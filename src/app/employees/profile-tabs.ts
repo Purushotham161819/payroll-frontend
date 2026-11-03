@@ -18,52 +18,7 @@ export type ProfileTab = 'details' | 'history' | 'tax' | 'checks';
       </button>
     }
   </nav>`,
-  styles: [
-    `
-      .ribbon {
-        display: flex;
-        gap: 8px;
-        overflow-x: auto;
-        border-bottom: 1px solid #d8e4dc;
-        margin: 20px 0 24px;
-        padding: 0 4px;
-        scrollbar-width: thin;
-      }
-      button {
-        flex: none;
-        border: 0;
-        border-bottom: 3px solid transparent;
-        border-radius: 6px 6px 0 0;
-        background: transparent;
-        color: #65756b;
-        font: inherit;
-        font-size: 14px;
-        font-weight: 500;
-        padding: 13px 18px;
-        cursor: pointer;
-        white-space: nowrap;
-      }
-      button[aria-selected='true'] {
-        background: #edf5ef;
-        border-bottom-color: #28644a;
-        color: #20583f;
-        font-weight: 650;
-      }
-      button:hover {
-        background: #f2f7f3;
-        color: #20583f;
-      }
-      button:focus-visible {
-        outline: 2px solid #28644a;
-        outline-offset: -3px;
-      }
-      @media (max-width: 600px) {
-        button {
-          padding: 12px 14px;
-        }
-      }
-    `,
-  ],
+  styleUrl: './profile-tabs.css',
 })
 export class ProfileTabs {
   readonly active = model<ProfileTab>('details');

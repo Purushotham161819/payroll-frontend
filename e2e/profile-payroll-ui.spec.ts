@@ -110,7 +110,7 @@ test('profile ribbon, independent cards/history, stored PDF viewer, editor prese
   employees[0].annualCtc = 999999;
   await page.reload();
   await page.getByRole('tab', { name: 'Pay Checks', exact: true }).click();
-  await expect(page.getByRole('table').getByRole('row').last()).toContainText('95.00');
+  await expect(page.getByRole('table').getByRole('row').last().locator('td').nth(5)).toHaveText('\u20b995');
   await page.setViewportSize({ width: 390, height: 844 });
   await page.getByRole('tab', { name: 'Employee Details', exact: true }).click();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);

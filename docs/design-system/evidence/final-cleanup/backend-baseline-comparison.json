@@ -1,0 +1,85 @@
+[
+  {
+    "baseline": ".tmp/cleanup-final-tests.json",
+    "current": "artifacts/final-cleanup/backend-tests.json",
+    "baselineCounts": {
+      "passed": 346,
+      "failed": 6,
+      "skipped": 96
+    },
+    "currentCounts": {
+      "passed": 443,
+      "failed": 6,
+      "skipped": 14
+    },
+    "currentFailures": [
+      "src/organization.spec.ts::Deployment organization display configuration uses the requested initial name when no customer name is configured",
+      "src/organization.spec.ts::Deployment organization display configuration reads the configured customer identity without changing component source or accounts",
+      "src/salary-components/salary-calculation.service.spec.ts::Salary calculation foundation resolves reversed dependencies and includes hidden deductions",
+      "src/salary-components/salary-calculation.service.spec.ts::Salary calculation foundation distinguishes fixed monthly and annual values",
+      "src/salary-components/salary-calculation.service.spec.ts::Salary calculation foundation rejects cycles, missing and inactive dependencies",
+      "src/salary-components/salary-calculation.service.spec.ts::Salary calculation foundation rejects invalid numbers and percentages and skips inactive outputs"
+    ],
+    "newFailures": [],
+    "resolvedFailures": [],
+    "notExecutedPreviouslyFailing": []
+  },
+  {
+    "baseline": ".tmp/cleanup-e2e-tests.json",
+    "current": "artifacts/final-cleanup/backend-e2e-unrestricted.json",
+    "baselineCounts": {
+      "passed": 36,
+      "failed": 14,
+      "skipped": 1
+    },
+    "currentCounts": {
+      "passed": 48,
+      "failed": 2,
+      "skipped": 1
+    },
+    "currentFailures": [
+      "test/auth.e2e-spec.ts::Authentication and complete route audit (isolated Mongo database) discovers every registered route, allows only login publicly, and admits authenticated requests",
+      "test/users.e2e-spec.ts::Administrator provisioning, authorization and user management rejects seven-character creation, reset and operator passwords"
+    ],
+    "newFailures": [],
+    "resolvedFailures": [
+      "test/users.e2e-spec.ts::Administrator provisioning, authorization and user management migrates the obsolete unique-role index without changing accounts",
+      "test/users.e2e-spec.ts::Administrator provisioning, authorization and user management allows an admin to create users, normalize emails and reject duplicates and invalid input",
+      "test/users.e2e-spec.ts::Administrator provisioning, authorization and user management denies ordinary users every management endpoint, including self-promotion",
+      "test/users.e2e-spec.ts::Administrator provisioning, authorization and user management preserves the last active admin and rejects self-deactivation/demotion, including uppercase IDs",
+      "test/users.e2e-spec.ts::Administrator provisioning, authorization and user management deactivates users immediately, blocks login, and prevents old sessions reviving after activation",
+      "test/users.e2e-spec.ts::Administrator provisioning, authorization and user management edits roles and emails and revokes sessions when access details change",
+      "test/users.e2e-spec.ts::Administrator provisioning, authorization and user management hashes password resets, revokes sessions and permits only the new password",
+      "test/users.e2e-spec.ts::Administrator provisioning, authorization and user management serializes competing administrator mutations and rechecks the actor inside the lock",
+      "test/users.e2e-spec.ts::Administrator provisioning, authorization and user management recovers only an existing admin through the controlled CLI and invalidates prior sessions",
+      "test/users.e2e-spec.ts::Administrator provisioning, authorization and user management rejects old admin sessions after recovery and retains the account identity",
+      "test/admin-cli.e2e-spec.ts::Standalone administrator CLI with the existing backend left running rejects duplicate setup without changing any account and explains explicit recovery",
+      "test/admin-cli.e2e-spec.ts::Standalone administrator CLI with the existing backend left running preserves explicit recovery without starting HTTP"
+    ],
+    "notExecutedPreviouslyFailing": []
+  },
+  {
+    "baseline": ".tmp/cleanup-integration-tests.json",
+    "current": "artifacts/final-cleanup/backend-additional-integration.json",
+    "baselineCounts": {
+      "passed": 90,
+      "failed": 4,
+      "skipped": 2
+    },
+    "currentCounts": {
+      "passed": 10,
+      "failed": 1,
+      "skipped": 0
+    },
+    "currentFailures": [
+      "src/salary-components/mandatory-components.integration.spec.ts::Mandatory salary component initialization and restrictions initializes three blank rates, protects identity/type/status and preserves edited rates and bases on restart"
+    ],
+    "newFailures": [],
+    "resolvedFailures": [],
+    "notExecutedPreviouslyFailing": [
+      "src/employees/employees.integration.spec.ts::Employees MongoDB reads returns database records and preserves them across an application restart",
+      "src/run-payroll/run-payroll.integration.spec.ts::Run Payroll persistence (isolated MongoDB) finalizes all individual PDFs and summary atomically; retries return the same immutable submission",
+      "src/run-payroll/run-payroll.integration.spec.ts::Run Payroll persistence (isolated MongoDB) allows only one winner under concurrent submissions and concurrent draft creation"
+    ]
+  }
+]

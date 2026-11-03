@@ -1,5 +1,20 @@
-import { ActionIcon } from '../../shared/action-icon';
-import { InformationTip } from '../../shared/information-tip';
+import {
+  PsButton,
+  PsIconButton,
+  PsIcon,
+  PsTooltip,
+  PsCard,
+  PsCardTitle,
+  PsCardSubtitle,
+  PsCardActions,
+  PsCardFooter,
+  PsFormField,
+  PsFieldControl,
+  PsDataTable,
+  PsStatusBadge,
+  PsInrPipe,
+  PsDatePipe,
+} from '../../shared/ui';
 import { DetailDialog } from '../../shared/detail-dialog';
 import {
   Component,
@@ -14,7 +29,7 @@ import {
   HostListener,
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
 import { TaxApi } from './tax-api';
 import { apiError } from '../../employees/employee.service';
@@ -55,9 +70,28 @@ const emptyProfile = (): EmploymentFields & {
 });
 @Component({
   selector: 'app-employee-tax',
-  imports: [FormsModule, CurrencyPipe, DatePipe, ActionIcon, DetailDialog, InformationTip],
+  imports: [
+    FormsModule,
+    DatePipe,
+    DetailDialog,
+    PsButton,
+    PsIconButton,
+    PsIcon,
+    PsTooltip,
+    PsCard,
+    PsCardTitle,
+    PsCardSubtitle,
+    PsCardActions,
+    PsCardFooter,
+    PsFormField,
+    PsFieldControl,
+    PsDataTable,
+    PsStatusBadge,
+    PsInrPipe,
+    PsDatePipe,
+  ],
   templateUrl: './employee-tax.html',
-  styleUrls: ['./tax-management.css', './employee-tax.css'],
+  styleUrls: ['./employee-tax.css'],
 })
 export class EmployeeTax implements OnInit, OnDestroy {
   readonly employeeId = input.required<string>();

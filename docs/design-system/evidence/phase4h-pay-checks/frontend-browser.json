@@ -1,0 +1,5223 @@
+{
+  "config": {
+    "argv": [
+      "C:\\NodeJS\\node.exe",
+      "D:\\projects\\payroll-frontend\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--output=test-results/phase4h-full",
+      "--reporter=list,json"
+    ],
+    "configFile": "D:\\projects\\payroll-frontend\\playwright.config.ts",
+    "rootDir": "D:/projects/payroll-frontend/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/projects/payroll-frontend/test-results/phase4h-full",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "D:/projects/payroll-frontend/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\projects\\payroll-frontend\\test-results\\phase4h-full",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "D:\\projects\\payroll-frontend\\e2e",
+        "snapshotDir": "D:\\projects\\payroll-frontend\\e2e",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://localhost:4200",
+          "channel": "msedge",
+          "headless": true
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "annual-payroll-pdf.spec.ts",
+      "file": "annual-payroll-pdf.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "annual PDF: 20 employees, all columns and totals",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3723,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:05:47.201Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8e2afd614c102d830c02-0ddf9cb717cc67df834e",
+          "file": "annual-payroll-pdf.spec.ts",
+          "line": 4,
+          "column": 33
+        },
+        {
+          "title": "annual PDF: 70 employees, all columns and totals",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3313,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:05:51.736Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8e2afd614c102d830c02-2c297de5256bb2548fdd",
+          "file": "annual-payroll-pdf.spec.ts",
+          "line": 4,
+          "column": 33
+        }
+      ]
+    },
+    {
+      "title": "authentication.spec.ts",
+      "file": "authentication.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "login, intended destination, navigation, expiration and logout",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2091,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:05:55.111Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "70f6afe7e350c931056e-c36b33eca7912870f77d",
+          "file": "authentication.spec.ts",
+          "line": 2,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "branding.spec.ts",
+      "file": "branding.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "PayStream branding, dynamic customer name, responsive header and logout",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3295,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:05:57.238Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c7f19e806919ac620bf8-964bb03f0abea89d097b",
+          "file": "branding.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "conditional-formulas.spec.ts",
+      "file": "conditional-formulas.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "advanced IF formulas save and edit using stable keys",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1408,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:00.556Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d2d2ec715733dc7cd6f1-47cfa11dcca051ed346e",
+          "file": "conditional-formulas.spec.ts",
+          "line": 5,
+          "column": 5
+        },
+        {
+          "title": "Annual: IF true/false case 0, ordered PDF amounts and totals",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1634,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:01.978Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d2d2ec715733dc7cd6f1-62bda1527a43055a26d9",
+          "file": "conditional-formulas.spec.ts",
+          "line": 23,
+          "column": 89
+        },
+        {
+          "title": "Monthly: IF true/false case 0, ordered PDF amounts and totals",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1501,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:03.623Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d2d2ec715733dc7cd6f1-c39b1e191c0a9906b862",
+          "file": "conditional-formulas.spec.ts",
+          "line": 23,
+          "column": 89
+        },
+        {
+          "title": "Annual: IF true/false case 1, ordered PDF amounts and totals",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1583,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:05.142Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d2d2ec715733dc7cd6f1-44d0351c9259fb4dac2e",
+          "file": "conditional-formulas.spec.ts",
+          "line": 23,
+          "column": 89
+        },
+        {
+          "title": "Monthly: IF true/false case 1, ordered PDF amounts and totals",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1519,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:06.741Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d2d2ec715733dc7cd6f1-d2f58d73f4c0a3cbdd02",
+          "file": "conditional-formulas.spec.ts",
+          "line": 23,
+          "column": 89
+        }
+      ]
+    },
+    {
+      "title": "dynamic-components-pdf.spec.ts",
+      "file": "dynamic-components-pdf.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Annual PDF selected optional components: true",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1701,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:08.290Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b794637800b3f427a377-9ad3a0351c5a9430acb0",
+          "file": "dynamic-components-pdf.spec.ts",
+          "line": 3,
+          "column": 84
+        },
+        {
+          "title": "Annual PDF selected optional components: false",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1655,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:10.005Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b794637800b3f427a377-b4f0d89d0e607c1111ea",
+          "file": "dynamic-components-pdf.spec.ts",
+          "line": 3,
+          "column": 84
+        },
+        {
+          "title": "Monthly PDF selected optional components: true",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1726,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:11.682Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b794637800b3f427a377-f202604bf69da4666210",
+          "file": "dynamic-components-pdf.spec.ts",
+          "line": 3,
+          "column": 84
+        },
+        {
+          "title": "Monthly PDF selected optional components: false",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1663,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:13.424Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b794637800b3f427a377-e142811275a2bd248193",
+          "file": "dynamic-components-pdf.spec.ts",
+          "line": 3,
+          "column": 84
+        }
+      ]
+    },
+    {
+      "title": "employee-details-design-system.spec.ts",
+      "file": "employee-details-design-system.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Details and Pay Checks at 1440px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1995,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:15.111Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "23726801ac093001ab08-c3f9746e31a6b213d895",
+          "file": "employee-details-design-system.spec.ts",
+          "line": 15,
+          "column": 49
+        },
+        {
+          "title": "Details and Pay Checks at 1280px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2047,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:17.124Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "23726801ac093001ab08-b4ae1c225b42aa1ce459",
+          "file": "employee-details-design-system.spec.ts",
+          "line": 15,
+          "column": 49
+        },
+        {
+          "title": "Details and Pay Checks at 768px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2111,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:19.184Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "23726801ac093001ab08-bb5d665abfe7b8ad1692",
+          "file": "employee-details-design-system.spec.ts",
+          "line": 15,
+          "column": 49
+        },
+        {
+          "title": "Details and Pay Checks at 390px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2050,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:21.311Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "23726801ac093001ab08-fe9e362d440b6e6279e4",
+          "file": "employee-details-design-system.spec.ts",
+          "line": 15,
+          "column": 49
+        },
+        {
+          "title": "new card footers preserve validation, pending/error states, optional contact and isolated save payloads",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1891,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:23.373Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "23726801ac093001ab08-0f76553f03322cc02d49",
+          "file": "employee-details-design-system.spec.ts",
+          "line": 87,
+          "column": 5
+        },
+        {
+          "title": "Pay Checks empty and denied-PDF states keep the profile and saved amounts intact",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5683,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('No submitted pay checks.', { exact: true }).visible()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('No submitted pay checks.', { exact: true }).visible() with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('No submitted pay checks.', { exact: true }).visible()\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('No submitted pay checks.', { exact: true }).visible()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('No submitted pay checks.', { exact: true }).visible() with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('No submitted pay checks.', { exact: true }).visible()\u001b[22m\n\n    at D:\\projects\\payroll-frontend\\e2e\\employee-details-design-system.spec.ts:132:103",
+                    "location": {
+                      "file": "D:\\projects\\payroll-frontend\\e2e\\employee-details-design-system.spec.ts",
+                      "column": 103,
+                      "line": 132
+                    },
+                    "snippet": "  130 |   await page.route('**/payroll/runs/*/checks/*/pdf', r => { reads.push(r.request().url()); return r.fulfill({ status: 403, json: {} }); });\n  131 |   await page.goto('/employees/' + id + '?tab=checks');\n> 132 |   await expect(page.getByText('No submitted pay checks.', { exact: true }).filter({ visible: true })).toBeVisible();\n      |                                                                                                       ^\n  133 |   await expect(page.getByRole('button', { name: 'View Pay Check', exact: true })).toHaveCount(0);\n  134 |   history = [check]; await page.reload();\n  135 |   await page.getByRole('button', { name: 'View Pay Check', exact: true }).click();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\projects\\payroll-frontend\\e2e\\employee-details-design-system.spec.ts",
+                        "column": 103,
+                        "line": 132
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('No submitted pay checks.', { exact: true }).visible()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('No submitted pay checks.', { exact: true }).visible() with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('No submitted pay checks.', { exact: true }).visible()\u001b[22m\n\n\n  130 |   await page.route('**/payroll/runs/*/checks/*/pdf', r => { reads.push(r.request().url()); return r.fulfill({ status: 403, json: {} }); });\n  131 |   await page.goto('/employees/' + id + '?tab=checks');\n> 132 |   await expect(page.getByText('No submitted pay checks.', { exact: true }).filter({ visible: true })).toBeVisible();\n      |                                                                                                       ^\n  133 |   await expect(page.getByRole('button', { name: 'View Pay Check', exact: true })).toHaveCount(0);\n  134 |   history = [check]; await page.reload();\n  135 |   await page.getByRole('button', { name: 'View Pay Check', exact: true }).click();\n    at D:\\projects\\payroll-frontend\\e2e\\employee-details-design-system.spec.ts:132:103"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:25.278Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\projects\\payroll-frontend\\test-results\\phase4h-full\\employee-details-design-sy-51e61-le-and-saved-amounts-intact\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\projects\\payroll-frontend\\e2e\\employee-details-design-system.spec.ts",
+                    "column": 103,
+                    "line": 132
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "23726801ac093001ab08-07859d08be88e3d97fda",
+          "file": "employee-details-design-system.spec.ts",
+          "line": 126,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "employee-directory-return.spec.ts",
+      "file": "employee-directory-return.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "directory restores exact search \"\"",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1846,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:32.056Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ff1e08dc8f34eca0ada1-3eb7b84d9f99cc58cbf5",
+          "file": "employee-directory-return.spec.ts",
+          "line": 7,
+          "column": 54
+        },
+        {
+          "title": "directory restores exact search \"  Ada  \"",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1807,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:34.350Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ff1e08dc8f34eca0ada1-3a101d70699266b46d86",
+          "file": "employee-directory-return.spec.ts",
+          "line": 7,
+          "column": 54
+        },
+        {
+          "title": "directory restores exact search \"Example\"",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1863,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:36.169Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ff1e08dc8f34eca0ada1-15efb5f3363704d8564d",
+          "file": "employee-directory-return.spec.ts",
+          "line": 7,
+          "column": 54
+        }
+      ]
+    },
+    {
+      "title": "employee-edit-pay-frequency.spec.ts",
+      "file": "employee-edit-pay-frequency.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "employee add and edit use Monthly and persist through the employee API",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1603,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:38.051Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "849cfe2c2e6870350d59-d5fe595a40556e7a7c73",
+          "file": "employee-edit-pay-frequency.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "employee-information.spec.ts",
+      "file": "employee-information.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Add Employee keeps exact input order, compact amounts, validation and creation payload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1288,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:39.691Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8fe2f9d3ba8742828480-0d67570266a8ccc32d22",
+          "file": "employee-information.spec.ts",
+          "line": 15,
+          "column": 5
+        },
+        {
+          "title": "profile cards edit independently, retain drafts, persist after reload, and protect departure",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3203,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:40.991Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8fe2f9d3ba8742828480-96e0df6ba907a15c8c35",
+          "file": "employee-information.spec.ts",
+          "line": 70,
+          "column": 5
+        },
+        {
+          "title": "directory Edit omits contact data and preserves the saved number in Personal Information",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1566,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:44.211Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8fe2f9d3ba8742828480-62aac3be82565ef34c32",
+          "file": "employee-information.spec.ts",
+          "line": 181,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "employee-lifecycle.spec.ts",
+      "file": "employee-lifecycle.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "employee lifecycle menus, cancellation, dates, history, filters, refresh and existing actions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2729,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:45.798Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cf785fdc290946847aee-0f97011461692a077e36",
+          "file": "employee-lifecycle.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "payroll defaults to excluding terminated employees and offers explicit historical inclusion",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1197,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:48.544Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "cf785fdc290946847aee-2abec6fe3b64f0a94ec4",
+          "file": "employee-lifecycle.spec.ts",
+          "line": 67,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "employee-modal-selection.spec.ts",
+      "file": "employee-modal-selection.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "modal stays above the directory, traps focus, and closes without saving",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1350,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:49.770Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2132549d61bdfb38ada4-c6a0327040809c9f4494",
+          "file": "employee-modal-selection.spec.ts",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "title": "directory stays selection-free after refresh and keeps payroll accessible",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Live API tests require TEST_AUTH_EMAIL and TEST_AUTH_PASSWORD for an existing account",
+                  "location": {
+                    "file": "D:\\projects\\payroll-frontend\\e2e\\authenticated-test.ts",
+                    "line": 7,
+                    "column": 10
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 164,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:51.139Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Live API tests require TEST_AUTH_EMAIL and TEST_AUTH_PASSWORD for an existing account",
+                      "location": {
+                        "file": "D:\\projects\\payroll-frontend\\e2e\\authenticated-test.ts",
+                        "line": 7,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "2132549d61bdfb38ada4-263479f2b35e0e712203",
+          "file": "employee-modal-selection.spec.ts",
+          "line": 41,
+          "column": 5
+        },
+        {
+          "title": "failed save retains data and keeps the modal open; saving prevents cancellation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Live API tests require TEST_AUTH_EMAIL and TEST_AUTH_PASSWORD for an existing account",
+                  "location": {
+                    "file": "D:\\projects\\payroll-frontend\\e2e\\authenticated-test.ts",
+                    "line": 7,
+                    "column": 10
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 163,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:51.318Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Live API tests require TEST_AUTH_EMAIL and TEST_AUTH_PASSWORD for an existing account",
+                      "location": {
+                        "file": "D:\\projects\\payroll-frontend\\e2e\\authenticated-test.ts",
+                        "line": 7,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "2132549d61bdfb38ada4-f5b0eeb4b7650057f9d8",
+          "file": "employee-modal-selection.spec.ts",
+          "line": 52,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "employee-tax-design-system.spec.ts",
+      "file": "employee-tax-design-system.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Employee tax presentation 1440",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3238,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:51.506Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "853e23b305c57c4fb712-79e5f9ce41b33e2e0fdc",
+          "file": "employee-tax-design-system.spec.ts",
+          "line": 5,
+          "column": 45
+        },
+        {
+          "title": "Employee tax presentation 1280",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2886,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:54.760Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "853e23b305c57c4fb712-9a221cb147121c4d07d8",
+          "file": "employee-tax-design-system.spec.ts",
+          "line": 5,
+          "column": 45
+        },
+        {
+          "title": "Employee tax presentation 768",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3316,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:06:57.664Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "853e23b305c57c4fb712-2f878c4dee396eff7484",
+          "file": "employee-tax-design-system.spec.ts",
+          "line": 5,
+          "column": 45
+        },
+        {
+          "title": "Employee tax presentation 390",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2650,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:00.999Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "853e23b305c57c4fb712-3a98a9100693b1517714",
+          "file": "employee-tax-design-system.spec.ts",
+          "line": 5,
+          "column": 45
+        },
+        {
+          "title": "Employee tax failures, cancellation, required amounts and financial-year preview preserve saved data",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1320,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:03.673Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "853e23b305c57c4fb712-0bd48369535eaf4feb16",
+          "file": "employee-tax-design-system.spec.ts",
+          "line": 223,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "employees-design-system.spec.ts",
+      "file": "employees-design-system.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Employees pilot renders the approved hierarchy, dimensions and display-only formatting",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1125,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:05.019Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b1eab24974e3688a3268-931c2ba4caf04512d6d4",
+          "file": "employees-design-system.spec.ts",
+          "line": 10,
+          "column": 5
+        },
+        {
+          "title": "existing deletion preserves cancellation, server errors, retry payload and refresh",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1404,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:06.158Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b1eab24974e3688a3268-ce045648d03f6ab9127b",
+          "file": "employees-design-system.spec.ts",
+          "line": 37,
+          "column": 5
+        },
+        {
+          "title": "responsive layout preserves every action and native CDK menu keyboard semantics",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1344,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:07.581Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b1eab24974e3688a3268-502848293744cd8b6957",
+          "file": "employees-design-system.spec.ts",
+          "line": 62,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "employees-remediation.spec.ts",
+      "file": "employees-remediation.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "actual global entry loads tokens and all shared action SVGs remain compact across navigation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1137,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:08.953Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9727f6e46ace64604ae6-24e49ef20548406ca5d3",
+          "file": "employees-remediation.spec.ts",
+          "line": 11,
+          "column": 5
+        },
+        {
+          "title": "table headings stay separated, long emails are bounded and all columns remain aligned at responsive widths",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1353,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:10.105Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9727f6e46ace64604ae6-d216cbe29316f8043205",
+          "file": "employees-remediation.spec.ts",
+          "line": 42,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "employees.spec.ts",
+      "file": "employees.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "real employee reads, validation, duplicate handling, responsive layout, and simulated success",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Live API tests require TEST_AUTH_EMAIL and TEST_AUTH_PASSWORD for an existing account",
+                  "location": {
+                    "file": "D:\\projects\\payroll-frontend\\e2e\\authenticated-test.ts",
+                    "line": 7,
+                    "column": 10
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 184,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:11.490Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Live API tests require TEST_AUTH_EMAIL and TEST_AUTH_PASSWORD for an existing account",
+                      "location": {
+                        "file": "D:\\projects\\payroll-frontend\\e2e\\authenticated-test.ts",
+                        "line": 7,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "173bfcde56ef5531431c-20eafdc1cb6d178b822a",
+          "file": "employees.spec.ts",
+          "line": 2,
+          "column": 5
+        },
+        {
+          "title": "empty, loading, and network error states without changing MongoDB",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1029,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:11.690Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "173bfcde56ef5531431c-5435faa894b86cd22f97",
+          "file": "employees.spec.ts",
+          "line": 54,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "final-ui.spec.ts",
+      "file": "final-ui.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "monthly CTC, icon actions, guide and exact payroll return context survive profile navigation and refresh",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6019,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Total Payroll Cost', { exact: true })\nExpected substring: \u001b[32m\"10,000.00\"\u001b[39m\nReceived string:    \u001b[31m\"Total Payroll Cost₹10,000Monthly CTC\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByLabel('Total Payroll Cost', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Total Payroll Cost', { exact: true })\u001b[22m\n\u001b[2m    14 × locator resolved to <ps-card class=\"kpi\" role=\"region\" _nghost-ng-c763023475=\"\" _ngcontent-ng-c805891342=\"\" aria-label=\"Total Payroll Cost\">…</ps-card>\u001b[22m\n\u001b[2m       - unexpected value \"Total Payroll Cost₹10,000Monthly CTC\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Total Payroll Cost', { exact: true })\nExpected substring: \u001b[32m\"10,000.00\"\u001b[39m\nReceived string:    \u001b[31m\"Total Payroll Cost₹10,000Monthly CTC\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByLabel('Total Payroll Cost', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Total Payroll Cost', { exact: true })\u001b[22m\n\u001b[2m    14 × locator resolved to <ps-card class=\"kpi\" role=\"region\" _nghost-ng-c763023475=\"\" _ngcontent-ng-c805891342=\"\" aria-label=\"Total Payroll Cost\">…</ps-card>\u001b[22m\n\u001b[2m       - unexpected value \"Total Payroll Cost₹10,000Monthly CTC\"\u001b[22m\n\n    at D:\\projects\\payroll-frontend\\e2e\\final-ui.spec.ts:28:68",
+                    "location": {
+                      "file": "D:\\projects\\payroll-frontend\\e2e\\final-ui.spec.ts",
+                      "column": 68,
+                      "line": 28
+                    },
+                    "snippet": "  26 |   await page.goto(`/payroll/run?employees=${people[0]._id}&returnStatus=All`);\n  27 |   const table=page.getByRole('table',{name:'Employee payroll',exact:true});await expect(table.getByRole('columnheader',{name:'Monthly CTC',exact:true})).toBeVisible();await expect(table.getByRole('columnheader',{name:'Annual CTC',exact:true})).toHaveCount(0);\n> 28 |   await expect(page.getByLabel('Total Payroll Cost',{exact:true})).toContainText('10,000.00');await expect(page.getByRole('heading',{name:'Payroll Calculation Guide'})).toBeVisible();await expect(page.getByText('Excluded from new draft totals',{exact:true})).toBeVisible();\n     |                                                                    ^\n  29 |   const historical=table.getByRole('row').filter({has:page.getByRole('link',{name:'Historical',exact:true})});\n  30 |   for(const name of ['View Pay Check','Download Pay Check']){const button=historical.getByRole('button',{name,exact:true});await expect(button).toHaveAttribute('title',name);expect((await button.textContent())?.trim()).toBe('');await expect(button.locator('svg')).toBeVisible();}\n  31 |   await selectPeriod(page.getByLabel('Pay Period',{exact:true}),alternate);await expect(page.getByLabel('Payment Date',{exact:true})).toHaveValue(`${year}-11-02`);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\projects\\payroll-frontend\\e2e\\final-ui.spec.ts",
+                        "column": 68,
+                        "line": 28
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Total Payroll Cost', { exact: true })\nExpected substring: \u001b[32m\"10,000.00\"\u001b[39m\nReceived string:    \u001b[31m\"Total Payroll Cost₹10,000Monthly CTC\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByLabel('Total Payroll Cost', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Total Payroll Cost', { exact: true })\u001b[22m\n\u001b[2m    14 × locator resolved to <ps-card class=\"kpi\" role=\"region\" _nghost-ng-c763023475=\"\" _ngcontent-ng-c805891342=\"\" aria-label=\"Total Payroll Cost\">…</ps-card>\u001b[22m\n\u001b[2m       - unexpected value \"Total Payroll Cost₹10,000Monthly CTC\"\u001b[22m\n\n\n  26 |   await page.goto(`/payroll/run?employees=${people[0]._id}&returnStatus=All`);\n  27 |   const table=page.getByRole('table',{name:'Employee payroll',exact:true});await expect(table.getByRole('columnheader',{name:'Monthly CTC',exact:true})).toBeVisible();await expect(table.getByRole('columnheader',{name:'Annual CTC',exact:true})).toHaveCount(0);\n> 28 |   await expect(page.getByLabel('Total Payroll Cost',{exact:true})).toContainText('10,000.00');await expect(page.getByRole('heading',{name:'Payroll Calculation Guide'})).toBeVisible();await expect(page.getByText('Excluded from new draft totals',{exact:true})).toBeVisible();\n     |                                                                    ^\n  29 |   const historical=table.getByRole('row').filter({has:page.getByRole('link',{name:'Historical',exact:true})});\n  30 |   for(const name of ['View Pay Check','Download Pay Check']){const button=historical.getByRole('button',{name,exact:true});await expect(button).toHaveAttribute('title',name);expect((await button.textContent())?.trim()).toBe('');await expect(button.locator('svg')).toBeVisible();}\n  31 |   await selectPeriod(page.getByLabel('Pay Period',{exact:true}),alternate);await expect(page.getByLabel('Payment Date',{exact:true})).toHaveValue(`${year}-11-02`);\n    at D:\\projects\\payroll-frontend\\e2e\\final-ui.spec.ts:28:68"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:12.828Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\projects\\payroll-frontend\\test-results\\phase4h-full\\final-ui-monthly-CTC-icon--aa15e-file-navigation-and-refresh\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\projects\\payroll-frontend\\e2e\\final-ui.spec.ts",
+                    "column": 68,
+                    "line": 28
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "da0e148cc7c4ea67f4f9-c25c10b7cfe11c9903a3",
+          "file": "final-ui.spec.ts",
+          "line": 23,
+          "column": 5
+        },
+        {
+          "title": "direct and invalid external profile origins use the safe Employees fallback",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1431,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:19.540Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "da0e148cc7c4ea67f4f9-a785203a8461f8b37160",
+          "file": "final-ui.spec.ts",
+          "line": 44,
+          "column": 5
+        },
+        {
+          "title": "main-content transitions are consistent across business routes, coalesce fast navigation and honor reduced motion",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1779,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:21.417Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "da0e148cc7c4ea67f4f9-398b0ccca098e668314a",
+          "file": "final-ui.spec.ts",
+          "line": 48,
+          "column": 5
+        },
+        {
+          "title": "Super Admin dashboard, organization list and organization details use the same main-content transition",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1137,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:23.211Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "da0e148cc7c4ea67f4f9-e9465bbf590fab1ad716",
+          "file": "final-ui.spec.ts",
+          "line": 71,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "formula-components.spec.ts",
+      "file": "formula-components.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Formula component creation, validation feedback, retrieval and editing",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1456,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:24.366Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0836e704dd206d2d522-424c58fc7ecc74eb924e",
+          "file": "formula-components.spec.ts",
+          "line": 4,
+          "column": 5
+        },
+        {
+          "title": "Annual: formula values, selection, ordering, totals and PDF download",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2226,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:25.835Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0836e704dd206d2d522-bf71e886ee7c820f3bfb",
+          "file": "formula-components.spec.ts",
+          "line": 28,
+          "column": 47
+        },
+        {
+          "title": "Monthly: formula values, selection, ordering, totals and PDF download",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2069,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:28.075Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e0836e704dd206d2d522-72bf0c878be9d151797a",
+          "file": "formula-components.spec.ts",
+          "line": 28,
+          "column": 47
+        }
+      ]
+    },
+    {
+      "title": "indian-format-search.spec.ts",
+      "file": "indian-format-search.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "search composes with status, makes no keystroke requests, preserves employee editing and navigation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2929,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:30.171Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "651e06bd2e2a0fb23e12-af3917e84278a51ec49d",
+          "file": "indian-format-search.spec.ts",
+          "line": 22,
+          "column": 5
+        },
+        {
+          "title": "User Management uses the shared users icon with existing navigation states and admin-only access",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3362,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:33.139Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "651e06bd2e2a0fb23e12-81ab385bf5875ffa4555",
+          "file": "indian-format-search.spec.ts",
+          "line": 53,
+          "column": 5
+        },
+        {
+          "title": "Run Payroll KPIs, dynamic rows and Pay Check history use Indian grouping without changing numeric requests",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6194,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('table', { name: 'Employee payroll', exact: true }).locator('tbody tr').first().locator('td').nth(4)\nExpected: \u001b[32m\"₹1,000\u001b[7m.00\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7m \u001b[27m₹1,000\u001b[7m \u001b[27m\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" getByRole('table', { name: 'Employee payroll', exact: true }).locator('tbody tr').first().locator('td').nth(4) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('table', { name: 'Employee payroll', exact: true }).locator('tbody tr').first().locator('td').nth(4)\u001b[22m\n\u001b[2m    14 × locator resolved to <td class=\"money num\" _ngcontent-ng-c805891342=\"\"> ₹1,000 </td>\u001b[22m\n\u001b[2m       - unexpected value \" ₹1,000 \"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('table', { name: 'Employee payroll', exact: true }).locator('tbody tr').first().locator('td').nth(4)\nExpected: \u001b[32m\"₹1,000\u001b[7m.00\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7m \u001b[27m₹1,000\u001b[7m \u001b[27m\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" getByRole('table', { name: 'Employee payroll', exact: true }).locator('tbody tr').first().locator('td').nth(4) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('table', { name: 'Employee payroll', exact: true }).locator('tbody tr').first().locator('td').nth(4)\u001b[22m\n\u001b[2m    14 × locator resolved to <td class=\"money num\" _ngcontent-ng-c805891342=\"\"> ₹1,000 </td>\u001b[22m\n\u001b[2m       - unexpected value \" ₹1,000 \"\u001b[22m\n\n    at D:\\projects\\payroll-frontend\\e2e\\indian-format-search.spec.ts:84:32",
+                    "location": {
+                      "file": "D:\\projects\\payroll-frontend\\e2e\\indian-format-search.spec.ts",
+                      "column": 32,
+                      "line": 84
+                    },
+                    "snippet": "  82 |   for(let i=0;i<values.length;i++){\n  83 |     const cells=table.locator('tbody tr').nth(i).locator('td');\n> 84 |     await expect(cells.nth(4)).toHaveText(currency(values[i]));\n     |                                ^\n  85 |     await expect(cells.nth(5)).toHaveText(currency(values[i]/2));\n  86 |     await expect(cells.nth(7)).toHaveText(currency(values[i]*2));\n  87 |   }"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\projects\\payroll-frontend\\e2e\\indian-format-search.spec.ts",
+                        "column": 32,
+                        "line": 84
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('table', { name: 'Employee payroll', exact: true }).locator('tbody tr').first().locator('td').nth(4)\nExpected: \u001b[32m\"₹1,000\u001b[7m.00\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7m \u001b[27m₹1,000\u001b[7m \u001b[27m\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" getByRole('table', { name: 'Employee payroll', exact: true }).locator('tbody tr').first().locator('td').nth(4) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('table', { name: 'Employee payroll', exact: true }).locator('tbody tr').first().locator('td').nth(4)\u001b[22m\n\u001b[2m    14 × locator resolved to <td class=\"money num\" _ngcontent-ng-c805891342=\"\"> ₹1,000 </td>\u001b[22m\n\u001b[2m       - unexpected value \" ₹1,000 \"\u001b[22m\n\n\n  82 |   for(let i=0;i<values.length;i++){\n  83 |     const cells=table.locator('tbody tr').nth(i).locator('td');\n> 84 |     await expect(cells.nth(4)).toHaveText(currency(values[i]));\n     |                                ^\n  85 |     await expect(cells.nth(5)).toHaveText(currency(values[i]/2));\n  86 |     await expect(cells.nth(7)).toHaveText(currency(values[i]*2));\n  87 |   }\n    at D:\\projects\\payroll-frontend\\e2e\\indian-format-search.spec.ts:84:32"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:36.536Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\projects\\payroll-frontend\\test-results\\phase4h-full\\indian-format-search-Run-P-16b6d-t-changing-numeric-requests\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\projects\\payroll-frontend\\e2e\\indian-format-search.spec.ts",
+                    "column": 32,
+                    "line": 84
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "651e06bd2e2a0fb23e12-b211b21195da6ed42c02",
+          "file": "indian-format-search.spec.ts",
+          "line": 72,
+          "column": 5
+        },
+        {
+          "title": "salary settings, statutory amounts and tax revision displays share Indian currency presentation",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6482,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('main')\nExpected substring: \u001b[32m\"₹10,00,000.00\"\u001b[39m\nReceived string:    \u001b[31m\"SettingsOrganization SettingsSalary ComponentsStatutory DeductionsTax ConfigurationStatutory DeductionsConfigure the annual EPF and ESI ceiling limits and contribution percentages for upcoming payroll calculations.EPF ContributionsAnnual EPF Ceiling Limit*₹Amount in INR.₹10,00,000Amount in INR.EPF Employer Contribution Rate (%)*%Percentage, from 0 to 100.Percentage, from 0 to 100.EPS Employer Contribution Rate (%)*%Percentage, from 0 to 100.Percentage, from 0 to 100.Is Ceiling Limit ApplicableWhen enabled, the annual EPF ceiling caps the wage base for employer EPF and EPS. ESI eligibility is independent.ESI ContributionsAnnual ESI Wage Ceiling Limit₹Amount in INR.₹14,00,000.50No default amount. Leave blank to preserve the saved value, if any.Amount in INR.ESI Employer Contribution Rate (%)*%Percentage, from 0 to 100.Percentage, from 0 to 100.Reset ChangesSave Settings\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('main') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main')\u001b[22m\n\u001b[2m    13 × locator resolved to <main apppagetransition=\"\" _ngcontent-ng-c4009805368=\"\">…</main>\u001b[22m\n\u001b[2m       - unexpected value \"SettingsOrganization SettingsSalary ComponentsStatutory DeductionsTax ConfigurationStatutory DeductionsConfigure the annual EPF and ESI ceiling limits and contribution percentages for upcoming payroll calculations.EPF ContributionsAnnual EPF Ceiling Limit*₹Amount in INR.₹10,00,000Amount in INR.EPF Employer Contribution Rate (%)*%Percentage, from 0 to 100.Percentage, from 0 to 100.EPS Employer Contribution Rate (%)*%Percentage, from 0 to 100.Percentage, from 0 to 100.Is Ceiling Limit ApplicableWhen enabled, the annual EPF ceiling caps the wage base for employer EPF and EPS. ESI eligibility is independent.ESI ContributionsAnnual ESI Wage Ceiling Limit₹Amount in INR.₹14,00,000.50No default amount. Leave blank to preserve the saved value, if any.Amount in INR.ESI Employer Contribution Rate (%)*%Percentage, from 0 to 100.Percentage, from 0 to 100.Reset ChangesSave Settings\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('main')\nExpected substring: \u001b[32m\"₹10,00,000.00\"\u001b[39m\nReceived string:    \u001b[31m\"SettingsOrganization SettingsSalary ComponentsStatutory DeductionsTax ConfigurationStatutory DeductionsConfigure the annual EPF and ESI ceiling limits and contribution percentages for upcoming payroll calculations.EPF ContributionsAnnual EPF Ceiling Limit*₹Amount in INR.₹10,00,000Amount in INR.EPF Employer Contribution Rate (%)*%Percentage, from 0 to 100.Percentage, from 0 to 100.EPS Employer Contribution Rate (%)*%Percentage, from 0 to 100.Percentage, from 0 to 100.Is Ceiling Limit ApplicableWhen enabled, the annual EPF ceiling caps the wage base for employer EPF and EPS. ESI eligibility is independent.ESI ContributionsAnnual ESI Wage Ceiling Limit₹Amount in INR.₹14,00,000.50No default amount. Leave blank to preserve the saved value, if any.Amount in INR.ESI Employer Contribution Rate (%)*%Percentage, from 0 to 100.Percentage, from 0 to 100.Reset ChangesSave Settings\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('main') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main')\u001b[22m\n\u001b[2m    13 × locator resolved to <main apppagetransition=\"\" _ngcontent-ng-c4009805368=\"\">…</main>\u001b[22m\n\u001b[2m       - unexpected value \"SettingsOrganization SettingsSalary ComponentsStatutory DeductionsTax ConfigurationStatutory DeductionsConfigure the annual EPF and ESI ceiling limits and contribution percentages for upcoming payroll calculations.EPF ContributionsAnnual EPF Ceiling Limit*₹Amount in INR.₹10,00,000Amount in INR.EPF Employer Contribution Rate (%)*%Percentage, from 0 to 100.Percentage, from 0 to 100.EPS Employer Contribution Rate (%)*%Percentage, from 0 to 100.Percentage, from 0 to 100.Is Ceiling Limit ApplicableWhen enabled, the annual EPF ceiling caps the wage base for employer EPF and EPS. ESI eligibility is independent.ESI ContributionsAnnual ESI Wage Ceiling Limit₹Amount in INR.₹14,00,000.50No default amount. Leave blank to preserve the saved value, if any.Amount in INR.ESI Employer Contribution Rate (%)*%Percentage, from 0 to 100.Percentage, from 0 to 100.Reset ChangesSave Settings\"\u001b[22m\n\n    at D:\\projects\\payroll-frontend\\e2e\\indian-format-search.spec.ts:106:158",
+                    "location": {
+                      "file": "D:\\projects\\payroll-frontend\\e2e\\indian-format-search.spec.ts",
+                      "column": 158,
+                      "line": 106
+                    },
+                    "snippet": "  104 |   await page.route('http://localhost:3000/settings/tax-configuration',r=>r.fulfill({json:{years:[{code:'FY_QA',name:'QA Year',startDate:'2026-04-01',endDate:'2027-03-31',active:true}],revisions:[{id:'revision',yearCode:'FY_QA',regime:'new',version:1,rules}],published:{}}}));\n  105 |   await page.goto('/settings');await expect(page.getByRole('table')).toContainText(currency(1400000.5));\n> 106 |   await page.goto('/settings/statutory-deductions');await expect(page.locator('main')).toContainText(currency(1400000.5));await expect(page.locator('main')).toContainText(currency(1000000));\n      |                                                                                                                                                              ^\n  107 |   await page.goto('/settings/tax-configuration');await page.getByRole('button',{name:'View revision',exact:true}).click();\n  108 |   const dialog=page.getByRole('dialog');for(const value of [100000,10000,1000000,10000000,1400000.5])await expect(dialog).toContainText(currency(value));\n  109 |   await dialog.getByRole('button',{name:'Close revision'}).click();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\projects\\payroll-frontend\\e2e\\indian-format-search.spec.ts",
+                        "column": 158,
+                        "line": 106
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('main')\nExpected substring: \u001b[32m\"₹10,00,000.00\"\u001b[39m\nReceived string:    \u001b[31m\"SettingsOrganization SettingsSalary ComponentsStatutory DeductionsTax ConfigurationStatutory DeductionsConfigure the annual EPF and ESI ceiling limits and contribution percentages for upcoming payroll calculations.EPF ContributionsAnnual EPF Ceiling Limit*₹Amount in INR.₹10,00,000Amount in INR.EPF Employer Contribution Rate (%)*%Percentage, from 0 to 100.Percentage, from 0 to 100.EPS Employer Contribution Rate (%)*%Percentage, from 0 to 100.Percentage, from 0 to 100.Is Ceiling Limit ApplicableWhen enabled, the annual EPF ceiling caps the wage base for employer EPF and EPS. ESI eligibility is independent.ESI ContributionsAnnual ESI Wage Ceiling Limit₹Amount in INR.₹14,00,000.50No default amount. Leave blank to preserve the saved value, if any.Amount in INR.ESI Employer Contribution Rate (%)*%Percentage, from 0 to 100.Percentage, from 0 to 100.Reset ChangesSave Settings\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('main') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main')\u001b[22m\n\u001b[2m    13 × locator resolved to <main apppagetransition=\"\" _ngcontent-ng-c4009805368=\"\">…</main>\u001b[22m\n\u001b[2m       - unexpected value \"SettingsOrganization SettingsSalary ComponentsStatutory DeductionsTax ConfigurationStatutory DeductionsConfigure the annual EPF and ESI ceiling limits and contribution percentages for upcoming payroll calculations.EPF ContributionsAnnual EPF Ceiling Limit*₹Amount in INR.₹10,00,000Amount in INR.EPF Employer Contribution Rate (%)*%Percentage, from 0 to 100.Percentage, from 0 to 100.EPS Employer Contribution Rate (%)*%Percentage, from 0 to 100.Percentage, from 0 to 100.Is Ceiling Limit ApplicableWhen enabled, the annual EPF ceiling caps the wage base for employer EPF and EPS. ESI eligibility is independent.ESI ContributionsAnnual ESI Wage Ceiling Limit₹Amount in INR.₹14,00,000.50No default amount. Leave blank to preserve the saved value, if any.Amount in INR.ESI Employer Contribution Rate (%)*%Percentage, from 0 to 100.Percentage, from 0 to 100.Reset ChangesSave Settings\"\u001b[22m\n\n\n  104 |   await page.route('http://localhost:3000/settings/tax-configuration',r=>r.fulfill({json:{years:[{code:'FY_QA',name:'QA Year',startDate:'2026-04-01',endDate:'2027-03-31',active:true}],revisions:[{id:'revision',yearCode:'FY_QA',regime:'new',version:1,rules}],published:{}}}));\n  105 |   await page.goto('/settings');await expect(page.getByRole('table')).toContainText(currency(1400000.5));\n> 106 |   await page.goto('/settings/statutory-deductions');await expect(page.locator('main')).toContainText(currency(1400000.5));await expect(page.locator('main')).toContainText(currency(1000000));\n      |                                                                                                                                                              ^\n  107 |   await page.goto('/settings/tax-configuration');await page.getByRole('button',{name:'View revision',exact:true}).click();\n  108 |   const dialog=page.getByRole('dialog');for(const value of [100000,10000,1000000,10000000,1400000.5])await expect(dialog).toContainText(currency(value));\n  109 |   await dialog.getByRole('button',{name:'Close revision'}).click();\n    at D:\\projects\\payroll-frontend\\e2e\\indian-format-search.spec.ts:106:158"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:44.309Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\projects\\payroll-frontend\\test-results\\phase4h-full\\indian-format-search-salar-e893b-ndian-currency-presentation\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\projects\\payroll-frontend\\e2e\\indian-format-search.spec.ts",
+                    "column": 158,
+                    "line": 106
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "651e06bd2e2a0fb23e12-2a173c99052fc02fe3c1",
+          "file": "indian-format-search.spec.ts",
+          "line": 98,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "management-delete.spec.ts",
+      "file": "management-delete.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "employee delete confirmation cancels safely, reports errors, deletes once and refreshes selected rows",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 30118,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "D:\\projects\\payroll-frontend\\e2e\\management-delete.spec.ts",
+                        "column": 139,
+                        "line": 11
+                      },
+                      "message": "Error: locator.check: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('row').filter({ has: getByRole('cell', { name: 'ada@example.com', exact: true }) }).getByRole('checkbox')\u001b[22m\n\n\n   9 |  await page.goto('/');await page.getByRole('button',{name:'Actions for Ada Delete',exact:true}).click();await page.getByRole('menuitem',{name:'Delete employee Ada Delete',exact:true}).click();\n  10 |  await expect(page.getByRole('dialog')).toContainText('Ada Delete (ada@example.com)');await page.getByRole('button',{name:'Cancel',exact:true}).click();expect(writes).toBe(0);await expect(page.getByRole('dialog')).toHaveCount(0);\n> 11 |  const row=page.getByRole('row').filter({has:page.getByRole('cell',{name:'ada@example.com',exact:true})});await row.getByRole('checkbox').check();await page.getByRole('button',{name:'Actions for Ada Delete',exact:true}).click();await page.getByRole('menuitem',{name:'Delete employee Ada Delete',exact:true}).click();\n     |                                                                                                                                           ^\n  12 |  await page.getByRole('button',{name:'Confirm Delete',exact:true}).click();await expect(page.getByRole('dialog').getByRole('alert')).toContainText('The server could not complete your request');await expect(page.getByRole('dialog')).toBeVisible();\n  13 |  await expect(page.locator('.notice.success')).toHaveCount(0);fail=false;await page.getByRole('button',{name:'Confirm Delete',exact:true}).click();await expect(page.getByRole('dialog')).toHaveCount(0);\n  14 |  await expect(page.getByRole('cell',{name:'ada@example.com',exact:true})).toHaveCount(0);await expect(page.getByRole('cell',{name:'keep@example.com',exact:true})).toBeVisible();await expect(page.locator('.table-footer [role=status]')).toHaveText('0 employees selected');expect(writes).toBe(2);\n    at D:\\projects\\payroll-frontend\\e2e\\management-delete.spec.ts:11:139"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:07:52.780Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\projects\\payroll-frontend\\test-results\\phase4h-full\\management-delete-employee-17898-and-refreshes-selected-rows\\error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "a225825a0f33fda42f23-e80bfa00a896aabf4454",
+          "file": "management-delete.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "salary delete hides mandatory actions, preserves dependency errors, and refreshes after references are repaired",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1799,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:08:24.263Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a225825a0f33fda42f23-ac37c5179412e3e8ecef",
+          "file": "management-delete.spec.ts",
+          "line": 17,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "mandatory-components.spec.ts",
+      "file": "mandatory-components.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "mandatory components show setup state, protect fixed fields, and save user percentages",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3525,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:08:26.499Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5ef32d265405f8cf20a4-6cbdc793f51b6495d621",
+          "file": "mandatory-components.spec.ts",
+          "line": 2,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "monthly-payroll-pdf.spec.ts",
+      "file": "monthly-payroll-pdf.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "monthly PDF labels, rounded values, totals and download derive from annual results",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2439,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:08:30.055Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9695b5bea5bd0c24deec-58a8ed9f34a71d267a9d",
+          "file": "monthly-payroll-pdf.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "ordered-payroll-pdf.spec.ts",
+      "file": "ordered-payroll-pdf.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Annual: drag and keyboard ordering, required Core Wages and net pay PDF",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2831,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:08:32.563Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf6a41c2de4d58a57914-e3e5b2579abdaf1495b0",
+          "file": "ordered-payroll-pdf.spec.ts",
+          "line": 3,
+          "column": 47
+        },
+        {
+          "title": "Monthly: drag and keyboard ordering, required Core Wages and net pay PDF",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2752,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:08:35.437Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf6a41c2de4d58a57914-a111d3ae7bc001df0a3d",
+          "file": "ordered-payroll-pdf.spec.ts",
+          "line": 3,
+          "column": 47
+        }
+      ]
+    },
+    {
+      "title": "organization-design-system.spec.ts",
+      "file": "organization-design-system.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Organization Settings visual and responsive evidence at 1440px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2328,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:08:38.226Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "22e807a569e988fa1a9a-e7dae60269bdb5b22fb8",
+          "file": "organization-design-system.spec.ts",
+          "line": 16,
+          "column": 49
+        },
+        {
+          "title": "Organization Settings visual and responsive evidence at 1280px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2298,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:08:40.590Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "22e807a569e988fa1a9a-40b061cbd719e1ef8fc0",
+          "file": "organization-design-system.spec.ts",
+          "line": 16,
+          "column": 49
+        },
+        {
+          "title": "Organization Settings visual and responsive evidence at 768px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2134,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:08:42.940Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "22e807a569e988fa1a9a-b0e5ee2c40dc8f28f822",
+          "file": "organization-design-system.spec.ts",
+          "line": 16,
+          "column": 49
+        },
+        {
+          "title": "Organization Settings visual and responsive evidence at 390px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2133,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:08:45.111Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "22e807a569e988fa1a9a-9ab823c45141be57433e",
+          "file": "organization-design-system.spec.ts",
+          "line": 16,
+          "column": 49
+        },
+        {
+          "title": "address saves only the existing versioned payload, preserves drafts on error and restores saved values",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2775,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:08:47.280Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "22e807a569e988fa1a9a-04070c6cba249ffc4833",
+          "file": "organization-design-system.spec.ts",
+          "line": 54,
+          "column": 5
+        },
+        {
+          "title": "load error can retry and an empty address retains existing required and optional fields",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1286,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:08:50.106Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "22e807a569e988fa1a9a-e93cc4bc1bfa1988e92b",
+          "file": "organization-design-system.spec.ts",
+          "line": 98,
+          "column": 5
+        },
+        {
+          "title": "organization access boundary remains unchanged for user",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 933,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:08:51.425Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "22e807a569e988fa1a9a-8024778d7cc3ea2c7edb",
+          "file": "organization-design-system.spec.ts",
+          "line": 113,
+          "column": 48
+        },
+        {
+          "title": "organization access boundary remains unchanged for super_admin",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 843,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:08:52.393Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "22e807a569e988fa1a9a-e58ae04313285947fafc",
+          "file": "organization-design-system.spec.ts",
+          "line": 113,
+          "column": 48
+        }
+      ]
+    },
+    {
+      "title": "pay-check-details.spec.ts",
+      "file": "pay-check-details.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "stored TDS overlay, icon actions, unchanged PDF bytes and monthly spacing work on desktop and mobile",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2465,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:08:53.362Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ebfe62c15243bbb2fdeb-536abccfe106c6cefd06",
+          "file": "pay-check-details.spec.ts",
+          "line": 4,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "pay-checks-design-system.spec.ts",
+      "file": "pay-checks-design-system.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Pay Checks history and immutable PDF evidence 1440",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5087,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:08:55.875Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b8a81ef2d8af11dc4000-284b4b898b64d9959dee",
+          "file": "pay-checks-design-system.spec.ts",
+          "line": 11,
+          "column": 44
+        },
+        {
+          "title": "Pay Checks history and immutable PDF evidence 1280",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5287,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:09:00.997Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b8a81ef2d8af11dc4000-644be3b0647eb897d5d5",
+          "file": "pay-checks-design-system.spec.ts",
+          "line": 11,
+          "column": 44
+        },
+        {
+          "title": "Pay Checks history and immutable PDF evidence 768",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5098,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:09:06.336Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b8a81ef2d8af11dc4000-4426bf75d66feead0664",
+          "file": "pay-checks-design-system.spec.ts",
+          "line": 11,
+          "column": 44
+        },
+        {
+          "title": "Pay Checks history and immutable PDF evidence 390",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4821,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:09:11.487Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b8a81ef2d8af11dc4000-85a3af828d62c22fa62b",
+          "file": "pay-checks-design-system.spec.ts",
+          "line": 11,
+          "column": 44
+        }
+      ]
+    },
+    {
+      "title": "payroll-ui-refinements.spec.ts",
+      "file": "payroll-ui-refinements.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "directory launch, row warnings, compact popover, name links and refresh remain accessible",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2406,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:09:16.391Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "54471e03080866d177e9-d5f8eb8fb85656030152",
+          "file": "payroll-ui-refinements.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "pdf-presentation.spec.ts",
+      "file": "pdf-presentation.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Annual PDF single header row, centered headers and right-aligned data/totals",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2280,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:09:18.842Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "3a4bc050b2c8bd80d5f2-1cb6e1867361f2db12a1",
+          "file": "pdf-presentation.spec.ts",
+          "line": 4,
+          "column": 46
+        },
+        {
+          "title": "Monthly PDF single header row, centered headers and right-aligned data/totals",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2060,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:09:21.159Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "3a4bc050b2c8bd80d5f2-0c382d096cc2998c2252",
+          "file": "pdf-presentation.spec.ts",
+          "line": 4,
+          "column": 46
+        }
+      ]
+    },
+    {
+      "title": "platform.spec.ts",
+      "file": "platform.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Super Admin customer onboarding, account tabs, confirmed reset and responsive portal",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2897,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:09:23.270Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "310f5d38cd89ad55ea3f-84b53981f6c2ad6432e2",
+          "file": "platform.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "temporary credentials require a new password before entering the workspace",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1154,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:09:26.201Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "310f5d38cd89ad55ea3f-9f572db30921cb2771d5",
+          "file": "platform.spec.ts",
+          "line": 124,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "profile-payroll-ui.spec.ts",
+      "file": "profile-payroll-ui.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "profile ribbon, independent cards/history, stored PDF viewer, editor preservation and contextual back arrow",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3269,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:09:27.423Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "dee2cdd66faca8f39b2d-22aa72c40a3946aa27bd",
+          "file": "profile-payroll-ui.spec.ts",
+          "line": 44,
+          "column": 5
+        },
+        {
+          "title": "revisit a submitted month, save checkbox changes, and submit only unprocessed employees",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6057,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('table', { name: 'Employee payroll', exact: true }).getByRole('row').last()\nExpected substring: \u001b[32m\"95.00\"\u001b[39m\nReceived string:    \u001b[31m\" Selected draft totals  ₹10,000  ₹10  ₹0.00  ₹5  ₹95 \"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('table', { name: 'Employee payroll', exact: true }).getByRole('row').last() with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('table', { name: 'Employee payroll', exact: true }).getByRole('row').last()\u001b[22m\n\u001b[2m    14 × locator resolved to <tr _ngcontent-ng-c805891342=\"\">…</tr>\u001b[22m\n\u001b[2m       - unexpected value \" Selected draft totals  ₹10,000  ₹10  ₹0.00  ₹5  ₹95 \"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('table', { name: 'Employee payroll', exact: true }).getByRole('row').last()\nExpected substring: \u001b[32m\"95.00\"\u001b[39m\nReceived string:    \u001b[31m\" Selected draft totals  ₹10,000  ₹10  ₹0.00  ₹5  ₹95 \"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('table', { name: 'Employee payroll', exact: true }).getByRole('row').last() with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('table', { name: 'Employee payroll', exact: true }).getByRole('row').last()\u001b[22m\n\u001b[2m    14 × locator resolved to <tr _ngcontent-ng-c805891342=\"\">…</tr>\u001b[22m\n\u001b[2m       - unexpected value \" Selected draft totals  ₹10,000  ₹10  ₹0.00  ₹5  ₹95 \"\u001b[22m\n\n    at D:\\projects\\payroll-frontend\\e2e\\profile-payroll-ui.spec.ts:219:49",
+                    "location": {
+                      "file": "D:\\projects\\payroll-frontend\\e2e\\profile-payroll-ui.spec.ts",
+                      "column": 49,
+                      "line": 219
+                    },
+                    "snippet": "  217 |   ).toBeDisabled();\n  218 |   const current = page.getByRole('table', { name: 'Employee payroll', exact: true });\n> 219 |   await expect(current.getByRole('row').last()).toContainText('95.00');\n      |                                                 ^\n  220 |   await page.getByLabel('Payment Date', { exact: true }).fill(`${year}-12-28`);\n  221 |   await page.getByRole('button', { name: 'Save', exact: true }).click();\n  222 |   await current.getByRole('checkbox', { name: 'Include Grace Example in payroll' }).uncheck();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\projects\\payroll-frontend\\e2e\\profile-payroll-ui.spec.ts",
+                        "column": 49,
+                        "line": 219
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('table', { name: 'Employee payroll', exact: true }).getByRole('row').last()\nExpected substring: \u001b[32m\"95.00\"\u001b[39m\nReceived string:    \u001b[31m\" Selected draft totals  ₹10,000  ₹10  ₹0.00  ₹5  ₹95 \"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('table', { name: 'Employee payroll', exact: true }).getByRole('row').last() with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('table', { name: 'Employee payroll', exact: true }).getByRole('row').last()\u001b[22m\n\u001b[2m    14 × locator resolved to <tr _ngcontent-ng-c805891342=\"\">…</tr>\u001b[22m\n\u001b[2m       - unexpected value \" Selected draft totals  ₹10,000  ₹10  ₹0.00  ₹5  ₹95 \"\u001b[22m\n\n\n  217 |   ).toBeDisabled();\n  218 |   const current = page.getByRole('table', { name: 'Employee payroll', exact: true });\n> 219 |   await expect(current.getByRole('row').last()).toContainText('95.00');\n      |                                                 ^\n  220 |   await page.getByLabel('Payment Date', { exact: true }).fill(`${year}-12-28`);\n  221 |   await page.getByRole('button', { name: 'Save', exact: true }).click();\n  222 |   await current.getByRole('checkbox', { name: 'Include Grace Example in payroll' }).uncheck();\n    at D:\\projects\\payroll-frontend\\e2e\\profile-payroll-ui.spec.ts:219:49"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:09:30.741Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\projects\\payroll-frontend\\test-results\\phase4h-full\\profile-payroll-ui-revisit-3c23f--only-unprocessed-employees\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\projects\\payroll-frontend\\e2e\\profile-payroll-ui.spec.ts",
+                    "column": 49,
+                    "line": 219
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "dee2cdd66faca8f39b2d-5d401bbcf845549057f3",
+          "file": "profile-payroll-ui.spec.ts",
+          "line": 127,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "run-payroll-design-system.spec.ts",
+      "file": "run-payroll-design-system.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Run Payroll visual and workflow 1440",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3880,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:09:37.756Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "dfcca01d2f155792b685-436cf38cd30479079053",
+          "file": "run-payroll-design-system.spec.ts",
+          "line": 6,
+          "column": 44
+        },
+        {
+          "title": "Run Payroll visual and workflow 1280",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3685,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:09:42.090Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "dfcca01d2f155792b685-54e7dfdcb7c75069e9b1",
+          "file": "run-payroll-design-system.spec.ts",
+          "line": 6,
+          "column": 44
+        },
+        {
+          "title": "Run Payroll visual and workflow 768",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3820,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:09:45.797Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "dfcca01d2f155792b685-d41c0b995435731e8ce1",
+          "file": "run-payroll-design-system.spec.ts",
+          "line": 6,
+          "column": 44
+        },
+        {
+          "title": "Run Payroll visual and workflow 390",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4638,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:09:49.637Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "dfcca01d2f155792b685-ad1768981d1fc91ac8ef",
+          "file": "run-payroll-design-system.spec.ts",
+          "line": 6,
+          "column": 44
+        }
+      ]
+    },
+    {
+      "title": "run-payroll-warning-design-system.spec.ts",
+      "file": "run-payroll-warning-design-system.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Payroll warning evidence 1440",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1405,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:09:54.300Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d132babec64da0370780-de7e2f49c47e7fffbf06",
+          "file": "run-payroll-warning-design-system.spec.ts",
+          "line": 2,
+          "column": 45
+        },
+        {
+          "title": "Payroll warning evidence 1280",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1345,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:09:55.729Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d132babec64da0370780-366ed11f78de9278b0e9",
+          "file": "run-payroll-warning-design-system.spec.ts",
+          "line": 2,
+          "column": 45
+        },
+        {
+          "title": "Payroll warning evidence 768",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1339,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:09:57.102Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d132babec64da0370780-fc9d44807c7e8bcfffaa",
+          "file": "run-payroll-warning-design-system.spec.ts",
+          "line": 2,
+          "column": 45
+        },
+        {
+          "title": "Payroll warning evidence 390",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1383,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:09:58.458Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d132babec64da0370780-1bda2389fc81c2c9cefb",
+          "file": "run-payroll-warning-design-system.spec.ts",
+          "line": 2,
+          "column": 45
+        }
+      ]
+    },
+    {
+      "title": "run-payroll.spec.ts",
+      "file": "run-payroll.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "launch payroll, reopen and edit a saved draft, submit, and download historical pay checks",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3917,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:09:59.859Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "eec0eaa4ba6a9bca4a45-68fa26e35ef6082793d1",
+          "file": "run-payroll.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "salary-design-system.spec.ts",
+      "file": "salary-design-system.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "salary components and statutory controls at 1440px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2249,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:10:03.802Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fb6441ab2c22d7c2b180-ca0c6bf18930c9e8f368",
+          "file": "salary-design-system.spec.ts",
+          "line": 12,
+          "column": 44
+        },
+        {
+          "title": "salary components and statutory controls at 1280px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1990,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:10:06.062Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fb6441ab2c22d7c2b180-d5eb5f21b17dd94f35f5",
+          "file": "salary-design-system.spec.ts",
+          "line": 12,
+          "column": 44
+        },
+        {
+          "title": "salary components and statutory controls at 768px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2085,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:10:08.066Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fb6441ab2c22d7c2b180-5ff26364b1fd3f43fd8e",
+          "file": "salary-design-system.spec.ts",
+          "line": 12,
+          "column": 44
+        },
+        {
+          "title": "salary components and statutory controls at 390px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2095,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:10:10.166Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fb6441ab2c22d7c2b180-cfdb4203c44bf0969664",
+          "file": "salary-design-system.spec.ts",
+          "line": 12,
+          "column": 44
+        }
+      ]
+    },
+    {
+      "title": "settings-ui.spec.ts",
+      "file": "settings-ui.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Settings share navigation, independent versioned table editors and organization address persistence",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3819,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:10:12.287Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "839ef1c1e148fb97d175-61e1b42b91f35ac0f403",
+          "file": "settings-ui.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "Salary component icons retain edit, status and confirmed-delete actions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1620,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:10:16.118Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "839ef1c1e148fb97d175-c6358889cab73eb984e8",
+          "file": "settings-ui.spec.ts",
+          "line": 188,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "settings.spec.ts",
+      "file": "settings.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "settings navigation, modal, dynamic bases, edit persistence and mobile layout",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2589,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:10:17.762Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d877ffdf71ec720167ae-dc8dfe681acbe827475e",
+          "file": "settings.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "shared-controls-product.spec.ts",
+      "file": "shared-controls-product.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Shared controls across Employees and User Management 1440",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4011,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:10:20.395Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6c63ce8b82a26f14f227-fa8ee86a8669be4247db",
+          "file": "shared-controls-product.spec.ts",
+          "line": 5,
+          "column": 44
+        },
+        {
+          "title": "Shared controls across Employees and User Management 1280",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2894,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:10:24.441Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6c63ce8b82a26f14f227-b8263e4e2d74bddacb54",
+          "file": "shared-controls-product.spec.ts",
+          "line": 5,
+          "column": 44
+        },
+        {
+          "title": "Shared controls across Employees and User Management 768",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3984,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:10:27.392Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6c63ce8b82a26f14f227-c563247327b763a8ec90",
+          "file": "shared-controls-product.spec.ts",
+          "line": 5,
+          "column": 44
+        },
+        {
+          "title": "Shared controls across Employees and User Management 390",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3329,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:10:31.422Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6c63ce8b82a26f14f227-07fc74a19309295186cb",
+          "file": "shared-controls-product.spec.ts",
+          "line": 5,
+          "column": 44
+        }
+      ]
+    },
+    {
+      "title": "shared-controls-remediation.spec.ts",
+      "file": "shared-controls-remediation.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Shared payroll controls 1440",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6658,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:10:34.809Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "738ddfff4a2fc4db20c4-da66c84280332d9693af",
+          "file": "shared-controls-remediation.spec.ts",
+          "line": 8,
+          "column": 44
+        },
+        {
+          "title": "Shared payroll controls 1280",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6595,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:10:41.512Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "738ddfff4a2fc4db20c4-f47eafc6f5cfd3f7d566",
+          "file": "shared-controls-remediation.spec.ts",
+          "line": 8,
+          "column": 44
+        },
+        {
+          "title": "Shared payroll controls 768",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6562,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:10:48.151Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "738ddfff4a2fc4db20c4-308ceb6ba30b2dc334f0",
+          "file": "shared-controls-remediation.spec.ts",
+          "line": 8,
+          "column": 44
+        },
+        {
+          "title": "Shared payroll controls 390",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6354,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:10:54.752Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "738ddfff4a2fc4db20c4-2219a86481e7941fd6ab",
+          "file": "shared-controls-remediation.spec.ts",
+          "line": 8,
+          "column": 44
+        }
+      ]
+    },
+    {
+      "title": "statutory-deductions.spec.ts",
+      "file": "statutory-deductions.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "statutory settings validate, save, reload, reset, preserve errors and retain existing routes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3554,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:11:01.158Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c3b050e87c464edf2e91-d7a86fc23bc13faa2ae0",
+          "file": "statutory-deductions.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "statutory-payroll-pdf.spec.ts",
+      "file": "statutory-payroll-pdf.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Annual capped EPF/EPS, employer ESI eligible true, PDF values and totals",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2520,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:11:04.750Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c03f3833fbfab5e3bff8-fe9c292592b1cec62554",
+          "file": "statutory-payroll-pdf.spec.ts",
+          "line": 4,
+          "column": 71
+        },
+        {
+          "title": "Monthly capped EPF/EPS, employer ESI eligible true, PDF values and totals",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1981,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:11:07.306Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c03f3833fbfab5e3bff8-6f2a22c503a077e9d987",
+          "file": "statutory-payroll-pdf.spec.ts",
+          "line": 4,
+          "column": 71
+        },
+        {
+          "title": "Annual capped EPF/EPS, employer ESI eligible false, PDF values and totals",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2011,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:11:09.339Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c03f3833fbfab5e3bff8-7bc03e26ceb284cc6198",
+          "file": "statutory-payroll-pdf.spec.ts",
+          "line": 4,
+          "column": 71
+        },
+        {
+          "title": "Monthly capped EPF/EPS, employer ESI eligible false, PDF values and totals",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1964,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:11:11.406Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c03f3833fbfab5e3bff8-bb2b194dbfe0af89d149",
+          "file": "statutory-payroll-pdf.spec.ts",
+          "line": 4,
+          "column": 71
+        }
+      ]
+    },
+    {
+      "title": "tax-design-system.spec.ts",
+      "file": "tax-design-system.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Tax configuration at 1440px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3868,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:11:13.473Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "43c82072940ab0c91d47-ef0bf3304fa4b296354c",
+          "file": "tax-design-system.spec.ts",
+          "line": 10,
+          "column": 44
+        },
+        {
+          "title": "Tax configuration at 1280px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3218,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:11:17.381Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "43c82072940ab0c91d47-95fcdea620e2f47de664",
+          "file": "tax-design-system.spec.ts",
+          "line": 10,
+          "column": 44
+        },
+        {
+          "title": "Tax configuration at 768px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2897,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:11:20.635Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "43c82072940ab0c91d47-7995fd785bc92a7cd9d9",
+          "file": "tax-design-system.spec.ts",
+          "line": 10,
+          "column": 44
+        },
+        {
+          "title": "Tax configuration at 390px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3450,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:11:23.561Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "43c82072940ab0c91d47-2eff55c6c3a4479d4536",
+          "file": "tax-design-system.spec.ts",
+          "line": 10,
+          "column": 44
+        },
+        {
+          "title": "tax cards preserve versioned independent saves, failed drafts, history and component reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3740,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:11:27.041Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "43c82072940ab0c91d47-0e56b2bcb811547a8cac",
+          "file": "tax-design-system.spec.ts",
+          "line": 28,
+          "column": 5
+        },
+        {
+          "title": "financial year creation retains exact fields, validation and activation confirmation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2186,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:11:30.806Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "43c82072940ab0c91d47-8780c201a9d02d8f7075",
+          "file": "tax-design-system.spec.ts",
+          "line": 45,
+          "column": 5
+        },
+        {
+          "title": "history pagination, copy-to-editor and revision activation preserve immutable snapshots",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1511,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:11:33.023Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "43c82072940ab0c91d47-810a1d977c9bea24abb1",
+          "file": "tax-design-system.spec.ts",
+          "line": 56,
+          "column": 5
+        },
+        {
+          "title": "first complete configuration keeps explicit reviewed values and creates one unpublished revision",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1285,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:11:34.550Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "43c82072940ab0c91d47-1bb6613b41f4df2ba807",
+          "file": "tax-design-system.spec.ts",
+          "line": 65,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "tds-widgets.spec.ts",
+      "file": "tds-widgets.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TDS widgets preserve versioned saves, explicit calculation, year restrictions and historical snapshots",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3565,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:11:35.865Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8cbaa5d1f300431b3cd0-60644529f663150819a0",
+          "file": "tds-widgets.spec.ts",
+          "line": 2,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "ui-refinements.spec.ts",
+      "file": "ui-refinements.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "human-readable employee IDs survive refresh/edit while actions keep using MongoDB IDs",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2028,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:11:39.452Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "3dc67bc8ab904faa3739-8b26f81ed3d1d87a0492",
+          "file": "ui-refinements.spec.ts",
+          "line": 5,
+          "column": 5
+        },
+        {
+          "title": "formula help opens with keyboard, explains MIN/MAX/IF and closes without changing the expression",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 30057,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "D:\\projects\\payroll-frontend\\e2e\\ui-refinements.spec.ts",
+                        "column": 105,
+                        "line": 18
+                      },
+                      "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: '+ Add Salary Component', exact: true })\u001b[22m\n\n\n  16 | test('formula help opens with keyboard, explains MIN/MAX/IF and closes without changing the expression',async({page})=>{\n  17 |  await page.route('**/salary-components',r=>r.fulfill({json:[]}));await page.route('**/salary-components/formula-variables',r=>r.fulfill({json:metadata}));\n> 18 |  await page.goto('/settings');await page.getByRole('button',{name:'+ Add Salary Component',exact:true}).click();await page.getByRole('combobox',{name:/Calculation Type/}).selectOption('formula');\n     |                                                                                                         ^\n  19 |  await expect(page.getByRole('button',{name:'Build IF / ELSE',exact:true})).toHaveCount(0);await expect(page.getByRole('region',{name:'Formula help examples',exact:true})).toHaveCount(0);\n  20 |  const formula='IF(annualCtc>0,MIN(annualCoreWages,annualEpfCeilingLimit)*12%,0)';await page.getByLabel('Annual Formula',{exact:true}).fill(formula);\n  21 |  const icon=page.getByRole('button',{name:'Formula help',exact:true});await icon.focus();await page.keyboard.press('Enter');await expect(icon).toHaveAttribute('aria-expanded','true');\n    at D:\\projects\\payroll-frontend\\e2e\\ui-refinements.spec.ts:18:105"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:11:41.497Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\projects\\payroll-frontend\\test-results\\phase4h-full\\ui-refinements-formula-hel-6d87b-out-changing-the-expression\\error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "3dc67bc8ab904faa3739-9ac49b1ca35fb1c55eb0",
+          "file": "ui-refinements.spec.ts",
+          "line": 16,
+          "column": 5
+        },
+        {
+          "title": "Annual PDF uses human ID in the existing name cell and has no secondary code row",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1949,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:12:12.401Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "3dc67bc8ab904faa3739-3fd8784d02dfa33c55fa",
+          "file": "ui-refinements.spec.ts",
+          "line": 26,
+          "column": 46
+        },
+        {
+          "title": "Monthly PDF uses human ID in the existing name cell and has no secondary code row",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1527,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:12:14.832Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "3dc67bc8ab904faa3739-d774301f999404ef0265",
+          "file": "ui-refinements.spec.ts",
+          "line": 26,
+          "column": 46
+        }
+      ]
+    },
+    {
+      "title": "unified-payroll.spec.ts",
+      "file": "unified-payroll.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "one payroll table restores period dates, scopes annual/monthly KPIs and protects paid and submitted rows",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4468,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:12:16.450Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5c50297822e90829cf19-51960b1870ff46707fb8",
+          "file": "unified-payroll.spec.ts",
+          "line": 4,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "user-management.spec.ts",
+      "file": "user-management.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "administrator creates, edits, resets and deactivates users; users cannot manage accounts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Requires a disposable backend with supplied administrator credentials",
+                  "location": {
+                    "file": "D:\\projects\\payroll-frontend\\e2e\\user-management.spec.ts",
+                    "line": 5,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 202,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:12:20.960Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Requires a disposable backend with supplied administrator credentials",
+                      "location": {
+                        "file": "D:\\projects\\payroll-frontend\\e2e\\user-management.spec.ts",
+                        "line": 5,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "43a5413b2d4cd77ef4f1-f69c746a37d220975493",
+          "file": "user-management.spec.ts",
+          "line": 4,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "users-design-system.spec.ts",
+      "file": "users-design-system.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "visual evidence at 1440px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2356,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:12:21.218Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50fadd4b4d327f564a7f-1f9a808fb56f366dc652",
+          "file": "users-design-system.spec.ts",
+          "line": 22,
+          "column": 49
+        },
+        {
+          "title": "visual evidence at 1280px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2478,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:12:23.601Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50fadd4b4d327f564a7f-14b7fb4449af7b7a6023",
+          "file": "users-design-system.spec.ts",
+          "line": 22,
+          "column": 49
+        },
+        {
+          "title": "visual evidence at 768px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2249,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:12:26.112Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50fadd4b4d327f564a7f-a8e1c8853d8822e0684d",
+          "file": "users-design-system.spec.ts",
+          "line": 22,
+          "column": 49
+        },
+        {
+          "title": "visual evidence at 390px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2259,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:12:28.397Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50fadd4b4d327f564a7f-1d3f5797a6dee921daae",
+          "file": "users-design-system.spec.ts",
+          "line": 22,
+          "column": 49
+        },
+        {
+          "title": "existing account workflows retain payloads, confirmations and self protection",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3320,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:12:30.692Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50fadd4b4d327f564a7f-c9491f9c7bcc466b5440",
+          "file": "users-design-system.spec.ts",
+          "line": 61,
+          "column": 5
+        },
+        {
+          "title": "user retains existing access boundary",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 868,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:12:34.052Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50fadd4b4d327f564a7f-d436f3087e1b70c8d506",
+          "file": "users-design-system.spec.ts",
+          "line": 124,
+          "column": 49
+        },
+        {
+          "title": "super_admin retains existing access boundary",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 868,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:12:34.953Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50fadd4b4d327f564a7f-94c26b45ff3a80aeda53",
+          "file": "users-design-system.spec.ts",
+          "line": 124,
+          "column": 49
+        },
+        {
+          "title": "empty, denied and duplicate states retain safe feedback and drafts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1412,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-02T22:12:35.854Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50fadd4b4d327f564a7f-53e4af0619e94b61fe19",
+          "file": "users-design-system.spec.ts",
+          "line": 136,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-02T22:05:46.098Z",
+    "duration": 411717.315,
+    "expected": 121,
+    "skipped": 4,
+    "unexpected": 7,
+    "flaky": 0
+  }
+}

@@ -1,0 +1,125 @@
+[
+  {
+    "file": "src/app/app.ts",
+    "members": []
+  },
+  {
+    "file": "src/app/employees/employee-form.ts",
+    "members": []
+  },
+  {
+    "file": "src/app/employees/employee-list.ts",
+    "members": [
+      {
+        "name": "EmployeeList.openProfile",
+        "before": "openProfile(event: MouseEvent, id: string) { if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || !this.router) return; event.preventDefault(); const origin = this.navigation.listOrigin(this.statusFilter(), window.scrollY); void this.router.navigate(['/employees', id], { queryParams: { returnStatus: this.statusFilter() }, state: origin ? { employeeOrigin: origin } : {} }); }",
+        "after": "openProfile(event: MouseEvent, id: string) { if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || !this.router) return; event.preventDefault(); const origin = this.navigation.listOrigin(this.statusFilter(), window.scrollY, this.searchTerm()); void this.router.navigate(['/employees', id], { queryParams: { returnStatus: this.statusFilter() }, state: origin ? { employeeOrigin: origin } : {} }); }"
+      },
+      {
+        "name": "EmployeeList.ngOnInit",
+        "before": "ngOnInit() { this.restoreScroll = this.navigation.listScroll(window.history.state); const filter = this.route?.snapshot.queryParamMap.get('status'); if (filter && ['Active', 'Terminated', 'All'].includes(filter)) this.statusFilter.set(filter); this.load(); }",
+        "after": "ngOnInit() { this.restoreScroll = this.navigation.listScroll(window.history.state); this.searchTerm.set(this.navigation.listSearch(window.history.state)); const filter = this.route?.snapshot.queryParamMap.get('status'); if (filter && ['Active', 'Terminated', 'All'].includes(filter)) this.statusFilter.set(filter); this.load(); }"
+      }
+    ]
+  },
+  {
+    "file": "src/app/employees/employee-profile.ts",
+    "members": []
+  },
+  {
+    "file": "src/app/employees/employment-history.ts",
+    "members": []
+  },
+  {
+    "file": "src/app/employees/lifecycle-dialog.ts",
+    "members": []
+  },
+  {
+    "file": "src/app/employees/pay-checks.ts",
+    "members": [
+      {
+        "name": "PayChecks.closeViewer",
+        "before": "closeViewer(event?: Event) { event?.preventDefault(); const url = this.url(); this.url.set(null); this.viewing.set(null); if (url) URL.revokeObjectURL(url); const opener = this.opener; queueMicrotask(() => { if (this.alive && opener?.isConnected) opener.focus(); }); }",
+        "after": "closeViewer(event?: Event) { event?.preventDefault(); // Separately authorized accessibility fix: release modal inertness before focus returns. this.viewer()?.nativeElement.close(); const url = this.url(); this.url.set(null); this.viewing.set(null); if (url) URL.revokeObjectURL(url); const opener = this.opener; queueMicrotask(() => { if (this.alive && opener?.isConnected) opener.focus(); }); }"
+      }
+    ]
+  },
+  {
+    "file": "src/app/employees/profile-card.ts",
+    "members": [
+      {
+        "name": "ProfileCard.footer",
+        "after": "readonly footer = contentChild(PsCardFooter);"
+      }
+    ]
+  },
+  {
+    "file": "src/app/employees/profile-tabs.ts",
+    "members": []
+  },
+  {
+    "file": "src/app/features/run-payroll/components/payroll-guide.ts",
+    "members": []
+  },
+  {
+    "file": "src/app/features/run-payroll/run-payroll.component.ts",
+    "members": [
+      {
+        "name": "RunPayroll.tableScroll",
+        "before": "private readonly tableScroll = viewChild<ElementRef<HTMLElement>>('payrollTableScroll');",
+        "after": "private readonly tableScroll = viewChild<PsDataTable>('payrollTableScroll');"
+      }
+    ]
+  },
+  {
+    "file": "src/app/features/tax-management/employee-tax.ts",
+    "members": []
+  },
+  {
+    "file": "src/app/features/tax-management/tax-configuration.ts",
+    "members": []
+  },
+  {
+    "file": "src/app/payroll/payroll-generator.ts",
+    "members": []
+  },
+  {
+    "file": "src/app/platform/platform.ts",
+    "members": []
+  },
+  {
+    "file": "src/app/settings/organization-settings.ts",
+    "members": []
+  },
+  {
+    "file": "src/app/settings/settings.ts",
+    "members": []
+  },
+  {
+    "file": "src/app/shared/navigation-context.ts",
+    "members": [
+      {
+        "name": "NavigationContext.backState",
+        "before": "backState(origin: EmployeeOrigin) { return origin.kind === 'payroll' ? { payrollReturn: origin } : { employeeListReturn: { scope: origin.scope, scrollY: this.scroll(origin.scrollY) } }; }",
+        "after": "backState(origin: EmployeeOrigin) { return origin.kind === 'payroll' ? { payrollReturn: origin } : { employeeListReturn: { scope: origin.scope, scrollY: this.scroll(origin.scrollY), searchText: typeof origin.searchText === 'string' ? origin.searchText : '' } }; }"
+      },
+      {
+        "name": "NavigationContext.listSearch",
+        "after": "listSearch(state: unknown): string { const value = (state as { employeeListReturn?: { scope?: string; searchText?: unknown } } | null)?.employeeListReturn; return value?.scope === this.scope && this.scope && typeof value.searchText === 'string' ? value.searchText : ''; }"
+      },
+      {
+        "name": "NavigationContext.listOrigin",
+        "before": "listOrigin(status: string, scrollY: number): EmployeeOrigin | null { return this.scope ? { kind: 'employees', scope: this.scope, url: '/?status=' + (['All', 'Active', 'Terminated'].includes(status) ? status : 'Active'), scrollY: this.scroll(scrollY) } : null; }",
+        "after": "listOrigin(status: string, scrollY: number, searchText = ''): EmployeeOrigin | null { return this.scope ? { kind: 'employees', scope: this.scope, url: '/?status=' + (['All', 'Active', 'Terminated'].includes(status) ? status : 'Active'), scrollY: this.scroll(scrollY), searchText } : null; }"
+      }
+    ]
+  },
+  {
+    "file": "src/app/statutory-deductions/statutory-deductions.ts",
+    "members": []
+  },
+  {
+    "file": "src/app/users/users.ts",
+    "members": []
+  }
+]

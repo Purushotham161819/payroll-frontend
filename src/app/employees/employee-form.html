@@ -97,7 +97,7 @@
             <label for="dateOfBirth">Date of Birth</label
             ><input
               id="dateOfBirth"
-              type="date"
+              type="date" class="ps-date"
               formControlName="dateOfBirth"
               [attr.aria-invalid]="invalid('dateOfBirth')"
               aria-describedby="dob-error"
@@ -110,7 +110,7 @@
             <label for="hireDate">Hire Date</label
             ><input
               id="hireDate"
-              type="date"
+              type="date" class="ps-date"
               formControlName="hireDate"
               [readOnly]="!!employee()?.employmentHistory?.length"
               [attr.aria-invalid]="invalid('hireDate')"
@@ -140,7 +140,7 @@
           </div>
           <div class="compact-field">
             <label for="payFrequency">Pay Frequency</label>
-            <select id="payFrequency" formControlName="payFrequency">
+            <select psSelectMenu class="ps-select" id="payFrequency" formControlName="payFrequency">
               @for (frequency of payFrequencies; track frequency) {
                 <option [value]="frequency">{{ frequency }}</option>
               }

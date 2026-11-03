@@ -13,16 +13,16 @@ test('Formula component creation, validation feedback, retrieval and editing',as
   return r.fulfill({json:records});
  });
  await page.route('**/salary-components/formula-variables',r=>r.fulfill({json:[]}));
- await page.goto('/settings');await page.getByRole('button',{name:'+ Add Salary Component',exact:true}).click();
- await page.getByLabel('Component Name',{exact:true}).fill('Formula Deduction');await page.getByLabel('Component Code',{exact:true}).fill('CUSTOM_DEDUCTION');
+ await page.goto('/settings');await page.getByRole('button',{name:'Add Salary Component',exact:true}).click();
+ await page.getByRole('textbox',{name:'Component Name',exact:true}).fill('Formula Deduction');await page.getByRole('textbox',{name:'Component Code',exact:true}).fill('CUSTOM_DEDUCTION');
  await page.getByRole('combobox',{name:/Calculation Type/}).selectOption('formula');
  await expect(page.locator('input[name=value]')).toHaveCount(0);await expect(page.locator('select[name=base]')).toHaveCount(0);
- await page.getByRole('button',{name:'Save Component',exact:true}).click();expect(writes).toBe(0);
- await page.getByLabel('Annual Formula',{exact:true}).fill('unknown + 1');await page.getByRole('button',{name:'Save Component',exact:true}).click();
+ await page.getByRole('button',{name:'Save',exact:true}).click();expect(writes).toBe(0);
+ await page.getByRole('textbox',{name:'Annual Formula',exact:true}).fill('unknown + 1');await page.getByRole('button',{name:'Save',exact:true}).click();
  await expect(page.getByRole('alert')).toContainText('Unsupported or missing formula variable');
- await page.getByLabel('Annual Formula',{exact:true}).fill('MIN(Annual Core Wages, Annual EPF Ceiling Limit) * 12%');await page.getByRole('button',{name:'Save Component',exact:true}).click();
+ await page.getByRole('textbox',{name:'Annual Formula',exact:true}).fill('MIN(Annual Core Wages, Annual EPF Ceiling Limit) * 12%');await page.getByRole('button',{name:'Save',exact:true}).click();
  await expect(page.getByRole('dialog')).toHaveCount(0);await expect(page.getByRole('cell',{name:'Formula',exact:true})).toBeVisible();
- await page.getByRole('button',{name:'Edit',exact:true}).click();await expect(page.getByLabel('Annual Formula',{exact:true})).toHaveValue('MIN(Annual Core Wages, Annual EPF Ceiling Limit) * 12%');
+ await page.getByRole('button',{name:/^Edit component /,exact:false}).click();await expect(page.getByRole('textbox',{name:'Annual Formula',exact:true})).toHaveValue('MIN(Annual Core Wages, Annual EPF Ceiling Limit) * 12%');
  await page.setViewportSize({width:390,height:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 for(const period of ['Annual','Monthly']) test(`${period}: formula values, selection, ordering, totals and PDF download`,async({page})=>{

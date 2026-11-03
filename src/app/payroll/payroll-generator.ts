@@ -1,3 +1,4 @@
+import { PsNativeSelect } from '../shared/ui/ps-native-select';
 ﻿import { Component, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
@@ -5,8 +6,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { PayrollReportService } from './payroll-report.service';
 import { ReportComponent } from './annual-payroll-report';
 import { payrollMonths } from './payroll-calculation';
+import { PsButton } from '../shared/ui/ps-button';
 
-@Component({selector:'app-payroll-generator',imports:[FormsModule, DragDropModule],templateUrl:'./payroll-generator.html',styleUrl:'./payroll-generator.css'})
+@Component({selector:'app-payroll-generator',imports:[PsNativeSelect, FormsModule, DragDropModule, PsButton],templateUrl:'./payroll-generator.html',styleUrl:'./payroll-generator.css'})
 export class PayrollGenerator {
   private service = inject(PayrollReportService);
   private dialog = viewChild<ElementRef<HTMLDialogElement>>('dialog');

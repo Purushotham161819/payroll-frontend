@@ -1,0 +1,46 @@
+[
+  {
+    "path": "AGENTS.md",
+    "created": false
+  },
+  {
+    "path": "docs/design-system/CODEX_PROMPTS.md",
+    "created": false
+  },
+  {
+    "path": "docs/design-system/PAYSTREAM_DESIGN_SYSTEM.md",
+    "created": false
+  },
+  {
+    "path": "docs/design-system/PHASE_4G_REPORT.md",
+    "created": false
+  },
+  {
+    "path": "docs/design-system/PHASE_4H_REPORT.md",
+    "created": true
+  },
+  {
+    "path": "docs/design-system/PayStream-Component-Library.md",
+    "created": false
+  },
+  {
+    "path": "e2e/employee-details-design-system.spec.ts",
+    "created": false
+  },
+  {
+    "path": "e2e/pay-checks-design-system.spec.ts",
+    "created": true
+  },
+  {
+    "path": "src/app/employees/pay-checks.html",
+    "created": false
+  },
+  {
+    "path": "src/app/employees/pay-checks.css",
+    "created": false
+  },
+  {
+    "path": "src/app/employees/pay-checks.ts",
+    "created": false
+  }
+]

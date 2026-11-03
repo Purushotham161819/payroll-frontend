@@ -137,8 +137,8 @@ test('Settings share navigation, independent versioned table editors and organiz
     );
   }
   await nav.getByRole('link', { name: 'Tax Configuration', exact: true }).click();
-  const slabs = page.locator('section[aria-labelledby="slabs"]'),
-    surcharge = page.locator('section[aria-labelledby="surcharge"]');
+  const slabs = page.locator('[aria-labelledby="slabs"]'),
+    surcharge = page.locator('[aria-labelledby="surcharge"]');
   await expect(slabs.getByLabel('Slab rate', { exact: true })).toHaveValue('1');
   await expect(slabs.getByLabel('Slab rate', { exact: true })).toHaveAttribute('readonly', '');
   await slabs.getByRole('button', { name: 'Edit slabs', exact: true }).click();
@@ -173,12 +173,15 @@ test('Settings share navigation, independent versioned table editors and organiz
       path: 'D:/projects/payroll-backend/.tmp/settings-' + width + '.png',
       fullPage: true,
     });
-    for (const card of [slabs, surcharge])
-      expect(
-        await card
-          .locator('table')
-          .evaluate((e) => e.scrollWidth <= e.parentElement!.clientWidth + 1),
-      ).toBe(true);
+    for (const card of [slabs, surcharge]) {
+      await expect(card.locator('ps-data-table .scroll')).toHaveCSS('overflow-x', 'auto');
+      const lastColumn = card.locator('th').last();
+      await card.locator('ps-data-table .scroll').evaluate((element) => { element.scrollLeft = element.scrollWidth; });
+      const bounds = (await lastColumn.boundingBox())!;
+      expect(bounds.x + bounds.width).toBeGreaterThan(0);
+      expect(bounds.x + bounds.width).toBeLessThanOrEqual(width);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    }
   }
 });
 
@@ -196,9 +199,9 @@ test('Salary component icons retain edit, status and confirmed-delete actions', 
   await expect(page.locator('input[name="name"]')).toHaveValue('QA Bonus');
   await page.getByRole('button',{name:'Cancel',exact:true}).click();
   expect(mutations).toEqual([]);
-  await page.getByRole('button',{name:'Deactivate QA Bonus',exact:true}).click();
-  await expect(page.getByRole('button',{name:'Activate QA Bonus',exact:true})).toBeVisible();
-  await page.getByRole('button',{name:'Delete component QA Bonus',exact:true}).click();
+  await page.getByRole('button',{name:'More actions for QA Bonus',exact:true}).click();await page.getByRole('menuitem',{name:'Deactivate QA Bonus',exact:true}).click();
+  await page.getByRole('button',{name:'More actions for QA Bonus',exact:true}).click();await expect(page.getByRole('menuitem',{name:'Activate QA Bonus',exact:true})).toBeVisible();await page.keyboard.press('Escape');
+  await page.getByRole('button',{name:'More actions for QA Bonus',exact:true}).click();await page.getByRole('menuitem',{name:'Delete component QA Bonus',exact:true}).click();
   await expect(page.getByRole('heading',{name:'Delete salary component',exact:true})).toBeVisible();
   expect(mutations).toEqual(['status']);
   await page.getByRole('dialog').getByRole('button',{name:'Confirm Delete',exact:true}).click();

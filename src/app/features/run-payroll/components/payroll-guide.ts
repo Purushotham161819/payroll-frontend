@@ -1,5 +1,87 @@
 import { Component, input } from '@angular/core';
-@Component({ selector: 'app-payroll-guide', template: `<section class="guide" aria-labelledby="guide-title"><header><span aria-hidden="true" class="info">i</span><h2 id="guide-title">Payroll Calculation Guide</h2><small>{{ submitted() ? 'This submission' : 'Selected, eligible, unprocessed employees only' }}</small></header><dl>
-  <div><dt>Payroll Cost</dt><dd>Monthly CTC</dd></div><div><dt>Employer Contributions</dt><dd>Monthly ER_EPF + ER_EPS + ER_ESI</dd></div><div><dt>Employee Deductions</dt><dd>Employee-side deductions only</dd></div><div><dt>NET Pay</dt><dd>Final monthly payable amount</dd></div><div><dt>Historical Payroll</dt><dd>Excluded from new draft totals</dd></div></dl></section>`,
-  styles: [`.guide{margin:16px 0;padding:12px 14px;border:1px solid #d0e0d5;border-left:3px solid #7fa990;border-radius:9px;background:#f0f6f2}header{display:flex;align-items:center;gap:8px;flex-wrap:wrap}h2{font-size:12px;color:#365b45;margin:0}small{font-size:10px;color:#6a7d70}.info{display:grid;place-items:center;width:17px;height:17px;border-radius:50%;background:#dcebe1;color:#345f46;font-size:11px;font-weight:700}dl{display:flex;flex-wrap:wrap;gap:9px 22px;margin:10px 0 0}dt{font-size:10px;font-weight:650;color:#486652}dd{font-size:10px;color:#738076;margin:3px 0 0}`] })
-export class PayrollGuide { readonly submitted = input(false); }
+import { PsIcon } from '../../../shared/ui';
+@Component({
+  selector: 'app-payroll-guide',
+  imports: [PsIcon],
+  template: `<section class="guide" aria-labelledby="guide-title">
+    <header>
+      <ps-icon action="info" />
+      <h2 id="guide-title">Payroll Calculation Guide</h2>
+      <small>{{
+        submitted() ? 'This submission' : 'Selected, eligible, unprocessed employees only'
+      }}</small>
+    </header>
+    <dl>
+      <div>
+        <dt>Payroll Cost</dt>
+        <dd>Monthly CTC</dd>
+      </div>
+      <div>
+        <dt>Employer Contributions</dt>
+        <dd>Monthly ER_EPF + ER_EPS + ER_ESI</dd>
+      </div>
+      <div>
+        <dt>Employee Deductions</dt>
+        <dd>Employee-side deductions only</dd>
+      </div>
+      <div>
+        <dt>NET Pay</dt>
+        <dd>Final monthly payable amount</dd>
+      </div>
+      <div>
+        <dt>Historical Payroll</dt>
+        <dd>Excluded from new draft totals</dd>
+      </div>
+    </dl>
+  </section>`,
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+      .guide {
+        margin: var(--space-4) 0;
+        padding: var(--space-4);
+        border: var(--border-width) solid var(--border-subtle);
+        border-radius: var(--radius-xl);
+        background: var(--surface-card);
+        color: var(--ink);
+      }
+      header {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        flex-wrap: wrap;
+      }
+      h2 {
+        font: var(--type-label);
+        margin: 0;
+      }
+      small {
+        font: var(--type-helper);
+        color: var(--ink-muted);
+      }
+      dl {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3) var(--space-6);
+        margin: var(--space-3) 0 0;
+      }
+      dt {
+        font: var(--type-helper);
+        font-weight: var(--font-weight-semibold);
+      }
+      dd {
+        font: var(--type-helper);
+        color: var(--ink-muted);
+        margin: var(--space-1) 0 0;
+      }
+      ps-icon {
+        color: var(--ink-subtle);
+      }
+    `,
+  ],
+})
+export class PayrollGuide {
+  readonly submitted = input(false);
+}

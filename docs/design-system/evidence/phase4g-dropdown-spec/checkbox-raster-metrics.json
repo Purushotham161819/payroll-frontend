@@ -1,0 +1,130 @@
+[
+  {
+    "file": "after-checked-100-1280.png",
+    "width": 18,
+    "height": 19,
+    "whiteTickBounds": {
+      "left": 3,
+      "right": 15,
+      "top": 4,
+      "bottom": 15
+    },
+    "centerOffsetCssPixels": {
+      "x": 0,
+      "y": 0
+    },
+    "unclipped": true
+  },
+  {
+    "file": "after-checked-100-1440.png",
+    "width": 18,
+    "height": 19,
+    "whiteTickBounds": {
+      "left": 3,
+      "right": 15,
+      "top": 4,
+      "bottom": 15
+    },
+    "centerOffsetCssPixels": {
+      "x": 0,
+      "y": 0
+    },
+    "unclipped": true
+  },
+  {
+    "file": "after-checked-100-390.png",
+    "width": 18,
+    "height": 19,
+    "whiteTickBounds": {
+      "left": 3,
+      "right": 15,
+      "top": 4,
+      "bottom": 15
+    },
+    "centerOffsetCssPixels": {
+      "x": 0,
+      "y": 0
+    },
+    "unclipped": true
+  },
+  {
+    "file": "after-checked-100-768.png",
+    "width": 18,
+    "height": 19,
+    "whiteTickBounds": {
+      "left": 3,
+      "right": 15,
+      "top": 4,
+      "bottom": 15
+    },
+    "centerOffsetCssPixels": {
+      "x": 0,
+      "y": 0
+    },
+    "unclipped": true
+  },
+  {
+    "file": "after-checked-200-1280.png",
+    "width": 36,
+    "height": 36,
+    "whiteTickBounds": {
+      "left": 6,
+      "right": 30,
+      "top": 6,
+      "bottom": 29
+    },
+    "centerOffsetCssPixels": {
+      "x": 0,
+      "y": -0.25
+    },
+    "unclipped": true
+  },
+  {
+    "file": "after-checked-200-1440.png",
+    "width": 36,
+    "height": 36,
+    "whiteTickBounds": {
+      "left": 6,
+      "right": 30,
+      "top": 6,
+      "bottom": 29
+    },
+    "centerOffsetCssPixels": {
+      "x": 0,
+      "y": -0.25
+    },
+    "unclipped": true
+  },
+  {
+    "file": "after-checked-200-390.png",
+    "width": 36,
+    "height": 36,
+    "whiteTickBounds": {
+      "left": 6,
+      "right": 30,
+      "top": 6,
+      "bottom": 29
+    },
+    "centerOffsetCssPixels": {
+      "x": 0,
+      "y": -0.25
+    },
+    "unclipped": true
+  },
+  {
+    "file": "after-checked-200-768.png",
+    "width": 36,
+    "height": 36,
+    "whiteTickBounds": {
+      "left": 6,
+      "right": 30,
+      "top": 6,
+      "bottom": 29
+    },
+    "centerOffsetCssPixels": {
+      "x": 0,
+      "y": -0.25
+    },
+    "unclipped": true
+  }
+]
