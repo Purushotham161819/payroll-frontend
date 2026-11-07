@@ -1,3 +1,4 @@
+import { completionSignal } from '../shared/notification.service';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
@@ -55,7 +56,7 @@ export class ContractorSettings implements OnInit {
   readonly rows = signal<ContractorComponent[]>([]);
   readonly loading = signal(false);
   readonly error = signal('');
-  readonly success = signal('');
+  readonly success = completionSignal();
   readonly modal = signal(false);
   readonly busy = signal(false);
   readonly formError = signal('');

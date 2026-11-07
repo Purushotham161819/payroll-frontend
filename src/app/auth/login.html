@@ -1,0 +1,11 @@
+<section class="auth-page"><form #form="ngForm" (ngSubmit)="submit()" class="auth-card" [attr.aria-busy]="busy">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">P</span><p>{{productBrand}}</p></div><ps-page-header title="Welcome back" subtitle="Sign in to your payroll workspace." />
+    <ps-form-field label="Email address"><input psFieldControl id="email" name="email" type="email" autocomplete="username" [(ngModel)]="email" required email maxlength="254" [attr.aria-describedby]="emailInput.touched && emailInput.invalid ? 'email-validation' : null" #emailInput="ngModel" [disabled]="busy" /></ps-form-field>
+    @if (emailInput.touched && emailInput.invalid) { <small class="validation" id="email-validation">Enter a valid email address.</small> }
+    <ps-form-field label="Password"><input psFieldControl id="password" name="password" [type]="show ? 'text' : 'password'" autocomplete="current-password" [(ngModel)]="password" required minlength="8" maxlength="128" [attr.aria-describedby]="passwordInput.touched && passwordInput.invalid ? 'password-validation' : null" #passwordInput="ngModel" [disabled]="busy" /><button fieldSuffix type="button" psIconButton size="sm" [action]="show ? 'eyeOff' : 'view'" (click)="show = !show" [attr.aria-pressed]="show" [label]="show ? 'Hide password' : 'Show password'" aria-controls="password"></button></ps-form-field>
+    @if (passwordInput.touched && passwordInput.invalid) { <small class="validation" id="password-validation">Password must be at least 8 characters long.</small> }
+    @if (error) { <p class="notice error" role="alert">{{error}}</p> }
+    <button psButton class="sign-in" type="submit" [disabled]="form.invalid || busy">{{busy ? 'Signing in…' : 'Sign in'}}</button>
+    <p class="help"><a psButton variant="ghost" routerLink="/forgot-password">Forgot password?</a></p>
+    <p class="help">Contact your administrator if you need access.</p>
+  </form></section>

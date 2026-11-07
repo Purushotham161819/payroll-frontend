@@ -8,9 +8,7 @@
     {{ error() }} <button psButton variant="secondary" type="button" (click)="load()" [disabled]="busy()">Reload</button>
   </p>
 }
-@if (message()) {
-  <p role="status" class="notice success">{{ message() }}</p>
-}
+
 <ps-card role="region" class="tax-card" aria-labelledby="financial-years">
   <span cardTitle id="financial-years">Financial Years</span><span cardSubtitle>Existing years and their activation status.</span><div cardActions class="header-actions">
     <button psButton icon="add" variant="primary"
@@ -253,9 +251,7 @@
       @if (sectionErrors()['master']) {
         <p class="notice error" role="alert">{{ sectionErrors()['master'] }}</p>
       }
-      @if (sectionMessages()['master']) {
-        <p class="notice success" role="status">{{ sectionMessages()['master'] }}</p>
-      }
+
       <footer cardFooter class="card-footer">
         <button aria-label="Save Tax Master" [loading]="savingSection() === 'master'" loadingLabel="Saving..." psButton variant="primary"
 
@@ -364,9 +360,7 @@
       @if (sectionErrors()['slabs']) {
         <p class="notice error" role="alert">{{ sectionErrors()['slabs'] }}</p>
       }
-      @if (sectionMessages()['slabs']) {
-        <p class="notice success" role="status">{{ sectionMessages()['slabs'] }}</p>
-      }
+
       @if (editingTables()['slabs']) {
         <footer cardFooter class="card-footer">
           <button psButton variant="secondary" type="button" (click)="cancelTable('slabs')" [disabled]="busy()">Cancel</button>
@@ -464,9 +458,7 @@
       @if (sectionErrors()['surcharge']) {
         <p class="notice error" role="alert">{{ sectionErrors()['surcharge'] }}</p>
       }
-      @if (sectionMessages()['surcharge']) {
-        <p class="notice success" role="status">{{ sectionMessages()['surcharge'] }}</p>
-      }
+
       @if (editingTables()['surcharge']) {
         <footer cardFooter class="card-footer">
           <button psButton variant="secondary" type="button" (click)="cancelTable('surcharge')" [disabled]="busy()">
@@ -623,9 +615,7 @@
       @if (sectionErrors()['taxability']) {
         <p class="notice error" role="alert">{{ sectionErrors()['taxability'] }}</p>
       }
-      @if (sectionMessages()['taxability']) {
-        <p class="notice success" role="status">{{ sectionMessages()['taxability'] }}</p>
-      }
+
       </div><footer cardFooter class="card-footer">
         <button aria-label="Save Component Taxability" [loading]="savingSection() === 'taxability'" loadingLabel="Saving..." psButton variant="primary"
 

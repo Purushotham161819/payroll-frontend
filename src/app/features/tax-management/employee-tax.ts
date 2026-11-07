@@ -1,3 +1,4 @@
+import { completionSignal } from '../../shared/notification.service';
 import {
   PsButton,
   PsIconButton,
@@ -101,7 +102,7 @@ export class EmployeeTax implements OnInit, OnDestroy {
   readonly summary = signal<any>(null);
   readonly busy = signal(false);
   readonly error = signal('');
-  readonly message = signal('');
+  readonly message = completionSignal();
   readonly history = signal<any[]>([]);
   readonly detailModal = signal<'history' | 'slabs' | null>(null);
   readonly components = signal<any[]>([]);
@@ -324,7 +325,7 @@ export class EmployeeTax implements OnInit, OnDestroy {
       (this.profile.tdsApplicable || !!this.profile.reason.trim())
     );
   }
-  async save(form?: NgForm) {
+  async save(form?: NgForm, announce = true) {
     if (this.busy() || !this.editing() || !this.regimeReady()) return;
     form?.form.markAllAsTouched();
     if (
@@ -354,7 +355,7 @@ export class EmployeeTax implements OnInit, OnDestroy {
       this.returnYear = '';
       this.changingYear.set(false);
       await this.fetch();
-      this.message.set('Tax profile saved. Recalculate the annual estimate after input changes.');
+      if (announce) this.message.set('Tax profile saved. Recalculate the annual estimate after input changes.');
     });
   }
   canCalculate(form?: NgForm) {
@@ -365,7 +366,7 @@ export class EmployeeTax implements OnInit, OnDestroy {
   async calculate(form?: NgForm) {
     if (!this.canCalculate(form)) return;
     if (this.editing()) {
-      await this.save(form);
+      await this.save(form, false);
       if (this.editing() || this.error()) return;
     }
     await this.perform(async () => {

@@ -1,0 +1,14 @@
+<nav aria-label="Pagination" [attr.aria-busy]="disabled()">
+ <span class="range" role="status">Showing {{first()}}&ndash;{{last()}} of {{totalRecords()}} {{recordLabel()}}</span>
+ <ps-form-field label="Rows per page"><ps-select psFieldControl [options]="sizes()" [ngModel]="''+pageSize()" (ngModelChange)="resize($event)" [disabled]="disabled()" /></ps-form-field>
+ <div class="pages">
+  <button psButton variant="secondary" (click)="go(page()-1)" [disabled]="disabled() || page()===1">Previous</button>
+  @for(number of pages();track $index){
+   @if(number==='...'){<span class="ellipsis" aria-hidden="true">&hellip;</span>}@else{
+    <button psButton [variant]="number===page()?'primary':'ghost'" (click)="go(number)" [attr.aria-label]="'Page '+number" [attr.aria-current]="number===page()?'page':null" [disabled]="disabled() || number===page()">{{number}}</button>
+   }
+  }
+  <button psButton variant="secondary" (click)="go(page()+1)" [disabled]="disabled() || page()===pageCount()">Next</button>
+ </div>
+ <span class="page-indicator">Page {{page()}} of {{pageCount()}}</span>
+</nav>

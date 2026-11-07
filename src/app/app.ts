@@ -1,3 +1,4 @@
+import { NotificationModal } from './shared/notification-modal';
 import { ActionIcon } from './shared/action-icon';
 import { PageTransition } from './shared/page-transition';
 import { PRODUCT_BRAND } from './branding';
@@ -5,8 +6,9 @@ import { Organization } from './organization';
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Auth } from './auth/auth';
+import { PsIcon } from './shared/ui/ps-icon';
 import { PsButton } from './shared/ui/ps-button';
-@Component({ selector: 'app-workspace', imports: [RouterLink, RouterLinkActive, RouterOutlet, PageTransition, ActionIcon, PsButton], templateUrl: './app.html', styleUrl: './app.css' })
+@Component({ selector: 'app-workspace', imports: [RouterLink, RouterLinkActive, RouterOutlet, PageTransition, ActionIcon, PsButton, PsIcon], templateUrl: './app.html', styleUrl: './app.css' })
 export class WorkspaceLayout {
   readonly productBrand = PRODUCT_BRAND;
   readonly organization = inject(Organization);
@@ -23,5 +25,5 @@ export class WorkspaceLayout {
     finally { this.loggingOut = false; this.change.markForCheck(); }
   }
 }
-@Component({ selector: 'app-root', imports: [RouterOutlet], template: '<router-outlet />' })
+@Component({ selector: 'app-root', imports: [RouterOutlet, NotificationModal], template: '<router-outlet /><ps-notification-host />' })
 export class App {}

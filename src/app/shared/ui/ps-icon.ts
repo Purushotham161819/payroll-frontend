@@ -4,11 +4,12 @@ import { ACTION_ICONS, PsAction } from './action-icons';
 @Component({
   selector: 'ps-icon', standalone: true,
   template: '<svg #svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"></svg>',
-  styles: [':host{display:inline-flex;flex:none;width:var(--icon-sm);height:var(--icon-sm)} svg{width:100%;height:100%;stroke-width:var(--icon-stroke)}'],
-  host: { 'aria-hidden': 'true' },
+  styles: [':host{display:inline-flex;flex:none;width:var(--icon-sm);height:var(--icon-sm)} :host(.md){width:var(--icon-md);height:var(--icon-md)} svg{width:100%;height:100%;stroke-width:var(--icon-stroke)}'],
+  host: { 'aria-hidden': 'true', '[class.md]': 'size() === "md"' },
 })
 export class PsIcon {
   readonly action = input.required<PsAction>();
+  readonly size = input<'sm' | 'md'>('sm');
   private readonly svg = viewChild<ElementRef<SVGElement>>('svg');
   private readonly renderer = inject(Renderer2);
   constructor() {

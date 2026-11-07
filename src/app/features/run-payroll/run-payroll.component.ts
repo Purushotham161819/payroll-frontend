@@ -1,3 +1,4 @@
+import { completionSignal, NotificationService } from '../../shared/notification.service';
 import {
   PsButton,
   PsIconButton,
@@ -71,6 +72,7 @@ type PayrollRow = Pick<PayCheck, 'employeeId' | 'firstName' | 'lastName'> &
   styleUrl: './run-payroll.component.css',
 })
 export class RunPayroll implements OnInit, OnDestroy {
+  private readonly notifications = inject(NotificationService);
   private readonly service = inject(RunPayrollService);
   private readonly employees = inject(EmployeeService);
   private readonly route = inject(ActivatedRoute);
@@ -96,7 +98,7 @@ export class RunPayroll implements OnInit, OnDestroy {
   readonly busy = signal(false);
   readonly selectionPending = signal(false);
   readonly error = signal('');
-  readonly message = signal('');
+  readonly message = completionSignal();
   readonly dirty = signal(false);
   readonly confirm = signal(false);
   readonly warningEmployee = signal<PayrollRow | null>(null);
@@ -383,6 +385,7 @@ export class RunPayroll implements OnInit, OnDestroy {
     void this.perform(async () => {
       const submitted = await this.service.submit(run, this.paymentDate, this.key);
       this.run.set(submitted);
+      this.notifications.success('Payroll submitted successfully.');
       this.confirm.set(false);
       await this.router.navigate(['/payroll/submitted', run.period], {
         replaceUrl: true,
@@ -429,7 +432,7 @@ export class RunPayroll implements OnInit, OnDestroy {
     }); });
   }
   download(id: string) {
-    void this.perform(() => this.service.download(this.period, id));
+    void this.perform(async () => { await this.service.download(this.period, id); this.notifications.success('Payslip downloaded successfully.'); });
   }
   viewPayCheck(id: string) {
     this.pdfOpener = document.activeElement as HTMLElement;

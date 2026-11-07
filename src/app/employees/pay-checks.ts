@@ -1,3 +1,7 @@
+import { Auth } from '../auth/auth';
+import { PsDialog } from '../shared/ui/ps-dialog';
+import { PsButton } from '../shared/ui';
+import { NotificationService } from '../shared/notification.service';
 import { CdkOverlayOrigin, ConnectedPosition, OverlayModule } from '@angular/cdk/overlay';
 import { PsIconButton, PsCard, PsCardTitle, PsCardSubtitle, PsDataTable, PsInrPipe, PsDatePipe, PsStatusBadge } from '../shared/ui';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -18,11 +22,30 @@ import { PayCheck, RunPayrollService } from '../features/run-payroll/run-payroll
 import { apiError } from './employee.service';
 @Component({
   selector: 'app-pay-checks',
-  imports: [PsIconButton, PsCard, PsCardTitle, PsCardSubtitle, PsDataTable, PsInrPipe, PsDatePipe, PsStatusBadge, OverlayModule],
+  imports: [PsDialog, PsButton, PsIconButton, PsCard, PsCardTitle, PsCardSubtitle, PsDataTable, PsInrPipe, PsDatePipe, PsStatusBadge, OverlayModule],
   styleUrl: './pay-checks.css',
   templateUrl: './pay-checks.html',
 })
 export class PayChecks implements OnDestroy {
+  private readonly notifications = inject(NotificationService);
+  readonly auth = inject(Auth);
+  readonly paying = signal<PayCheck | null>(null);
+  readonly paymentBusy = signal(false);
+  async confirmPaid() {
+    const check = this.paying();
+    if (!check || check.paymentStatus !== 'Payment Pending' || this.paymentBusy() || this.auth.user()?.role !== 'admin') return;
+    const id = this.employeeId(), generation = this.generation;
+    this.paymentBusy.set(true);
+    try {
+      await this.service.markPaid(check.period!, id);
+      if (this.alive && generation === this.generation) {
+        this.paying.set(null);
+        this.checks.update(checks => checks.map(c => c === check ? { ...c, paymentStatus: 'Paid' } : c));
+        this.notifications.success('Pay Check marked as Paid successfully.');
+      }
+    } catch (e) { this.notifications.error(apiError(e)); }
+    finally { this.paymentBusy.set(false); }
+  }
   readonly employeeId = input.required<string>();
   readonly checks = signal<PayCheck[]>([]);
   readonly tdsCheck = signal<PayCheck | null>(null);
@@ -69,6 +92,7 @@ export class PayChecks implements OnDestroy {
     effect(() => {
       const id = this.employeeId();
       untracked(() => {
+        this.paying.set(null);
         this.closeTds();
         this.closeViewer();
         void this.load(id);
@@ -144,6 +168,7 @@ export class PayChecks implements OnDestroy {
     this.busy.set(true);
     try {
       await this.service.download(check.period!, this.employeeId());
+      this.notifications.success('Pay check PDF downloaded successfully.');
     } catch (error) {
       this.error.set(this.pdfError(error));
     } finally {

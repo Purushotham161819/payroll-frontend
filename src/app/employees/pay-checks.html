@@ -60,6 +60,9 @@
             <td><ps-status-badge [status]="check.paymentStatus || '—'" /></td>
             <td class="act">
               <div class="check-actions">
+                @if (auth.user()?.role === 'admin' && check.paymentStatus === 'Payment Pending') {
+                  <button psButton variant="secondary" type="button" (click)="paying.set(check)" [disabled]="paymentBusy()">Mark as Paid</button>
+                }
                 <button
                   type="button"
                   title="View Pay Check"
@@ -160,3 +163,13 @@
     </section>
   }
 </ng-template>
+
+@if (paying()) {
+  <ps-dialog title="Mark Pay Check as Paid?" [busy]="paymentBusy()" (closed)="paying.set(null)">
+    <p>Are you sure you want to mark this Pay Check as Paid? Please confirm that the payment has been completed outside PayStream.</p>
+    <div class="payment-confirm-actions">
+      <button psButton variant="secondary" [disabled]="paymentBusy()" (click)="paying.set(null)">Cancel</button>
+      <button psButton [disabled]="paymentBusy()" (click)="confirmPaid()">Confirm</button>
+    </div>
+  </ps-dialog>
+}

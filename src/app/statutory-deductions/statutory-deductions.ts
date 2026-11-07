@@ -1,3 +1,4 @@
+import { completionSignal } from '../shared/notification.service';
 import { PsButton, PsPageHeader, PsCard, PsCardTitle, PsFormField, PsFieldControl, PsInrPipe } from '../shared/ui';
 import { SettingsTabs } from '../shared/settings-tabs';
 import { Auth } from '../auth/auth';
@@ -33,7 +34,7 @@ export class StatutoryDeductionsApi {
 export class StatutoryDeductionsPage implements OnInit {
   readonly taxAuth = inject(Auth);
   private api = inject(StatutoryDeductionsApi);
-  loading = signal(true); saving = signal(false); error = signal(''); success = signal(''); loaded = signal(false); configured = signal(false);
+  loading = signal(true); saving = signal(false); error = signal(''); success = completionSignal(); loaded = signal(false); configured = signal(false);
   draft = empty(); private saved = empty();
   groups: { title: string; fields: { key: Exclude<keyof StatutoryValues,'isEpfCeilingApplicable'>; label: string; currency?: boolean }[] }[] = [
     {title: 'EPF Contributions', fields: [{key: 'wageCap', label: 'Annual EPF Ceiling Limit', currency: true}, {key: 'epfEmployerContributionPercentage', label: 'EPF Employer Contribution Rate'}, {key: 'epsEmployerContributionPercentage', label: 'EPS Employer Contribution Rate'}]},

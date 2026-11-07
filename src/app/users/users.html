@@ -1,26 +1,28 @@
 ﻿<ps-page-header eyebrow="ACCESS &amp; ACCOUNTS" title="User Management" [subtitle]="'Create accounts and manage access to ' + productBrand + '.'">
   <button pageActions psButton icon="add" (click)="open('create')" [disabled]="busy()">Add User</button>
 </ps-page-header>
-@if (notice()) { <p class="notice success" role="status">{{notice()}}</p> }
+
 @if (error()) { <p class="notice error" role="alert">{{error()}}</p> }
 <ps-card>
   <span cardTitle>User directory</span>
   <button cardActions psIconButton action="refresh" size="sm" label="Refresh users" (click)="load()" [disabled]="loading() || busy()"></button>
   <ps-data-table label="User directory" [loading]="loading()" loadingLabel="Loading users..." [empty]="!loading() && !users().length" emptyLabel="No users found.">
     <table class="ps-table" aria-label="User directory">
-      <thead><tr><th scope="col">Email</th><th scope="col">Role</th><th scope="col">Account status</th><th scope="col">Created date</th><th scope="col" class="act">Actions</th></tr></thead>
+      <thead><tr><th scope="col">Name</th><th scope="col">Email</th><th scope="col">Role</th><th scope="col">Account status</th><th scope="col">Created date</th><th scope="col" class="act">Actions</th></tr></thead>
       <tbody>
         @for (user of users(); track user.id) {
           <tr>
+            <td>{{ user.firstName || user.lastName ? (user.firstName || '') + ' ' + (user.lastName || '') : 'Name not provided' }}</td>
             <td><span class="email-text" [psTooltip]="user.email">{{user.email}}</span> @if (user.id === auth.user()?.id) { <small>(you)</small> }</td>
             <td>{{user.role === 'admin' ? 'Admin' : 'User'}}</td>
-            <td><ps-status-badge [status]="user.active ? 'Active' : 'Inactive'" /></td>
+            <td><ps-status-badge [status]="user.active ? 'Active' : 'Inactive'" />@if (user.invitationPending) { <small class="invitation-state">{{ user.invitationDelivery === 'failed' ? 'Invitation not sent' : user.invitationDelivery === 'sent' ? 'Invitation pending' : 'Invitation required' }}</small> }</td>
             <td>{{user.createdAt | psDate}}</td>
             <td class="act">
               <button psIconButton action="more" size="sm" [label]="'More actions for ' + user.email" [cdkMenuTriggerFor]="actions" [disabled]="busy()"></button>
               <ng-template #actions>
                 <div cdkMenu class="user-actions">
                   <button cdkMenuItem (click)="open('edit', user)" [disabled]="busy()" [attr.aria-label]="'Edit ' + user.email"><ps-icon action="edit" />Edit</button>
+                  @if (user.invitationPending) { <button cdkMenuItem (click)="resend(user)" [disabled]="busy() || !user.active">Resend invitation</button> }
                   <button cdkMenuItem (click)="open('password', user)" [disabled]="busy()" [attr.aria-label]="'Reset password ' + user.email">Reset password</button>
                   <button cdkMenuItem (click)="requestStatus(user)" [disabled]="busy() || user.id === auth.user()?.id" [cdkMenuItemDisabled]="busy() || user.id === auth.user()?.id" [psTooltip]="user.id === auth.user()?.id ? 'You cannot deactivate your own account' : ''" [title]="user.id === auth.user()?.id ? 'You cannot deactivate your own account' : ''" [attr.aria-label]="(user.active ? 'Deactivate ' : 'Activate ') + user.email">{{user.active ? 'Deactivate' : 'Activate'}}</button>
                 </div>
@@ -28,7 +30,7 @@
             </td>
           </tr>
         }
-        @empty { @if (!loading()) { <tr><td colspan="5">No users found.</td></tr> } }
+        @empty { @if (!loading()) { <tr><td colspan="6">No users found.</td></tr> } }
       </tbody>
     </table>
   </ps-data-table>
@@ -38,8 +40,13 @@
     <h2 id="user-form-title">{{mode() === 'create' ? 'Add User' : mode() === 'edit' ? 'Edit User' : 'Reset password'}}</h2>
     @if (mode() === 'password') { <p>{{selected()?.email}}. Resetting the password signs this user out on every device.</p> }
     @if (error()) { <p class="notice error" role="alert">{{error()}}</p> }
+    @if (mode() === 'create') { <p>An invitation will be emailed to this user so they can securely set their own password.</p> }
     <div class="form-fields">
       @if (mode() !== 'password') {
+        <div class="name-fields">
+          <ps-form-field label="First Name" errorText="Enter a first name, up to 100 characters."><input psFieldControl id="user-first-name" name="firstName" required pattern=".*\S.*" maxlength="100" autocomplete="given-name" [(ngModel)]="firstName" [disabled]="busy()" /></ps-form-field>
+          <ps-form-field label="Last Name" errorText="Enter a last name, up to 100 characters."><input psFieldControl id="user-last-name" name="lastName" required pattern=".*\S.*" maxlength="100" autocomplete="family-name" [(ngModel)]="lastName" [disabled]="busy()" /></ps-form-field>
+        </div>
         <ps-form-field label="Email address" errorText="Enter a valid email address.">
           <input psFieldControl id="user-email" name="email" type="email" required email maxlength="254" autocomplete="off" [(ngModel)]="email" #emailField="ngModel" [disabled]="busy()" />
         </ps-form-field>
@@ -50,7 +57,7 @@
           <ps-form-field label="Account active" [choice]="true"><input psFieldControl id="user-active" name="active" type="checkbox" [(ngModel)]="active" [disabled]="busy()" /></ps-form-field>
         }
       }
-      @if (mode() !== 'edit') {
+      @if (mode() === 'password') {
         <ps-form-field label="Password" helper="Password must be at least 8 characters long. Maximum 128 characters. Stored passwords are never displayed.">
           <input psFieldControl id="user-password" name="password" type="password" required minlength="8" maxlength="128" autocomplete="new-password" [(ngModel)]="password" [disabled]="busy()" />
         </ps-form-field>
@@ -62,7 +69,7 @@
     </div>
     <div class="form-actions">
       <button psButton variant="secondary" type="button" (click)="cancel()" [disabled]="busy()">Cancel</button>
-      <button psButton type="submit" [loading]="busy()" loadingLabel="Saving..." [disabled]="busy() || userForm.invalid || (mode() !== 'edit' && password !== confirmPassword)">{{mode() === 'password' ? 'Review reset' : 'Save'}}</button>
+      <button psButton type="submit" [loading]="busy()" loadingLabel="Saving..." [disabled]="busy() || userForm.invalid || (mode() === 'password' && password !== confirmPassword)">{{mode() === 'password' ? 'Review reset' : 'Save'}}</button>
     </div>
   </form>
 </dialog>

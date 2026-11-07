@@ -2,11 +2,11 @@
 import { mkdirSync } from 'node:fs';
 const artifacts = 'artifacts/phase4b-users';
 mkdirSync(artifacts, { recursive: true });
-const admin = { id: 'admin', email: 'admin@example.test', role: 'admin', organizationId: 'ORG000001' };
+const admin = { id: 'admin', firstName:'Admin',lastName:'Account',email: 'admin@example.test', role: 'admin', organizationId: 'ORG000001' };
 const users = [
   { ...admin, active: true, createdAt: '2026-01-01T00:00:00Z' },
-  { id: 'member', email: 'member.with.a.long.email.address@example.test', role: 'user', active: true, createdAt: '2026-09-15T00:00:00Z' },
-  { id: 'inactive', email: 'inactive@example.test', role: 'user', active: false, createdAt: '2026-02-01T00:00:00Z' },
+  { id: 'member', firstName:'Member',lastName:'Account',email: 'member.with.a.long.email.address@example.test', role: 'user', active: true, createdAt: '2026-09-15T00:00:00Z' },
+  { id: 'inactive', firstName:'Inactive',lastName:'Account',email: 'inactive@example.test', role: 'user', active: false, createdAt: '2026-02-01T00:00:00Z' },
 ];
 async function setup(page: any) {
   await page.route('**/auth/me', (r: any) => r.fulfill({ json: admin }));
@@ -37,7 +37,7 @@ for (const width of [1440, 1280, 768, 390]) test('visual evidence at ' + width +
   if (prefix === 'before') return;
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   const table = page.getByRole('table', { name: 'User directory', exact: true });
-  await expect(table.getByRole('columnheader')).toHaveText(['Email', 'Role', 'Account status', 'Created date', 'Actions']);
+  await expect(table.getByRole('columnheader')).toHaveText(['Name', 'Email', 'Role', 'Account status', 'Created date', 'Actions']);
   const created = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(users[1].createdAt)).replace('Sept', 'Sep');
   await expect(row).toContainText(created);
   await expect(row.locator('ps-status-badge')).toHaveAttribute('data-tone', 'success');
@@ -66,30 +66,25 @@ test('existing account workflows retain payloads, confirmations and self protect
     const body = r.request().postDataJSON(); const url = r.request().url(); writes.push({ url, body });
     if (r.request().method() === 'POST') data.push({ id: 'new', createdAt: '2026-01-01T00:00:00Z', ...body });
     else if (!url.endsWith('/password')) data = data.map(u => url.includes('/' + u.id) ? { ...u, ...body } : u);
-    await r.fulfill({ json: { message: 'Saved' } });
+    await r.fulfill({ json: { message: 'Saved',invitationSent:true } });
   });
   await page.goto('/users');
   await page.getByRole('button', { name: 'Add User', exact: true }).click();
   const editor = page.getByRole('dialog', { name: 'Add User', exact: true });
   await editor.getByLabel('Email address', { exact: true }).fill('NEW@EXAMPLE.TEST');
-  await editor.getByLabel('Password', { exact: true }).fill('1234567');
-  await editor.getByLabel('Confirm password', { exact: true }).fill('1234567');
-  await expect(editor.getByRole('button', { name: 'Save', exact: true })).toBeDisabled();
-  await editor.getByLabel('Password', { exact: true }).fill('12345678');
-  await editor.getByLabel('Confirm password', { exact: true }).fill('different');
-  await expect(editor.getByText('Passwords do not match.', { exact: true })).toBeVisible();
-  await expect(editor.getByRole('button', { name: 'Save', exact: true })).toBeDisabled();
-  await editor.getByLabel('Confirm password', { exact: true }).fill('12345678');
+  await expect(editor.getByRole('button',{name:'Save',exact:true})).toBeDisabled();
+  await editor.getByLabel('First Name',{exact:true}).fill('New');
+  await editor.getByLabel('Last Name',{exact:true}).fill('Account');
   await editor.getByLabel('Account active', { exact: true }).uncheck();
   await editor.getByRole('button', { name: 'Save', exact: true }).click();
   await expect(editor).not.toBeVisible();
-  expect(writes[0].body).toEqual({ email: 'new@example.test', password: '12345678', role: 'user', active: false });
+  expect(writes[0].body).toEqual({ firstName:'New',lastName:'Account',email: 'new@example.test', role: 'user', active: false });
   const row = page.getByRole('row').filter({ hasText: users[1].email });
   await action(page, row, 'Edit ' + users[1].email);
   const edit = page.getByRole('dialog', { name: 'Edit User', exact: true });
   await edit.getByLabel('Role', { exact: true }).click();await page.locator('.ps-select-panel').getByRole('option',{name:'Admin',exact:true}).click();
   await edit.getByRole('button', { name: 'Save', exact: true }).click();
-  await expect(edit).not.toBeVisible(); expect(writes[1].body).toEqual({ email: users[1].email, role: 'admin' });
+  await expect(edit).not.toBeVisible(); expect(writes[1].body).toEqual({firstName:'Member',lastName:'Account',email: users[1].email, role: 'admin' });
   await expect(row.getByRole('cell', { name: 'Admin', exact: true })).toBeVisible();
   await action(page,row,'Edit '+users[1].email);await expect(edit.getByLabel('Role',{exact:true})).toHaveValue('admin');await edit.getByRole('button',{name:'Cancel',exact:true}).click();
   await action(page, row, 'Reset password ' + users[1].email);

@@ -14,11 +14,11 @@ const people = [1000000, 75000, 125500.5].map((annualCtc, i) => ({
 
 describe('Employees design-system pilot', () => {
   function setup() {
-    const getAll = vi.fn(() => of(structuredClone(people)));
+    const getPage = vi.fn((_page:number,_size:number,status:string) => { const items=structuredClone(people).filter(e=>status==='All'||e.status===status);return of({items,total:items.length,page:1,pageSize:10}); });
     TestBed.configureTestingModule({ providers: [provideRouter([]), provideHttpClient(),
-      { provide: EmployeeService, useValue: { getAll } }] });
+      { provide: EmployeeService, useValue: { getPage } }] });
     const f = TestBed.createComponent(EmployeeList); f.detectChanges();
-    return { f, page: f.componentInstance, getAll };
+    return { f, page: f.componentInstance, getPage };
   }
   it('renders all original columns with Actions last and one primary header action', () => {
     const { f } = setup();
@@ -30,18 +30,18 @@ describe('Employees design-system pilot', () => {
     expect(f.nativeElement.querySelector('ps-card .body').classList.contains('table-body')).toBe(true);
     expect(f.nativeElement.querySelectorAll('table input[type=checkbox]').length).toBe(0);
   });
-  it('uses shared currency/date/status presentation without changing records or request count', () => {
-    const { f, page, getAll } = setup(); const before = structuredClone(page.allEmployees());
+  it('uses shared currency/date/status presentation without changing records while loading filtered pages', () => {
+    const { f, page, getPage } = setup(); const before = structuredClone(people);
     page.changeFilter('All'); f.detectChanges();
     expect([...f.nativeElement.querySelectorAll('td.number')].map((n: HTMLElement) => n.textContent?.trim()))
       .toEqual(['₹10,00,000', '₹75,000', '₹1,25,500.50']);
     expect(f.nativeElement.textContent).toContain('15 Sep 1990');
     expect([...f.nativeElement.querySelectorAll('ps-status-badge')].map((n: HTMLElement) => n.dataset['tone']))
       .toEqual(['success', 'success', 'danger']);
-    expect(page.allEmployees()).toEqual(before); expect(getAll).toHaveBeenCalledTimes(1);
+    expect(people).toEqual(before); expect(getPage).toHaveBeenCalledTimes(2);
   });
   it('keeps the original CDK trigger on the labelled native button and existing add/refresh handlers', () => {
-    const { f, page, getAll } = setup();
+    const { f, page, getPage } = setup();
     const trigger = f.nativeElement.querySelector('button[psIconButton][action=more]') as HTMLButtonElement;
     expect(trigger.type).toBe('button'); expect(trigger.getAttribute('aria-haspopup')).toBe('menu');
     expect(trigger.getAttribute('aria-label')).toBe('Actions for Employee 0 Pilot');
@@ -49,7 +49,7 @@ describe('Employees design-system pilot', () => {
     trigger.dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
     expect(document.querySelector('[role=tooltip]')?.textContent).toBe('Actions for Employee 0 Pilot');
     const refresh = f.nativeElement.querySelector('button[cardActions]') as HTMLButtonElement;
-    refresh.click(); expect(getAll).toHaveBeenCalledTimes(2);
+    refresh.click(); expect(getPage).toHaveBeenCalledTimes(2);
     vi.spyOn(page, 'add'); (f.nativeElement.querySelector('#add-employee') as HTMLButtonElement).click();
     expect(page.add).toHaveBeenCalledOnce();
   });

@@ -45,3 +45,10 @@ describe('Account-scoped internal navigation context', () => {
     expect(service.origin({ employeeOrigin: { ...value, url: '/?status=All&returnUrl=https://evil.test' } })).toBeNull();
   });
 });
+
+it('restores validated pagination only for the same directory owner',()=>{
+ const navigation=TestBed.inject(NavigationContext);navigation.setScope('user:one:ORG000001');
+ const value=navigation.listOrigin('All',120,'Ada',3,25)!;const state=navigation.backState(value);
+ expect(navigation.listPagination(state)).toEqual({page:3,pageSize:25});
+ navigation.setScope('user:two:ORG000002');expect(navigation.listPagination(state)).toEqual({page:1,pageSize:10});
+});

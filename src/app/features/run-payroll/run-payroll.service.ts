@@ -47,6 +47,9 @@ export class RunPayrollService {
       ),
     );
   }
+  markPaid(period: string, id: string) {
+    return firstValueFrom(this.http.post(this.url + '/runs/' + encodeURIComponent(period) + '/checks/' + encodeURIComponent(id) + '/paid', {}));
+  }
   history(id: string) {
     return firstValueFrom(
       this.http.get<PayCheck[]>(this.url + '/employees/' + encodeURIComponent(id) + '/checks'),

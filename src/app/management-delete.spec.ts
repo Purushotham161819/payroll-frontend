@@ -14,7 +14,7 @@ describe('Management delete requests and state',()=>{
  });
  it('deletes an employee once, refreshes the list and prunes selection',()=>{
   const response=new Subject<any>();let deletes=0,loads=0;
-  TestBed.configureTestingModule({providers:[{provide:EmployeeService,useValue:{remove:()=>{deletes++;return response;},getAll:()=>{loads++;return of([]);}}}]});
+  TestBed.configureTestingModule({providers:[{provide:EmployeeService,useValue:{remove:()=>{deletes++;return response;},getPage:()=>{loads++;return of({items:[],total:0,page:1,pageSize:10});}}}]});
   const page=TestBed.runInInjectionContext(()=>new EmployeeList());const employee={_id:'id',firstName:'A',lastName:'B',email:'a@example.com'} as any;
   page.requestDelete(employee);page.confirmDelete();page.confirmDelete();expect(deletes).toBe(1);expect(page.deletingBusy()).toBe(true);
   response.next({message:'Deleted',deletedId:'id'});response.complete();expect(page.deleting()).toBeNull();expect(page.success()).toContain('deleted');expect(loads).toBe(1);expect(page.allEmployees()).toEqual([]);

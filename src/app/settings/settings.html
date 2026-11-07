@@ -1,6 +1,6 @@
 ﻿<app-settings-tabs />
 <ps-page-header title="Salary Components" subtitle="Configure salary components and calculation rules used to generate employee payroll."><button pageActions id="add-component" psButton icon="add" (click)="open()" [disabled]="loading() || busy()">Add Salary Component</button></ps-page-header>
-@if (success()) { <div class="notice success" role="status">{{ success() }}</div> }
+
 @if (error()) { <div class="notice error" role="alert">{{ error() }} <button psButton variant="secondary" (click)="load()">Retry</button></div> }
 @if (loading()) { <p role="status">Loading salary components…</p> }
 @else if (!records().length && !error()) { <ps-card><div class="empty"><h3>No salary components configured.</h3><p>Add your first salary component to configure payroll calculation rules.</p></div></ps-card> }

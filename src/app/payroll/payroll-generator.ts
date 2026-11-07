@@ -1,3 +1,5 @@
+import { completionSignal } from '../shared/notification.service';
+import { PsFormField, PsFieldControl, PsIconButton, PsIcon } from '../shared/ui';
 import { PsNativeSelect } from '../shared/ui/ps-native-select';
 ﻿import { Component, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -8,12 +10,12 @@ import { ReportComponent } from './annual-payroll-report';
 import { payrollMonths } from './payroll-calculation';
 import { PsButton } from '../shared/ui/ps-button';
 
-@Component({selector:'app-payroll-generator',imports:[PsNativeSelect, FormsModule, DragDropModule, PsButton],templateUrl:'./payroll-generator.html',styleUrl:'./payroll-generator.css'})
+@Component({selector:'app-payroll-generator',imports:[PsNativeSelect, FormsModule, DragDropModule, PsButton, PsFormField, PsFieldControl, PsIconButton, PsIcon],templateUrl:'./payroll-generator.html',styleUrl:'./payroll-generator.scss'})
 export class PayrollGenerator {
   private service = inject(PayrollReportService);
   private dialog = viewChild<ElementRef<HTMLDialogElement>>('dialog');
   private opener = viewChild<ElementRef<HTMLButtonElement>>('opener');
-  open = signal(false); busy = signal(false); error = signal(''); success = signal('');
+  open = signal(false); busy = signal(false); error = signal(''); success = completionSignal();
   includeTerminated = false;
   reportType: 'Annual' | 'Monthly' = 'Annual';
   months = payrollMonths(); selected = '';

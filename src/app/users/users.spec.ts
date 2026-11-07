@@ -1,3 +1,4 @@
+import { NotificationService } from '../shared/notification.service';
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
@@ -32,17 +33,19 @@ describe('User Management', () => {
     http.expectOne('http://localhost:3000/auth/me').flush({}, {status:401,statusText:'Unauthorized'});
     expect(TestBed.inject(Router).serializeUrl(await guest as any)).toBe('/login?returnUrl=%2Fusers');
   });
-  it('rejects mismatched passwords before issuing a creation request',async()=>{
+  it('rejects blank names before issuing an invitation request',async()=>{
     const fixture=page(); fixture.componentInstance.open('create'); fixture.componentInstance.password='long-enough-input';fixture.componentInstance.confirmPassword='different-input';
-    await fixture.componentInstance.submit(); expect(fixture.componentInstance.error()).toContain('Passwords must match'); http.expectNone('http://localhost:3000/users');
+    await fixture.componentInstance.submit(); expect(fixture.componentInstance.error()).toContain('first and last names'); http.expectNone('http://localhost:3000/users');
   });
   it('creates an account with a normalized email and clears password inputs',async()=>{
-    const fixture=page(), component=fixture.componentInstance; component.open('create');component.email=' MEMBER@EXAMPLE.TEST ';component.password=component.confirmPassword='test-only-input-value';
+    const fixture=page(), component=fixture.componentInstance; component.open('create');component.email=' MEMBER@EXAMPLE.TEST ';component.firstName=' Asha ';component.lastName=' Rao ';component.password=component.confirmPassword='test-only-input-value';
     const result=component.submit(); const req=http.expectOne('http://localhost:3000/users');
-    expect(req.request.body).toEqual({email:account.email,password:'test-only-input-value',role:'user',active:true});req.flush(account);
+    expect(req.request.body).toEqual({firstName:'Asha',lastName:'Rao',email:account.email,role:'user',active:true});req.flush({...account,invitationSent:true,message:'Invitation sent.'});
     await Promise.resolve(); await Promise.resolve();
     http.expectOne('http://localhost:3000/users').flush([account]); await result;
     expect(component.password).toBe('');expect(component.confirmPassword).toBe('');
+    expect(TestBed.inject(NotificationService).current()).toMatchObject({kind:'success',message:'User invitation email has been sent successfully.'});
+    fixture.detectChanges();expect(fixture.nativeElement.textContent).not.toContain('Delivery is not yet confirmed');expect(fixture.nativeElement.querySelector('.notice.success')).toBeNull();
   });
   it('requires confirmation before password resets and deactivation',async()=>{
     const fixture=page(), component=fixture.componentInstance; component.open('password',account);component.password=component.confirmPassword='test-only-input-value';await component.submit();
@@ -53,19 +56,31 @@ describe('User Management', () => {
     component.cancelConfirmation();expect(component.confirmation().nativeElement.open).toBe(false);
   });
   it('keeps the form open and displays safe duplicate-account feedback',async()=>{
-    const fixture=page(),component=fixture.componentInstance;component.open('create');component.email=account.email;component.password=component.confirmPassword='test-only-input-value';
+    const fixture=page(),component=fixture.componentInstance;component.open('create');component.email=account.email;component.firstName='Asha';component.lastName='Rao';component.password=component.confirmPassword='test-only-input-value';
     const result=component.submit();http.expectOne('http://localhost:3000/users').flush({message:'An account with this email already exists'},{status:409,statusText:'Conflict'});await result;
     expect(component.editor().nativeElement.open).toBe(true);expect(component.error()).toContain('already exists');expect(component.busy()).toBe(false);
   });
 
-  it('rejects 7 characters and accepts 8 for account creation and reset', async()=>{
+  it('retains the existing 8 to 128 character administrator password reset policy', async()=>{
     const fixture=page(),component=fixture.componentInstance;
-    component.open('create');component.email=account.email;component.password=component.confirmPassword='1234567';
-    await component.submit();expect(component.error()).toContain('at least 8 characters');http.expectNone('http://localhost:3000/users');
-    component.password=component.confirmPassword='12345678';
-    const result=component.submit();const req=http.expectOne('http://localhost:3000/users');expect(req.request.body.password.length).toBe(8);req.flush(account);
-    await Promise.resolve();await Promise.resolve();http.expectOne('http://localhost:3000/users').flush([account]);await result;
-    component.open('password',account);component.password=component.confirmPassword='1234567';await component.submit();expect(component.error()).toContain('at least 8 characters');
-    component.password=component.confirmPassword='12345678';await component.submit();expect(component.confirmation().nativeElement.open).toBe(true);http.expectNone('http://localhost:3000/users/member/password');
+    component.open('password',account);component.password=component.confirmPassword='1234567';
+    await component.submit();expect(component.error()).toContain('at least 8 characters');http.expectNone('http://localhost:3000/users/member/password');
+    component.password=component.confirmPassword='12345678';await component.submit();expect(component.confirmation().nativeElement.open).toBe(true);
   });
+  it('shows email failure as a recoverable warning without creating another account on resend',async()=>{
+    const fixture=page(),c=fixture.componentInstance;c.open('create');c.firstName='Asha';c.lastName='Rao';c.email=account.email;
+    const saving=c.submit();http.expectOne('http://localhost:3000/users').flush({...account,invitationSent:false,message:'User created, but the invitation could not be sent.'});
+    await Promise.resolve();await Promise.resolve();http.expectOne('http://localhost:3000/users').flush([{...account,invitationPending:true,invitationDelivery:'failed'}]);await saving;
+    expect(TestBed.inject(NotificationService).current()?.kind).toBe('warning');
+    expect(c.noticeWarning()).toBe(true);expect(c.notice()).toContain('could not be sent');
+    const resend=c.resend(c.users()[0]);const req=http.expectOne('http://localhost:3000/users/member/invitation');expect(req.request.method).toBe('POST');req.flush({invitationSent:true,message:'Invitation sent.'});
+    await Promise.resolve();await Promise.resolve();http.expectOne('http://localhost:3000/users').flush([{...account,invitationPending:true,invitationDelivery:'sent'}]);await resend;expect(c.noticeWarning()).toBe(false);
+  });
+  it('includes trimmed names when editing an existing user',async()=>{
+    const fixture=page(),c=fixture.componentInstance;c.open('edit',account);c.firstName=' Asha ';c.lastName=' Rao ';
+    const saving=c.submit();const req=http.expectOne('http://localhost:3000/users/member');expect(req.request.body).toEqual({email:account.email,role:'user',firstName:'Asha',lastName:'Rao'});req.flush(account);
+    await Promise.resolve();await Promise.resolve();http.expectOne('http://localhost:3000/users').flush([{...account,firstName:'Asha',lastName:'Rao'}]);await saving;
+    expect(c.users()[0].firstName).toBe('Asha');
+  });
+
 });

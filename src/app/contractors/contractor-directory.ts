@@ -1,3 +1,4 @@
+import { completionSignal } from '../shared/notification.service';
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { Auth } from '../auth/auth';
@@ -98,7 +99,7 @@ export class ContractorDirectory implements OnInit {
   readonly rows = signal<Contractor[]>([]);
   readonly loading = signal(false);
   readonly error = signal('');
-  readonly success = signal('');
+  readonly success = completionSignal();
   readonly adding = signal(false);
   readonly editing = signal<Contractor | null>(null);
   readonly pay = signal<string[] | null>(null);

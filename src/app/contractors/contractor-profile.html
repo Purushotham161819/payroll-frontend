@@ -6,9 +6,7 @@
         {{ error() }} <button psButton variant="secondary" (click)="load()">Reload</button>
       </p>
     }
-    @if (success()) {
-      <p class="notice success" role="status">{{ success() }}</p>
-    }
+
     @if (loading()) {
       <p role="status">Loading contractor...</p>
     } @else if (contractor(); as c) {

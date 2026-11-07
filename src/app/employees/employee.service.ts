@@ -1,12 +1,20 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { map } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { CreateEmployee, Employee } from './employee';
+export interface EmployeePage {items:Employee[];total:number;page:number;pageSize:number;}
 @Injectable({ providedIn: 'root' })
 export class EmployeeService {
   private readonly http = inject(HttpClient);
   private readonly url = environment.apiUrl + '/employees';
   remove(id:string){return this.http.delete<{message:string;deletedId:string}>(this.url+'/'+encodeURIComponent(id));}
+  getPage(page:number,pageSize:number,status:string,search:string) {
+    return this.http.get<EmployeePage>(this.url,{params:{page:String(page),pageSize:String(pageSize),status,search}});
+  }
+  activeIds() {
+    return this.http.get<{activeEmployeeIds:string[]}>(environment.apiUrl+'/reports/dashboard').pipe(map(summary=>summary.activeEmployeeIds));
+  }
   getAll() {
     return this.http.get<Employee[]>(this.url);
   }

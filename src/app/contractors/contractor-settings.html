@@ -4,9 +4,7 @@
     subtitle="Configure deductions calculated from manually entered Gross Pay."
     ><button pageActions psButton icon="add" (click)="open()">Add Component</button></ps-page-header
   >
-  @if (success()) {
-    <p class="notice success" role="status">{{ success() }}</p>
-  }
+
   @if (error()) {
     <p class="notice error" role="alert">
       {{ error() }} <button psButton variant="secondary" (click)="load()">Retry</button>

@@ -1,3 +1,4 @@
+import { notificationInterceptor } from './shared/notification-interceptor';
 import { registerLocaleData } from '@angular/common';
 import localeIn from '@angular/common/locales/en-IN';
 import { EmployeeProfile } from './employees/employee-profile';
@@ -15,6 +16,9 @@ import { anonymous, authenticated, administrator, authenticationInterceptor } fr
 import { Login } from './auth/login';
 import { WorkspaceLayout } from './app';
 export const routes: Routes = [
+  { path: 'forgot-password', loadComponent: () => import('./auth/forgot-password').then(m => m.ForgotPassword) },
+  { path: 'reset-password', loadComponent: () => import('./auth/set-password').then(m => m.SetPassword) },
+  { path: 'set-password', loadComponent: () => import('./auth/set-password').then(m => m.SetPassword) },
   { path: 'login', component: Login, canActivate: [anonymous] },
   { path: 'change-password', component: ChangePassword, canActivate: [authenticated] },
   { path: 'super-admin', component: WorkspaceLayout, canActivate: [superAdministrator], canActivateChild: [authenticated, superAdministrator], children: [
@@ -24,6 +28,8 @@ export const routes: Routes = [
   ] },
   { path: '', component: WorkspaceLayout, canActivateChild: [authenticated], children: [
     { path: '', component: EmployeeList },
+    { path: 'reports', loadComponent: () => import('./reports/reports').then(m => m.Reports) },
+    { path: 'dashboard', loadComponent: () => import('./dashboard/dashboard').then(m => m.Dashboard) },
     { path: 'contractors', loadComponent: () => import('./contractors/contractor-directory').then(m => m.ContractorDirectory) },
     { path: 'contractors/:id', loadComponent: () => import('./contractors/contractor-profile').then(m => m.ContractorProfile) },
     { path: 'settings/contractors', canActivate: [administrator], loadComponent: () => import('./contractors/contractor-settings').then(m => m.ContractorSettings) },
@@ -40,5 +46,5 @@ export const routes: Routes = [
 // Apply Indian grouping to Angular number/currency pipes throughout the UI.
 registerLocaleData(localeIn);
 export const appConfig: ApplicationConfig = {
-  providers: [{ provide: LOCALE_ID, useValue: 'en-IN' }, provideBrowserGlobalErrorListeners(), provideHttpClient(withInterceptors([authenticationInterceptor])), provideRouter(routes)],
+  providers: [{ provide: LOCALE_ID, useValue: 'en-IN' }, provideBrowserGlobalErrorListeners(), provideHttpClient(withInterceptors([authenticationInterceptor, notificationInterceptor])), provideRouter(routes)],
 };

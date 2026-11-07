@@ -5,7 +5,7 @@ export interface PayrollUiContext {
   dirty: boolean; version: number; inputHash: string; scrollY: number; tableScrollLeft: number;
 }
 export interface EmployeeOrigin {
-  kind: 'employees' | 'payroll'; url: string; scope: string; scrollY?: number; searchText?: string; payroll?: PayrollUiContext;
+  kind: 'employees' | 'payroll'; url: string; scope: string; scrollY?: number; searchText?: string; page?: number; pageSize?: number; payroll?: PayrollUiContext;
 }
 export interface PayrollMemory { run: PayrollRun; candidates: [string, PayCheck][] }
 // Only UI choices go into router history state. Salary/calculation snapshots
@@ -29,7 +29,7 @@ export class NavigationContext {
     if (origin.kind === 'payroll' && !this.validPayroll(origin.payroll)) return null;
     return origin;
   }
-  backState(origin: EmployeeOrigin) { return origin.kind === 'payroll' ? { payrollReturn: origin } : { employeeListReturn: { scope: origin.scope, scrollY: this.scroll(origin.scrollY), searchText: typeof origin.searchText === 'string' ? origin.searchText : '' } }; }
+  backState(origin: EmployeeOrigin) { return origin.kind === 'payroll' ? { payrollReturn: origin } : { employeeListReturn: { scope: origin.scope, scrollY: this.scroll(origin.scrollY), searchText: typeof origin.searchText === 'string' ? origin.searchText : '', page: origin.page, pageSize: origin.pageSize } }; }
   listScroll(state: unknown): number {
     const value = (state as { employeeListReturn?: { scope?: string; scrollY?: number } } | null)?.employeeListReturn;
     return value?.scope === this.scope && this.scope ? this.scroll(value.scrollY) : 0;
@@ -38,8 +38,12 @@ export class NavigationContext {
     const value = (state as { employeeListReturn?: { scope?: string; searchText?: unknown } } | null)?.employeeListReturn;
     return value?.scope === this.scope && this.scope && typeof value.searchText === 'string' ? value.searchText : '';
   }
-  listOrigin(status: string, scrollY: number, searchText = ''): EmployeeOrigin | null {
-    return this.scope ? { kind: 'employees', scope: this.scope, url: '/?status=' + (['All', 'Active', 'Terminated'].includes(status) ? status : 'Active'), scrollY: this.scroll(scrollY), searchText } : null;
+  listPagination(state: unknown) {
+    const value=(state as {employeeListReturn?:{scope?:string;page?:number;pageSize?:number}}|null)?.employeeListReturn;
+    return value?.scope===this.scope&&this.scope ? {page:Number.isSafeInteger(value.page)&&value.page!>0?value.page!:1,pageSize:[10,25,50].includes(value.pageSize??0)?value.pageSize!:10} : {page:1,pageSize:10};
+  }
+  listOrigin(status: string, scrollY: number, searchText = '', page = 1, pageSize = 10): EmployeeOrigin | null {
+    return this.scope ? { kind: 'employees', scope: this.scope, url: '/?status=' + (['All', 'Active', 'Terminated'].includes(status) ? status : 'Active'), scrollY: this.scroll(scrollY), searchText, page, pageSize } : null;
   }
   private scroll(value: unknown) { return typeof value === 'number' && Number.isFinite(value) ? Math.max(0, Math.min(value, 1000000)) : 0; }
   private validPayroll(value?: PayrollUiContext): boolean {

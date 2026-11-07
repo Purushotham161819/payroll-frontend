@@ -1,0 +1,47 @@
+<ps-page-header eyebrow="Dashboard" [title]="greeting" subtitle="Here's an overview of your workforce and payroll activities.">
+  <div pageActions class="today"><span>{{ now() | date:'EEEE' }}</span><strong>{{ now() | date:'dd MMM yyyy' }}</strong></div>
+</ps-page-header>
+
+<section class="kpis" aria-label="Workforce overview">
+  <ps-card role="region" aria-label="Active Employees" [attr.aria-busy]="employeeLoading()">
+    <div class="metric-heading"><h2>Active Employees</h2><span class="metric-icon"><app-action-icon name="users" /></span></div>
+    <div class="metric-value" aria-live="polite">{{ employeeLoading() ? '...' : employeeCount() === null ? '\u2014' : (employeeCount() | number:'1.0-0':'en-IN') }}</div>
+    @if (employeeLoading()) { <p class="metric-caption" role="status">Loading employee count...</p> }
+    @else if (employeeError()) { <div class="metric-error" role="alert"><p>{{ employeeError() }}</p><button psButton variant="secondary" (click)="loadEmployees()">Retry Employees</button></div> }
+    @else { <p class="metric-caption">{{ employeeCount() === 0 ? 'No active employees yet.' : 'Currently active in your organization.' }}</p> }
+    <div class="metric-footer"><a psButton variant="ghost" routerLink="/">View Employees <ps-icon action="back" class="forward" /></a></div>
+  </ps-card>
+  <ps-card role="region" aria-label="Active Contractors" [attr.aria-busy]="contractorLoading()">
+    <div class="metric-heading"><h2>Active Contractors</h2><span class="metric-icon"><app-action-icon name="users" /></span></div>
+    <div class="metric-value" aria-live="polite">{{ contractorLoading() ? '...' : contractorCount() === null ? '\u2014' : (contractorCount() | number:'1.0-0':'en-IN') }}</div>
+    @if (contractorLoading()) { <p class="metric-caption" role="status">Loading contractor count...</p> }
+    @else if (contractorError()) { <div class="metric-error" role="alert"><p>{{ contractorError() }}</p><button psButton variant="secondary" (click)="loadContractors()">Retry Contractors</button></div> }
+    @else { <p class="metric-caption">{{ contractorCount() === 0 ? 'No active contractors yet.' : 'Currently active in your organization.' }}</p> }
+    <div class="metric-footer"><a psButton variant="ghost" routerLink="/contractors">View Contractors <ps-icon action="back" class="forward" /></a></div>
+  </ps-card>
+  @for (metric of [{label:'Annual Payroll Run Rate',value:annualRunRate(),caption:'Stored Annual CTC of currently active employees.'},{label:'Monthly Payroll Run Rate',value:monthlyRunRate(),caption:'Annual payroll commitment divided by 12.'}]; track metric.label) {
+    <ps-card role="region" [attr.aria-label]="metric.label" [attr.aria-busy]="employeeLoading()">
+      <div class="metric-heading"><h2>{{ metric.label }}</h2><span class="metric-icon"><app-action-icon name="table" /></span></div>
+      <div class="metric-value" aria-live="polite">{{ employeeLoading() ? '...' : (metric.value | psInr) }}</div>
+      @if (employeeError()) { <div class="metric-error" role="alert"><p>{{ employeeError() }}</p><button psButton variant="secondary" (click)="loadEmployees()">Retry Payroll KPIs</button></div> }
+      <p class="metric-caption">{{ metric.caption }} Salary commitment; not processed or paid payroll.</p>
+    </ps-card>
+  }
+</section>
+<div class="support-grid">
+  <ps-card role="region" aria-label="Quick Actions">
+    <span cardTitle>Quick actions</span><span cardSubtitle>Keep your people and payroll moving.</span>
+    <div class="action-row"><span class="action-icon"><ps-icon action="add" /></span><div><h3>Add Employee</h3><p>Create an employee record with personal and employment details.</p></div><button #addButton psButton icon="add" (click)="success.set(''); showEmployeeForm.set(true)">Add Employee</button></div>
+    <div class="action-row"><span class="action-icon"><app-action-icon name="calendar" /></span><div><h3>Run Payroll</h3><p>Review your active employees and prepare the next payroll run.</p></div>
+      @if (employeeLoading() || employeeError()) { <button psButton variant="secondary" disabled>Run Payroll</button> }
+      @else { <a psButton variant="secondary" routerLink="/payroll/run" [queryParams]="{ employees: employeeIds(), returnStatus: 'Active' }">Run Payroll</a> }
+    </div>
+  </ps-card>
+  <ps-card role="region" aria-label="Your workspace">
+    <span cardTitle>Your people. One workspace.</span><span cardSubtitle>From the first day to payday.</span>
+    <div class="workspace-visual" aria-hidden="true"><span><app-action-icon name="users" /></span><i></i><span><app-action-icon name="calendar" /></span><i></i><span><ps-icon action="save" /></span></div>
+    <p class="support-copy">Keep employee details up to date, then review payroll inputs before processing a run.</p>
+    <p class="account">Signed in as <span>{{ auth.user()?.email }}</span></p>
+  </ps-card>
+</div>
+@if (showEmployeeForm()) { <app-employee-form (saved)="employeeAdded()" (cancelled)="closeEmployeeForm()" /> }

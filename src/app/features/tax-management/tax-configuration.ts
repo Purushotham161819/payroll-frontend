@@ -1,3 +1,4 @@
+import { completionSignal, NotificationService } from '../../shared/notification.service';
 import { SettingsTabs } from '../../shared/settings-tabs';
 import { configurationProblems } from './tax-configuration-validation';
 import {
@@ -44,12 +45,13 @@ const sectionKeys: Record<TaxSection, string[]> = {
   styleUrls: ['./tax-configuration.css'],
 })
 export class TaxConfiguration implements OnInit {
+  private readonly notifications = inject(NotificationService);
   private readonly api = inject(TaxApi);
   private readonly salaries = inject(SalaryComponentService);
   readonly state = signal<any>({ version: 0, years: [], revisions: [], published: {}, audit: [] });
   readonly busy = signal(false);
   readonly error = signal('');
-  readonly message = signal('');
+  readonly message = completionSignal();
   readonly components = signal<any[]>([]);
   readonly loadingComponents = signal(false);
   readonly componentMessage = signal('');
@@ -299,6 +301,7 @@ export class TaxConfiguration implements OnInit {
           [section]:
             'Section saved in a new unpublished revision. Other unsaved entries are retained.',
         }));
+        this.notifications.success('Tax '+section+' section saved successfully. Other unsaved entries are retained.');
       });
       if (this.error())
         this.sectionErrors.update((errors) => ({ ...errors, [section]: this.error() }));

@@ -1,3 +1,4 @@
+import { drawReportPdfHeader } from './report-pdf-header';
 import { PRODUCT_BRAND } from '../branding';
 import {payrollPdfHead,payrollPdfAlignment} from './payroll-report-presentation';
 import { Injectable, inject } from '@angular/core';
@@ -6,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { payrollPeriod } from './payroll-calculation';
 import { monthlyReport } from './monthly-payroll-report';
-import { annualReport, AnnualPayrollResponse, ReportComponent, resultColumnOptions, selectedResultKeys, annualColumns, mandatoryResultByCode, requiredResultKeys } from './annual-payroll-report';
+import { annualReport, AnnualPayrollResponse, ReportComponent, selectedResultKeys, annualColumns, mandatoryResultByCode, requiredResultKeys } from './annual-payroll-report';
 
 @Injectable({providedIn:'root'})
 export class PayrollReportService {
@@ -84,6 +85,35 @@ export class PayrollReportService {
       doc.text(`Page ${page} of ${doc.getNumberOfPages()}`,width-margin,height-4,{align:'right'});
     }
     return {doc,filename:reportType === 'Annual' ? `Payroll_Report_${monthName}_${period.year}.pdf` : `Monthly_Payroll_Report_${monthName}_${period.year}.pdf`,report};
+  }
+  async exportSnapshot(title: string, headings: string[], body: string[][], summary: string) {
+    // Same authenticated organization record used by Organization Information.
+    // Do not use the branding-fallback displayName signal for report attribution.
+    const organization = await firstValueFrom(this.http.get<{displayName?: string}>(environment.apiUrl + '/settings/organization'));
+    const name = organization.displayName?.trim();
+    const header = { organizationName: name && name !== PRODUCT_BRAND ? name : 'Organization', reportName: title, generatedOn: new Date() };
+    const [{jsPDF},{autoTable},font] = await Promise.all([import('jspdf'),import('jspdf-autotable'),this.loadFont()]);
+    const doc = new jsPDF({orientation:'landscape',unit:'mm',format:'a3',compress:true});
+    doc.addFileToVFS('NotoSans-Regular.ttf',font); doc.addFont('NotoSans-Regular.ttf','NotoSans','normal'); doc.setFont('NotoSans','normal');
+    const headerBottom = drawReportPdfHeader(doc, header, false);
+    doc.setFontSize(8);
+    const summaryLines = doc.splitTextToSize(summary,doc.internal.pageSize.getWidth()-14) as string[];
+    const tableTop = headerBottom + summaryLines.length * 4 + 4;
+    autoTable(doc,{
+      startY:tableTop,head:[headings],body,
+      styles:{font:'NotoSans',fontStyle:'normal',fontSize:7},
+      headStyles:{fontStyle:'normal',fillColor:[33,77,54]},
+      margin:{top:tableTop,left:7,right:7,bottom:12},
+      didDrawPage:()=>{
+        drawReportPdfHeader(doc, header);
+        doc.setFontSize(8);doc.text(summaryLines,7,headerBottom);
+      },
+    });
+    for(let page=1;page<=doc.getNumberOfPages();page++) {
+      doc.setPage(page);doc.setFontSize(7);
+      doc.text('Page '+page+' of '+doc.getNumberOfPages(),doc.internal.pageSize.getWidth()-7,doc.internal.pageSize.getHeight()-4,{align:'right'});
+    }
+    await doc.save(title.replace(/[^a-zA-Z0-9-]/g,'_')+'.pdf',{returnPromise:true});
   }
   async download(periodValue: string, reportType: 'Annual' | 'Monthly' = 'Annual', selectedComponentIds?: string[], columnOrder?: string[], includeTerminated = false) {
     const result = await this.create(periodValue, new Date(), reportType, selectedComponentIds, columnOrder, includeTerminated);

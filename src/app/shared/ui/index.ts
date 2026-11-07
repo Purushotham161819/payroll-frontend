@@ -13,3 +13,5 @@ export { PsInrPipe } from './pipes/ps-inr.pipe';
 export { PsInrInputDirective } from './pipes/ps-inr-input.directive';
 export { PsDatePipe } from './pipes/ps-date.pipe';
 export { PsSelect, type PsSelectOption } from './ps-select';
+
+export { PsPagination } from './ps-pagination';

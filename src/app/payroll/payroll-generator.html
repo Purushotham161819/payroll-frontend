@@ -1,36 +1,36 @@
-<button #opener type="button" psButton variant="secondary" (click)="show()" [disabled]="busy()">Generate Payroll</button>
-@if (success()) { <span class="download-success" role="status">{{ success() }}</span> }
+﻿<button #opener type="button" psButton variant="secondary" (click)="show()" [disabled]="busy()">Generate Payroll</button>
+
 @if (open()) {
-<dialog #dialog aria-labelledby="payroll-title" (cancel)="$event.preventDefault(); close()">
+<dialog #dialog aria-labelledby="payroll-title" aria-describedby="payroll-description" [attr.aria-busy]="busy()" (cancel)="$event.preventDefault(); close()">
   <form (ngSubmit)="generate()" #form="ngForm" novalidate>
-    <header><h2 id="payroll-title">Generate Payroll</h2><button type="button" class="secondary" aria-label="Close payroll selection" (click)="close()" [disabled]="busy()">&times;</button></header>
-    <p>Generate an annual or monthly payroll report through Compliance Wage Base using saved employee data and settings. Monthly amounts are derived from annual results.</p>
-    <label for="report-type">Report Type</label><select psSelectMenu class="ps-select" id="report-type" name="reportType" [(ngModel)]="reportType" [disabled]="busy()"><option value="Annual">Annual Payroll</option><option value="Monthly">Monthly Payroll</option></select>
-    <label for="payroll-month">Payroll Month</label><select psSelectMenu class="ps-select" id="payroll-month" name="payrollMonth" [(ngModel)]="selected" required [disabled]="busy()"><option value="" disabled>Select a month</option>@for (month of months; track month.value) { <option [value]="month.value">{{ month.label }}</option> }</select>
-    <label><input type="checkbox" name="includeTerminated" [(ngModel)]="includeTerminated" [disabled]="busy()"> Include terminated employees for historical projections</label>
-    <p>Terminated employees are excluded by default. Reports use current salary settings without employment-date proration; they do not recreate saved historical payroll.</p>
-    <fieldset [disabled]="busy() || loading()"><legend>Report columns</legend>
-      <p>Required components stay included. Selection changes report columns only.</p>
-      @if (loading()) { <p role="status">Loading report columns�</p> }
-      <button type="button" class="secondary" (click)="selectAll()">Select All</button>
-      <button type="button" class="secondary" (click)="deselectAll()">Deselect All</button>
-      <p>Drag the handle or use Move up and Move down to arrange columns. Employee Name stays first.</p>
-      <div cdkDropList [cdkDropListData]="components()" (cdkDropListDropped)="drop($event)" [cdkDropListDisabled]="busy() || loading()">
-      @for (component of components(); track component.componentId; let index = $index) {
-        <div class="column-item" cdkDrag [cdkDragDisabled]="busy() || loading()">
-        <button type="button" class="drag-handle secondary" cdkDragHandle [attr.aria-label]="'Drag ' + component.name" title="Drag to reorder">&#8942;&#8942;</button>
-        @if (component.hideCheckbox) { <span class="component-option">{{ component.name }} (required)</span> } @else {
-        <label class="component-option"><input type="checkbox" [checked]="component.mandatory || selection().includes(component.componentId)" [disabled]="component.mandatory" (change)="toggle(component.componentId, $any($event.target).checked)"> {{ component.name }} {{ component.mandatory ? '(required)' : '' }}</label> }
-        <div class="order-actions"><button type="button" class="secondary" [attr.aria-label]="'Move ' + component.name + ' up'" [disabled]="index === 0" (click)="move(index,index-1)">&#8593;</button><button type="button" class="secondary" [attr.aria-label]="'Move ' + component.name + ' down'" [disabled]="index === components().length-1" (click)="move(index,index+1)">&#8595;</button></div>
-        </div>
-      }
-      </div><span class="order-status" role="status" aria-live="polite">{{ orderMessage() }}</span>
-    </fieldset>
-    @if (error()) { <div class="notice error" role="alert">{{ error() }}</div> }
-    @if (busy()) { <p role="status">Retrieving employees and generating PDF�</p> }
-    <footer><button type="button" class="secondary" (click)="close()" [disabled]="busy()">Cancel</button><button type="submit" class="primary" [disabled]="busy() || loading() || !components().length || !selected">{{ busy() ? 'Generating�' : 'Generate PDF' }}</button></footer>
+    <header><div><h2 id="payroll-title">Generate Payroll</h2><p id="payroll-description">Download an annual or monthly report through Compliance Wage Base using saved employee data and settings. Monthly amounts are derived from annual results.</p></div><button type="button" psIconButton action="close" size="sm" label="Close payroll selection" (click)="close()" [disabled]="busy()"></button></header>
+    <div class="dialog-content">
+      <div class="report-fields">
+        <ps-form-field label="Report Type"><select psFieldControl psSelectMenu class="ps-select" id="report-type" name="reportType" [(ngModel)]="reportType" [disabled]="busy()"><option value="Annual">Annual Payroll</option><option value="Monthly">Monthly Payroll</option></select></ps-form-field>
+        <ps-form-field label="Payroll Month"><select psFieldControl psSelectMenu class="ps-select" id="payroll-month" name="payrollMonth" [(ngModel)]="selected" required [disabled]="busy()"><option value="" disabled>Select a month</option>@for (month of months; track month.value) { <option [value]="month.value">{{ month.label }}</option> }</select></ps-form-field>
+      </div>
+      <div class="historical-option"><ps-form-field label="Include terminated employees for historical projections" [choice]="true" helper="Terminated employees are excluded by default. Reports use current salary settings without employment-date proration; they do not recreate saved historical payroll."><input psFieldControl type="checkbox" name="includeTerminated" [(ngModel)]="includeTerminated" [disabled]="busy()"></ps-form-field></div>
+      <fieldset [disabled]="busy() || loading()"><legend>Report columns</legend>
+        <p>Required components stay included. Selection changes report columns only.</p>
+        @if (loading()) { <p role="status">Loading report columns...</p> }
+        <div class="selection-actions"><button type="button" psButton variant="secondary" (click)="selectAll()">Select All</button><button type="button" psButton variant="ghost" (click)="deselectAll()">Deselect All</button></div>
+        <p id="column-order-help">Drag the handle or use Move up and Move down to arrange columns. Employee Name stays first.</p>
+        <div class="column-list" cdkDropList [cdkDropListData]="components()" (cdkDropListDropped)="drop($event)" [cdkDropListDisabled]="busy() || loading()" aria-describedby="column-order-help">
+        @for (component of components(); track component.componentId; let index = $index) {
+          <div class="column-item" cdkDrag [cdkDragDisabled]="busy() || loading()">
+            <button type="button" psButton variant="ghost" class="drag-handle" cdkDragHandle [attr.aria-label]="'Drag ' + component.name" title="Drag to reorder">&#8942;&#8942;</button>
+            @if (component.hideCheckbox) { <span class="component-option required-column">{{ component.name }} <span class="required-label">(required)</span></span> } @else {
+              <ps-form-field class="component-option" [label]="component.name + (component.mandatory ? ' (required)' : '')" [choice]="true"><input psFieldControl type="checkbox" [checked]="component.mandatory || selection().includes(component.componentId)" [disabled]="component.mandatory" (change)="toggle(component.componentId, $any($event.target).checked)"></ps-form-field>
+            }
+            <div class="order-actions"><button type="button" psButton variant="ghost" [attr.aria-label]="'Move ' + component.name + ' up'" [disabled]="index === 0" (click)="move(index,index-1)"><ps-icon action="back" class="arrow-up" /></button><button type="button" psButton variant="ghost" [attr.aria-label]="'Move ' + component.name + ' down'" [disabled]="index === components().length-1" (click)="move(index,index+1)"><ps-icon action="back" class="arrow-down" /></button></div>
+          </div>
+        }
+        </div><span class="order-status" role="status" aria-live="polite">{{ orderMessage() }}</span>
+      </fieldset>
+      @if (error()) { <div class="notice error" role="alert">{{ error() }}</div> }
+      @if (busy()) { <p role="status">Retrieving employees and generating PDF...</p> }
+    </div>
+    <footer><button type="button" psButton variant="secondary" (click)="close()" [disabled]="busy()">Cancel</button><button type="submit" psButton [disabled]="busy() || loading() || !components().length || !selected">{{ busy() ? 'Generating...' : 'Generate PDF' }}</button></footer>
   </form>
 </dialog>
 }
-
-

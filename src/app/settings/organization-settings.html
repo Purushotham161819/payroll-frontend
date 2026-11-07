@@ -11,9 +11,7 @@
     }
   </div>
 }
-@if (success()) {
-  <div class="notice success" role="status">{{ success() }}</div>
-}
+
 @if (organization(); as info) {
   <div class="organization-cards">
     <ps-card role="region" aria-labelledby="organization-information">
@@ -22,7 +20,53 @@
         <dt>Organization Name</dt>
         <dd>{{ info.organizationName }}</dd>
       </dl>
-      <p class="muted">Maintained by the Super Admin.</p>
+      <p class="muted">Organization name maintained by the Super Admin.</p>
+      <section class="organization-logo" aria-labelledby="organization-logo-title" [attr.aria-busy]="logoSaving()">
+        <h3 id="organization-logo-title">Organization Logo</h3>
+        <input #logoInput class="logo-file-input" type="file" accept="image/png,image/jpeg"
+          aria-label="Choose organization logo" (change)="selectLogo($event)" [disabled]="logoSaving()" hidden />
+        @if (logoPreview() || info.logo; as logo) {
+          <div class="logo-preview-row">
+            <div class="logo-thumbnail">
+              @if (failedLogo() !== logo) {
+                <img [src]="logo" alt="Organization logo" (error)="failedLogo.set(logo)" />
+              } @else { <span class="logo-image-fallback">Logo</span> }
+            </div>
+            <div class="logo-file-details">
+              @if (logoFile(); as file) {
+                @if (file.dataUrl === logo) {
+                  <strong class="logo-file-name" [title]="file.name">{{ file.name }}</strong>
+                  <span>{{ logoFileSize(file.size) }} &middot; {{ logoSaving() ? 'Uploading...' : 'Uploaded' }}</span>
+                } @else { <strong>Organization logo</strong><span>Saved logo</span> }
+              } @else { <strong>Organization logo</strong><span>Saved logo</span> }
+            </div>
+            <div class="logo-actions">
+              <button psButton variant="secondary" type="button" (click)="logoInput.click()" [disabled]="logoSaving()" aria-label="Replace organization logo">Replace</button>
+              @if (info.logo) {
+                <button psButton variant="ghost" type="button" (click)="removeLogo()" [disabled]="logoSaving()" aria-label="Remove organization logo">Remove</button>
+              }
+            </div>
+          </div>
+        } @else {
+          <div class="logo-drop-zone" [class.dragging]="logoDragging()" [class.disabled]="logoSaving()"
+            (dragenter)="logoDragEnter($event)" (dragover)="logoDragOver($event)"
+            (dragleave)="logoDragLeave($event)" (drop)="dropLogo($event)">
+            <span class="logo-upload-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <circle cx="9" cy="9" r="2" /><path d="m21 15-5-5L5 21" />
+              </svg>
+            </span>
+            <div class="logo-upload-copy">
+              <strong>Upload organization logo</strong>
+              <p>Drag and drop your logo here, or browse files.</p>
+            </div>
+            <button psButton variant="secondary" type="button" (click)="logoInput.click()" [disabled]="logoSaving()" aria-describedby="logo-upload-formats">Browse Files</button>
+          </div>
+        }
+        <p class="logo-formats" id="logo-upload-formats">PNG or JPG/JPEG &middot; Maximum 2 MB &middot; 16 megapixels</p>
+        @if (logoSaving()) { <p class="logo-upload-status" role="status">Saving logo...</p> }
+      </section>
     </ps-card>
     <ps-card role="region" aria-labelledby="organization-address">
       <span cardTitle id="organization-address">Organization Address</span>

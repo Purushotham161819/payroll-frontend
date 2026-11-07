@@ -108,9 +108,7 @@
             @if (employmentError()) {
               <p class="notice error" role="alert">{{ employmentError() }}</p>
             }
-            @if (employmentSuccess()) {
-              <p class="notice success" role="status">{{ employmentSuccess() }}</p>
-            }
+
             @if (employmentSaving()) {
               <p role="status">Saving employment information…</p>
             }
@@ -294,9 +292,7 @@
             @if (personalError()) {
               <p class="notice error" role="alert">{{ personalError() }}</p>
             }
-            @if (personalSuccess()) {
-              <p class="notice success" role="status">{{ personalSuccess() }}</p>
-            }
+
             @if (personalSaving()) {
               <p role="status">Saving personal information…</p>
             }

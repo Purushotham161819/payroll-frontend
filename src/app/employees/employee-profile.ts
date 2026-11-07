@@ -1,3 +1,4 @@
+import { completionSignal } from '../shared/notification.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EmployeeTax } from '../features/tax-management/employee-tax';
 import { Auth } from '../auth/auth';
@@ -98,8 +99,8 @@ export class EmployeeProfile implements OnInit {
   readonly personalSaving = signal(false);
   readonly employmentError = signal('');
   readonly personalError = signal('');
-  readonly employmentSuccess = signal('');
-  readonly personalSuccess = signal('');
+  readonly employmentSuccess = completionSignal();
+  readonly personalSuccess = completionSignal();
   private text(max: number) {
     return this.fb.nonNullable.control('', [
       Validators.maxLength(max),

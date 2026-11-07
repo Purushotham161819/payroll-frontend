@@ -1,3 +1,5 @@
+import { NotificationService } from '../shared/notification.service';
+import { completionSignal } from '../shared/notification.service';
 import { PsButton, PsIconButton, PsPageHeader, PsCard, PsCardTitle, PsCardSubtitle, PsCardActions, PsCardFooter, PsFormField, PsFieldControl } from '../shared/ui';
 import { SettingsTabs } from '../shared/settings-tabs';
 import { Component, OnInit, inject, signal, HostListener } from '@angular/core';
@@ -16,6 +18,7 @@ export interface OrganizationAddress {
   zipCode: string;
 }
 interface OrganizationProfile {
+  logo?: string | null;
   organizationName: string;
   addressVersion: number;
   address: OrganizationAddress;
@@ -35,6 +38,76 @@ const emptyAddress = (): OrganizationAddress => ({
   styleUrl: './organization-settings.css',
 })
 export class OrganizationSettings implements OnInit {
+  private readonly notifications = inject(NotificationService);
+  readonly logoSaving = signal(false);
+  readonly failedLogo = signal<string | null>(null);
+  readonly logoPreview = signal<string | null>(null);
+  readonly logoFile = signal<{ dataUrl: string; name: string; size: number } | null>(null);
+  readonly logoDragging = signal(false);
+  private logoDragDepth = 0;
+  logoDragEnter(event: DragEvent) {
+    event.preventDefault();
+    if (this.logoSaving() || !event.dataTransfer?.types.includes('Files')) return;
+    this.logoDragDepth++;
+    this.logoDragging.set(true);
+  }
+  logoDragOver(event: DragEvent) {
+    event.preventDefault();
+    if (event.dataTransfer) event.dataTransfer.dropEffect = this.logoSaving() ? 'none' : 'copy';
+  }
+  logoDragLeave(event: DragEvent) {
+    event.preventDefault();
+    this.logoDragDepth = Math.max(0, this.logoDragDepth - 1);
+    if (!this.logoDragDepth) this.logoDragging.set(false);
+  }
+  async dropLogo(event: DragEvent) {
+    event.preventDefault();
+    this.logoDragDepth = 0;
+    this.logoDragging.set(false);
+    await this.uploadLogo(event.dataTransfer?.files[0]);
+  }
+  logoFileSize(bytes: number) {
+    return bytes < 1024 * 1024
+      ? Math.max(1, Math.round(bytes / 1024)) + ' KB'
+      : (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+  async selectLogo(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    input.value = '';
+    await this.uploadLogo(file);
+  }
+  private async uploadLogo(file?: File) {
+    if (!file || this.logoSaving()) return;
+    if (!['image/png', 'image/jpeg'].includes(file.type)) { this.notifications.warning('Choose a PNG or JPG/JPEG image.'); return; }
+    if (file.size > 2 * 1024 * 1024) { this.notifications.warning('Logo must be 2 MB or smaller.'); return; }
+    this.logoSaving.set(true);
+    const previousFile = this.logoFile();
+    try {
+      const dataUrl = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result));
+        reader.onerror = () => reject(new Error('Unable to read this image.'));
+        reader.readAsDataURL(file);
+      });
+      this.logoFile.set({ dataUrl, name: file.name, size: file.size });
+      this.logoPreview.set(dataUrl);
+      await this.saveLogo(dataUrl);
+    } catch (e) { this.logoFile.set(previousFile); this.notifications.error(apiError(e)); }
+    finally { this.logoPreview.set(null); this.logoSaving.set(false); }
+  }
+  async removeLogo() {
+    if (this.logoSaving()) return;
+    this.logoSaving.set(true);
+    try { await this.saveLogo(''); this.logoFile.set(null); }
+    catch (e) { this.notifications.error(apiError(e)); }
+    finally { this.logoSaving.set(false); }
+  }
+  private async saveLogo(dataUrl: string) {
+    const value = await firstValueFrom(this.http.patch<OrganizationProfile>(this.url + '/logo', { dataUrl }));
+    this.organization.update(current => current ? { ...current, logo: value.logo } : value);
+    this.notifications.success(dataUrl ? 'Organization logo saved successfully.' : 'Organization logo removed successfully.');
+  }
   private readonly http = inject(HttpClient);
   private readonly url = environment.apiUrl + '/settings/organization-profile';
   readonly organization = signal<OrganizationProfile | null>(null);
@@ -42,7 +115,7 @@ export class OrganizationSettings implements OnInit {
   readonly saving = signal(false);
   readonly editing = signal(false);
   readonly error = signal('');
-  readonly success = signal('');
+  readonly success = completionSignal();
   readonly countries = COUNTRIES;
   draft = emptyAddress();
   readonly fields = [

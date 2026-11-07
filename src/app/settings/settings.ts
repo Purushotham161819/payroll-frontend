@@ -1,3 +1,4 @@
+import { completionSignal } from '../shared/notification.service';
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { PsButton, PsIconButton, PsIcon, PsPageHeader, PsCard, PsCardTitle, PsDataTable, PsFormField, PsFieldControl, PsStatusBadge, PsTooltip, PsInrPipe } from '../shared/ui';
 import { SettingsTabs } from '../shared/settings-tabs';
@@ -46,7 +47,7 @@ export class Settings implements OnInit {
   readonly taxAuth = inject(Auth);
   private service = inject(SalaryComponentService);
   records = signal<SalaryComponent[]>([]); loading = signal(false); busy = signal(false);
-  error = signal(''); success = signal(''); modal = signal(false); formError = signal('');
+  error = signal(''); success = completionSignal(); modal = signal(false); formError = signal('');
   formulaVariables=signal<FormulaVariable[]>([]); formulaVariablesLoading=signal(false); formulaVariablesError=signal('');
   formulaHelpOpen=false; variableToInsert='';
   loadFormulaVariables() {

@@ -1,0 +1,182 @@
+<ps-page-header title="Reports" subtitle="Workforce information and finalized payroll history." />
+<div class="report-categories">
+  <ps-card
+    ><span cardTitle>Workforce</span
+    ><span cardSubtitle>Current employee records and employment status.</span
+    ><button
+      psButton
+      variant="secondary"
+      (click)="open('workforce')"
+      [disabled]="exporting() || loading()"
+    >
+      Total Workforce Report
+    </button></ps-card
+  >
+  <ps-card
+    ><span cardTitle>Payroll</span
+    ><span cardSubtitle>Actual processed payroll, preserved by month and processing run.</span
+    ><button
+      psButton
+      variant="secondary"
+      (click)="open('payroll')"
+      [disabled]="exporting() || loading()"
+    >
+      Payroll Reports
+    </button></ps-card
+  >
+</div>
+@if (error()) {
+  <p class="notice" role="alert">
+    {{ error() }}
+    <button psButton variant="secondary" (click)="retry()" [disabled]="loading() || exporting()">
+      Retry
+    </button>
+  </p>
+}
+@if (kind()) {
+  <ps-card>
+    <span cardTitle>{{
+      kind() === 'workforce' ? 'Total Workforce Report' : 'Historical Payroll Report'
+    }}</span>
+    <div cardActions>
+      <button
+        psButton
+        variant="secondary"
+        (click)="exportPdf()"
+        [loading]="exporting()"
+        loadingLabel="Exporting..."
+        [disabled]="!report() || loading() || exporting()"
+      >
+        Export PDF
+      </button>
+    </div>
+    <div class="report-content" [class.has-data]="!!report()" [attr.aria-busy]="loading()">
+      <div class="filters">
+        @if (kind() === 'workforce') {
+          <ps-form-field label="Employment Status"
+            ><ps-select
+              psFieldControl
+              [(ngModel)]="status"
+              [options]="statuses"
+              [disabled]="exporting() || loading()"
+          /></ps-form-field>
+          <ps-form-field label="Joined From"
+            ><input
+              psFieldControl
+              type="date"
+              [(ngModel)]="joinedFrom"
+              [disabled]="exporting() || loading()"
+          /></ps-form-field>
+          <ps-form-field label="Joined To"
+            ><input
+              psFieldControl
+              type="date"
+              [(ngModel)]="joinedTo"
+              [disabled]="exporting() || loading()"
+          /></ps-form-field>
+          <button
+            psButton
+            variant="secondary"
+            (click)="load()"
+            [loading]="loading()"
+            loadingLabel="Applying..."
+            [disabled]="loading() || exporting()"
+          >
+            Apply Filters
+          </button>
+        } @else {
+          <ps-form-field label="Payroll Month"
+            ><ps-select
+              psFieldControl
+              [(ngModel)]="period"
+              [options]="periodOptions()"
+              (change)="load()"
+              [disabled]="loading() || exporting()"
+          /></ps-form-field>
+          @if (!periodOptions().length) {
+            <p>No processed payroll months available.</p>
+          }
+        }
+      </div>
+      @if (report(); as data) {
+        <p class="report-summary">{{ summaryText }}</p>
+        @if (kind() === 'payroll') {
+          <p>
+            Payroll Period: {{ data.period | psDate }}. Only finalized checks are included; current
+            employment status does not change this history.
+          </p>
+          <div class="report-totals">
+            <span
+              >Total Gross Earnings <strong>{{ data.summary['grossPay'] | psInr }}</strong></span
+            ><span
+              >Total Deductions <strong>{{ data.summary['deductions'] | psInr }}</strong></span
+            ><span
+              >Total Net Pay <strong>{{ data.summary['netPay'] | psInr }}</strong></span
+            >
+          </div>
+          <p class="report-note">
+            Blank snapshot fields were not recorded historically. Component amounts and totals come
+            from the saved payroll run.
+          </p>
+        }
+        <ps-data-table
+          label="Report results"
+          [empty]="!data.rows.length"
+          emptyLabel="No matching records."
+        >
+          <table class="ps-table">
+            <thead>
+              <tr>
+                @for (column of data.columns; track column.key) {
+                  <th [class.num]="column.kind === 'money'">{{ column.label }}</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of data.rows; track $index) {
+                <tr>
+                  @for (column of data.columns; track column.key) {
+                    <td [class.num]="column.kind === 'money'">
+                      @switch (column.kind) {
+                        @case ('money') {
+                          {{ money(row[column.key]) | psInr }}
+                        }
+                        @case ('date') {
+                          {{ text(row[column.key]) | psDate: 'UTC' }}
+                        }
+                        @default {
+                          {{ row[column.key] ?? '' }}
+                        }
+                      }
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+          <div tableFooter class="pagination">
+            <span>{{ data.total }} records &middot; Page {{ data.page }}</span
+            ><button
+              psButton
+              variant="secondary"
+              (click)="load(data.page - 1)"
+              [disabled]="data.page <= 1 || exporting() || loading()"
+            >
+              Previous</button
+            ><button
+              psButton
+              variant="secondary"
+              (click)="load(data.page + 1)"
+              [disabled]="data.page * data.limit >= data.total || exporting() || loading()"
+            >
+              Next
+            </button>
+          </div>
+        </ps-data-table>
+      }
+      @if (loading()) {
+        <p role="status">Loading report...</p>
+      }
+    </div>
+  </ps-card>
+}

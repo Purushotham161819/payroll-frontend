@@ -15,7 +15,7 @@ describe('Employee lifecycle UI', () => {
   const active = { _id:'a', firstName:'Ada', lastName:'A', hireDate:'2020-01-01', status:'Active' } as any;
   const terminated = { ...active, _id:'b', status:'Terminated', employmentHistory:[{startDate:'2020-01-01',endDate:'2020-03-01',terminationReason:'Retirement'}] } as any;
   it('filters legacy, active and terminated records, updates counts, clears selection and preserves filter on refresh', () => {
-    TestBed.configureTestingModule({providers:[{provide:EmployeeService,useValue:{getAll:()=>of([active,terminated,{...active,_id:'c',status:undefined}])}}]});
+    TestBed.configureTestingModule({providers:[{provide:EmployeeService,useValue:{getPage:(_page:number,_size:number,status:string)=>{const items=[active,terminated,{...active,_id:'c',status:undefined}].filter(e=>status==='All'||(e.status??'Active')===status);return of({items,total:items.length,page:1,pageSize:10});}}}]});
     const list = TestBed.runInInjectionContext(()=>new EmployeeList()); list.load();
     expect(list.employees().map(e=>e._id)).toEqual(['a','c']);
     expect(list.employees()).toHaveLength(2);

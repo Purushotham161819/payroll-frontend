@@ -1,8 +1,8 @@
 ﻿<app-settings-tabs />
-<ps-page-header title="Statutory Deductions" subtitle="Configure the annual EPF and ESI ceiling limits and contribution percentages for upcoming payroll calculations." />
+<ps-page-header eyebrow="Payroll settings" title="Statutory Deductions" subtitle="Configure the annual EPF and ESI ceiling limits and contribution percentages for upcoming payroll calculations." />
 @if (loading()) { <p role="status">Loading statutory deduction settings...</p> }
 @if (error()) { <div class="notice error" role="alert">{{ error() }} @if (!loaded()) { <button psButton variant="secondary" (click)="load()">Retry</button> }</div> }
-@if (success()) { <div class="notice success" role="status">{{ success() }}</div> }
+
 @if (loaded()) {
   @if (!configured()) { <p class="initial">No statutory deduction settings have been configured. Enter the EPF ceiling and contribution percentages to save your initial configuration. The ESI ceiling has no default amount.</p> }
   <form #form="ngForm" (ngSubmit)="save(form)" novalidate>
@@ -10,7 +10,7 @@
       @for (group of groups; track group.title) {
         <ps-card role="region" [attr.aria-label]="group.title">
           <span cardTitle>{{ group.title }}</span>
-          <div class="field-grid" [class.two-columns]="group.fields.length === 2">
+          <p class="section-description">{{ group.title === 'EPF Contributions' ? 'Set the annual EPF ceiling and employer EPF and EPS contribution rates.' : 'Set the annual ESI wage ceiling and employer contribution rate.' }}</p><div class="field-grid" [class.two-columns]="group.fields.length === 2">
             @for (field of group.fields; track field.key) {
               <div>
                 <ps-form-field [label]="field.label + (field.currency ? '' : ' (%)')" [required]="field.key !== 'annualEsiCeilingLimit'" [helper]="field.currency ? 'Amount in INR.' : 'Percentage, from 0 to 100.'" [errorText]="field.currency ? 'Enter a non-negative amount with up to two decimal places.' : 'Enter a percentage between 0 and 100.'">
@@ -25,8 +25,8 @@
             }
           </div>
           @if (group.title === 'EPF Contributions') {
-            <div class="ceiling-toggle"><ps-form-field label="Is Ceiling Limit Applicable" [choice]="true"><input psFieldControl id="epf-ceiling-applicable" type="checkbox" name="isEpfCeilingApplicable" [(ngModel)]="draft.isEpfCeilingApplicable" /></ps-form-field></div>
-            <small>When enabled, the annual EPF ceiling caps the wage base for employer EPF and EPS. ESI eligibility is independent.</small>
+            <div class="ceiling-toggle"><ps-form-field label="Is Ceiling Limit Applicable" [choice]="true"><input psFieldControl id="epf-ceiling-applicable" type="checkbox" name="isEpfCeilingApplicable" [(ngModel)]="draft.isEpfCeilingApplicable" /></ps-form-field>
+            <small>When enabled, the annual EPF ceiling caps the wage base for employer EPF and EPS. ESI eligibility is independent.</small></div>
           }
         </ps-card>
       }

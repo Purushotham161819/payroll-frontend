@@ -28,9 +28,7 @@
       <a routerLink="/super-admin/organizations">All customers</a>
     }
   </div>
-  @if (notice()) {
-    <p class="notice" role="status">{{ notice() }}</p>
-  }
+
   @if (error()) {
     <p class="notice error" role="alert">
       {{ error() }}

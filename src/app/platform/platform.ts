@@ -1,3 +1,4 @@
+import { completionSignal } from '../shared/notification.service';
 import { PsNativeSelect } from '../shared/ui/ps-native-select';
 import { Component, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
@@ -39,7 +40,7 @@ export class PlatformPortal {
   readonly loading = signal(false);
   readonly busy = signal(false);
   readonly error = signal('');
-  readonly notice = signal('');
+  readonly notice = completionSignal();
   readonly totals = signal<{
     organizations: number;
     activeOrganizations: number;

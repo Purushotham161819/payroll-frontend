@@ -1,3 +1,4 @@
+import { NotificationService } from '../shared/notification.service';
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
@@ -67,6 +68,7 @@ describe('Statutory deduction settings form', () => {
     expect(cap.value).toBe('15000');
     fixture.nativeElement.querySelector('form').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));
     http.expectOne(url).flush(values); fixture.detectChanges();
-    expect(fixture.nativeElement.textContent).toContain('Statutory deduction settings saved.'); http.verify();
+    expect(TestBed.inject(NotificationService).current()).toMatchObject({kind:'success',message:'Statutory deduction settings saved.'});
+    expect(fixture.nativeElement.querySelector('.notice.success')).toBeNull(); http.verify();
   });
 });

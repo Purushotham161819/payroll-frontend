@@ -1,3 +1,4 @@
+import { completionSignal } from '../shared/notification.service';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
@@ -103,7 +104,7 @@ export class ContractorProfile implements OnInit {
   readonly payments = signal<ContractorPayment[]>([]);
   readonly loading = signal(true);
   readonly error = signal('');
-  readonly success = signal('');
+  readonly success = completionSignal();
   readonly editing = signal(false);
   readonly editingAssignments = signal(false);
   readonly busy = signal(false);

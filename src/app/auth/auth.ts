@@ -10,14 +10,14 @@ export class Auth {
   private readonly navigation = inject(NavigationContext);
   private http = inject(HttpClient);
   private router = inject(Router);
-  readonly user = signal<{ id: string; email: string; role?: 'admin' | 'user' | 'super_admin'; mustChangePassword?: boolean; organizationId?: string } | null>(null);
+  readonly user = signal<{ id: string; firstName?: string; lastName?: string; email: string; role?: 'admin' | 'user' | 'super_admin'; mustChangePassword?: boolean; organizationId?: string } | null>(null);
   private setUser(user: ReturnType<Auth['user']>) { this.user.set(user); this.navigation.setScope(user ? (user.role ?? 'user') + ':' + user.id + ':' + (user.organizationId ?? 'legacy') : null); }
   async check() {
-    try { this.setUser(await firstValueFrom(this.http.get<{ id: string; email: string; role?: 'admin' | 'user' | 'super_admin'; mustChangePassword?: boolean; organizationId?: string }>(`${environment.apiUrl}/auth/me`))); return true; }
+    try { this.setUser(await firstValueFrom(this.http.get<{ id: string; firstName?: string; lastName?: string; email: string; role?: 'admin' | 'user' | 'super_admin'; mustChangePassword?: boolean; organizationId?: string }>(`${environment.apiUrl}/auth/me`))); return true; }
     catch { this.setUser(null); return false; }
   }
   async login(email: string, password: string) {
-    this.setUser(await firstValueFrom(this.http.post<{ id: string; email: string; role?: 'admin' | 'user' | 'super_admin'; mustChangePassword?: boolean; organizationId?: string }>(`${environment.apiUrl}/auth/login`, { email, password })));
+    this.setUser(await firstValueFrom(this.http.post<{ id: string; firstName?: string; lastName?: string; email: string; role?: 'admin' | 'user' | 'super_admin'; mustChangePassword?: boolean; organizationId?: string }>(`${environment.apiUrl}/auth/login`, { email, password })));
   }
   async logout() {
     await firstValueFrom(this.http.post(`${environment.apiUrl}/auth/logout`, {}));
@@ -30,7 +30,7 @@ export class Auth {
   }
 }
 export function safeDestination(value: string | null): string {
-  return value && /^\/(?!\/)/.test(value) && !value.includes('\\') && !value.startsWith('/login') ? value : '/';
+  return value && /^\/(?!\/)/.test(value) && !value.includes('\\') && !value.startsWith('/login') ? value : '/dashboard';
 }
 export const authenticated: CanActivateFn = async (_route, state) => {
   const auth = inject(Auth), router = inject(Router);

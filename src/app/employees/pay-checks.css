@@ -112,3 +112,5 @@
 @media (max-width: 640px) {
   .pdf-viewer { padding: var(--space-4); }
 }
+
+.payment-confirm-actions { display: flex; justify-content: flex-end; gap: var(--space-3); margin-top: var(--space-6); }

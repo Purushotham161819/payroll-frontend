@@ -34,7 +34,7 @@ const fixtureRun = (): PayrollRun => ({
 });
 describe('Run Payroll workflow', () => {
   it('launches payroll without selection using active IDs independently of the directory filter', () => {
-    TestBed.configureTestingModule({providers: [provideRouter([]), {provide: EmployeeService, useValue: {getAll: () => of([{_id: 'a',status:'Active'}, {_id:'b',status:'Terminated'}, {_id:'c'}])}}]});
+    TestBed.configureTestingModule({providers: [provideRouter([]), {provide: EmployeeService, useValue: {getPage: () => of({items:[],total:0,page:1,pageSize:10}),activeIds:()=>of(['a','c'])}}]});
     const list = TestBed.runInInjectionContext(() => new EmployeeList());
     list.load();
     const navigate = vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
@@ -43,7 +43,7 @@ describe('Run Payroll workflow', () => {
     expect(navigate).toHaveBeenLastCalledWith(['/payroll/run'], {queryParams:{employees:'a,c',returnStatus:'Terminated'}});
   });
   it('shows no directory checkboxes and keeps Run Payroll active even with an empty list', () => {
-    TestBed.configureTestingModule({providers:[provideRouter([]),provideHttpClient(),{provide:EmployeeService,useValue:{getAll:()=>of([])}}]});
+    TestBed.configureTestingModule({providers:[provideRouter([]),provideHttpClient(),{provide:EmployeeService,useValue:{getPage:()=>of({items:[],total:0,page:1,pageSize:10}),activeIds:()=>of(['a'])}}]});
     const fixture = TestBed.createComponent(EmployeeList);
     fixture.detectChanges();
     const button = [...fixture.nativeElement.querySelectorAll('button')].find((b:any)=>b.textContent.trim()==='Run Payroll') as HTMLButtonElement;

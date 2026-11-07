@@ -1,3 +1,5 @@
+import { NotificationService } from '../shared/notification.service';
+import { PsButton, PsFormField, PsFieldControl, PsPageHeader } from '../shared/ui';
 import { PageTransition } from '../shared/page-transition';
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
@@ -9,103 +11,12 @@ import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-change-password',
   hostDirectives: [PageTransition],
-  imports: [FormsModule],
-  template: ` <section class="password-page">
-    <form #form="ngForm" (ngSubmit)="save()">
-      <p>PAYSTREAM / ACCOUNT SECURITY</p>
-      <h1>Set your new password</h1>
-      <p>
-        Replace your temporary password before entering your workspace. You will sign in again
-        afterward.
-      </p>
-      <label
-        >Current password<input
-          name="currentPassword"
-          type="password"
-          autocomplete="current-password"
-          [(ngModel)]="currentPassword"
-          required
-          minlength="8"
-          maxlength="128"
-      /></label>
-      <label
-        >New password<input
-          name="password"
-          type="password"
-          autocomplete="new-password"
-          [(ngModel)]="password"
-          required
-          minlength="8"
-          maxlength="128"
-      /></label>
-      <label
-        >Confirm new password<input
-          name="confirmation"
-          type="password"
-          autocomplete="new-password"
-          [(ngModel)]="confirmation"
-          required
-          minlength="8"
-          maxlength="128"
-      /></label>
-      <small>Password must be at least 8 characters long.</small>
-      @if (error()) {
-        <p role="alert">{{ error() }}</p>
-      }
-      <div class="actions">
-        <button class="primary" [disabled]="form.invalid || busy() || password !== confirmation">
-          Change password</button
-        ><button type="button" class="secondary" [disabled]="busy()" (click)="signOut()">
-          Sign out
-        </button>
-      </div>
-    </form>
-  </section>`,
-  styles: [
-    `
-      .password-page {
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        padding: 24px;
-      }
-      form {
-        width: min(100%, 460px);
-        padding: 32px;
-        background: white;
-        border: 1px solid #d6dfd5;
-        border-radius: 14px;
-      }
-      p {
-        font-size: 14px;
-        line-height: 1.6;
-        color: #647265;
-      }
-      label {
-        display: block;
-        margin: 20px 0;
-      }
-      input {
-        display: block;
-        width: 100%;
-        padding: 12px;
-        margin-top: 8px;
-        border: 1px solid #cbd5c8;
-        border-radius: 6px;
-        font: inherit;
-      }
-      .actions {
-        display: flex;
-        gap: 12px;
-        margin-top: 24px;
-      }
-      [role='alert'] {
-        color: #93372b;
-      }
-    `,
-  ],
+  imports: [FormsModule, PsButton, PsFormField, PsFieldControl, PsPageHeader],
+  templateUrl: './change-password.html',
+  styleUrl: './auth.css',
 })
 export class ChangePassword {
+  private readonly notifications = inject(NotificationService);
   private router = inject(Router);
   private http = inject(HttpClient);
   private auth = inject(Auth);
@@ -126,6 +37,7 @@ export class ChangePassword {
         }),
       );
       this.currentPassword = this.password = this.confirmation = '';
+      this.notifications.success('Your password has been changed successfully. Sign in with your new password.');
       this.auth.expired();
       await this.router.navigateByUrl('/login');
     } catch (e) {

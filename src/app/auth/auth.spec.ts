@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { ActivatedRouteSnapshot, provideRouter, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, provideRouter, Router, RouterStateSnapshot } from '@angular/router';
 import { Auth, authenticated, anonymous, superAdministrator, authenticationInterceptor, safeDestination } from './auth';
 import { Login } from './login';
 
@@ -56,8 +56,22 @@ describe('Authentication and session handling', () => {
     expect(req.request.withCredentials).toBe(false); expect(req.request.headers.has('X-Payroll-Request')).toBe(false); req.flush({});
   });
   it('rejects external and login-loop return destinations', () => {
-    for (const value of ['https://attacker.test', '//attacker.test', '/\\attacker.test', '/login?returnUrl=/login']) expect(safeDestination(value)).toBe('/');
+    for (const value of ['https://attacker.test', '//attacker.test', '/\\attacker.test', '/login?returnUrl=/login']) expect(safeDestination(value)).toBe('/dashboard');
     expect(safeDestination('/settings?tab=payroll')).toBe('/settings?tab=payroll');
+  });
+  it('honors explicit protected deep links after a fresh login', async () => {
+    vi.spyOn(TestBed.inject(ActivatedRoute).snapshot.queryParamMap,'get').mockReturnValue('/reports');
+    const fixture=TestBed.createComponent(Login),navigate=vi.spyOn(router,'navigateByUrl').mockResolvedValue(true);
+    fixture.componentInstance.email='user@example.test';fixture.componentInstance.password='input-value';
+    const result=fixture.componentInstance.submit();http.expectOne('http://localhost:3000/auth/login').flush({id:'u',role:'user',email:'user@example.test'});await result;
+    expect(navigate).toHaveBeenCalledWith('/reports');
+    expect(safeDestination('/')).toBe('/');
+  });
+  it('keeps platform-only users on their authorized dashboard after login', async () => {
+    const fixture=TestBed.createComponent(Login),navigate=vi.spyOn(router,'navigateByUrl').mockResolvedValue(true);
+    fixture.componentInstance.email='super@example.test';fixture.componentInstance.password='input-value';
+    const result=fixture.componentInstance.submit();http.expectOne('http://localhost:3000/auth/login').flush({id:'s',role:'super_admin',email:'super@example.test'});await result;
+    expect(navigate).toHaveBeenCalledWith('/super-admin');
   });
   it('shows validation, password visibility and a safe login error', async () => {
     const fixture = TestBed.createComponent(Login); fixture.detectChanges(); await fixture.whenStable(); fixture.detectChanges();
@@ -77,7 +91,7 @@ describe('Authentication and session handling', () => {
     fixture.componentInstance.email = 'admin@example.test'; fixture.componentInstance.password = 'input-value';
     const result = fixture.componentInstance.submit(); await fixture.componentInstance.submit();
     http.expectOne('http://localhost:3000/auth/login').flush({id:'user',email:'admin@example.test'}); await result;
-    expect(navigate).toHaveBeenCalledWith('/'); expect(fixture.componentInstance.password).toBe('');
+    expect(navigate).toHaveBeenCalledWith('/dashboard'); expect(fixture.componentInstance.password).toBe('');
   });
 });
 

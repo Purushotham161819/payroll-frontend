@@ -1,3 +1,5 @@
+import { Auth } from '../auth/auth';
+import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { registerLocaleData } from '@angular/common';
 import localeIn from '@angular/common/locales/en-IN';
@@ -22,11 +24,12 @@ async function setup() {
     history: vi
       .fn()
       .mockResolvedValue([check('2026-11', 123456.78), check('2026-10', 0), check('2026-09')]),
+    markPaid: vi.fn().mockResolvedValue({ paymentStatus: 'Paid' }),
     pdf: vi.fn(),
     download: vi.fn().mockResolvedValue(undefined),
   };
   TestBed.configureTestingModule({
-    providers: [{ provide: RunPayrollService, useValue: service }],
+    providers: [{ provide: Auth, useValue: { user: signal({role: 'admin'}) } }, { provide: RunPayrollService, useValue: service }],
   });
   const fixture = TestBed.createComponent(PayChecks);
   fixture.componentRef.setInput('employeeId', 'a');
@@ -100,4 +103,26 @@ describe('Pay Check presentation of stored TDS and PDF actions', () => {
     await fixture.whenStable();
     expect(page.tdsCheck()).toBeNull();
   });
+});
+
+describe('Manual pay check payment', () => {
+ beforeEach(() => {
+  HTMLDialogElement.prototype.showModal = function() { this.setAttribute('open', ''); };
+  HTMLDialogElement.prototype.close = function() { this.removeAttribute('open'); };
+ });
+ it('requires confirmation, persists through the API, updates the row and prevents another action', async () => {
+  const {fixture, page, service} = await setup();
+  page.checks.update(checks => checks.map(c => ({...c, paymentStatus: 'Payment Pending'})));
+  fixture.detectChanges();
+  const button = [...fixture.nativeElement.querySelectorAll('button')].find((b: any) => b.textContent.trim() === 'Mark as Paid') as HTMLButtonElement;
+  button.click(); fixture.detectChanges();
+  expect(service.markPaid).not.toHaveBeenCalled();
+  page.paying.set(null); fixture.detectChanges();
+  expect(service.markPaid).not.toHaveBeenCalled();
+  page.paying.set(page.checks()[0]);
+  await page.confirmPaid(); fixture.detectChanges();
+  expect(service.markPaid).toHaveBeenCalledWith('2026-11', 'a');
+  expect(page.checks()[0].paymentStatus).toBe('Paid');
+  expect(fixture.nativeElement.querySelector('tbody tr').textContent).not.toContain('Mark as Paid');
+ });
 });
