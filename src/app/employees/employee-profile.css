@@ -3,6 +3,7 @@
   color: var(--ink);
   font: var(--type-body);
 }
+.private-mode-placement { display: flex; justify-content: flex-end; margin-bottom: var(--space-4); }
 .profile-back {
   margin-bottom: var(--space-4);
 }

@@ -21,6 +21,9 @@ export const notificationInterceptor: HttpInterceptorFn = (request, next) => {
       // Session probes and token inspection are state checks, not completed actions.
       if (
         !payrollReview &&
+        !/^\/employee-portal\/private-mode(?:\/(?:request|verify|lock))?$/.test(request.url.slice(environment.apiUrl.length)) &&
+        // The invitation action publishes specific validation, resend and delivery feedback.
+        !/^\/employee-accounts\/[^/]+\/(?:permissions|status|invitation(?:\/(?:cancel|resend))?)$/.test(request.url.slice(environment.apiUrl.length)) &&
         request.url.startsWith(environment.apiUrl + '/') &&
         !/\/auth\/(me|invitation\/inspect|reset-password\/inspect)(?:$|\?)/.test(request.url)
       ) {

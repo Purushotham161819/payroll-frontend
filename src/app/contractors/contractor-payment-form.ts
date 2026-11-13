@@ -4,7 +4,6 @@ import { firstValueFrom } from 'rxjs';
 import { Contractor, ContractorApi, ContractorComponent, PaymentDraft } from './contractor-api';
 import {
   calculateContractorPayment,
-  moneyCents,
   validateDeductionRule,
 } from './contractor-deductions';
 import {

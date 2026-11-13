@@ -79,6 +79,9 @@
                 <button psIconButton action="more" size="sm" [cdkMenuTriggerFor]="actions" [label]="'Actions for '+employee.firstName+' '+employee.lastName" [disabled]="deletingBusy()"></button>
                 <ng-template #actions>
                   <div cdkMenu class="employee-actions">
+                    @if (auth.user()?.role === 'admin' && (employee.status || 'Active') === 'Active') {
+                      <button cdkMenuItem (cdkMenuItemTriggered)="requestInvite(employee)" [disabled]="inviteBusy()">Send Invite</button>
+                    }
                     <button cdkMenuItem (cdkMenuItemTriggered)="edit(employee)" [attr.aria-label]="'Edit employee '+employee.firstName+' '+employee.lastName"><ps-icon action="edit" />Edit</button>
                     <button class="danger-item" cdkMenuItem (cdkMenuItemTriggered)="requestDelete(employee)" [attr.aria-label]="'Delete employee '+employee.firstName+' '+employee.lastName"><ps-icon action="delete" />Delete</button>
                     @if ((employee.status || 'Active') === 'Active') {
@@ -106,4 +109,18 @@
 
 @if (lifecycle(); as change) {
   <app-lifecycle-dialog [employee]="change.employee" [action]="change.action" (saved)="lifecycleSaved()" (cancelled)="lifecycle.set(null)" />
+}
+@if (inviting(); as employee) {
+  <ps-dialog [title]="pendingUserLink() ? 'Convert pending account and send invite?' : 'Send employee invitation?'" [busy]="inviteBusy()" (closed)="inviting.set(null)">
+    @if (pendingUserLink()) {
+      <p>{{ employee.firstName }} {{ employee.lastName }} ({{ employee.email }}) already has an unactivated regular-user invitation in your organization.</p>
+      <p>Convert this pending account to read-only employee access? This removes its regular-user permissions, links it to this employee, invalidates the previous invitation and sends a new employee welcome email.</p>
+    } @else {
+      <p>Send an invitation to {{ employee.firstName }} {{ employee.lastName }} at {{ employee.email }}? If setup is pending, this resends the invitation and replaces the previous link.</p>
+    }
+    <div class="heading-actions">
+      <button psButton variant="secondary" [disabled]="inviteBusy()" (click)="inviting.set(null)">Cancel</button>
+      <button psButton [disabled]="inviteBusy()" [loading]="inviteBusy()" (click)="confirmInvite()">{{ pendingUserLink() ? 'Convert and Send Invite' : 'Send Invite' }}</button>
+    </div>
+  </ps-dialog>
 }

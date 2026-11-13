@@ -1,0 +1,65 @@
+<div class="privacy-toggle">
+  @if (privacy.locked()) {
+    <ps-icon action="lock" />
+  }
+  <ps-form-field label="Private Mode" choice>
+    <input
+      psFieldControl
+      type="checkbox"
+      role="switch"
+      aria-label="Private Mode"
+      [checked]="privacy.locked()"
+      [attr.aria-checked]="privacy.locked()"
+      (change)="toggle($event)"
+    />
+  </ps-form-field>
+  <span>{{ privacy.locked() ? 'ON' : 'OFF' }}</span>
+</div>
+@if (modal()) {
+  <ps-dialog title="Verify Your Identity" [busy]="busy()" (closed)="cancel()">
+    <p>
+      To protect your sensitive salary and payroll information, verify your identity by email before
+      temporarily disabling Private Mode.
+    </p>
+    @if (challenge(); as otp) {
+      <p>A one-time verification code was requested for {{ otp.maskedEmail }}. Check your inbox.</p>
+      <p class="otp-help" role="status">
+        {{
+          remaining()
+            ? 'Code expires in ' + remaining() + ' seconds.'
+            : 'This code has expired. Request a new code.'
+        }}
+      </p>
+    }
+    @if (busy()) {
+      <p role="status">Processing verification…</p>
+    }
+    <ps-form-field label="Verification Code" controlId="private-mode-code">
+      <input
+        psFieldControl
+        id="private-mode-code"
+        type="text"
+        inputmode="numeric"
+        autocomplete="one-time-code"
+        maxlength="6"
+        pattern="[0-9]{6}"
+        [(ngModel)]="code"
+        [disabled]="busy()"
+      />
+    </ps-form-field>
+    <div class="otp-actions">
+      <button psButton variant="secondary" [disabled]="busy()" (click)="cancel()">Cancel</button>
+      <button psButton variant="secondary" [disabled]="busy() || resendWait() > 0" (click)="send()">
+        {{ resendWait() ? 'Resend in ' + resendWait() + 's' : 'Resend OTP' }}
+      </button>
+      <button
+        psButton
+        [disabled]="busy() || !validCode() || remaining() === 0"
+        [loading]="busy()"
+        (click)="verify()"
+      >
+        Verify
+      </button>
+    </div>
+  </ps-dialog>
+}

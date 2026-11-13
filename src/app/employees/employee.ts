@@ -21,7 +21,8 @@ export interface CreateEmployee extends EmployeeProfileFields {
   annualCtc: number;
   payFrequency?: PayFrequency;
 }
-export interface Employee extends Omit<CreateEmployee, 'email'> {
+export interface Employee extends Omit<CreateEmployee, 'email' | 'annualCtc'> {
+  annualCtc: number | null;
   status?: 'Active' | 'Terminated';
   rehireDate?: string;
   employmentHistory?: EmploymentPeriod[];

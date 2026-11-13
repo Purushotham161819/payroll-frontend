@@ -13,6 +13,8 @@ import {
   DestroyRef,
   HostListener,
   viewChild,
+  effect,
+  untracked,
 } from '@angular/core';
 import { PsButton, PsIconButton, PsPageHeader, PsStatusBadge, PsFormField, PsFieldControl, PsCardFooter, PsInrPipe, PsDatePipe } from '../shared/ui';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -27,6 +29,9 @@ import { ProfileTabs, ProfileTab } from './profile-tabs';
 import { ProfileCard } from './profile-card';
 import { EmploymentHistory } from './employment-history';
 import { Organization } from '../organization';
+import { EmployeePermissions } from './employee-permissions';
+import { PrivateMode } from './private-mode';
+import { PrivateModeControl } from './private-mode-control';
 @Component({
   selector: 'app-employee-profile',
   imports: [
@@ -38,12 +43,27 @@ import { Organization } from '../organization';
     ProfileCard,
     EmploymentHistory,
     EmployeeTax,
+    EmployeePermissions,
+    PrivateModeControl,
   ],
   templateUrl: './employee-profile.html',
   styleUrl: './employee-profile.css',
 })
 export class EmployeeProfile implements OnInit {
+  readonly privacy = inject(PrivateMode);
+  private loadGeneration = 0;
+  constructor() {
+    effect(() => {
+      this.privacy.revision();
+      if (this.selfService) untracked(() => {
+        if (this.privacy.locked()) this.employee.update(person => person ? { ...person, annualCtc: null } : null);
+        void this.load();
+      });
+    });
+  }
   readonly taxAuth = inject(Auth);
+  readonly selfService = this.taxAuth.user()?.role === 'employee';
+  readonly canManageAccess = ['admin', 'user'].includes(this.taxAuth.user()?.role ?? '');
   private readonly service = inject(EmployeeService);
   private readonly route = inject(ActivatedRoute);
   readonly organization = inject(Organization);
@@ -68,7 +88,7 @@ export class EmployeeProfile implements OnInit {
   readonly backState = this.origin ? this.navigation.backState(this.origin) : {};
   private selectTab(value: string | null) {
     const tab: ProfileTab =
-      value === 'checks' || (value === 'tax' && this.taxAuth.user()?.role === 'admin')
+      value === 'checks' || (value === 'permissions' && this.canManageAccess) || (value === 'tax' && this.taxAuth.user()?.role === 'admin')
         ? (value as ProfileTab)
         : 'details';
     this.tab.set(tab);
@@ -88,7 +108,7 @@ export class EmployeeProfile implements OnInit {
     this.route.queryParamMap
       ?.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params) => this.selectTab(params.get('tab')));
-    void this.load();
+    if (!this.selfService) void this.load();
   }
 
   private readonly fb = inject(FormBuilder);
@@ -160,12 +180,14 @@ export class EmployeeProfile implements OnInit {
     this.personalBaseline = JSON.stringify(this.personalForm.getRawValue());
   }
   editEmployment() {
+    if (this.selfService) return;
     this.resetEmployment();
     this.employmentError.set('');
     this.employmentSuccess.set('');
     this.employmentEditing.set(true);
   }
   editPersonal() {
+    if (this.selfService) return;
     this.resetPersonal();
     this.personalError.set('');
     this.personalSuccess.set('');
@@ -212,6 +234,7 @@ export class EmployeeProfile implements OnInit {
     }
   }
   async saveCard(card: 'employment' | 'personal') {
+    if (this.selfService) return;
     const employment = card === 'employment';
     const saving = employment ? this.employmentSaving : this.personalSaving;
     const editing = employment ? this.employmentEditing : this.personalEditing;
@@ -261,18 +284,21 @@ export class EmployeeProfile implements OnInit {
   }
 
   async load() {
+    const generation = ++this.loadGeneration;
     this.loading.set(true);
     this.error.set('');
     try {
-      const person = (await firstValueFrom(this.service.getAll())).find(
+      const person = this.selfService ? await firstValueFrom(this.service.myProfile()) : (await firstValueFrom(this.service.getAll())).find(
         (e) => e._id === this.route.snapshot.paramMap.get('id'),
       );
+      if (generation !== this.loadGeneration) return;
       if (!person) this.error.set('Employee not found.');
       this.employee.set(person ?? null);
     } catch (error) {
+      if (generation !== this.loadGeneration) return;
       this.error.set(apiError(error));
     } finally {
-      this.loading.set(false);
+      if (generation === this.loadGeneration) this.loading.set(false);
     }
   }
 }

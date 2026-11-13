@@ -4,6 +4,9 @@
 @if (busy()) {
   <p role="status" class="pdf-loading">Loading pay check PDF...</p>
 }
+@if (auth.user()?.role === 'employee' && privacy.locked()) {
+  <p class="payment-note">Private Mode protects financial amounts and PDFs. Turn it OFF in Employee Details to verify your email and view them.</p>
+}
 <ps-card role="region" aria-label="Pay check history"
   ><span cardTitle>Pay Checks</span><span cardSubtitle>Finalized payroll history and stored payslips.</span
   ><ps-data-table
@@ -32,11 +35,11 @@
           <tr>
             <td>{{ check.period | psDate }}</td>
             <td>{{ check.paymentDate | psDate: 'UTC' }}</td>
-            <td class="num">{{ check.grossPay | psInr }}</td>
-            <td class="num">{{ check.employerContributions | psInr }}</td>
+            <td class="num">{{ masked(check) ? '***' : (check.grossPay | psInr) }}</td>
+            <td class="num">{{ masked(check) ? '***' : (check.employerContributions | psInr) }}</td>
             <td class="num">
               <span class="deduction-amount"
-                >{{ check.deductions | psInr }}
+                >{{ masked(check) ? '***' : (check.deductions | psInr) }}
                 <button
                   type="button"
                   class="tds-trigger"
@@ -48,6 +51,7 @@
                   cdkOverlayOrigin
                   #tdsOrigin="cdkOverlayOrigin"
                   (click)="toggleTds(check, tdsOrigin)"
+                  [disabled]="masked(check)"
                   (keydown.escape)="closeTds()"
                   psIconButton
                   action="info"
@@ -56,7 +60,7 @@
                 ></button>
               </span>
             </td>
-            <td class="num">{{ check.netPay | psInr }}</td>
+            <td class="num">{{ masked(check) ? '***' : (check.netPay | psInr) }}</td>
             <td><ps-status-badge [status]="check.paymentStatus || '—'" /></td>
             <td class="act">
               <div class="check-actions">
@@ -68,7 +72,7 @@
                   title="View Pay Check"
                   aria-label="View Pay Check"
                   (click)="view(check)"
-                  [disabled]="busy()"
+                  [disabled]="busy() || masked(check)"
                   psIconButton
                   action="view"
                   size="sm"
@@ -79,7 +83,7 @@
                   title="Download Pay Check PDF"
                   aria-label="Download Pay Check PDF"
                   (click)="download(check)"
-                  [disabled]="busy()"
+                  [disabled]="busy() || masked(check)"
                   psIconButton
                   action="download"
                   size="sm"

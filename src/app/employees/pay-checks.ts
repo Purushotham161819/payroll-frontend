@@ -1,4 +1,5 @@
 import { Auth } from '../auth/auth';
+import { PrivateMode } from './private-mode';
 import { PsDialog } from '../shared/ui/ps-dialog';
 import { PsButton } from '../shared/ui';
 import { NotificationService } from '../shared/notification.service';
@@ -29,6 +30,8 @@ import { apiError } from './employee.service';
 export class PayChecks implements OnDestroy {
   private readonly notifications = inject(NotificationService);
   readonly auth = inject(Auth);
+  readonly privacy = inject(PrivateMode);
+  masked(check: PayCheck) { return this.auth.user()?.role === 'employee' && (this.privacy.locked() || (check as PayCheck & { privateMode?: boolean }).privateMode === true); }
   readonly paying = signal<PayCheck | null>(null);
   readonly paymentBusy = signal(false);
   async confirmPaid() {
@@ -60,6 +63,7 @@ export class PayChecks implements OnDestroy {
     return typeof check.tds === 'number' && Number.isFinite(check.tds) ? check.tds : null;
   }
   toggleTds(check: PayCheck, origin: CdkOverlayOrigin) {
+    if (this.masked(check)) return;
     if (this.tdsCheck() === check) {
       this.closeTds();
       return;
@@ -91,6 +95,7 @@ export class PayChecks implements OnDestroy {
   constructor() {
     effect(() => {
       const id = this.employeeId();
+      if (this.auth.user()?.role === 'employee') this.privacy.revision();
       untracked(() => {
         this.paying.set(null);
         this.closeTds();
@@ -118,6 +123,7 @@ export class PayChecks implements OnDestroy {
     }
   }
   private pdfError(error: unknown) {
+    if (error instanceof HttpErrorResponse && error.status === 403 && this.auth.user()?.role === 'employee') this.privacy.reset();
     if (error instanceof HttpErrorResponse && error.status === 404)
       return 'This pay check PDF is unavailable. Please try again.';
     if (error instanceof HttpErrorResponse && error.status === 403)
@@ -127,7 +133,7 @@ export class PayChecks implements OnDestroy {
       : apiError(error);
   }
   async view(check: PayCheck) {
-    if (this.busy()) return;
+    if (this.busy() || this.masked(check)) return;
     this.closeTds();
     this.busy.set(true);
     this.error.set('');
@@ -162,12 +168,13 @@ export class PayChecks implements OnDestroy {
     });
   }
   async download(check: PayCheck) {
-    if (this.busy()) return;
+    if (this.busy() || this.masked(check)) return;
     this.closeTds();
     this.error.set('');
     this.busy.set(true);
     try {
-      await this.service.download(check.period!, this.employeeId());
+      if (this.auth.user()?.role === 'employee') await this.service.download(check.period!, this.employeeId(), () => !this.masked(check) && this.alive);
+      else await this.service.download(check.period!, this.employeeId());
       this.notifications.success('Pay check PDF downloaded successfully.');
     } catch (error) {
       this.error.set(this.pdfError(error));

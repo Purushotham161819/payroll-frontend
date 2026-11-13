@@ -1,3 +1,4 @@
+@if (!selfService) {
 <div class="profile-back">
   <a
     psButton
@@ -10,6 +11,7 @@
     >{{ backLabel }}</a
   >
 </div>
+}
 <ps-page-header
   eyebrow="People Management"
   [title]="employee() ? employee()!.firstName + ' ' + employee()!.lastName : 'Employee'"
@@ -29,15 +31,17 @@
   <app-profile-tabs
     [active]="tab()"
     [showHistory]="false"
+    [showPermissions]="canManageAccess"
     [showTax]="taxAuth.user()?.role === 'admin'"
     (activeChange)="changeTab($event)"
   />
   @if (tab() === 'details') {
     <section role="tabpanel" id="profile-details-panel" aria-labelledby="profile-details-tab">
+      @if (selfService) { <div class="private-mode-placement"><app-private-mode-control /></div> }
       <div class="widgets">
         <app-profile-card heading="Employment Information">
           <div card-actions class="card-actions">
-            @if (!employmentEditing()) {
+            @if (!selfService && !employmentEditing()) {
               <button
                 psIconButton
                 action="edit"
@@ -98,7 +102,7 @@
               </div>
               <div>
                 <dt>Annual CTC</dt>
-                <dd class="amount">{{ person.annualCtc | psInr }}</dd>
+                <dd class="amount">{{ selfService && (privacy.locked() || person.annualCtc === null) ? '***' : (person.annualCtc | psInr) }}</dd>
               </div>
               <div class="wide">
                 <dt>Organization Name</dt>
@@ -141,7 +145,7 @@
         </app-profile-card>
         <app-profile-card heading="Personal Information">
           <div card-actions class="card-actions">
-            @if (!personalEditing()) {
+            @if (!selfService && !personalEditing()) {
               <button
                 psIconButton
                 action="edit"
@@ -327,6 +331,10 @@
           ><app-employment-history [employee]="person" [embedded]="true"
         /></app-profile-card>
       </div>
+    </section>
+  } @else if (tab() === 'permissions' && canManageAccess) {
+    <section role="tabpanel" id="profile-permissions-panel" aria-labelledby="profile-permissions-tab">
+      <app-employee-permissions [employeeId]="person._id" />
     </section>
   } @else if (tab() === 'checks') {
     <section role="tabpanel" id="profile-checks-panel" aria-labelledby="profile-checks-tab">

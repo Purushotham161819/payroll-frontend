@@ -1,4 +1,5 @@
 import { Auth } from '../auth/auth';
+import { provideHttpClient } from '@angular/common/http';
 import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { registerLocaleData } from '@angular/common';
@@ -29,7 +30,7 @@ async function setup() {
     download: vi.fn().mockResolvedValue(undefined),
   };
   TestBed.configureTestingModule({
-    providers: [{ provide: Auth, useValue: { user: signal({role: 'admin'}) } }, { provide: RunPayrollService, useValue: service }],
+    providers: [provideHttpClient(), { provide: Auth, useValue: { user: signal({role: 'admin'}) } }, { provide: RunPayrollService, useValue: service }],
   });
   const fixture = TestBed.createComponent(PayChecks);
   fixture.componentRef.setInput('employeeId', 'a');

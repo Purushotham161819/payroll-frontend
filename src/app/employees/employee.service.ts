@@ -8,6 +8,10 @@ export interface EmployeePage {items:Employee[];total:number;page:number;pageSiz
 export class EmployeeService {
   private readonly http = inject(HttpClient);
   private readonly url = environment.apiUrl + '/employees';
+  myProfile() { return this.http.get<Employee>(environment.apiUrl + '/employee-portal/profile'); }
+  sendInvite(id: string, linkPendingUserId?: string) {
+    return this.http.post<{ invitationSent: boolean; alreadyActive?: boolean; message: string }>(environment.apiUrl + '/employee-accounts/' + encodeURIComponent(id) + '/invitation', linkPendingUserId ? { linkPendingUserId } : {});
+  }
   remove(id:string){return this.http.delete<{message:string;deletedId:string}>(this.url+'/'+encodeURIComponent(id));}
   getPage(page:number,pageSize:number,status:string,search:string) {
     return this.http.get<EmployeePage>(this.url,{params:{page:String(page),pageSize:String(pageSize),status,search}});

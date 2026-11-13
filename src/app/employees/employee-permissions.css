@@ -1,0 +1,9 @@
+.permissions {
+  display: grid;
+  gap: var(--space-6);
+}
+.permission-help {
+  color: var(--ink-muted);
+  font: var(--type-helper);
+  margin-top: var(--space-4);
+}

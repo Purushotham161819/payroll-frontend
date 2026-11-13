@@ -1,4 +1,8 @@
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Auth } from '../auth/auth';
+import { HttpErrorResponse } from '@angular/common/http';
+import { NotificationService } from '../shared/notification.service';
+import { PsDialog } from '../shared/ui/ps-dialog';
 import { Subscription } from 'rxjs';
 import { completionSignal } from '../shared/notification.service';
 import { NavigationContext } from '../shared/navigation-context';
@@ -15,11 +19,48 @@ import { Employee } from './employee';
 import { EmployeeForm } from './employee-form';
 @Component({
   selector: 'app-employee-list',
-  imports: [PsPagination, PsTabs, CdkMenuModule, LifecycleDialog, EmployeeForm, PayrollGenerator, DeleteConfirmation, PsButton, PsIconButton, PsIcon, PsPageHeader, PsCard, PsCardTitle, PsCardSubtitle, PsCardActions, PsDataTable, PsFormField, PsFieldControl, PsStatusBadge, PsInrPipe, PsDatePipe, PsTooltip],
+  imports: [PsDialog, PsPagination, PsTabs, CdkMenuModule, LifecycleDialog, EmployeeForm, PayrollGenerator, DeleteConfirmation, PsButton, PsIconButton, PsIcon, PsPageHeader, PsCard, PsCardTitle, PsCardSubtitle, PsCardActions, PsDataTable, PsFormField, PsFieldControl, PsStatusBadge, PsInrPipe, PsDatePipe, PsTooltip],
   templateUrl: './employee-list.html',
   styleUrl: './employee-list.css',
 })
 export class EmployeeList implements OnInit {
+  readonly auth = inject(Auth);
+  private readonly notifications = inject(NotificationService);
+  readonly inviting = signal<Employee | null>(null);
+  readonly inviteBusy = signal(false);
+  readonly pendingUserLink = signal<string | null>(null);
+  requestInvite(employee: Employee) {
+    if (this.auth.user()?.role !== 'admin' || this.inviteBusy()) return;
+    if (!employee.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(employee.email)) {
+      this.notifications.warning('Employee email address is missing or invalid.'); return;
+    }
+    this.pendingUserLink.set(null);
+    this.inviting.set(employee);
+  }
+  confirmInvite() {
+    const employee = this.inviting();
+    if (!employee || this.inviteBusy() || this.auth.user()?.role !== 'admin') return;
+    this.inviteBusy.set(true);
+    const request = this.pendingUserLink() ? this.service.sendInvite(employee._id, this.pendingUserLink()!) : this.service.sendInvite(employee._id);
+    request.pipe(takeUntilDestroyed(this.destroy)).subscribe({
+      next: result => {
+        this.inviteBusy.set(false); this.inviting.set(null);
+        if (result.alreadyActive) this.notifications.information(result.message);
+        else if (result.invitationSent) this.notifications.success(result.message);
+        else this.notifications.warning(result.message);
+      },
+      error: error => {
+        if (error instanceof HttpErrorResponse && error.status === 409 &&
+            error.error?.code === 'PENDING_USER_LINK_CONFIRMATION_REQUIRED' &&
+            /^[a-f\d]{24}$/i.test(error.error?.pendingAccountId ?? '')) {
+          this.inviteBusy.set(false); this.pendingUserLink.set(error.error.pendingAccountId); return;
+        }
+        this.inviteBusy.set(false); this.inviting.set(null);
+        if (error instanceof HttpErrorResponse && error.status === 409) this.notifications.warning(apiError(error));
+        else this.notifications.error(apiError(error));
+      },
+    });
+  }
   readonly peopleTabs = PEOPLE_TABS;
   private readonly navigation = inject(NavigationContext);
   private restoreScroll = 0;

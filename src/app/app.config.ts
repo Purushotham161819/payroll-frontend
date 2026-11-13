@@ -2,6 +2,7 @@ import { notificationInterceptor } from './shared/notification-interceptor';
 import { registerLocaleData } from '@angular/common';
 import localeIn from '@angular/common/locales/en-IN';
 import { EmployeeProfile } from './employees/employee-profile';
+import { EmployeeDashboard } from './employees/employee-dashboard';
 import { PlatformPortal } from './platform/platform';
 import { ChangePassword } from './auth/change-password';
 import { superAdministrator } from './auth/auth';
@@ -27,6 +28,8 @@ export const routes: Routes = [
     { path: 'organizations/:org', component: PlatformPortal },
   ] },
   { path: '', component: WorkspaceLayout, canActivateChild: [authenticated], children: [
+    { path: 'employee/dashboard', component: EmployeeDashboard },
+    { path: 'employee/my-profile', component: EmployeeProfile },
     { path: '', component: EmployeeList },
     { path: 'reports', loadComponent: () => import('./reports/reports').then(m => m.Reports) },
     { path: 'dashboard', loadComponent: () => import('./dashboard/dashboard').then(m => m.Dashboard) },

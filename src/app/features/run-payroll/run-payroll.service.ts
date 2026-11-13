@@ -68,8 +68,9 @@ export class RunPayrollService {
       ),
     );
   }
-  async download(period: string, id: string) {
+  async download(period: string, id: string, canUse?: () => boolean) {
     const blob = await this.pdf(period, id);
+    if (canUse && !canUse()) throw new Error('Private Mode has re-locked. Verify your email before downloading this PDF.');
     const url = URL.createObjectURL(blob),
       link = document.createElement('a');
     link.href = url;

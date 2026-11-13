@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { HttpErrorResponse, provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { of, Subject } from 'rxjs';
@@ -8,6 +9,7 @@ import { LifecycleDialog } from './lifecycle-dialog';
 
 describe('Employee lifecycle UI', () => {
   beforeEach(() => {
+    TestBed.configureTestingModule({ providers: [provideRouter([]), provideHttpClient()] });
     // jsdom lacks native dialog methods; browser tests exercise the real dialog.
     HTMLDialogElement.prototype.close = () => {};
     HTMLDialogElement.prototype.showModal = () => {};

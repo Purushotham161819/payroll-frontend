@@ -4,6 +4,14 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { notificationInterceptor } from './notification-interceptor';
 import { NotificationService } from './notification.service';
 describe('API notification errors', () => {
+  it('lets the employee invitation action report a specific pending warning without a duplicate error modal', () => {
+    TestBed.configureTestingModule({ providers: [provideHttpClient(withInterceptors([notificationInterceptor])), provideHttpClientTesting()] });
+    const http = TestBed.inject(HttpClient), requests = TestBed.inject(HttpTestingController), notifications = TestBed.inject(NotificationService);
+    http.post('http://localhost:3000/employee-accounts/employee/invitation', {}).subscribe({ error: () => notifications.warning('An invitation is already pending.') });
+    requests.expectOne('http://localhost:3000/employee-accounts/employee/invitation').flush({}, { status: 409, statusText: 'Conflict' });
+    expect(notifications.current()?.kind).toBe('warning'); notifications.dismiss(); expect(notifications.current()).toBeNull();
+    requests.verify();
+  });
   beforeEach(() =>
     TestBed.configureTestingModule({
       providers: [
